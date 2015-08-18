@@ -10,9 +10,9 @@ void ofApp::setup()
     gui->onGuiEvent(this, &ofApp::onGuiEvent);
 }
 
-void ofApp::onGuiEvent(float k)
+void ofApp::onGuiEvent(ofxDatGuiEvent e)
 {
-    cout << "onGuiEvent >> " << k << endl;
+    cout << "onGuiEvent >> " << e.id << " :: "<<e.val << endl;
 }
 
 //--------------------------------------------------------------

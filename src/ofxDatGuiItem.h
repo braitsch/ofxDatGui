@@ -37,27 +37,35 @@ class ofxDatGuiCore{
     
 };
 
+class ofxDatGuiEvent{
+    
+    public:
+        ofxDatGuiEvent(int itemId, float itemVal){
+            id = itemId;
+            val = itemVal;
+        };
+        int id;
+        float val;
+};
+
 class ofxDatGuiItem
 {
     public:
-        ofxDatGuiItem(int index);
+        ofxDatGuiItem(int id);
         virtual void draw();
         bool hitTest(ofPoint m);
         virtual void onMousePress(ofPoint m) = 0;
 
     // this typedef is also used in ofxDatGui.h //
-        typedef std::function<void(float)> onChangeEventCallback;
+        typedef std::function<void(ofxDatGuiEvent)> onChangeEventCallback;
         onChangeEventCallback changeEventCallback;
         
         template<typename T, typename args, class ListenerClass>
-        void setCallback(T* owner, void (ListenerClass::*listenerMethod)(args))
+        void onGuiEvent(T* owner, void (ListenerClass::*listenerMethod)(args))
         {
             using namespace std::placeholders;
             changeEventCallback = std::bind(listenerMethod, owner, _1);
         }
-    
-        int x;
-        int y;
 
         static const uint16_t itemWidth;
         static const uint16_t itemHeight;
@@ -65,7 +73,9 @@ class ofxDatGuiItem
         static const uint16_t itemSpacing;
 
     protected:
-        int mIndex;
+        int x;
+        int y;
+        int mId;
         static const uint16_t labelX;
         static const uint16_t labelWidth;
         static const uint16_t inputX;

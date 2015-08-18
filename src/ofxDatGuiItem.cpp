@@ -23,11 +23,11 @@ const uint16_t ofxDatGuiItem::labelWidth = 80;
 const uint16_t ofxDatGuiItem::inputX = labelX+labelWidth+itemPadding;
 const uint16_t ofxDatGuiItem::inputWidth = itemWidth-inputX-itemPadding;
 
-ofxDatGuiItem::ofxDatGuiItem(int index)
+ofxDatGuiItem::ofxDatGuiItem(int id)
 {
-    mIndex = index;
+    mId = id;
     x = ofxDatGuiCore::guiPosition.x+ofxDatGuiCore::guiPadding;
-    y = ofxDatGuiCore::guiPosition.y+ofxDatGuiCore::guiPadding + (index*(itemHeight+itemSpacing));
+    y = ofxDatGuiCore::guiPosition.y+ofxDatGuiCore::guiPadding + (mId*(itemHeight+itemSpacing));
 }
 
 void ofxDatGuiItem::draw()

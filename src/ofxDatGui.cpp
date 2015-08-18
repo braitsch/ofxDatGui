@@ -41,7 +41,7 @@ void ofxDatGui::onMouseReleased(ofMouseEventArgs &e)
 void ofxDatGui::addSlider(string label, float val)
 {
     ofxDatGuiSlider* slider = new ofxDatGuiSlider(items.size(), label, val);
-    slider->setCallback(this, &ofxDatGui::dispatchEvent);
+    slider->onGuiEvent(this, &ofxDatGui::dispatchEvent);
     items.push_back( slider );
     ofxDatGuiCore::guiHeight = items.size() * (ofxDatGuiItem::itemHeight+ofxDatGuiItem::itemSpacing);
     ofxDatGuiCore::guiHeight+= ofxDatGuiItem::itemSpacing*2;

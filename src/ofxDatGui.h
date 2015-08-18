@@ -47,7 +47,7 @@ class ofxDatGui
         void onMousePressed(ofMouseEventArgs &e);
         void onMouseReleased(ofMouseEventArgs &e);
     
-        void dispatchEvent(int k)
+        void dispatchEvent(ofxDatGuiEvent k)
         {
             changeEventCallback(k);
         }

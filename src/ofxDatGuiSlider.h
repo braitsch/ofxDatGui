@@ -15,8 +15,6 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
     
         ofxDatGuiSlider(int index, string label, float val) : ofxDatGuiItem(index)
         {
-            f = index;
-            ofLogNotice(ofToString(index));
             mScale = val;
             mLabel = label;
             ofRectangle labelRect = ofxDatGuiCore::font.getStringBoundingBox(label, 0, 0);
@@ -40,19 +38,21 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
                 ofxDatGuiCore::font.drawString(mLabel, x+labelPos.x, y+labelPos.y);
             }; ofPopStyle();
         }
+        
         void onMousePress(ofPoint m)
         {
             mScale =(m.x-x-inputX)/inputWidth;
             if (mScale > .99) mScale = 1;
             if (mScale < .01) mScale = 0;
-            changeEventCallback(mIndex);
+        // dispatch event out to main application //
+            ofxDatGuiEvent evt(mId, mScale);
+            changeEventCallback(evt);
         }
     
     protected:
         void setScale(ofPoint m);
     
     private:
-        int f;
         float mScale;
         string mLabel;
         ofPoint labelPos;
