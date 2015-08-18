@@ -17,6 +17,7 @@ class ofxDatGui
     
     public:
         ofxDatGui(int x, int y);
+        ofxDatGui(uint8_t position);
         void draw();
         void update();
         ofPoint mouse;
@@ -25,6 +26,7 @@ class ofxDatGui
         void addSlider(string label, float val);
     
     private:
+        uint8_t mAnchorPosition;
         bool mousePressed;
         ofxDatGuiItem* activeItem;
         vector<ofxDatGuiItem*> items;

@@ -14,8 +14,7 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
     public:
         ofxDatGuiSlider(int index, string label, float val) : ofxDatGuiItem(index)
         {
-            scale = 0;
-            mVal = val;
+            mScale = val;
             mLabel = label;
             ofRectangle labelRect = ofxDatGuiCore::font.getStringBoundingBox(label, 0, 0);
             labelPos = ofPoint(labelX, labelRect.height+ ((itemHeight-labelRect.height)/2));
@@ -28,28 +27,27 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
                 ofSetColor(ofxDatGuiColor::input_bkgd);
                 ofDrawRectangle(x+inputX, y+itemPadding, inputWidth, itemHeight-(itemPadding*2));
             // input fill //
-                if (scale > 0){
+                if (mScale > 0){
                     ofSetColor(ofxDatGuiColor::input_fill);
-                    ofDrawRectangle(x+inputX, y+itemPadding, inputWidth*scale, itemHeight-(itemPadding*2));
+                    ofDrawRectangle(x+inputX, y+itemPadding, inputWidth*mScale, itemHeight-(itemPadding*2));
                 }
             // item label //
-                ofSetColor(ofColor::white);
+                ofSetColor(ofxDatGuiColor::font_fill);
                 ofxDatGuiCore::font.drawString(mLabel, x+labelPos.x, y+labelPos.y);
             }; ofPopStyle();
         }
         void onMousePress(ofPoint m)
         {
-            scale =(m.x-x-inputX)/inputWidth;
-            if (scale > .99) scale = 1;
-            if (scale < .01) scale = 0;
+            mScale =(m.x-x-inputX)/inputWidth;
+            if (mScale > .99) mScale = 1;
+            if (mScale < .01) mScale = 0;
         }
     
     protected:
-        float mVal;
-        float scale;
         void setScale(ofPoint m);
     
     private:
+        float mScale;
         string mLabel;
         ofPoint labelPos;
         

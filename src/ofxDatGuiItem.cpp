@@ -8,23 +8,26 @@
 
 #include "ofxDatGuiItem.h"
 
-const uint16_t ofxDatGuiItem::itemWidth = 270;
-const uint16_t ofxDatGuiItem::itemHeight = 28;
-const uint16_t ofxDatGuiItem::itemPadding = 2;
-const uint16_t ofxDatGuiItem::itemSpacing = 2;
-const uint16_t ofxDatGuiItem::labelX = 8;
-const uint16_t ofxDatGuiItem::labelWidth = 100;
-const uint16_t ofxDatGuiItem::inputX = labelX+labelWidth+itemPadding;
-const uint16_t ofxDatGuiItem::inputWidth = itemWidth-inputX-itemPadding;
-
+uint16_t ofxDatGuiCore::guiWidth = 270;
+uint16_t ofxDatGuiCore::guiPadding = 6;
+uint16_t ofxDatGuiCore::guiHeight = ofxDatGuiCore::guiPadding*2;
 ofPoint ofxDatGuiCore::guiPosition;
 ofTrueTypeFont ofxDatGuiCore::font;
+
+const uint16_t ofxDatGuiItem::itemWidth = ofxDatGuiCore::guiWidth-(ofxDatGuiCore::guiPadding*2);
+const uint16_t ofxDatGuiItem::itemHeight = 26;
+const uint16_t ofxDatGuiItem::itemPadding = 2;
+const uint16_t ofxDatGuiItem::itemSpacing = 2;
+const uint16_t ofxDatGuiItem::labelX = 12;
+const uint16_t ofxDatGuiItem::labelWidth = 80;
+const uint16_t ofxDatGuiItem::inputX = labelX+labelWidth+itemPadding;
+const uint16_t ofxDatGuiItem::inputWidth = itemWidth-inputX-itemPadding;
 
 ofxDatGuiItem::ofxDatGuiItem(int index)
 {
     index = index;
-    x = ofxDatGuiCore::guiPosition.x;
-    y = ofxDatGuiCore::guiPosition.y + (index*(itemHeight+itemSpacing));
+    x = ofxDatGuiCore::guiPosition.x+ofxDatGuiCore::guiPadding;
+    y = ofxDatGuiCore::guiPosition.y+ofxDatGuiCore::guiPadding + (index*(itemHeight+itemSpacing));
 }
 
 void ofxDatGuiItem::draw()

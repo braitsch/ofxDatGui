@@ -10,20 +10,30 @@
 #include "ofMain.h"
 
 namespace ofxDatGuiColor{
+    const ofColor gui_bkgd = ofColor::fromHex(0x303030);
     const ofColor item_bkgd = ofColor(26,26,26);
+    const ofColor font_fill = ofColor::fromHex(0xEEEEEE);
     const ofColor input_bkgd = ofColor::fromHex(0x303030);
     const ofColor input_fill = ofColor::fromHex(0x2FA1D6);
 };
+
+namespace ofxDatGuiPosition{
+    const uint8_t TL = 1;
+    const uint8_t TR = 2;
+}
 
 class ofxDatGuiCore{
 
     public:
         static void init(int x, int y){
             guiPosition = ofPoint(x, y);
-            font.load("Effra_Std_Bd.ttf", 12);
+            font.load("Swiss 721 Medium", 11);
         }
         static ofTrueTypeFont font;
         static ofPoint guiPosition;
+        static uint16_t guiPadding;
+        static uint16_t guiWidth;
+        static uint16_t guiHeight;
 };
 
 class ofxDatGuiItem
@@ -38,11 +48,12 @@ class ofxDatGuiItem
         int y;
         int index;
 
-    protected:
         static const uint16_t itemWidth;
         static const uint16_t itemHeight;
         static const uint16_t itemPadding;
         static const uint16_t itemSpacing;
+
+    protected:
         static const uint16_t labelX;
         static const uint16_t labelWidth;
         static const uint16_t inputX;
