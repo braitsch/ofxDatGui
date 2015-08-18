@@ -34,6 +34,7 @@ class ofxDatGuiCore{
         static uint16_t guiPadding;
         static uint16_t guiWidth;
         static uint16_t guiHeight;
+    
 };
 
 class ofxDatGuiItem
@@ -44,9 +45,19 @@ class ofxDatGuiItem
         bool hitTest(ofPoint m);
         virtual void onMousePress(ofPoint m) = 0;
 
+    // this typedef is also used in ofxDatGui.h //
+        typedef std::function<void(float)> onChangeEventCallback;
+        onChangeEventCallback changeEventCallback;
+        
+        template<typename T, typename args, class ListenerClass>
+        void setCallback(T* owner, void (ListenerClass::*listenerMethod)(args))
+        {
+            using namespace std::placeholders;
+            changeEventCallback = std::bind(listenerMethod, owner, _1);
+        }
+    
         int x;
         int y;
-        int index;
 
         static const uint16_t itemWidth;
         static const uint16_t itemHeight;
@@ -54,6 +65,7 @@ class ofxDatGuiItem
         static const uint16_t itemSpacing;
 
     protected:
+        int mIndex;
         static const uint16_t labelX;
         static const uint16_t labelWidth;
         static const uint16_t inputX;

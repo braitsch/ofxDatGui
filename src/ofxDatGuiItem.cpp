@@ -25,7 +25,7 @@ const uint16_t ofxDatGuiItem::inputWidth = itemWidth-inputX-itemPadding;
 
 ofxDatGuiItem::ofxDatGuiItem(int index)
 {
-    index = index;
+    mIndex = index;
     x = ofxDatGuiCore::guiPosition.x+ofxDatGuiCore::guiPadding;
     y = ofxDatGuiCore::guiPosition.y+ofxDatGuiCore::guiPadding + (index*(itemHeight+itemSpacing));
 }

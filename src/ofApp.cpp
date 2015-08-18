@@ -7,6 +7,12 @@ void ofApp::setup()
     gui->addSlider("wavy x", .5);
     gui->addSlider("wavy y", .5);
     gui->addSlider("wavy z", .5);
+    gui->onGuiEvent(this, &ofApp::onGuiEvent);
+}
+
+void ofApp::onGuiEvent(float k)
+{
+    cout << "onGuiEvent >> " << k << endl;
 }
 
 //--------------------------------------------------------------

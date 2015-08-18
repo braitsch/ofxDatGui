@@ -23,5 +23,6 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
     
         ofxDatGui* gui;
+        void onGuiEvent(float k);
 		
 };

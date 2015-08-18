@@ -16,21 +16,40 @@ class ofxDatGui
 {
     
     public:
+    
         ofxDatGui(int x, int y);
         ofxDatGui(uint8_t position);
-        void draw();
-        void update();
+    
         ofPoint mouse;
         static ofPoint pos;
     
+        void draw();
+        void update();
         void addSlider(string label, float val);
     
+        ofxDatGuiItem::onChangeEventCallback changeEventCallback;
+    
+    // template methods must be declared in header file //
+        template<typename T, typename args, class ListenerClass>
+        void onGuiEvent(T* owner, void (ListenerClass::*listenerMethod)(args))
+        {
+            using namespace std::placeholders;
+            changeEventCallback = std::bind(listenerMethod, owner, _1);
+        }
+    
     private:
+    
         uint8_t mAnchorPosition;
         bool mousePressed;
         ofxDatGuiItem* activeItem;
         vector<ofxDatGuiItem*> items;
+    
         void onMousePressed(ofMouseEventArgs &e);
         void onMouseReleased(ofMouseEventArgs &e);
+    
+        void dispatchEvent(int k)
+        {
+            changeEventCallback(k);
+        }
 
 };

@@ -29,6 +29,7 @@ ofxDatGui::ofxDatGui(uint8_t anchor)
 
 void ofxDatGui::onMousePressed(ofMouseEventArgs &e)
 {
+    int k = 11;
     mousePressed = true;
 }
 
@@ -39,7 +40,9 @@ void ofxDatGui::onMouseReleased(ofMouseEventArgs &e)
 
 void ofxDatGui::addSlider(string label, float val)
 {
-    items.push_back(new ofxDatGuiSlider(items.size(), label, val));
+    ofxDatGuiSlider* slider = new ofxDatGuiSlider(items.size(), label, val);
+    slider->setCallback(this, &ofxDatGui::dispatchEvent);
+    items.push_back( slider );
     ofxDatGuiCore::guiHeight = items.size() * (ofxDatGuiItem::itemHeight+ofxDatGuiItem::itemSpacing);
     ofxDatGuiCore::guiHeight+= ofxDatGuiItem::itemSpacing*2;
 }
