@@ -24,17 +24,27 @@ const uint16_t ofxDatGuiItem::sliderLabelWidth = rowWidth-sliderLabelX-rowPaddin
 ofxDatGuiItem::ofxDatGuiItem(int id)
 {
     mId = id;
-//    cout <<  bar::kode << " : " << test->y << endl;
     x = ofxDatGuiPosition::x + ofxDatGuiPadding;
     y = ofxDatGuiPosition::y + ofxDatGuiPadding + (mId*(rowHeight+rowSpacing));
 }
 
-void ofxDatGuiItem::drawBkgd(ofColor bkgd_color)
+ofxDatGuiItem::ofxDatGuiItem(int id, string label, bool centerLabel) : ofxDatGuiItem(id)
 {
-    ofSetColor(bkgd_color);
-    ofDrawRectangle(x, y, rowWidth, rowHeight);
-    ofSetColor(ofxDatGuiColor::SLIDER);
-    ofDrawRectangle(x, y, 2, rowHeight);
+    mLabel = label;
+    mMouseOver = false;
+}
+
+string ofxDatGuiItem::getLabel()
+{
+    return mLabel;
+}
+
+void ofxDatGuiItem::drawBkgd(ofColor color)
+{
+    ofPushStyle();
+        ofSetColor(color);
+        ofDrawRectangle(x, y, rowWidth, rowHeight);
+    ofPopStyle();
 }
 
 void ofxDatGuiItem::onMouseEnter(ofPoint m)
@@ -42,18 +52,18 @@ void ofxDatGuiItem::onMouseEnter(ofPoint m)
      mMouseOver = true;
 }
 
-
 void ofxDatGuiItem::onMouseLeave(ofPoint m)
 {
      mMouseOver = false;
 }
 
+void ofxDatGuiItem::onMousePress(ofPoint m) { }
 void ofxDatGuiItem::onMouseDrag(ofPoint m) { }
 void ofxDatGuiItem::onMouseRelease(ofPoint m) { }
 
-void ofxDatGuiItem::drawLabel(ofColor label_color)
+void ofxDatGuiItem::drawLabel(ofColor color)
 {
-    ofSetColor(label_color);
+    ofSetColor(color);
     ofDrawBitmapString(mLabel, x+labelPosition.x, y+labelPosition.y - 1);
 }
 

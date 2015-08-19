@@ -9,64 +9,79 @@
 #pragma once
 #include "ofxDatGuiItem.h"
 
-class ofxDatGuiDropdownOption{
-
-    public:
-        ofxDatGuiDropdownOption(int index, string label)
-        {
-        
-        }
-        void draw(){
-        
-        }
-    private:
-        string mLabel;
-
-};
-
-class ofxDatGuiDropdown : public ofxDatGuiItem {
+class ofxDatGuiDropdownOption : public ofxDatGuiButton {
 
     public:
     
-        ofxDatGuiDropdown(int index, string label, vector<string> options) : ofxDatGuiItem(index, label)
+        ofxDatGuiDropdownOption(int index, string label) : ofxDatGuiButton(index, label) { }
+    
+        void draw()
         {
+            ofPushStyle();
+                ofxDatGuiButton::draw();
+            ofPopStyle();
+        }
+        void setPosition(int x, int y)
+        {
+            this->x=x;
+            this->y=y;
+        }
+    
+    private:
+
+};
+
+class ofxDatGuiDropdown : public ofxDatGuiButton {
+
+    public:
+    
+        ofxDatGuiDropdown(int index, string label, vector<string> options) : ofxDatGuiButton(index, label)
+        {
+            mOptionsVisible = false;
             for(uint8_t i=0; i<options.size(); i++){
-                mOptions.push_back(new ofxDatGuiDropdownOption(mOptions.size(), label));
+                ofxDatGuiDropdownOption* opt = new ofxDatGuiDropdownOption(children.size(), options[i]);
+                opt->setPosition(this->x, this->y+(children.size()*(rowHeight+rowSpacing)) + (rowHeight+rowSpacing));
+                opt->onGuiEvent(this, &ofxDatGuiDropdown::onOptionSelected);
+                children.push_back(opt);
             }
             if (icon.isAllocated() == false) icon.load("dropdown-icon.png");
+            mHeight = children.size() * (ofxDatGuiItem::rowHeight+ofxDatGuiItem::rowSpacing);
         }
     
         void draw()
         {
-            ofxDatGuiItem::drawBkgd(mMouseOver ? ofxDatGuiColor::BUTTON_OVER : ofxDatGuiColor::ROW_BKGD);
-            ofxDatGuiItem::drawLabel();
-            icon.draw(x+rowWidth-20, y+9, 10, 10);
-        }
-    
-        void onMousePress(ofPoint m)
-        {
-        // dispatch event out to main application //
-            ofxDatGuiEvent evt(mId, 1);
-            changeEventCallback(evt);
+            ofPushStyle();
+                ofxDatGuiButton::draw();
+                ofSetColor(ofxDatGuiColor::LABEL);
+                icon.draw(x+rowWidth-20, y+9, 10, 10);
+                if (mOptionsVisible) {
+                    ofSetColor(ofxDatGuiColor::GUI_BKGD);
+                    ofDrawRectangle(x, y+rowHeight, ofxDatGuiWidth, mHeight);
+                    for(uint8_t i=0; i<children.size(); i++) children[i]->draw();
+                }
+            ofPopStyle();
         }
     
         void onMouseRelease(ofPoint m)
         {
-        // dispatch event out to main application //
-            ofxDatGuiEvent evt(mId, 0);
-            changeEventCallback(evt);
+            mOptionsVisible = !mOptionsVisible;
         }
     
-        bool hitTest(ofPoint m)
+        void onOptionSelected(ofxDatGuiEvent e)
         {
-            return (m.x>=x && m.x<= x+rowWidth && m.y>=y && m.y<= y+rowHeight);
+            e.child = e.id;
+            e.id = mId;
+            mOptionsVisible = !mOptionsVisible;
+            mLabel = children[e.child]->getLabel();
+            changeEventCallback(e);
         }
     
     protected:
     
     
     private:
-        vector<ofxDatGuiDropdownOption*> mOptions;
         ofImage icon;
+        uint mHeight;
+        bool mOptionsVisible;
 };
 

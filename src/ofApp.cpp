@@ -8,14 +8,14 @@ void ofApp::setup()
     gui->addSlider("WAVY Y", -20, 60);
     gui->addSlider("WAVY Z", 0, 100, 75);
     gui->addButton("CLICK");
-    vector<string> options = {"one", "two", "three", "four"};
+    vector<string> options = {"OPTION - 1", "OPTION - 2", "OPTION - 3", "OPTION - 4"};
     gui->addDropdown(options);
     gui->onGuiEvent(this, &ofApp::onGuiEvent);
 }
 
 void ofApp::onGuiEvent(ofxDatGuiEvent e)
 {
-    cout << "onGuiEvent >> " << e.id << " :: "<<e.val << endl;
+    cout << "onGuiEvent >> " << e.id << " :: "<<e.val << " :: "<<e.child << endl;
 }
 
 //--------------------------------------------------------------

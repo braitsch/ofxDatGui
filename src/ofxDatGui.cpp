@@ -94,20 +94,15 @@ void ofxDatGui::update()
 {
     bool hit = false;
     mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
-    for (uint16_t i=0; i<items.size(); i++) {
-        if (items[i]->hitTest(mouse)){
-            hit = true;
-            if (activeItem != nullptr){
-                if (activeItem != items[i]){
-                    activeItem->onMouseLeave(mouse);
-                    activeItem = items[i];
-                    activeItem->onMouseEnter(mouse);
-                }
-            }   else{
-                activeItem = items[i];
-                activeItem->onMouseEnter(mouse);
-            }
+    for (uint8_t i=0; i<items.size(); i++) {
+        hit = isMouseOver(items[i]);
+        if (hit) {
             break;
+        }   else {
+            for (uint8_t j=0; j<items[i]->children.size(); j++) {
+                hit = isMouseOver(items[i]->children[j]);
+                if (hit) break;
+            }
         }
     }
     if (!hit && activeItem != nullptr){
@@ -116,6 +111,25 @@ void ofxDatGui::update()
     }   else if (hit){
         if (mousePressed) activeItem->onMouseDrag(mouse);
     }
+}
+
+bool ofxDatGui::isMouseOver(ofxDatGuiItem* item)
+{
+    bool hit = false;
+    if (item->hitTest(mouse)){
+        hit = true;
+        if (activeItem != nullptr){
+            if (activeItem != item){
+                activeItem->onMouseLeave(mouse);
+                activeItem = item;
+                activeItem->onMouseEnter(mouse);
+            }
+        }   else{
+            activeItem = item;
+            activeItem->onMouseEnter(mouse);
+        }
+    }
+    return hit;
 }
 
 void ofxDatGui::draw()

@@ -14,16 +14,17 @@ class ofxDatGuiItem
     public:
     
         ofxDatGuiItem(int id);
-        ofxDatGuiItem(int id, string label, bool centerLabel = false) : ofxDatGuiItem(id)
-        {
-            mLabel = label;
-        }
-        
+        ofxDatGuiItem(int id, string label, bool centerLabel = false);
+    
+        vector<ofxDatGuiItem*> children;
+    
+        string getLabel();
+    
         virtual void draw() = 0;
         virtual bool hitTest(ofPoint m) = 0;
     
         virtual void onMouseEnter(ofPoint m);
-        virtual void onMousePress(ofPoint m) = 0;
+        virtual void onMousePress(ofPoint m);
         virtual void onMouseDrag(ofPoint m);
         virtual void onMouseLeave(ofPoint m);
         virtual void onMouseRelease(ofPoint m);
@@ -45,6 +46,7 @@ class ofxDatGuiItem
         static const uint16_t rowSpacing;
 
     protected:
+    
         int x;
         int y;
         int mId;
@@ -52,8 +54,8 @@ class ofxDatGuiItem
         bool mMouseOver;
         static ofPoint labelPosition;
     
-        void drawBkgd(ofColor bkgd_color = ofxDatGuiColor::ROW_BKGD);
-        void drawLabel(ofColor label_color = ofxDatGuiColor::LABEL);
+        void drawBkgd(ofColor color = ofxDatGuiColor::ROW_BKGD);
+        void drawLabel(ofColor color = ofxDatGuiColor::LABEL);
     
         static const uint16_t labelX;
         static const uint16_t labelWidth;

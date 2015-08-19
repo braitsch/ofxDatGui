@@ -15,7 +15,8 @@ namespace ofxDatGuiColor{
     const ofColor LABEL       = ofColor::fromHex(0xEEEEEE);
     const ofColor INPUT       = ofColor::fromHex(0x303030);
     const ofColor SLIDER      = ofColor::fromHex(0x2FA1D6);
-    const ofColor BUTTON_OVER = ofColor::fromHex(0x222222);
+    const ofColor BUTTON_OVER = ofColor::fromHex(0xFFD00B);
+    const ofColor BUTTON_DOWN = ofColor::fromHex(0x222222);
 }
 
 namespace ofxDatGuiAnchor{
@@ -36,10 +37,12 @@ static uint16_t         ofxDatGuiPadding = 0;
 class ofxDatGuiEvent{
     
     public:
-        ofxDatGuiEvent(int itemId, float itemVal){
+        ofxDatGuiEvent(int itemId, float itemVal, int childIndex = NULL){
             id = itemId;
             val = itemVal;
+            child = childIndex;
         };
         int id;
         float val;
+        int child;
 };

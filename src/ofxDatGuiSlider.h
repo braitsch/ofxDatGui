@@ -31,8 +31,13 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
     
         void draw()
         {
-            ofxDatGuiItem::drawBkgd();
-            ofPushStyle();{
+            ofPushStyle();
+            // row background //
+                ofxDatGuiItem::drawBkgd();
+            // row color stripe // 
+                ofSetColor(ofxDatGuiColor::SLIDER);
+                ofDrawRectangle(x, y, 2, rowHeight);
+            // row label
                 ofxDatGuiItem::drawLabel();
             // slider bkgd //
                 ofSetColor(ofxDatGuiColor::INPUT);
@@ -49,8 +54,9 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
                 ofSetColor(ofxDatGuiColor::SLIDER);
                 ofDrawBitmapString(ofToString(mVal, 2), x+sliderLabelX+labelPosition.x, y+labelPosition.y - 1);
             //
-            }; ofPopStyle();
+            ofPopStyle();
         }
+
     
         void onMouseDrag(ofPoint m)
         {
@@ -61,11 +67,6 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
         // dispatch event out to main application //
             ofxDatGuiEvent evt(mId, mVal);
             changeEventCallback(evt);
-        }
-    
-        void onMousePress(ofPoint m)
-        {
-    
         }
     
         bool hitTest(ofPoint m)

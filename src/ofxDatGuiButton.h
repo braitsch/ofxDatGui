@@ -17,15 +17,12 @@ class ofxDatGuiButton : public ofxDatGuiItem {
     
         void draw()
         {
-            ofxDatGuiItem::drawBkgd(mMouseOver ? ofxDatGuiColor::BUTTON_OVER : ofxDatGuiColor::ROW_BKGD);
-            ofxDatGuiItem::drawLabel();
-        }
-    
-        void onMousePress(ofPoint m)
-        {
-        // dispatch event out to main application //
-            ofxDatGuiEvent evt(mId, 1);
-            changeEventCallback(evt);
+            ofPushStyle();
+                ofxDatGuiItem::drawBkgd(mMouseOver ? ofxDatGuiColor::BUTTON_OVER : ofxDatGuiColor::ROW_BKGD);
+                ofxDatGuiItem::drawLabel();
+                ofSetColor(ofColor::green);
+                ofDrawRectangle(x, y, 2, rowHeight);
+            ofPopStyle();
         }
     
         void onMouseRelease(ofPoint m)

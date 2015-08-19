@@ -111,10 +111,10 @@
 				8AC9068F1B82847900557101 /* ofxDatGui.cpp */,
 				8AC906961B82A27500557101 /* ofxDatGuiItem.h */,
 				8AC906951B82A27500557101 /* ofxDatGuiItem.cpp */,
-				8AFC166B1B840B7500D0E668 /* ofxDatGuiButton.h */,
 				8AC906981B82A72C00557101 /* ofxDatGuiSlider.h */,
-				8AB983F61B84291F00BE93D2 /* ofxDatGuiDropdown.h */,
+				8AFC166B1B840B7500D0E668 /* ofxDatGuiButton.h */,
 				8A09B2431B85023F00B7B81A /* ofxDatGuiSettings.h */,
+				8AB983F61B84291F00BE93D2 /* ofxDatGuiDropdown.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;

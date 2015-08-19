@@ -51,6 +51,7 @@ class ofxDatGui
         vector<ofxDatGuiItem*> items;
     
         void init(int x, int y);
+        bool isMouseOver(ofxDatGuiItem* item);
         void onMousePressed(ofMouseEventArgs &e);
         void onMouseReleased(ofMouseEventArgs &e);
     
