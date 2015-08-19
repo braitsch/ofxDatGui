@@ -8,6 +8,12 @@
 
 #include "ofxDatGui.h"
 
+namespace ofxDatGuiPosition
+{
+    int x = 0;
+    int y = 0;
+}
+
 ofxDatGui::ofxDatGui(int x, int y)
 {
     init(x, y);
@@ -17,7 +23,7 @@ ofxDatGui::ofxDatGui(uint8_t anchor)
 {
     int x = 0;
     int y = 0;
-    if (anchor == ofxDatGuiPosition::TR) x = ofGetWidth()-ofxDatGuiCore::guiWidth;
+    if (anchor == ofxDatGuiAnchor::TR) x = ofGetWidth()-ofxDatGuiWidth;
     init(x, y);
 }
 
@@ -25,7 +31,8 @@ void ofxDatGui::init(int x, int y)
 {
     mousePressed = false;
     activeItem = nullptr;
-    ofxDatGuiCore::init(x, y);
+    ofxDatGuiPosition::x = x;
+    ofxDatGuiPosition::y = y;
     ofAddListener(ofEvents().mousePressed, this, &ofxDatGui::onMousePressed);
     ofAddListener(ofEvents().mouseReleased, this, &ofxDatGui::onMouseReleased);
 }
@@ -50,12 +57,17 @@ void ofxDatGui::addSlider(string label, float min, float max, float val)
     attachItem(slider);
 }
 
+void ofxDatGui::addDropdown(vector<string> options)
+{
+    ofxDatGuiDropdown* dropdown = new ofxDatGuiDropdown(items.size(), "SELECT OPTION", options);
+    attachItem(dropdown);
+}
+
 void ofxDatGui::attachItem(ofxDatGuiItem* item)
 {
     item->onGuiEvent(this, &ofxDatGui::dispatchEvent);
     items.push_back( item );
-    ofxDatGuiCore::guiHeight = items.size() * (ofxDatGuiItem::rowHeight+ofxDatGuiItem::rowSpacing);
-    ofxDatGuiCore::guiHeight+= ofxDatGuiItem::rowSpacing*2;
+    ofxDatGuiHeight = items.size() * (ofxDatGuiItem::rowHeight+ofxDatGuiItem::rowSpacing);
 }
 
 /* event handlers & update / draw loop */
@@ -85,13 +97,20 @@ void ofxDatGui::update()
     for (uint16_t i=0; i<items.size(); i++) {
         if (items[i]->hitTest(mouse)){
             hit = true;
-            if (activeItem == nullptr) items[i]->onMouseEnter(mouse);
-            activeItem = items[i];
+            if (activeItem != nullptr){
+                if (activeItem != items[i]){
+                    activeItem->onMouseLeave(mouse);
+                    activeItem = items[i];
+                    activeItem->onMouseEnter(mouse);
+                }
+            }   else{
+                activeItem = items[i];
+                activeItem->onMouseEnter(mouse);
+            }
             break;
         }
     }
     if (!hit && activeItem != nullptr){
-    //  cout << "onMouseLeave" << endl;
         activeItem->onMouseLeave(mouse);
         activeItem = nullptr;
     }   else if (hit){
@@ -101,7 +120,8 @@ void ofxDatGui::update()
 
 void ofxDatGui::draw()
 {
-    ofSetColor(ofxDatGuiColor::gui_bkgd);
-    ofDrawRectangle(ofxDatGuiCore::guiPosition.x, ofxDatGuiCore::guiPosition.y, ofxDatGuiCore::guiWidth, ofxDatGuiCore::guiHeight + (ofxDatGuiCore::guiPadding));
+    ofSetColor(ofxDatGuiColor::GUI_BKGD);
+    ofDrawRectangle(ofxDatGuiPosition::x, ofxDatGuiPosition::y, ofxDatGuiWidth, ofxDatGuiHeight - ofxDatGuiItem::rowSpacing + (ofxDatGuiPadding));
     for (uint16_t i=0; i<items.size(); i++) items[i]->draw();
 }
+

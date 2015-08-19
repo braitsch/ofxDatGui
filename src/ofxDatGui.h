@@ -9,9 +9,11 @@
 #pragma once
 #include "ofMain.h"
 #include "ofEvents.h"
+#include "ofxDatGuiSettings.h"
 #include "ofxDatGuiItem.h"
 #include "ofxDatGuiButton.h"
 #include "ofxDatGuiSlider.h"
+#include "ofxDatGuiDropdown.h"
 
 class ofxDatGui
 {
@@ -29,6 +31,7 @@ class ofxDatGui
         void addButton(string label);
         void addSlider(string label, float min, float max);
         void addSlider(string label, float min, float max, float val);
+        void addDropdown(vector<string> options);
     
         ofxDatGuiItem::onChangeEventCallback changeEventCallback;
     

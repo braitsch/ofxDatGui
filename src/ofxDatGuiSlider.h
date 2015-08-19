@@ -35,20 +35,20 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
             ofPushStyle();{
                 ofxDatGuiItem::drawLabel();
             // slider bkgd //
-                ofSetColor(ofxDatGuiColor::slider_bkgd);
+                ofSetColor(ofxDatGuiColor::INPUT);
                 ofDrawRectangle(x+sliderX, y+rowPadding, sliderWidth, rowHeight-(rowPadding*2));
             // slider fill //
                 if (mScale > 0){
-                    ofSetColor(ofxDatGuiColor::slider_fill);
+                    ofSetColor(ofxDatGuiColor::SLIDER);
                     ofDrawRectangle(x+sliderX, y+rowPadding, sliderWidth*mScale, rowHeight-(rowPadding*2));
                 }
             // value bkgd //
-                ofSetColor(ofxDatGuiColor::slider_bkgd);
+                ofSetColor(ofxDatGuiColor::INPUT);
                 ofDrawRectangle(x+sliderLabelX, y+rowPadding, sliderLabelWidth, rowHeight-(rowPadding*2));
             // value label //
-                ofSetColor(ofxDatGuiColor::slider_fill);
-                ofDrawBitmapString(ofToString(mVal, 2), x+sliderLabelX+labelPos.x, y+labelPos.y - 1);
-            //  ofxDatGuiCore::font.drawString(ofToString(mScale), x+inputX+labelPos.x, y+labelPos.y);
+                ofSetColor(ofxDatGuiColor::SLIDER);
+                ofDrawBitmapString(ofToString(mVal, 2), x+sliderLabelX+labelPosition.x, y+labelPosition.y - 1);
+            //
             }; ofPopStyle();
         }
     
@@ -83,3 +83,4 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
         float mScale;
         
 };
+
