@@ -13,8 +13,8 @@ namespace ofxDatGuiColor{
     const ofColor gui_bkgd = ofColor::fromHex(0x303030);
     const ofColor item_bkgd = ofColor(26,26,26);
     const ofColor font_fill = ofColor::fromHex(0xEEEEEE);
-    const ofColor input_bkgd = ofColor::fromHex(0x303030);
-    const ofColor input_fill = ofColor::fromHex(0x2FA1D6);
+    const ofColor slider_bkgd = ofColor::fromHex(0x303030);
+    const ofColor slider_fill = ofColor::fromHex(0x2FA1D6);
 };
 
 namespace ofxDatGuiPosition{
@@ -27,7 +27,7 @@ class ofxDatGuiCore{
     public:
         static void init(int x, int y){
             guiPosition = ofPoint(x, y);
-            font.load("Swiss 721 Medium", 11);
+            font.load("verdana", 11, true, false, false, 0.3, 96);
         }
         static ofTrueTypeFont font;
         static ofPoint guiPosition;
@@ -53,7 +53,7 @@ class ofxDatGuiItem
     public:
         ofxDatGuiItem(int id);
         virtual void draw();
-        bool hitTest(ofPoint m);
+        virtual bool hitTest(ofPoint m) = 0;
         virtual void onMousePress(ofPoint m) = 0;
 
     // this typedef is also used in ofxDatGui.h //
@@ -67,10 +67,10 @@ class ofxDatGuiItem
             changeEventCallback = std::bind(listenerMethod, owner, _1);
         }
 
-        static const uint16_t itemWidth;
-        static const uint16_t itemHeight;
-        static const uint16_t itemPadding;
-        static const uint16_t itemSpacing;
+        static const uint16_t rowWidth;
+        static const uint16_t rowHeight;
+        static const uint16_t rowPadding;
+        static const uint16_t rowSpacing;
 
     protected:
         int x;
@@ -78,7 +78,10 @@ class ofxDatGuiItem
         int mId;
         static const uint16_t labelX;
         static const uint16_t labelWidth;
-        static const uint16_t inputX;
-        static const uint16_t inputWidth;
+        static const uint16_t sliderX;
+        static const uint16_t sliderWidth;
+        static const uint16_t sliderLabelX;
+        static const uint16_t sliderLabelWidth;
+    
 
 };

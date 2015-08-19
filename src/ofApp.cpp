@@ -4,9 +4,9 @@
 void ofApp::setup()
 {
     gui = new ofxDatGui( ofxDatGuiPosition::TR );
-    gui->addSlider("wavy x", .5);
-    gui->addSlider("wavy y", .5);
-    gui->addSlider("wavy z", .5);
+    gui->addSlider("WAVY X", 10, 20, 5);
+    gui->addSlider("WAVY Y", -20, 60);
+    gui->addSlider("WAVY Z", 0, 100, 75);
     gui->onGuiEvent(this, &ofApp::onGuiEvent);
 }
 

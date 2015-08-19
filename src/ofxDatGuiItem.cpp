@@ -14,31 +14,34 @@ uint16_t ofxDatGuiCore::guiHeight = ofxDatGuiCore::guiPadding*2;
 ofPoint ofxDatGuiCore::guiPosition;
 ofTrueTypeFont ofxDatGuiCore::font;
 
-const uint16_t ofxDatGuiItem::itemWidth = ofxDatGuiCore::guiWidth-(ofxDatGuiCore::guiPadding*2);
-const uint16_t ofxDatGuiItem::itemHeight = 26;
-const uint16_t ofxDatGuiItem::itemPadding = 2;
-const uint16_t ofxDatGuiItem::itemSpacing = 2;
+const uint16_t ofxDatGuiItem::rowWidth = ofxDatGuiCore::guiWidth-(ofxDatGuiCore::guiPadding*2);
+const uint16_t ofxDatGuiItem::rowHeight = 26;
+const uint16_t ofxDatGuiItem::rowPadding = 2;
+const uint16_t ofxDatGuiItem::rowSpacing = 2;
 const uint16_t ofxDatGuiItem::labelX = 12;
 const uint16_t ofxDatGuiItem::labelWidth = 80;
-const uint16_t ofxDatGuiItem::inputX = labelX+labelWidth+itemPadding;
-const uint16_t ofxDatGuiItem::inputWidth = itemWidth-inputX-itemPadding;
+
+const uint16_t ofxDatGuiItem::sliderX = labelX+labelWidth+rowPadding;
+const uint16_t ofxDatGuiItem::sliderWidth = 100;
+const uint16_t ofxDatGuiItem::sliderLabelX = sliderX+sliderWidth+rowPadding;
+const uint16_t ofxDatGuiItem::sliderLabelWidth = rowWidth-sliderLabelX-rowPadding;
 
 ofxDatGuiItem::ofxDatGuiItem(int id)
 {
     mId = id;
     x = ofxDatGuiCore::guiPosition.x+ofxDatGuiCore::guiPadding;
-    y = ofxDatGuiCore::guiPosition.y+ofxDatGuiCore::guiPadding + (mId*(itemHeight+itemSpacing));
+    y = ofxDatGuiCore::guiPosition.y+ofxDatGuiCore::guiPadding + (mId*(rowHeight+rowSpacing));
 }
 
 void ofxDatGuiItem::draw()
 {
 // item background //
     ofSetColor(ofxDatGuiColor::item_bkgd);
-    ofDrawRectangle(x, y, itemWidth, itemHeight);
+    ofDrawRectangle(x, y, rowWidth, rowHeight);
 }
 
 bool ofxDatGuiItem::hitTest(ofPoint m)
 {
-    return (m.x>=x+inputX && m.x<= x+inputX+inputWidth && m.y>=y+itemPadding && m.y<= y+itemHeight-itemPadding);
+    return (m.x>=x+sliderX && m.x<= x+sliderX+sliderWidth && m.y>=y+rowPadding && m.y<= y+rowHeight-rowPadding);
 }
 

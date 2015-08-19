@@ -25,7 +25,8 @@ class ofxDatGui
     
         void draw();
         void update();
-        void addSlider(string label, float val);
+        void addSlider(string label, float min, float max);
+        void addSlider(string label, float min, float max, float val);
     
         ofxDatGuiItem::onChangeEventCallback changeEventCallback;
     

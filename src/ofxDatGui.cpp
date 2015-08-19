@@ -29,7 +29,6 @@ ofxDatGui::ofxDatGui(uint8_t anchor)
 
 void ofxDatGui::onMousePressed(ofMouseEventArgs &e)
 {
-    int k = 11;
     mousePressed = true;
 }
 
@@ -38,14 +37,22 @@ void ofxDatGui::onMouseReleased(ofMouseEventArgs &e)
     mousePressed = false;
 }
 
-void ofxDatGui::addSlider(string label, float val)
+void ofxDatGui::addSlider(string label, float min, float max)
 {
-    ofxDatGuiSlider* slider = new ofxDatGuiSlider(items.size(), label, val);
+// default to halfway between min & max values //
+    addSlider(label, min, max, min+((max-min)/2));
+}
+
+void ofxDatGui::addSlider(string label, float min, float max, float val)
+{
+    cout << "ofxDatGui::addSlider " << min << "::" << max << "::" << val << endl;
+    ofxDatGuiSlider* slider = new ofxDatGuiSlider(items.size(), label, min, max, val);
     slider->onGuiEvent(this, &ofxDatGui::dispatchEvent);
     items.push_back( slider );
-    ofxDatGuiCore::guiHeight = items.size() * (ofxDatGuiItem::itemHeight+ofxDatGuiItem::itemSpacing);
-    ofxDatGuiCore::guiHeight+= ofxDatGuiItem::itemSpacing*2;
+    ofxDatGuiCore::guiHeight = items.size() * (ofxDatGuiItem::rowHeight+ofxDatGuiItem::rowSpacing);
+    ofxDatGuiCore::guiHeight+= ofxDatGuiItem::rowSpacing*2;
 }
+
 
 void ofxDatGui::update()
 {
