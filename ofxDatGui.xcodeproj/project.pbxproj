@@ -107,10 +107,10 @@
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
 				8AC906901B82847900557101 /* ofxDatGui.h */,
 				8AC9068F1B82847900557101 /* ofxDatGui.cpp */,
-				8AC906951B82A27500557101 /* ofxDatGuiItem.cpp */,
 				8AC906961B82A27500557101 /* ofxDatGuiItem.h */,
-				8AC906981B82A72C00557101 /* ofxDatGuiSlider.h */,
+				8AC906951B82A27500557101 /* ofxDatGuiItem.cpp */,
 				8AFC166B1B840B7500D0E668 /* ofxDatGuiButton.h */,
+				8AC906981B82A72C00557101 /* ofxDatGuiSlider.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;

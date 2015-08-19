@@ -85,18 +85,17 @@ void ofxDatGui::update()
     for (uint16_t i=0; i<items.size(); i++) {
         if (items[i]->hitTest(mouse)){
             hit = true;
+            if (activeItem == nullptr) items[i]->onMouseEnter(mouse);
             activeItem = items[i];
             break;
         }
     }
     if (!hit && activeItem != nullptr){
-    //  activeItem->onMouseLeave(mouse);
+    //  cout << "onMouseLeave" << endl;
+        activeItem->onMouseLeave(mouse);
+        activeItem = nullptr;
     }   else if (hit){
-        if (mousePressed){
-            activeItem->onMouseDrag(mouse);
-        }   else{
-        //  activeItem->onMouseEnter(mouse);
-        }
+        if (mousePressed) activeItem->onMouseDrag(mouse);
     }
 }
 
