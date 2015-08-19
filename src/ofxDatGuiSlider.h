@@ -13,34 +13,27 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
 
     public:
     
-        ofxDatGuiSlider(int index, string label, float min, float max, float val) : ofxDatGuiItem(index)
+        ofxDatGuiSlider(int index, string label, float min, float max, float val) : ofxDatGuiItem(index, label)
         {
             mMin = min;
             mMax = max;
             mVal = val;
             if (mMin<0){
-                float o = abs(mMin);
-                float a = mMin+o;
-                float b = mMax+o;
-                float c = mVal+o;
-                cout << "ofxDatGui::scale " << a << "::" << b << "::" << c << endl;
+                float n = abs(mMin);
+                float a = mMin+n;
+                float b = mMax+n;
+                float c = mVal+n;
                 mScale = c/(a+b);
             }   else{
                 mScale = mVal/(mMax+mMin);
             }
-            mLabel = label;
-            ofRectangle labelRect = ofxDatGuiCore::font.getStringBoundingBox(label, 0, 0);
-            labelPos = ofPoint(labelX, labelRect.height+ ((rowHeight-labelRect.height)/2));
         }
     
         void draw()
         {
-            ofxDatGuiItem::draw();
+            ofxDatGuiItem::drawBkgd();
             ofPushStyle();{
-            // item label //
-                ofSetColor(ofxDatGuiColor::font_fill);
-                ofDrawBitmapString(mLabel, x+labelPos.x, y+labelPos.y - 1);
-            //  ofxDatGuiCore::font.drawString(mLabel, x+labelPos.x, y+labelPos.y);
+                ofxDatGuiItem::drawLabel();
             // slider bkgd //
                 ofSetColor(ofxDatGuiColor::slider_bkgd);
                 ofDrawRectangle(x+sliderX, y+rowPadding, sliderWidth, rowHeight-(rowPadding*2));
@@ -58,8 +51,8 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
             //  ofxDatGuiCore::font.drawString(ofToString(mScale), x+inputX+labelPos.x, y+labelPos.y);
             }; ofPopStyle();
         }
-        
-        void onMousePress(ofPoint m)
+    
+        void onMouseDrag(ofPoint m)
         {
             mScale =(m.x-x-sliderX)/sliderWidth;
             if (mScale > .99) mScale = 1;
@@ -68,6 +61,11 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
         // dispatch event out to main application //
             ofxDatGuiEvent evt(mId, mVal);
             changeEventCallback(evt);
+        }
+    
+        void onMousePress(ofPoint m)
+        {
+    
         }
     
         bool hitTest(ofPoint m)
@@ -83,7 +81,5 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
         float mMax;
         float mVal;
         float mScale;
-        string mLabel;
-        ofPoint labelPos;
         
 };

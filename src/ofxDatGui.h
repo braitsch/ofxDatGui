@@ -10,6 +10,7 @@
 #include "ofMain.h"
 #include "ofEvents.h"
 #include "ofxDatGuiItem.h"
+#include "ofxDatGuiButton.h"
 #include "ofxDatGuiSlider.h"
 
 class ofxDatGui
@@ -25,6 +26,7 @@ class ofxDatGui
     
         void draw();
         void update();
+        void addButton(string label);
         void addSlider(string label, float min, float max);
         void addSlider(string label, float min, float max, float val);
     
@@ -45,8 +47,11 @@ class ofxDatGui
         ofxDatGuiItem* activeItem;
         vector<ofxDatGuiItem*> items;
     
+        void init(int x, int y);
         void onMousePressed(ofMouseEventArgs &e);
         void onMouseReleased(ofMouseEventArgs &e);
+    
+        void attachItem(ofxDatGuiItem* item);
     
         void dispatchEvent(ofxDatGuiEvent k)
         {

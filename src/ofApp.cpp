@@ -7,6 +7,7 @@ void ofApp::setup()
     gui->addSlider("WAVY X", 10, 20, 5);
     gui->addSlider("WAVY Y", -20, 60);
     gui->addSlider("WAVY Z", 0, 100, 75);
+    gui->addButton("CLICK");
     gui->onGuiEvent(this, &ofApp::onGuiEvent);
 }
 

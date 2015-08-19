@@ -12,9 +12,10 @@
 namespace ofxDatGuiColor{
     const ofColor gui_bkgd = ofColor::fromHex(0x303030);
     const ofColor item_bkgd = ofColor(26,26,26);
-    const ofColor font_fill = ofColor::fromHex(0xEEEEEE);
+    const ofColor label_color = ofColor::fromHex(0xEEEEEE);
     const ofColor slider_bkgd = ofColor::fromHex(0x303030);
     const ofColor slider_fill = ofColor::fromHex(0x2FA1D6);
+    const ofColor button_over = ofColor::fromHex(0x222222);
 };
 
 namespace ofxDatGuiPosition{
@@ -30,11 +31,10 @@ class ofxDatGuiCore{
             font.load("verdana", 11, true, false, false, 0.3, 96);
         }
         static ofTrueTypeFont font;
-        static ofPoint guiPosition;
         static uint16_t guiPadding;
         static uint16_t guiWidth;
         static uint16_t guiHeight;
-    
+        static ofPoint guiPosition;
 };
 
 class ofxDatGuiEvent{
@@ -51,10 +51,23 @@ class ofxDatGuiEvent{
 class ofxDatGuiItem
 {
     public:
+    
         ofxDatGuiItem(int id);
-        virtual void draw();
+        ofxDatGuiItem(int id, string label, bool centerLabel = false) : ofxDatGuiItem(id)
+        {
+            mLabel = label;
+            ofRectangle labelRect = ofxDatGuiCore::font.getStringBoundingBox(label, 0, 0);
+            labelPos = ofPoint(labelX, labelRect.height+ ((rowHeight-labelRect.height)/2));
+        }
+        
+        virtual void draw() = 0;
         virtual bool hitTest(ofPoint m) = 0;
+    
+        virtual void onMouseEnter(ofPoint m);
         virtual void onMousePress(ofPoint m) = 0;
+        virtual void onMouseDrag(ofPoint m);
+        virtual void onMouseLeave(ofPoint m);
+        virtual void onMouseRelease(ofPoint m);
 
     // this typedef is also used in ofxDatGui.h //
         typedef std::function<void(ofxDatGuiEvent)> onChangeEventCallback;
@@ -76,6 +89,13 @@ class ofxDatGuiItem
         int x;
         int y;
         int mId;
+        string mLabel;
+        bool mMouseOver;
+        ofPoint labelPos;
+    
+        void drawBkgd(ofColor bkgd_color = ofxDatGuiColor::item_bkgd);
+        void drawLabel(ofColor label_color = ofxDatGuiColor::label_color);
+    
         static const uint16_t labelX;
         static const uint16_t labelWidth;
         static const uint16_t sliderX;

@@ -33,15 +33,30 @@ ofxDatGuiItem::ofxDatGuiItem(int id)
     y = ofxDatGuiCore::guiPosition.y+ofxDatGuiCore::guiPadding + (mId*(rowHeight+rowSpacing));
 }
 
-void ofxDatGuiItem::draw()
+void ofxDatGuiItem::drawBkgd(ofColor bkgd_color)
 {
-// item background //
-    ofSetColor(ofxDatGuiColor::item_bkgd);
+    ofSetColor(bkgd_color);
     ofDrawRectangle(x, y, rowWidth, rowHeight);
 }
 
-bool ofxDatGuiItem::hitTest(ofPoint m)
+void ofxDatGuiItem::onMouseEnter(ofPoint m)
 {
-    return (m.x>=x+sliderX && m.x<= x+sliderX+sliderWidth && m.y>=y+rowPadding && m.y<= y+rowHeight-rowPadding);
+     mMouseOver = true;
+}
+
+
+void ofxDatGuiItem::onMouseLeave(ofPoint m)
+{
+     mMouseOver = false;
+}
+
+void ofxDatGuiItem::onMouseDrag(ofPoint m) { }
+void ofxDatGuiItem::onMouseRelease(ofPoint m) { }
+
+void ofxDatGuiItem::drawLabel(ofColor label_color)
+{
+    ofSetColor(label_color);
+    ofDrawBitmapString(mLabel, x+labelPos.x, y+labelPos.y - 1);
+//  ofxDatGuiCore::font.drawString(mLabel, x+labelPos.x, y+labelPos.y);
 }
 
