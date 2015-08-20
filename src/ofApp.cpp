@@ -7,15 +7,21 @@ void ofApp::setup()
     gui->addSlider("WAVY X", 10, 20, 5);
     gui->addSlider("WAVY Y", -20, 60);
     gui->addSlider("WAVY Z", 0, 100, 75);
-    gui->addButton("CLICK");
     vector<string> options = {"OPTION - 1", "OPTION - 2", "OPTION - 3", "OPTION - 4"};
     gui->addDropdown(options);
+    gui->addButton("CLICK");
     gui->onGuiEvent(this, &ofApp::onGuiEvent);
 }
 
 void ofApp::onGuiEvent(ofxDatGuiEvent e)
 {
-    cout << "onGuiEvent >> " << e.id << " :: "<<e.val << " :: "<<e.child << endl;
+    if (e.type == ofxDatGuiEventType::BUTTON_RELEASED){
+        cout << "onGuiEvent::BUTTON_RELEASED " << e.target << endl;
+    }   else if (e.type == ofxDatGuiEventType::SLIDER_CHANGED){
+        cout << "onGuiEvent::SLIDER_CHANGED " << e.target << " :: " << e.value << endl;
+    }   else if (e.type == ofxDatGuiEventType::OPTION_SELECTED){
+        cout << "onGuiEvent::OPTION_SELECTED " << e.target << " :: " << e.child << endl;
+    }
 }
 
 //--------------------------------------------------------------

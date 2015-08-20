@@ -29,6 +29,7 @@ ofxDatGui::ofxDatGui(uint8_t anchor)
 
 void ofxDatGui::init(int x, int y)
 {
+    dropdownIsOpen = true;
     mousePressed = false;
     activeItem = nullptr;
     ofxDatGuiPosition::x = x;
@@ -65,9 +66,25 @@ void ofxDatGui::addDropdown(vector<string> options)
 
 void ofxDatGui::attachItem(ofxDatGuiItem* item)
 {
-    item->onGuiEvent(this, &ofxDatGui::dispatchEvent);
+    item->onGuiEvent(this, &ofxDatGui::onGuiEventCallback);
     items.push_back( item );
     ofxDatGuiHeight = items.size() * (ofxDatGuiItem::rowHeight+ofxDatGuiItem::rowSpacing);
+}
+
+void ofxDatGui::onGuiEventCallback(ofxDatGuiEvent e)
+{
+    if (e.type == ofxDatGuiEventType::DROPDOWN_EXPANDED){
+    // shift everyone down //
+    //  cout << "ofxDatGuiEvent::DROPDOWN_EXPANDED" << endl;
+    }   else if (e.type == ofxDatGuiEventType::DROPDOWN_COLLAPSED){
+    // shift everyone back up //
+    //  cout << "ofxDatGuiEvent::DROPDOWN_COLLAPSED" << endl;
+    }   else if (e.type == ofxDatGuiEventType::OPTION_SELECTED){
+    // shift everyone back up //
+        changeEventCallback(e);
+    }   else{
+        changeEventCallback(e);
+    }
 }
 
 /* event handlers & update / draw loop */
@@ -95,15 +112,27 @@ void ofxDatGui::update()
     bool hit = false;
     mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
     for (uint8_t i=0; i<items.size(); i++) {
-        hit = isMouseOver(items[i]);
-        if (hit) {
-            break;
-        }   else {
+        
+        if (items[i]->isExpanded()){
             for (uint8_t j=0; j<items[i]->children.size(); j++) {
                 hit = isMouseOver(items[i]->children[j]);
                 if (hit) break;
             }
         }
+        if (!hit) {
+            hit = isMouseOver(items[i]);
+            if (hit) break;
+        }
+    
+//        hit = isMouseOver(items[i]);
+//        if (hit) {
+//            break;
+//        }   else {
+//            for (uint8_t j=0; j<items[i]->children.size(); j++) {
+//                hit = isMouseOver(items[i]->children[j]);
+//                if (hit) break;
+//            }
+//        }
     }
     if (!hit && activeItem != nullptr){
         activeItem->onMouseLeave(mouse);
@@ -136,6 +165,7 @@ void ofxDatGui::draw()
 {
     ofSetColor(ofxDatGuiColor::GUI_BKGD);
     ofDrawRectangle(ofxDatGuiPosition::x, ofxDatGuiPosition::y, ofxDatGuiWidth, ofxDatGuiHeight - ofxDatGuiItem::rowSpacing + (ofxDatGuiPadding));
+ //   items[0]->draw();
     for (uint16_t i=0; i<items.size(); i++) items[i]->draw();
 }
 

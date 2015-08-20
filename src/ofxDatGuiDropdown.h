@@ -23,7 +23,7 @@ class ofxDatGuiDropdownOption : public ofxDatGuiButton {
         }
         void setPosition(int x, int y)
         {
-            this->x=x;
+            this->x=x-100;
             this->y=y;
         }
     
@@ -37,7 +37,6 @@ class ofxDatGuiDropdown : public ofxDatGuiButton {
     
         ofxDatGuiDropdown(int index, string label, vector<string> options) : ofxDatGuiButton(index, label)
         {
-            mOptionsVisible = false;
             for(uint8_t i=0; i<options.size(); i++){
                 ofxDatGuiDropdownOption* opt = new ofxDatGuiDropdownOption(children.size(), options[i]);
                 opt->setPosition(this->x, this->y+(children.size()*(rowHeight+rowSpacing)) + (rowHeight+rowSpacing));
@@ -54,9 +53,9 @@ class ofxDatGuiDropdown : public ofxDatGuiButton {
                 ofxDatGuiButton::draw();
                 ofSetColor(ofxDatGuiColor::LABEL);
                 icon.draw(x+rowWidth-20, y+9, 10, 10);
-                if (mOptionsVisible) {
+                if (mIsExpanded) {
                     ofSetColor(ofxDatGuiColor::GUI_BKGD);
-                    ofDrawRectangle(x, y+rowHeight, ofxDatGuiWidth, mHeight);
+                    ofDrawRectangle(x-100, y+rowHeight, ofxDatGuiWidth, mHeight);
                     for(uint8_t i=0; i<children.size(); i++) children[i]->draw();
                 }
             ofPopStyle();
@@ -64,15 +63,27 @@ class ofxDatGuiDropdown : public ofxDatGuiButton {
     
         void onMouseRelease(ofPoint m)
         {
-            mOptionsVisible = !mOptionsVisible;
+            int eType;
+            if (!mIsExpanded){
+                mIsExpanded = true;
+                eType = ofxDatGuiEventType::DROPDOWN_EXPANDED;
+            }   else {
+                mIsExpanded = false;
+                eType = ofxDatGuiEventType::DROPDOWN_COLLAPSED;
+            }
+            ofxDatGuiEvent e = ofxDatGuiEvent(eType, mId);
+            changeEventCallback(e);
         }
     
         void onOptionSelected(ofxDatGuiEvent e)
         {
-            e.child = e.id;
-            e.id = mId;
-            mOptionsVisible = !mOptionsVisible;
-            mLabel = children[e.child]->getLabel();
+            e.child = e.target;
+            e.target = mId;
+        // convert button_pressed to type option_selected //
+            e.type = ofxDatGuiEventType::OPTION_SELECTED;
+            mLabel = "* "+children[e.child]->getLabel();
+        // auto close the dropdown when an option is selected //
+            mIsExpanded = !mIsExpanded;
             changeEventCallback(e);
         }
     
@@ -82,6 +93,5 @@ class ofxDatGuiDropdown : public ofxDatGuiButton {
     private:
         ofImage icon;
         uint mHeight;
-        bool mOptionsVisible;
 };
 

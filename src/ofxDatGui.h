@@ -24,7 +24,7 @@ class ofxDatGui
         ofxDatGui(uint8_t position);
     
         ofPoint mouse;
-        static ofPoint pos;
+        bool dropdownIsOpen;
     
         void draw();
         void update();
@@ -49,6 +49,7 @@ class ofxDatGui
         bool mousePressed;
         ofxDatGuiItem* activeItem;
         vector<ofxDatGuiItem*> items;
+        vector<ofxDatGuiDropdown*> ddowns;
     
         void init(int x, int y);
         bool isMouseOver(ofxDatGuiItem* item);
@@ -56,10 +57,6 @@ class ofxDatGui
         void onMouseReleased(ofMouseEventArgs &e);
     
         void attachItem(ofxDatGuiItem* item);
-    
-        void dispatchEvent(ofxDatGuiEvent k)
-        {
-            changeEventCallback(k);
-        }
+        void onGuiEventCallback(ofxDatGuiEvent e);
 
 };

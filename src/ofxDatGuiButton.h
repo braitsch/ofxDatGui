@@ -28,7 +28,7 @@ class ofxDatGuiButton : public ofxDatGuiItem {
         void onMouseRelease(ofPoint m)
         {
         // dispatch event out to main application //
-            ofxDatGuiEvent evt(mId, 0);
+            ofxDatGuiEvent evt(ofxDatGuiEventType::BUTTON_RELEASED, mId);
             changeEventCallback(evt);
         }
     

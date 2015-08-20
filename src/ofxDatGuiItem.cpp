@@ -24,6 +24,7 @@ const uint16_t ofxDatGuiItem::sliderLabelWidth = rowWidth-sliderLabelX-rowPaddin
 ofxDatGuiItem::ofxDatGuiItem(int id)
 {
     mId = id;
+    mIsExpanded = false;
     x = ofxDatGuiPosition::x + ofxDatGuiPadding;
     y = ofxDatGuiPosition::y + ofxDatGuiPadding + (mId*(rowHeight+rowSpacing));
 }
@@ -37,6 +38,16 @@ ofxDatGuiItem::ofxDatGuiItem(int id, string label, bool centerLabel) : ofxDatGui
 string ofxDatGuiItem::getLabel()
 {
     return mLabel;
+}
+
+bool ofxDatGuiItem::isExpanded()
+{
+    return mIsExpanded;
+}
+
+void ofxDatGuiItem::setYPosition(uint16_t ypos)
+{
+    y = ypos;
 }
 
 void ofxDatGuiItem::drawBkgd(ofColor color)

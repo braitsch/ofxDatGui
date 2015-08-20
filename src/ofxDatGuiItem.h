@@ -19,6 +19,8 @@ class ofxDatGuiItem
         vector<ofxDatGuiItem*> children;
     
         string getLabel();
+        bool isExpanded();
+        void setYPosition(uint16_t ypos);
     
         virtual void draw() = 0;
         virtual bool hitTest(ofPoint m) = 0;
@@ -52,6 +54,7 @@ class ofxDatGuiItem
         int mId;
         string mLabel;
         bool mMouseOver;
+        bool mIsExpanded;
         static ofPoint labelPosition;
     
         void drawBkgd(ofColor color = ofxDatGuiColor::ROW_BKGD);
