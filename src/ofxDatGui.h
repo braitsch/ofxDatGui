@@ -23,9 +23,6 @@ class ofxDatGui
         ofxDatGui(int x, int y);
         ofxDatGui(uint8_t position);
     
-        ofPoint mouse;
-        bool dropdownIsOpen;
-    
         void draw();
         void update();
         void addButton(string label);
@@ -45,18 +42,23 @@ class ofxDatGui
     
     private:
     
-        uint8_t mAnchorPosition;
+        int mHeight;
+        int mHeightMinimum;
+        int mAnchorPosition;
+        ofPoint mouse;
+        bool mShowGui;
         bool mousePressed;
         ofxDatGuiItem* activeItem;
         vector<ofxDatGuiItem*> items;
-        vector<ofxDatGuiDropdown*> ddowns;
     
         void init(int x, int y);
         bool isMouseOver(ofxDatGuiItem* item);
+        void onKeyPressed(ofKeyEventArgs &e);
         void onMousePressed(ofMouseEventArgs &e);
         void onMouseReleased(ofMouseEventArgs &e);
-    
+
         void attachItem(ofxDatGuiItem* item);
+        void adjustHeight(int index, int amount);
         void onGuiEventCallback(ofxDatGuiEvent e);
 
 };

@@ -17,13 +17,22 @@ class ofxDatGuiDropdownOption : public ofxDatGuiButton {
     
         void draw()
         {
+            ofxDatGuiButton::drawBkgd();
+            drawLabel();
+            ofxDatGuiItem::drawStripe(ofxDatGuiColor::DROPDOWN_STRIPE);
+        }
+    
+        void drawLabel()
+        {
             ofPushStyle();
-                ofxDatGuiButton::draw();
+                ofSetColor(ofxDatGuiColor::LABEL);
+                ofDrawBitmapString(" * "+mLabel, x+labelPosition.x, y+labelPosition.y - 1);
             ofPopStyle();
         }
+    
         void setPosition(int x, int y)
         {
-            this->x=x-100;
+            this->x=x;
             this->y=y;
         }
     
@@ -49,16 +58,24 @@ class ofxDatGuiDropdown : public ofxDatGuiButton {
     
         void draw()
         {
+            ofxDatGuiButton::drawBkgd();
+            ofxDatGuiItem::drawLabel();
+            ofxDatGuiItem::drawStripe(ofxDatGuiColor::DROPDOWN_STRIPE);
             ofPushStyle();
-                ofxDatGuiButton::draw();
                 ofSetColor(ofxDatGuiColor::LABEL);
                 icon.draw(x+rowWidth-20, y+9, 10, 10);
                 if (mIsExpanded) {
+            // draw the background behind the options //
                     ofSetColor(ofxDatGuiColor::GUI_BKGD);
-                    ofDrawRectangle(x-100, y+rowHeight, ofxDatGuiWidth, mHeight);
+                    ofDrawRectangle(x, y+rowHeight, ofxDatGuiWidth, mHeight);
                     for(uint8_t i=0; i<children.size(); i++) children[i]->draw();
                 }
             ofPopStyle();
+        }
+    
+        int getHeight()
+        {
+            return mHeight;
         }
     
         void onMouseRelease(ofPoint m)
@@ -81,17 +98,14 @@ class ofxDatGuiDropdown : public ofxDatGuiButton {
             e.target = mId;
         // convert button_pressed to type option_selected //
             e.type = ofxDatGuiEventType::OPTION_SELECTED;
-            mLabel = "* "+children[e.child]->getLabel();
+            mLabel = children[e.child]->getLabel();
         // auto close the dropdown when an option is selected //
             mIsExpanded = !mIsExpanded;
             changeEventCallback(e);
         }
     
     protected:
-    
-    
-    private:
+        int mHeight;
         ofImage icon;
-        uint mHeight;
 };
 

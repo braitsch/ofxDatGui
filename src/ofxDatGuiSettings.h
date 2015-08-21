@@ -11,17 +11,21 @@
 
 namespace ofxDatGuiColor
 {
-    const ofColor GUI_BKGD    = ofColor::fromHex(0x303030);
-    const ofColor ROW_BKGD    = ofColor::fromHex(0x1A1A1A);
-    const ofColor LABEL       = ofColor::fromHex(0xEEEEEE);
-    const ofColor INPUT       = ofColor::fromHex(0x303030);
-    const ofColor SLIDER      = ofColor::fromHex(0x2FA1D6);
-    const ofColor BUTTON_OVER = ofColor::fromHex(0xFFD00B);
-    const ofColor BUTTON_DOWN = ofColor::fromHex(0x222222);
+    const ofColor GUI_BKGD          = ofColor::fromHex(0x303030);
+    const ofColor ROW_BKGD          = ofColor::fromHex(0x1A1A1A);
+    const ofColor LABEL             = ofColor::fromHex(0xEEEEEE);
+    const ofColor INPUT             = ofColor::fromHex(0x303030);
+    const ofColor SLIDER            = ofColor::fromHex(0x2FA1D6);
+    const ofColor BUTTON_OVER       = ofColor::fromHex(0xFFD00B);
+    const ofColor BUTTON_DOWN       = ofColor::fromHex(0x222222);
+    
+// stripe identifiers //
+    const ofColor BUTTON_STRIPE     = ofColor::fromHex(0xE61D5F);
+    const ofColor SLIDER_STRIPE     = ofColor::fromHex(0x2FA1D6);
+    const ofColor DROPDOWN_STRIPE   = ofColor::fromHex(0x1ED36F);
 }
 
 static uint16_t         ofxDatGuiWidth = 270;
-static uint16_t         ofxDatGuiHeight = 0;
 static uint16_t         ofxDatGuiPadding = 0;
 
 namespace ofxDatGuiPosition

@@ -27,6 +27,7 @@ ofxDatGuiItem::ofxDatGuiItem(int id)
     mIsExpanded = false;
     x = ofxDatGuiPosition::x + ofxDatGuiPadding;
     y = ofxDatGuiPosition::y + ofxDatGuiPadding + (mId*(rowHeight+rowSpacing));
+    originY = y;
 }
 
 ofxDatGuiItem::ofxDatGuiItem(int id, string label, bool centerLabel) : ofxDatGuiItem(id)
@@ -47,8 +48,10 @@ bool ofxDatGuiItem::isExpanded()
 
 void ofxDatGuiItem::setYPosition(uint16_t ypos)
 {
-    y = ypos;
+    y = originY + ypos;
 }
+
+// draw methods //
 
 void ofxDatGuiItem::drawBkgd(ofColor color)
 {
@@ -57,6 +60,24 @@ void ofxDatGuiItem::drawBkgd(ofColor color)
         ofDrawRectangle(x, y, rowWidth, rowHeight);
     ofPopStyle();
 }
+
+void ofxDatGuiItem::drawLabel(ofColor color)
+{
+    ofPushStyle();
+        ofSetColor(color);
+        ofDrawBitmapString(mLabel, x+labelPosition.x, y+labelPosition.y - 1);
+    ofPopStyle();
+}
+
+void ofxDatGuiItem::drawStripe(ofColor color)
+{
+    ofPushStyle();
+        ofSetColor(color);
+        ofDrawRectangle(x, y, 2, rowHeight);
+    ofPopStyle();
+}
+
+// mouse events //
 
 void ofxDatGuiItem::onMouseEnter(ofPoint m)
 {
@@ -71,10 +92,4 @@ void ofxDatGuiItem::onMouseLeave(ofPoint m)
 void ofxDatGuiItem::onMousePress(ofPoint m) { }
 void ofxDatGuiItem::onMouseDrag(ofPoint m) { }
 void ofxDatGuiItem::onMouseRelease(ofPoint m) { }
-
-void ofxDatGuiItem::drawLabel(ofColor color)
-{
-    ofSetColor(color);
-    ofDrawBitmapString(mLabel, x+labelPosition.x, y+labelPosition.y - 1);
-}
 

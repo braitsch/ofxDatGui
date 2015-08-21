@@ -52,6 +52,7 @@ class ofxDatGuiItem
         int x;
         int y;
         int mId;
+        int originY;
         string mLabel;
         bool mMouseOver;
         bool mIsExpanded;
@@ -59,6 +60,7 @@ class ofxDatGuiItem
     
         void drawBkgd(ofColor color = ofxDatGuiColor::ROW_BKGD);
         void drawLabel(ofColor color = ofxDatGuiColor::LABEL);
+        void drawStripe(ofColor color = ofxDatGuiColor::ROW_BKGD);
     
         static const uint16_t labelX;
         static const uint16_t labelWidth;

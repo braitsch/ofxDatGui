@@ -32,12 +32,8 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
         void draw()
         {
             ofPushStyle();
-            // row background //
                 ofxDatGuiItem::drawBkgd();
-            // row color stripe // 
-                ofSetColor(ofxDatGuiColor::SLIDER);
-                ofDrawRectangle(x, y, 2, rowHeight);
-            // row label
+                ofxDatGuiItem::drawStripe(ofxDatGuiColor::SLIDER_STRIPE);
                 ofxDatGuiItem::drawLabel();
             // slider bkgd //
                 ofSetColor(ofxDatGuiColor::INPUT);
