@@ -21,6 +21,10 @@ class ofxDatGuiItem
         string getLabel();
         bool isExpanded();
         void setYPosition(uint16_t ypos);
+        
+        static void enableRetina(bool enable);
+        static void init(ofVec2f position, bool enableRetina = false);
+        static void init(uint8_t position, bool enableRetina = false);
     
         virtual void draw() = 0;
         virtual bool hitTest(ofPoint m) = 0;
@@ -42,10 +46,12 @@ class ofxDatGuiItem
             changeEventCallback = std::bind(listenerMethod, owner, _1);
         }
 
-        static const uint16_t rowWidth;
-        static const uint16_t rowHeight;
-        static const uint16_t rowPadding;
-        static const uint16_t rowSpacing;
+        static uint16_t guiWidth;
+        static uint16_t guiPadding;
+        static uint16_t rowWidth;
+        static uint16_t rowHeight;
+        static uint16_t rowPadding;
+        static uint16_t rowSpacing;
 
     protected:
     
@@ -56,18 +62,21 @@ class ofxDatGuiItem
         string mLabel;
         bool mMouseOver;
         bool mIsExpanded;
-        static ofPoint labelPosition;
+        static vector<uint16_t> properties;
     
         void drawBkgd(ofColor color = ofxDatGuiColor::ROW_BKGD);
         void drawLabel(ofColor color = ofxDatGuiColor::LABEL);
         void drawStripe(ofColor color = ofxDatGuiColor::ROW_BKGD);
     
-        static const uint16_t labelX;
-        static const uint16_t labelWidth;
-        static const uint16_t sliderX;
-        static const uint16_t sliderWidth;
-        static const uint16_t sliderLabelX;
-        static const uint16_t sliderLabelWidth;
+        static uint16_t labelX;
+        static uint16_t labelY;
+        static uint16_t labelWidth;
+        static uint16_t sliderX;
+        static uint16_t sliderWidth;
+        static uint16_t sliderLabelX;
+        static uint16_t sliderLabelWidth;
+        static uint16_t dropdownIconX;
+        static uint16_t dropdownIconY;
 
 };
 

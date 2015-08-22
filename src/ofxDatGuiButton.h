@@ -40,9 +40,4 @@ class ofxDatGuiButton : public ofxDatGuiItem {
             return (m.x>=x && m.x<= x+rowWidth && m.y>=y && m.y<= y+rowHeight);
         }
     
-    protected:
-    
-    
-    private:
-
 };

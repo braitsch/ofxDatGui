@@ -14,26 +14,23 @@ namespace ofxDatGuiPosition
     int y = 0;
 }
 
-ofxDatGui::ofxDatGui(int x, int y)
+ofxDatGui::ofxDatGui(ofVec2f pos, bool enableRetina)
 {
-    init(x, y);
+    init();
+    ofxDatGuiItem::init(pos, enableRetina);
 }
 
-ofxDatGui::ofxDatGui(uint8_t anchor)
+ofxDatGui::ofxDatGui(uint8_t anchor, bool enableRetina)
 {
-    int x = 0;
-    int y = 0;
-    if (anchor == ofxDatGuiAnchor::TR) x = ofGetWidth()-ofxDatGuiWidth;
-    init(x, y);
+    init();
+    ofxDatGuiItem::init(anchor, enableRetina);
 }
 
-void ofxDatGui::init(int x, int y)
+void ofxDatGui::init()
 {
     mShowGui = true;
     activeItem = nullptr;
     mousePressed = false;
-    ofxDatGuiPosition::x = x;
-    ofxDatGuiPosition::y = y;
     ofAddListener(ofEvents().keyPressed, this, &ofxDatGui::onKeyPressed);
     ofAddListener(ofEvents().mousePressed, this, &ofxDatGui::onMousePressed);
     ofAddListener(ofEvents().mouseReleased, this, &ofxDatGui::onMouseReleased);
@@ -44,6 +41,12 @@ void ofxDatGui::init(int x, int y)
 void ofxDatGui::addButton(string label)
 {
     ofxDatGuiButton* btn = new ofxDatGuiButton(items.size(), label);
+    attachItem(btn);
+}
+
+void ofxDatGui::addToggle(string label, bool state)
+{
+    ofxDatGuiToggle* btn = new ofxDatGuiToggle(items.size(), label, state);
     attachItem(btn);
 }
 
@@ -172,7 +175,7 @@ void ofxDatGui::draw()
 {
     if (!mShowGui) return;
     ofSetColor(ofxDatGuiColor::GUI_BKGD);
-    ofDrawRectangle(ofxDatGuiPosition::x, ofxDatGuiPosition::y, ofxDatGuiWidth, mHeight - ofxDatGuiItem::rowSpacing + (ofxDatGuiPadding));
+    ofDrawRectangle(ofxDatGuiPosition::x, ofxDatGuiPosition::y, ofxDatGuiItem::guiWidth, mHeight - ofxDatGuiItem::rowSpacing + (ofxDatGuiItem::guiPadding));
     for (uint16_t i=0; i<items.size(); i++) items[i]->draw();
 }
 

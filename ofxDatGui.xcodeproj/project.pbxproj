@@ -45,6 +45,7 @@
 
 /* Begin PBXFileReference section */
 		8A09B2431B85023F00B7B81A /* ofxDatGuiSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiSettings.h; sourceTree = "<group>"; };
+		8A53049D1B86A7F400829EFD /* ofxDatGuiToggle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiToggle.h; sourceTree = "<group>"; };
 		8AB983F61B84291F00BE93D2 /* ofxDatGuiDropdown.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiDropdown.h; sourceTree = "<group>"; };
 		8AC9068F1B82847900557101 /* ofxDatGui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxDatGui.cpp; sourceTree = "<group>"; };
 		8AC906901B82847900557101 /* ofxDatGui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGui.h; sourceTree = "<group>"; };
@@ -113,6 +114,7 @@
 				8AC906951B82A27500557101 /* ofxDatGuiItem.cpp */,
 				8AC906981B82A72C00557101 /* ofxDatGuiSlider.h */,
 				8AFC166B1B840B7500D0E668 /* ofxDatGuiButton.h */,
+				8A53049D1B86A7F400829EFD /* ofxDatGuiToggle.h */,
 				8A09B2431B85023F00B7B81A /* ofxDatGuiSettings.h */,
 				8AB983F61B84291F00BE93D2 /* ofxDatGuiDropdown.h */,
 			);

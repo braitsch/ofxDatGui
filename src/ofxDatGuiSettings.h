@@ -25,9 +25,6 @@ namespace ofxDatGuiColor
     const ofColor DROPDOWN_STRIPE   = ofColor::fromHex(0x1ED36F);
 }
 
-static uint16_t         ofxDatGuiWidth = 270;
-static uint16_t         ofxDatGuiPadding = 0;
-
 namespace ofxDatGuiPosition
 {
     extern int x;
@@ -36,10 +33,7 @@ namespace ofxDatGuiPosition
 
 namespace ofxDatGuiAnchor
 {
-    enum ofxDatGuiAnchor{
-        TL = 0,
-        TR
-    };
+    enum ofxDatGuiAnchor{ TL = 0, TR = 1};
 }
 
 class ofxDatGuiEvent{
@@ -62,6 +56,7 @@ namespace ofxDatGuiEventType
     enum ofxDatGuiEventType{
         BUTTON_PRESSED = 0,
         BUTTON_RELEASED,
+        BUTTON_TOGGLED,
         SLIDER_CHANGED,
         OPTION_SELECTED,
         DROPDOWN_EXPANDED,

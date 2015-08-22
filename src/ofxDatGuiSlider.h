@@ -48,7 +48,7 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
                 ofDrawRectangle(x+sliderLabelX, y+rowPadding, sliderLabelWidth, rowHeight-(rowPadding*2));
             // value label //
                 ofSetColor(ofxDatGuiColor::SLIDER);
-                ofDrawBitmapString(ofToString(mVal, 2), x+sliderLabelX+labelPosition.x, y+labelPosition.y - 1);
+                ofDrawBitmapString(ofToString(mVal, 2), x+sliderLabelX+labelX, y+labelY - 1);
             //
             ofPopStyle();
         }

@@ -12,6 +12,7 @@
 #include "ofxDatGuiSettings.h"
 #include "ofxDatGuiItem.h"
 #include "ofxDatGuiButton.h"
+#include "ofxDatGuiToggle.h"
 #include "ofxDatGuiSlider.h"
 #include "ofxDatGuiDropdown.h"
 
@@ -20,12 +21,13 @@ class ofxDatGui
     
     public:
     
-        ofxDatGui(int x, int y);
-        ofxDatGui(uint8_t position);
+        ofxDatGui(ofVec2f position, bool enableRetina = false);
+        ofxDatGui(uint8_t position, bool enableRetina = false);
     
         void draw();
         void update();
         void addButton(string label);
+        void addToggle(string label, bool state);
         void addSlider(string label, float min, float max);
         void addSlider(string label, float min, float max, float val);
         void addDropdown(vector<string> options);
@@ -51,7 +53,7 @@ class ofxDatGui
         ofxDatGuiItem* activeItem;
         vector<ofxDatGuiItem*> items;
     
-        void init(int x, int y);
+        void init();
         bool isMouseOver(ofxDatGuiItem* item);
         void onKeyPressed(ofKeyEventArgs &e);
         void onMousePressed(ofMouseEventArgs &e);

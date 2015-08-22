@@ -26,7 +26,7 @@ class ofxDatGuiDropdownOption : public ofxDatGuiButton {
         {
             ofPushStyle();
                 ofSetColor(ofxDatGuiColor::LABEL);
-                ofDrawBitmapString(" * "+mLabel, x+labelPosition.x, y+labelPosition.y - 1);
+                ofDrawBitmapString(" * "+mLabel, x+labelX, y+labelY - 1);
             ofPopStyle();
         }
     
@@ -63,11 +63,11 @@ class ofxDatGuiDropdown : public ofxDatGuiButton {
             ofxDatGuiItem::drawStripe(ofxDatGuiColor::DROPDOWN_STRIPE);
             ofPushStyle();
                 ofSetColor(ofxDatGuiColor::LABEL);
-                icon.draw(x+rowWidth-20, y+9, 10, 10);
+                icon.draw(x+dropdownIconX, y+dropdownIconY, 10, 10);
                 if (mIsExpanded) {
             // draw the background behind the options //
                     ofSetColor(ofxDatGuiColor::GUI_BKGD);
-                    ofDrawRectangle(x, y+rowHeight, ofxDatGuiWidth, mHeight);
+                    ofDrawRectangle(x, y+rowHeight, ofxDatGuiItem::guiWidth, mHeight);
                     for(uint8_t i=0; i<children.size(); i++) children[i]->draw();
                 }
             ofPopStyle();
