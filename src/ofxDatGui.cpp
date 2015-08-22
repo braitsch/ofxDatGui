@@ -16,14 +16,12 @@ namespace ofxDatGuiPosition
 
 ofxDatGui::ofxDatGui(ofVec2f pos, bool enableRetina)
 {
-    init();
-    ofxDatGuiItem::init(pos, enableRetina);
+    ofxDatGuiItem::init(pos, enableRetina); init();
 }
 
 ofxDatGui::ofxDatGui(uint8_t anchor, bool enableRetina)
 {
-    init();
-    ofxDatGuiItem::init(anchor, enableRetina);
+    ofxDatGuiItem::init(anchor, enableRetina); init();
 }
 
 void ofxDatGui::init()
@@ -31,6 +29,8 @@ void ofxDatGui::init()
     mShowGui = true;
     activeItem = nullptr;
     mousePressed = false;
+    mGuiToggler = new ofxDatGuiToggler();
+    attachItem( mGuiToggler );
     ofAddListener(ofEvents().keyPressed, this, &ofxDatGui::onKeyPressed);
     ofAddListener(ofEvents().mousePressed, this, &ofxDatGui::onMousePressed);
     ofAddListener(ofEvents().mouseReleased, this, &ofxDatGui::onMouseReleased);
@@ -40,13 +40,13 @@ void ofxDatGui::init()
 
 void ofxDatGui::addButton(string label)
 {
-    ofxDatGuiButton* btn = new ofxDatGuiButton(items.size(), label);
+    ofxDatGuiButton* btn = new ofxDatGuiButton(items.size()-1, label);
     attachItem(btn);
 }
 
 void ofxDatGui::addToggle(string label, bool state)
 {
-    ofxDatGuiToggle* btn = new ofxDatGuiToggle(items.size(), label, state);
+    ofxDatGuiToggle* btn = new ofxDatGuiToggle(items.size()-1, label, state);
     attachItem(btn);
 }
 
@@ -58,22 +58,27 @@ void ofxDatGui::addSlider(string label, float min, float max)
 
 void ofxDatGui::addSlider(string label, float min, float max, float val)
 {
-    ofxDatGuiSlider* slider = new ofxDatGuiSlider(items.size(), label, min, max, val);
+    ofxDatGuiSlider* slider = new ofxDatGuiSlider(items.size()-1, label, min, max, val);
     attachItem(slider);
 }
 
 void ofxDatGui::addDropdown(vector<string> options)
 {
-    ofxDatGuiDropdown* dropdown = new ofxDatGuiDropdown(items.size(), "SELECT OPTION", options);
+    ofxDatGuiDropdown* dropdown = new ofxDatGuiDropdown(items.size()-1, "SELECT OPTION", options);
     attachItem(dropdown);
 }
 
 void ofxDatGui::attachItem(ofxDatGuiItem* item)
 {
     item->onGuiEvent(this, &ofxDatGui::onGuiEventCallback);
-    items.push_back( item );
+    if (items.size() == 0){
+        items.push_back( item );
+    }   else{
+        items.insert(items.end()-1, item);
+    }
     mHeight = items.size() * (ofxDatGuiItem::rowHeight+ofxDatGuiItem::rowSpacing);
     mHeightMinimum = mHeight;
+    mGuiToggler->setOriginY(mHeight - ofxDatGuiItem::rowHeight-ofxDatGuiItem::rowSpacing);
 }
 
 void ofxDatGui::onGuiEventCallback(ofxDatGuiEvent e)
@@ -92,6 +97,8 @@ void ofxDatGui::onGuiEventCallback(ofxDatGuiEvent e)
         ofxDatGuiDropdown* dd = dynamic_cast<ofxDatGuiDropdown*>(items[e.target]);
         adjustHeight(e.target+1, 0);
         changeEventCallback(e);
+    }   else if (e.type == ofxDatGuiEventType::GUI_TOGGLED){
+        mGuiToggler->isExpanded() ? collapseGui() : expandGui();
     }   else{
         changeEventCallback(e);
     }
@@ -101,6 +108,18 @@ void ofxDatGui::adjustHeight(int index, int amount)
 {
     for (uint8_t i=index; i<items.size(); i++) items[i]->setYPosition(amount);
     mHeight = mHeightMinimum + amount;
+}
+
+void ofxDatGui::expandGui()
+{
+    for (uint8_t i=0; i<items.size(); i++) items[i]->setYPosition(0);
+    mHeight = mHeightMinimum;
+}
+
+void ofxDatGui::collapseGui()
+{
+    for (uint8_t i=0; i<items.size(); i++) items[i]->setYPosition(mGuiToggler->getOriginY() * -1);
+    mHeight = 0;
 }
 
 /* event handlers & update / draw loop */

@@ -41,3 +41,39 @@ class ofxDatGuiButton : public ofxDatGuiItem {
         }
     
 };
+
+class ofxDatGuiToggler : public ofxDatGuiButton {
+
+
+    public:
+    
+        ofxDatGuiToggler() : ofxDatGuiButton(9999, "COLLAPSE CONTROLS")
+        {
+            mIsExpanded = true;
+        }
+    
+        int getOriginY()
+        {
+            return originY;
+        }
+    
+        void setOriginY(int y)
+        {
+            this->y = originY = y;
+        }
+    
+        void onMouseRelease(ofPoint m)
+        {
+        // dispatch event out to main application //
+            ofxDatGuiEvent evt(ofxDatGuiEventType::GUI_TOGGLED, mId, mIsExpanded);
+            changeEventCallback(evt);
+            if (mIsExpanded){
+                mIsExpanded = false;
+                mLabel = "EXPAND CONTROLS";
+            }   else{
+                mIsExpanded = true;
+                mLabel = "COLLAPSE CONTROLS";
+            }
+        }
+    
+};

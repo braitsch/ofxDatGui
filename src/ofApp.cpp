@@ -3,7 +3,7 @@
 //--------------------------------------------------------------
 void ofApp::setup()
 {
-    ofSetWindowPosition(0, 0);
+    ofSetWindowPosition(100, 100);
     gui = new ofxDatGui( ofxDatGuiAnchor::TR, true );
     gui->addSlider("WAVY X", 10, 20, 5);
     gui->addSlider("WAVY Y", -20, 60);

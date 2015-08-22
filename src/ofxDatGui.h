@@ -51,6 +51,7 @@ class ofxDatGui
         bool mShowGui;
         bool mousePressed;
         ofxDatGuiItem* activeItem;
+        ofxDatGuiToggler* mGuiToggler;
         vector<ofxDatGuiItem*> items;
     
         void init();
@@ -59,6 +60,8 @@ class ofxDatGui
         void onMousePressed(ofMouseEventArgs &e);
         void onMouseReleased(ofMouseEventArgs &e);
 
+        void expandGui();
+        void collapseGui();
         void attachItem(ofxDatGuiItem* item);
         void adjustHeight(int index, int amount);
         void onGuiEventCallback(ofxDatGuiEvent e);

@@ -20,7 +20,7 @@ class ofxDatGuiItem
     
         string getLabel();
         bool isExpanded();
-        void setYPosition(uint16_t ypos);
+        void setYPosition(int ypos);
         
         static void enableRetina(bool enable);
         static void init(ofVec2f position, bool enableRetina = false);

@@ -85,7 +85,7 @@ bool ofxDatGuiItem::isExpanded()
     return mIsExpanded;
 }
 
-void ofxDatGuiItem::setYPosition(uint16_t ypos)
+void ofxDatGuiItem::setYPosition(int ypos)
 {
     y = originY + ypos;
 }

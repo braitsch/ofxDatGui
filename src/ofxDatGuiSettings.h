@@ -54,7 +54,8 @@ class ofxDatGuiEvent{
 namespace ofxDatGuiEventType
 {
     enum ofxDatGuiEventType{
-        BUTTON_PRESSED = 0,
+        GUI_TOGGLED = 0,
+        BUTTON_PRESSED,
         BUTTON_RELEASED,
         BUTTON_TOGGLED,
         SLIDER_CHANGED,
