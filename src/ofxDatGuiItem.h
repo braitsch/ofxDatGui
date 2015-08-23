@@ -29,6 +29,8 @@ class ofxDatGuiItem
         virtual void draw() = 0;
         virtual bool hitTest(ofPoint m) = 0;
     
+        virtual void onFocusLost();
+        virtual void onKeyPressed(int key);
         virtual void onMouseEnter(ofPoint m);
         virtual void onMousePress(ofPoint m);
         virtual void onMouseDrag(ofPoint m);
@@ -59,14 +61,18 @@ class ofxDatGuiItem
         int y;
         int mId;
         int originY;
+        int mWidth;
+        int mHeight;
         string mLabel;
         bool mMouseOver;
+        bool mMouseDown;
         bool mIsExpanded;
         static vector<uint16_t> properties;
     
         void drawBkgd(ofColor color = ofxDatGuiColor::ROW_BKGD);
         void drawLabel(ofColor color = ofxDatGuiColor::LABEL);
         void drawStripe(ofColor color = ofxDatGuiColor::ROW_BKGD);
+        void drawText(string text, ofColor color, int xpos);
     
         static uint16_t labelX;
         static uint16_t labelY;
@@ -75,6 +81,7 @@ class ofxDatGuiItem
         static uint16_t sliderWidth;
         static uint16_t sliderLabelX;
         static uint16_t sliderLabelWidth;
+        static uint16_t stripeWidth;
         static uint16_t dropdownIconX;
         static uint16_t dropdownIconY;
 

@@ -11,8 +11,8 @@
 #include "ofEvents.h"
 #include "ofxDatGuiSettings.h"
 #include "ofxDatGuiItem.h"
+#include "ofxDatGuiInput.h"
 #include "ofxDatGuiButton.h"
-#include "ofxDatGuiToggle.h"
 #include "ofxDatGuiSlider.h"
 #include "ofxDatGuiDropdown.h"
 
@@ -26,6 +26,7 @@ class ofxDatGui
     
         void draw();
         void update();
+        void addInput(string label, string value = "");
         void addButton(string label);
         void addToggle(string label, bool state);
         void addSlider(string label, float min, float max);

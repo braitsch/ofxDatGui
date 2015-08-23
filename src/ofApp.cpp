@@ -5,6 +5,7 @@ void ofApp::setup()
 {
     ofSetWindowPosition(100, 100);
     gui = new ofxDatGui( ofxDatGuiAnchor::TR, true );
+    gui->addInput("INPUT", "HELLO");
     gui->addSlider("WAVY X", 10, 20, 5);
     gui->addSlider("WAVY Y", -20, 60);
     gui->addSlider("WAVY Z", 0, 100, 75);
@@ -17,8 +18,8 @@ void ofApp::setup()
 
 void ofApp::onGuiEvent(ofxDatGuiEvent e)
 {
-    if (e.type == ofxDatGuiEventType::BUTTON_RELEASED){
-        cout << "onGuiEvent::BUTTON_RELEASED " << e.target << endl;
+    if (e.type == ofxDatGuiEventType::BUTTON_CLICKED){
+        cout << "onGuiEvent::BUTTON_CLICKED " << e.target << endl;
     }   else if (e.type == ofxDatGuiEventType::SLIDER_CHANGED){
         cout << "onGuiEvent::SLIDER_CHANGED " << e.target << " :: " << e.value << endl;
     }   else if (e.type == ofxDatGuiEventType::OPTION_SELECTED){

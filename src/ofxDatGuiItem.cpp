@@ -21,6 +21,7 @@ uint16_t ofxDatGuiItem::sliderX = labelX+labelWidth+rowPadding;
 uint16_t ofxDatGuiItem::sliderWidth = 100;
 uint16_t ofxDatGuiItem::sliderLabelX = sliderX+sliderWidth+rowPadding;
 uint16_t ofxDatGuiItem::sliderLabelWidth = rowWidth-sliderLabelX-rowPadding;
+uint16_t ofxDatGuiItem::stripeWidth = 2;
 uint16_t ofxDatGuiItem::dropdownIconX = rowWidth-18;
 uint16_t ofxDatGuiItem::dropdownIconY = 11;
 
@@ -42,6 +43,8 @@ void ofxDatGuiItem::init(uint8_t position, bool e)
 ofxDatGuiItem::ofxDatGuiItem(int id)
 {
     mId = id;
+    mWidth = rowWidth;
+    mHeight = rowHeight;
     mIsExpanded = false;
     x = ofxDatGuiPosition::x + guiPadding;
     y = ofxDatGuiPosition::y + guiPadding + (mId*(rowHeight+rowSpacing));
@@ -52,6 +55,7 @@ ofxDatGuiItem::ofxDatGuiItem(int id, string label, bool centerLabel) : ofxDatGui
 {
     mLabel = label;
     mMouseOver = false;
+    mMouseDown = false;
 }
 
 void ofxDatGuiItem::enableRetina(bool e)
@@ -70,6 +74,7 @@ void ofxDatGuiItem::enableRetina(bool e)
         sliderWidth*=2;
         sliderLabelX = sliderX+sliderWidth+rowPadding;
         sliderLabelWidth = rowWidth-sliderLabelX-rowPadding;
+        stripeWidth*=2;
         dropdownIconX*=2;
         dropdownIconY*=2;
     }
@@ -96,7 +101,7 @@ void ofxDatGuiItem::drawBkgd(ofColor color)
 {
     ofPushStyle();
         ofSetColor(color);
-        ofDrawRectangle(x, y, rowWidth, rowHeight);
+        ofDrawRectangle(x, y, mWidth, mHeight);
     ofPopStyle();
 }
 
@@ -108,15 +113,23 @@ void ofxDatGuiItem::drawLabel(ofColor color)
     ofPopStyle();
 }
 
+void ofxDatGuiItem::drawText(string text, ofColor color, int xpos)
+{
+    ofPushStyle();
+        ofSetColor(color);
+        ofDrawBitmapString(text, xpos, y + labelY - 1);
+    ofPopStyle();
+}
+
 void ofxDatGuiItem::drawStripe(ofColor color)
 {
     ofPushStyle();
         ofSetColor(color);
-        ofDrawRectangle(x, y, 2, rowHeight);
+        ofDrawRectangle(x, y, stripeWidth, rowHeight);
     ofPopStyle();
 }
 
-// mouse events //
+// events //
 
 void ofxDatGuiItem::onMouseEnter(ofPoint m)
 {
@@ -126,9 +139,22 @@ void ofxDatGuiItem::onMouseEnter(ofPoint m)
 void ofxDatGuiItem::onMouseLeave(ofPoint m)
 {
      mMouseOver = false;
+     mMouseDown = false;
 }
 
-void ofxDatGuiItem::onMousePress(ofPoint m) { }
+void ofxDatGuiItem::onMousePress(ofPoint m)
+{
+    mMouseDown = true;
+}
+
+void ofxDatGuiItem::onMouseRelease(ofPoint m)
+{
+    mMouseDown = false;
+}
+
+void ofxDatGuiItem::onFocusLost() { }
+void ofxDatGuiItem::onKeyPressed(int key) { }
 void ofxDatGuiItem::onMouseDrag(ofPoint m) { }
-void ofxDatGuiItem::onMouseRelease(ofPoint m) { }
+
+
 

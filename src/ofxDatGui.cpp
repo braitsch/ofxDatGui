@@ -38,6 +38,12 @@ void ofxDatGui::init()
 
 /* add component methods */
 
+void ofxDatGui::addInput(string label, string value)
+{
+    ofxDatGuiInput* input = new ofxDatGuiInput(items.size()-1, label, value);
+    attachItem(input);
+}
+
 void ofxDatGui::addButton(string label)
 {
     ofxDatGuiButton* btn = new ofxDatGuiButton(items.size()-1, label);
@@ -118,8 +124,15 @@ void ofxDatGui::expandGui()
 
 void ofxDatGui::collapseGui()
 {
-    for (uint8_t i=0; i<items.size(); i++) items[i]->setYPosition(mGuiToggler->getOriginY() * -1);
-    mHeight = 0;
+    for (uint8_t i=0; i<items.size(); i++) {
+    // collapse anything that has children //
+        if (items[i]->children.size() > 0){
+            ofxDatGuiDropdown* dd = dynamic_cast<ofxDatGuiDropdown*>(items[i]);
+            dd->collapse();
+        }
+        items[i]->setYPosition(mGuiToggler->getOriginY() * -1);
+    }
+    mHeight = ofxDatGuiButton::rowHeight;
 }
 
 /* event handlers & update / draw loop */
@@ -145,6 +158,9 @@ void ofxDatGui::onMouseReleased(ofMouseEventArgs &e)
 void ofxDatGui::onKeyPressed(ofKeyEventArgs &e)
 {
     if (e.key == 'h') mShowGui = !mShowGui;
+    if (activeItem != nullptr){
+        activeItem->onKeyPressed(e.key);
+    }
 }
 
 void ofxDatGui::update()
@@ -165,6 +181,7 @@ void ofxDatGui::update()
     }
     if (!hit && activeItem != nullptr){
         activeItem->onMouseLeave(mouse);
+    //  activeItem->onFocusLost();
         activeItem = nullptr;
     }   else if (hit){
         if (mousePressed) activeItem->onMouseDrag(mouse);

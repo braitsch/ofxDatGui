@@ -13,7 +13,12 @@ class ofxDatGuiDropdownOption : public ofxDatGuiButton {
 
     public:
     
-        ofxDatGuiDropdownOption(int index, string label) : ofxDatGuiButton(index, label) { }
+        ofxDatGuiDropdownOption(int index, string label, int ypos) : ofxDatGuiButton(index, label)
+        {
+//            this->x += 10;
+//            this->mWidth = rowWidth - 10;
+            this->y = originY = ypos;
+        }
     
         void draw()
         {
@@ -30,12 +35,6 @@ class ofxDatGuiDropdownOption : public ofxDatGuiButton {
             ofPopStyle();
         }
     
-        void setPosition(int x, int y)
-        {
-            this->x=x;
-            this->y=y;
-        }
-    
     private:
 
 };
@@ -47,8 +46,8 @@ class ofxDatGuiDropdown : public ofxDatGuiButton {
         ofxDatGuiDropdown(int index, string label, vector<string> options) : ofxDatGuiButton(index, label)
         {
             for(uint8_t i=0; i<options.size(); i++){
-                ofxDatGuiDropdownOption* opt = new ofxDatGuiDropdownOption(children.size(), options[i]);
-                opt->setPosition(this->x, this->y+(children.size()*(rowHeight+rowSpacing)) + (rowHeight+rowSpacing));
+                int y = this->y+(children.size()*(rowHeight+rowSpacing)) + (rowHeight+rowSpacing);
+                ofxDatGuiDropdownOption* opt = new ofxDatGuiDropdownOption(children.size(), options[i], y);
                 opt->onGuiEvent(this, &ofxDatGuiDropdown::onOptionSelected);
                 children.push_back(opt);
             }
@@ -78,8 +77,14 @@ class ofxDatGuiDropdown : public ofxDatGuiButton {
             return mHeight;
         }
     
+        void collapse()
+        {
+            mIsExpanded = false;
+        }
+    
         void onMouseRelease(ofPoint m)
         {
+            ofxDatGuiItem::onMouseRelease(m);
             int eType;
             if (!mIsExpanded){
                 mIsExpanded = true;
