@@ -28,6 +28,7 @@ void ofxDatGui::init()
 {
     mShowGui = true;
     activeItem = nullptr;
+    activeFocus = nullptr;
     mousePressed = false;
     mGuiToggler = new ofxDatGuiToggler();
     attachItem( mGuiToggler );
@@ -153,15 +154,31 @@ void ofxDatGui::onMouseReleased(ofMouseEventArgs &e)
     if (activeItem != nullptr){
     //  cout << "onMouseReleased" << endl;
         activeItem->onMouseRelease(mouse);
+        if (activeFocus!= activeItem){
+            if (activeFocus != nullptr) activeFocus->onFocusLost();
+            activeFocus = activeItem;
+            activeFocus->onFocus();
+        }
+    }   else if (activeFocus != nullptr){
+        activeFocus->onFocusLost();
+        activeFocus = nullptr;
     }
 }
 
 void ofxDatGui::onKeyPressed(ofKeyEventArgs &e)
 {
-    if (e.key == 'h') mShowGui = !mShowGui;
-    if (activeItem != nullptr){
+    bool disableShowAndHide = false;
+    if (activeItem != nullptr) {
         activeItem->onKeyPressed(e.key);
+        if ((e.key == OF_KEY_RETURN || e.key == OF_KEY_TAB)){
+            activeFocus->onFocusLost();
+            activeFocus = nullptr;
+        }
+    // if an input is active ignore the gui show/hide key command //
+        ofxDatGuiInput* dd = dynamic_cast<ofxDatGuiInput*>(activeFocus);
+        disableShowAndHide = (dd != NULL);
     }
+    if (e.key == 'h' && disableShowAndHide == false) mShowGui = !mShowGui;
 }
 
 void ofxDatGui::update()
@@ -182,7 +199,6 @@ void ofxDatGui::update()
     }
     if (!hit && activeItem != nullptr){
         activeItem->onMouseLeave(mouse);
-    //  activeItem->onFocusLost();
         activeItem = nullptr;
     }   else if (hit){
         if (mousePressed) activeItem->onMouseDrag(mouse);

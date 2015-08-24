@@ -30,13 +30,11 @@ void ofxDatGuiItem::init(ofVec2f position, bool e)
     enableRetina(e);
     ofxDatGuiPosition::x = position.x;
     ofxDatGuiPosition::y = position.y;
-// resize everything first if retina //
 }
 
 void ofxDatGuiItem::init(uint8_t position, bool e)
 {
     enableRetina(e);
-// resize everything first if retina //
     if (position == ofxDatGuiAnchor::TR) ofxDatGuiPosition::x = ofGetWidth()-ofxDatGuiItem::guiWidth;
 }
 
@@ -140,12 +138,14 @@ void ofxDatGuiItem::drawStripe(ofColor color)
 void ofxDatGuiItem::onMouseEnter(ofPoint m)
 {
      mMouseOver = true;
+//     cout << "ofxDatGuiItem::onMouseEnter " << mId << endl;
 }
 
 void ofxDatGuiItem::onMouseLeave(ofPoint m)
 {
      mMouseOver = false;
      mMouseDown = false;
+//     cout << "ofxDatGuiItem::onMouseLeave " << mId << endl;
 }
 
 void ofxDatGuiItem::onMousePress(ofPoint m)
@@ -158,7 +158,14 @@ void ofxDatGuiItem::onMouseRelease(ofPoint m)
     mMouseDown = false;
 }
 
-void ofxDatGuiItem::onFocusLost() { }
+void ofxDatGuiItem::onFocus()
+{
+//  cout << "ofxDatGuiItem::onFocus " << mId << endl;
+}
+void ofxDatGuiItem::onFocusLost()
+{
+//  cout << "ofxDatGuiItem::onFocusLost " << mId << endl;
+}
 void ofxDatGuiItem::onKeyPressed(int key) { }
 void ofxDatGuiItem::onMouseDrag(ofPoint m) { }
 

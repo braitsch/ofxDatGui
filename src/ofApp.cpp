@@ -20,6 +20,8 @@ void ofApp::onGuiEvent(ofxDatGuiEvent e)
 {
     if (e.type == ofxDatGuiEventType::BUTTON_CLICKED){
         cout << "onGuiEvent::BUTTON_CLICKED " << e.target << endl;
+    }   else if (e.type == ofxDatGuiEventType::INPUT_CHANGED){
+        cout << "onGuiEvent::INPUT_CHANGED " << e.target << " :: " << e.text << endl;
     }   else if (e.type == ofxDatGuiEventType::SLIDER_CHANGED){
         cout << "onGuiEvent::SLIDER_CHANGED " << e.target << " :: " << e.value << endl;
     }   else if (e.type == ofxDatGuiEventType::OPTION_SELECTED){

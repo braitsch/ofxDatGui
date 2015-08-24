@@ -15,6 +15,7 @@ namespace ofxDatGuiColor
     const ofColor ROW_BKGD          = ofColor::fromHex(0x1A1A1A);
     const ofColor LABEL             = ofColor::fromHex(0xEEEEEE);
     const ofColor TEXT              = ofColor::fromHex(0x00FF00);
+    const ofColor TEXT_HIGHLIGHT    = ofColor::fromHex(0x688EB5);
     const ofColor INPUT             = ofColor::fromHex(0x303030);
     const ofColor SLIDER            = ofColor::fromHex(0x2FA1D6);
     const ofColor BUTTON_OVER       = ofColor::fromHex(0x777777);
@@ -48,10 +49,17 @@ class ofxDatGuiEvent{
             value = eValue;
             child = 0;
         };
+        ofxDatGuiEvent(int eType, int eTarget, string eText){
+            type = eType;
+            target = eTarget;
+            text = eText;
+            child = 0;
+        }
         int type;
         int target;
         int child;
         float value;
+        string text;
 };
 
 namespace ofxDatGuiEventType
@@ -62,6 +70,7 @@ namespace ofxDatGuiEventType
         BUTTON_RELEASED,
         BUTTON_CLICKED,
         BUTTON_TOGGLED,
+        INPUT_CHANGED,
         SLIDER_CHANGED,
         OPTION_SELECTED,
         DROPDOWN_EXPANDED,

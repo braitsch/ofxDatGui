@@ -52,6 +52,7 @@ class ofxDatGui
         bool mShowGui;
         bool mousePressed;
         ofxDatGuiItem* activeItem;
+        ofxDatGuiItem* activeFocus;
         ofxDatGuiToggler* mGuiToggler;
         vector<ofxDatGuiItem*> items;
     

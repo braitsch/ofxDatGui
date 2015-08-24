@@ -29,7 +29,8 @@ class ofxDatGuiItem
     
         virtual void draw() = 0;
         virtual bool hitTest(ofPoint m) = 0;
-    
+
+        virtual void onFocus();    
         virtual void onFocusLost();
         virtual void onKeyPressed(int key);
         virtual void onMouseEnter(ofPoint m);
