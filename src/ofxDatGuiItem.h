@@ -18,6 +18,7 @@ class ofxDatGuiItem
     
         vector<ofxDatGuiItem*> children;
     
+        int getHeight();
         string getLabel();
         bool isExpanded();
         void setYPosition(int ypos);
@@ -63,6 +64,8 @@ class ofxDatGuiItem
         int originY;
         int mWidth;
         int mHeight;
+        int mLabelX;
+        int mLabelY;
         string mLabel;
         bool mMouseOver;
         bool mMouseDown;
@@ -75,8 +78,8 @@ class ofxDatGuiItem
         void drawText(string text, ofColor color, int xpos);
     
         static uint16_t labelX;
-        static uint16_t labelY;
         static uint16_t labelWidth;
+        static uint16_t labelHeight;
         static uint16_t sliderX;
         static uint16_t sliderWidth;
         static uint16_t sliderLabelX;

@@ -29,10 +29,7 @@ class ofxDatGuiDropdownOption : public ofxDatGuiButton {
     
         void drawLabel()
         {
-            ofPushStyle();
-                ofSetColor(ofxDatGuiColor::LABEL);
-                ofDrawBitmapString(" * "+mLabel, x+labelX, y+labelY - 1);
-            ofPopStyle();
+            ofxDatGuiItem::drawText(" * "+mLabel, ofxDatGuiColor::LABEL, x+labelX);
         }
     
     private:

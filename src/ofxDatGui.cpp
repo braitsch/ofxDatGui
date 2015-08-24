@@ -82,9 +82,10 @@ void ofxDatGui::attachItem(ofxDatGuiItem* item)
     }   else{
         items.insert(items.end()-1, item);
     }
-    mHeight = items.size() * (ofxDatGuiItem::rowHeight+ofxDatGuiItem::rowSpacing);
+    mHeight = 0;
+    for (int i=0; i<items.size(); i++) mHeight += items[i]->getHeight() + ofxDatGuiItem::rowSpacing;
     mHeightMinimum = mHeight;
-    mGuiToggler->setOriginY(mHeight - ofxDatGuiItem::rowHeight-ofxDatGuiItem::rowSpacing);
+    mGuiToggler->setOriginY(mHeight - mGuiToggler->getHeight()-ofxDatGuiItem::rowSpacing);
 }
 
 void ofxDatGui::onGuiEventCallback(ofxDatGuiEvent e)
@@ -132,7 +133,7 @@ void ofxDatGui::collapseGui()
         }
         items[i]->setYPosition(mGuiToggler->getOriginY() * -1);
     }
-    mHeight = ofxDatGuiButton::rowHeight;
+    mHeight = mGuiToggler->getHeight();
 }
 
 /* event handlers & update / draw loop */

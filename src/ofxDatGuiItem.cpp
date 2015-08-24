@@ -15,8 +15,8 @@ uint16_t ofxDatGuiItem::rowHeight = 26;
 uint16_t ofxDatGuiItem::rowPadding = 2;
 uint16_t ofxDatGuiItem::rowSpacing = 1;
 uint16_t ofxDatGuiItem::labelX = 12;
-uint16_t ofxDatGuiItem::labelY = 16;
 uint16_t ofxDatGuiItem::labelWidth = 80;
+uint16_t ofxDatGuiItem::labelHeight = 7;
 uint16_t ofxDatGuiItem::sliderX = labelX+labelWidth+rowPadding;
 uint16_t ofxDatGuiItem::sliderWidth = 100;
 uint16_t ofxDatGuiItem::sliderLabelX = sliderX+sliderWidth+rowPadding;
@@ -46,6 +46,8 @@ ofxDatGuiItem::ofxDatGuiItem(int id)
     mWidth = rowWidth;
     mHeight = rowHeight;
     mIsExpanded = false;
+    mLabelX = labelX;
+    mLabelY = mHeight/2 + labelHeight;
     x = ofxDatGuiPosition::x + guiPadding;
     y = ofxDatGuiPosition::y + guiPadding + (mId*(rowHeight+rowSpacing));
     originY = y;
@@ -68,7 +70,6 @@ void ofxDatGuiItem::enableRetina(bool e)
         rowPadding*=2;
         rowSpacing*=2;
         labelX*=2;
-        labelY*=2;
         labelWidth*=2;
         sliderX = labelX+labelWidth+rowPadding;
         sliderWidth*=2;
@@ -78,6 +79,11 @@ void ofxDatGuiItem::enableRetina(bool e)
         dropdownIconX*=2;
         dropdownIconY*=2;
     }
+}
+
+int ofxDatGuiItem::getHeight()
+{
+    return mHeight;
 }
 
 string ofxDatGuiItem::getLabel()
@@ -109,7 +115,7 @@ void ofxDatGuiItem::drawLabel(ofColor color)
 {
     ofPushStyle();
         ofSetColor(color);
-        ofDrawBitmapString(mLabel, x + labelX, y + labelY - 1);
+        ofDrawBitmapString(mLabel, x + mLabelX, y + mLabelY);
     ofPopStyle();
 }
 
@@ -117,7 +123,7 @@ void ofxDatGuiItem::drawText(string text, ofColor color, int xpos)
 {
     ofPushStyle();
         ofSetColor(color);
-        ofDrawBitmapString(text, xpos, y + labelY - 1);
+        ofDrawBitmapString(text, xpos, y + mLabelY);
     ofPopStyle();
 }
 
@@ -125,7 +131,7 @@ void ofxDatGuiItem::drawStripe(ofColor color)
 {
     ofPushStyle();
         ofSetColor(color);
-        ofDrawRectangle(x, y, stripeWidth, rowHeight);
+        ofDrawRectangle(x, y, stripeWidth, mHeight);
     ofPopStyle();
 }
 

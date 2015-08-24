@@ -41,7 +41,7 @@ class ofxDatGuiButton : public ofxDatGuiItem {
     
         bool hitTest(ofPoint m)
         {
-            return (m.x>=x && m.x<= x+rowWidth && m.y>=y && m.y<= y+rowHeight);
+            return (m.x>=x && m.x<= x+rowWidth && m.y>=y && m.y<= y+mHeight);
         }
     
 };
@@ -96,6 +96,9 @@ class ofxDatGuiToggler : public ofxDatGuiButton {
         ofxDatGuiToggler() : ofxDatGuiButton(9999, "COLLAPSE CONTROLS")
         {
             mIsExpanded = true;
+            mHeight = rowHeight*.8;
+            setLabel("COLLAPSE CONTROLS");
+            mLabelY = mHeight/2 + labelHeight;
         }
     
         int getOriginY()
@@ -116,11 +119,20 @@ class ofxDatGuiToggler : public ofxDatGuiButton {
             changeEventCallback(evt);
             if (mIsExpanded){
                 mIsExpanded = false;
-                mLabel = "EXPAND CONTROLS";
+                setLabel("EXPAND CONTROLS");
             }   else{
                 mIsExpanded = true;
-                mLabel = "COLLAPSE CONTROLS";
+                setLabel("COLLAPSE CONTROLS");
             }
         }
+    
+        void setLabel(string label)
+        {
+            mLabel = label;
+            mLabelX = rowWidth/2 - mFont.getBoundingBox(label, 0, 0).width/2;
+        }
+    
+    private:
+        ofBitmapFont mFont;
     
 };
