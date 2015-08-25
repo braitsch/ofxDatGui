@@ -51,8 +51,8 @@ class ofxDatGuiItem
             changeEventCallback = std::bind(listenerMethod, owner, _1);
         }
 
+        static uint16_t guiAlpha;
         static uint16_t guiWidth;
-        static uint16_t rowWidth;
         static uint16_t rowHeight;
         static uint16_t rowPadding;
         static uint16_t rowSpacing;
@@ -72,16 +72,17 @@ class ofxDatGuiItem
         bool mMouseDown;
         bool mIsExpanded;
     
-        void drawBkgd(ofColor color = ofxDatGuiColor::ROW_BKGD);
+        void drawBkgd(ofColor color = ofxDatGuiColor::ROW_BKGD, int alpha=guiAlpha);
         void drawLabel(ofColor color = ofxDatGuiColor::LABEL);
         void drawStripe(ofColor color = ofxDatGuiColor::ROW_BKGD);
         void drawText(string text, ofColor color, int xpos);
         static ofRectangle getStringBoundingBox(string str, int x, int y);
     
         static uint16_t labelX;
-        static uint16_t labelWidth;
         static uint16_t labelHeight;
         static uint16_t fontSize;
+        static uint16_t inputX;
+        static uint16_t inputTextIndent;
         static uint16_t sliderX;
         static uint16_t sliderWidth;
         static uint16_t sliderLabelX;

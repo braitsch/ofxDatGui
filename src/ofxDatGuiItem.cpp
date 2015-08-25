@@ -11,24 +11,25 @@
 ofBitmapFont ofxDatGuiItem::bFont;
 ofTrueTypeFont ofxDatGuiItem::tFont;
 bool ofxDatGuiItem::retinaEnabled = false;
-uint16_t ofxDatGuiItem::guiWidth = 270;
-uint16_t ofxDatGuiItem::rowWidth = guiWidth;
+uint16_t ofxDatGuiItem::guiAlpha = 255;
+uint16_t ofxDatGuiItem::guiWidth = 300;
 uint16_t ofxDatGuiItem::rowHeight = 26;
 uint16_t ofxDatGuiItem::rowPadding = 2;
 uint16_t ofxDatGuiItem::rowSpacing = 1;
 uint16_t ofxDatGuiItem::labelX = 12;
-uint16_t ofxDatGuiItem::labelWidth = 80;
 uint16_t ofxDatGuiItem::labelHeight = 0;
 uint16_t ofxDatGuiItem::fontSize = 6;
-uint16_t ofxDatGuiItem::sliderX = labelX+labelWidth+rowPadding;
-uint16_t ofxDatGuiItem::sliderWidth = 100;
+uint16_t ofxDatGuiItem::inputX = 120;
+uint16_t ofxDatGuiItem::inputTextIndent = 8;
+uint16_t ofxDatGuiItem::sliderX = inputX;
+uint16_t ofxDatGuiItem::sliderWidth = 110;
 uint16_t ofxDatGuiItem::sliderLabelX = sliderX+sliderWidth+rowPadding;
-uint16_t ofxDatGuiItem::sliderLabelWidth = rowWidth-sliderLabelX-rowPadding;
+uint16_t ofxDatGuiItem::sliderLabelWidth = guiWidth-sliderLabelX-rowPadding;
 uint16_t ofxDatGuiItem::stripeWidth = 2;
-uint16_t ofxDatGuiItem::radioIconX = rowWidth-20;
+uint16_t ofxDatGuiItem::radioIconX = guiWidth-20;
 uint16_t ofxDatGuiItem::radioIconY = 8;
 uint16_t ofxDatGuiItem::radioIconSize = 10;
-uint16_t ofxDatGuiItem::dropdownIconX = rowWidth-20;
+uint16_t ofxDatGuiItem::dropdownIconX = guiWidth-20;
 uint16_t ofxDatGuiItem::dropdownIconY = 9;
 uint16_t ofxDatGuiItem::dropdownIconSize = 10;
 
@@ -36,7 +37,7 @@ ofxDatGuiItem::ofxDatGuiItem(int id)
 {
     mId = id;
     mLabelX = labelX;
-    mWidth = rowWidth;
+    mWidth = guiWidth;
     mHeight = rowHeight;
     mIsExpanded = false;
     x = ofxDatGuiPosition::x;
@@ -77,24 +78,23 @@ void ofxDatGuiItem::setFont(string file)
 
 void ofxDatGuiItem::enableRetina()
 {
-    guiWidth*=2;
-    rowWidth=guiWidth;
+    guiWidth=540;
     rowHeight*=2;
     rowPadding*=2;
     rowSpacing*=2;
     labelX*=2;
-    labelWidth*=2;
     fontSize*=2;
-    sliderX = labelX+labelWidth+rowPadding;
-    sliderWidth*=2;
+    inputX=190;
+    inputTextIndent*=2;
+    sliderX=inputX;
+    sliderWidth=240;
     sliderLabelX = sliderX+sliderWidth+rowPadding;
-    sliderLabelWidth = rowWidth-sliderLabelX-rowPadding;
+    sliderLabelWidth = guiWidth-sliderLabelX-rowPadding;
     stripeWidth*=2;
-    dropdownIconX*=2;
-    dropdownIconX+=1;
+    dropdownIconX=guiWidth-39;
     dropdownIconY*=2;
     dropdownIconSize*=2;
-    radioIconX*=2;
+    radioIconX=guiWidth-40;
     radioIconY*=2;
     radioIconSize*=2;
     retinaEnabled=true;
@@ -138,10 +138,10 @@ ofRectangle ofxDatGuiItem::getStringBoundingBox(string str, int x, int y)
     draw methods
 */
 
-void ofxDatGuiItem::drawBkgd(ofColor color)
+void ofxDatGuiItem::drawBkgd(ofColor color, int alpha)
 {
     ofPushStyle();
-        ofSetColor(color);
+        ofSetColor(color, alpha);
         ofDrawRectangle(x, y, mWidth, mHeight);
     ofPopStyle();
 }

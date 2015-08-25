@@ -32,16 +32,19 @@ class ofxDatGuiButton : public ofxDatGuiItem {
     
         void drawBkgd()
         {
-            ofColor color = ofxDatGuiColor::ROW_BKGD;
-            if (mMouseOver) color = ofxDatGuiColor::BUTTON_OVER;
-            if (mMouseDown) color = ofxDatGuiColor::BUTTON_DOWN;
         // anything that extends ofxDatGuiButton has the same rollover effect //
-            ofxDatGuiItem::drawBkgd(color);
+            if (mMouseDown){
+                ofxDatGuiItem::drawBkgd(ofxDatGuiColor::BUTTON_DOWN, 255);
+            }   else if (mMouseOver){
+                ofxDatGuiItem::drawBkgd(ofxDatGuiColor::BUTTON_OVER, 255);
+            }   else{
+                ofxDatGuiItem::drawBkgd(ofxDatGuiColor::ROW_BKGD);
+            }
         }
     
         bool hitTest(ofPoint m)
         {
-            return (m.x>=x && m.x<= x+rowWidth && m.y>=y && m.y<= y+mHeight);
+            return (m.x>=x && m.x<= x+guiWidth && m.y>=y && m.y<= y+mHeight);
         }
     
 };
@@ -102,7 +105,7 @@ class ofxDatGuiToggler : public ofxDatGuiButton {
     
         void draw()
         {
-            mLabelX = rowWidth/2 - getStringBoundingBox(mLabel, 0, 0).width/2;
+            mLabelX = guiWidth/2 - getStringBoundingBox(mLabel, 0, 0).width/2;
             ofxDatGuiButton::draw();
         }
     

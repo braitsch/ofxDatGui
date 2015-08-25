@@ -16,7 +16,6 @@ class ofxDatGuiInput : public ofxDatGuiItem {
         ofxDatGuiInput(int index, string label, string text) : ofxDatGuiItem(index, label)
         {
             mText = text;
-            mTextX = 10;
             mTextChanged = false;
             mHighlightPadding = 6;
             mHighlightText = false;
@@ -30,7 +29,7 @@ class ofxDatGuiInput : public ofxDatGuiItem {
             ofxDatGuiItem::drawBkgd();
             ofxDatGuiItem::drawLabel();
             ofxDatGuiItem::drawStripe(ofxDatGuiColor::INPUT_STRIPE);
-            mInputRect = ofRectangle(x+sliderX, y+rowPadding, rowWidth-rowPadding-sliderX, rowHeight-(rowPadding*2));
+            mInputRect = ofRectangle(x+inputX, y+rowPadding, guiWidth-rowPadding-inputX, rowHeight-(rowPadding*2));
         // draw input field //
             ofPushStyle();
                 ofSetColor(mInputBkgdColor);
@@ -39,7 +38,7 @@ class ofxDatGuiInput : public ofxDatGuiItem {
                     ofSetColor(ofxDatGuiColor::TEXT_HIGHLIGHT);
                     ofDrawRectangle(mHighlightRect);
                 }
-                ofxDatGuiItem::drawText(mText, mInputTextColor, mInputRect.x+mTextX);
+                ofxDatGuiItem::drawText(mText, mInputTextColor, mInputRect.x+inputTextIndent);
             ofPopStyle();
         }
     
@@ -52,7 +51,7 @@ class ofxDatGuiInput : public ofxDatGuiItem {
         {
             mTextChanged = false;
             mHighlightText = true;
-            mHighlightRect = getStringBoundingBox(mText, mInputRect.x+mTextX, mInputRect.y+mLabelY-(labelHeight/2)+1);
+            mHighlightRect = getStringBoundingBox(mText, mInputRect.x+inputTextIndent, mInputRect.y+mLabelY-(labelHeight/2)+1);
             mHighlightRect.x -= mHighlightPadding;
             mHighlightRect.width += mHighlightPadding*2;
             mHighlightRect.y -= mHighlightPadding;
@@ -95,7 +94,6 @@ class ofxDatGuiInput : public ofxDatGuiItem {
     
     private:
     
-        int mTextX;
         int mTextHeight;
         int mHighlightPadding;
         string mText;

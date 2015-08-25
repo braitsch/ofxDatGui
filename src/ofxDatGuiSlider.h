@@ -60,7 +60,7 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
             if (mScale < .01) mScale = 0;
             mVal = ((mMax-mMin) * mScale) + mMin;
         // dispatch event out to main application //
-            ofxDatGuiEvent evt(ofxDatGuiEventType::SLIDER_CHANGED, mId, mVal);
+            ofxDatGuiEvent evt(ofxDatGuiEventType::SLIDER_CHANGED, mId, mVal, mScale);
             changeEventCallback(evt);
         }
     

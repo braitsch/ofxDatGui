@@ -58,12 +58,7 @@ class ofxDatGuiDropdown : public ofxDatGuiButton {
             ofPushStyle();
                 ofSetColor(ofxDatGuiColor::LABEL);
                 icon.draw(x+dropdownIconX, y+dropdownIconY, dropdownIconSize, dropdownIconSize);
-                if (mIsExpanded) {
-            // draw the background behind the options //
-                    ofSetColor(ofxDatGuiColor::GUI_BKGD);
-                    ofDrawRectangle(x, y+rowHeight, ofxDatGuiItem::guiWidth, mHeight);
-                    for(uint8_t i=0; i<children.size(); i++) children[i]->draw();
-                }
+                if (mIsExpanded) for(uint8_t i=0; i<children.size(); i++) children[i]->draw();
             ofPopStyle();
         }
     

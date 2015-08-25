@@ -43,10 +43,11 @@ namespace ofxDatGuiAnchor
 class ofxDatGuiEvent{
     
     public:
-        ofxDatGuiEvent(int eType, int eTarget, float eValue = 0.0f){
+        ofxDatGuiEvent(int eType, int eTarget, float eValue = 0.0f, float eScale = 0.0f){
             type = eType;
             target = eTarget;
             value = eValue;
+            scale = eScale;
             child = 0;
         };
         ofxDatGuiEvent(int eType, int eTarget, string eText){
@@ -59,6 +60,7 @@ class ofxDatGuiEvent{
         int target;
         int child;
         float value;
+        float scale;
         string text;
 };
 

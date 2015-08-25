@@ -10,6 +10,7 @@ class ofApp : public ofBaseApp{
 		void update();
 		void draw();
     
+        ofImage image;
         ofxDatGui* gui;
         void onGuiEvent(ofxDatGuiEvent k);
 		

@@ -2,9 +2,9 @@
 
 void ofApp::setup()
 {
-    ofSetWindowPosition(100, 100);
+    if (ofGetWidth()!=ofGetScreenWidth()) ofSetWindowPosition(100, 100);
     gui = new ofxDatGui( ofxDatGuiAnchor::TR );
-    gui->addInput("INPUT", "# OPEN FRAMEWORKS DAT GUI #");
+    gui->addInput("INPUT", "# OPEN FRAMEWORKS #");
     gui->addSlider("X POSITION", 10, 20, 5);
     gui->addSlider("X POSITION", -20, 60);
     gui->addSlider("Z POSITION", 0, 100, 75);
@@ -13,6 +13,8 @@ void ofApp::setup()
     gui->addButton("CLICK");
     gui->addToggle("TOGGLE", false);
     gui->onGuiEvent(this, &ofApp::onGuiEvent);
+    gui->setOpacity(.2);
+//    image.load("image.jpg");
 }
 
 void ofApp::onGuiEvent(ofxDatGuiEvent e)
@@ -22,7 +24,8 @@ void ofApp::onGuiEvent(ofxDatGuiEvent e)
     }   else if (e.type == ofxDatGuiEventType::INPUT_CHANGED){
         cout << "onGuiEvent::INPUT_CHANGED " << e.target << " :: " << e.text << endl;
     }   else if (e.type == ofxDatGuiEventType::SLIDER_CHANGED){
-        cout << "onGuiEvent::SLIDER_CHANGED " << e.target << " :: " << e.value << endl;
+        cout << "onGuiEvent::SLIDER_CHANGED " << e.target << " :: " << e.value << " :: " << e.scale<<"%" << endl;
+        gui->setOpacity(e.scale);
     }   else if (e.type == ofxDatGuiEventType::OPTION_SELECTED){
         cout << "onGuiEvent::OPTION_SELECTED " << e.target << " :: " << e.child << endl;
     }   else if (e.type == ofxDatGuiEventType::BUTTON_TOGGLED){
@@ -37,5 +40,6 @@ void ofApp::update()
 
 void ofApp::draw()
 {
+//    image.draw(0, 0, ofGetWidth(), ofGetHeight());
     gui->draw();
 }

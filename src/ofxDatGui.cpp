@@ -37,6 +37,11 @@ void ofxDatGui::init()
     ofAddListener(ofEvents().mouseReleased, this, &ofxDatGui::onMouseReleased);
 }
 
+void ofxDatGui::setOpacity(float opacity)
+{
+    ofxDatGuiItem::guiAlpha = opacity*255;
+}
+
 /* add component methods */
 
 void ofxDatGui::addInput(string label, string value)
@@ -227,8 +232,10 @@ bool ofxDatGui::isMouseOver(ofxDatGuiItem* item)
 void ofxDatGui::draw()
 {
     if (!mShowGui) return;
-    ofSetColor(ofxDatGuiColor::GUI_BKGD);
-    ofDrawRectangle(ofxDatGuiPosition::x, ofxDatGuiPosition::y, ofxDatGuiItem::guiWidth, mHeight - ofxDatGuiItem::rowSpacing);
-    for (uint16_t i=0; i<items.size(); i++) items[i]->draw();
+    ofPushStyle();
+        ofSetColor(ofxDatGuiColor::GUI_BKGD, ofxDatGuiItem::guiAlpha);
+        ofDrawRectangle(ofxDatGuiPosition::x, ofxDatGuiPosition::y, ofxDatGuiItem::guiWidth, mHeight - ofxDatGuiItem::rowSpacing);
+        for (uint16_t i=0; i<items.size(); i++) items[i]->draw();
+    ofPopStyle();
 }
 

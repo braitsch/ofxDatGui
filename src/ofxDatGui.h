@@ -26,6 +26,7 @@ class ofxDatGui
     
         void draw();
         void update();
+        void setOpacity(float opacity);
         void addInput(string label, string value = "");
         void addButton(string label);
         void addToggle(string label, bool state);
