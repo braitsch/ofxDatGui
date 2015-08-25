@@ -21,8 +21,8 @@ class ofxDatGui
     
     public:
     
-        ofxDatGui(ofVec2f position, bool enableRetina = false);
-        ofxDatGui(uint8_t position, bool enableRetina = false);
+        ofxDatGui(ofVec2f position);
+        ofxDatGui(uint8_t position);
     
         void draw();
         void update();
@@ -51,7 +51,7 @@ class ofxDatGui
         ofPoint mouse;
         bool mShowGui;
         bool mousePressed;
-        ofxDatGuiItem* activeItem;
+        ofxDatGuiItem* activeHover;
         ofxDatGuiItem* activeFocus;
         ofxDatGuiToggler* mGuiToggler;
         vector<ofxDatGuiItem*> items;

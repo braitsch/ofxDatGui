@@ -74,9 +74,9 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
             ofPushStyle();
                 ofSetColor(ofxDatGuiColor::LABEL);
                 if (mState == true){
-                    radioOn.draw(x+rowWidth-43, y+15, 22, 22);
+                    radioOn.draw(x+radioIconX, y+radioIconY, radioIconSize, radioIconSize);
                 }   else{
-                    radioOff.draw(x+rowWidth-43, y+15, 22, 22);
+                    radioOff.draw(x+radioIconX, y+radioIconY, radioIconSize, radioIconSize);
                 }
             ofPopStyle();
         }
@@ -98,7 +98,12 @@ class ofxDatGuiToggler : public ofxDatGuiButton {
             mIsExpanded = true;
             mHeight = rowHeight*.8;
             setLabel("COLLAPSE CONTROLS");
-            mLabelY = mHeight/2 + labelHeight;
+        }
+    
+        void draw()
+        {
+            mLabelX = rowWidth/2 - getStringBoundingBox(mLabel, 0, 0).width/2;
+            ofxDatGuiButton::draw();
         }
     
         int getOriginY()
@@ -129,10 +134,14 @@ class ofxDatGuiToggler : public ofxDatGuiButton {
         void setLabel(string label)
         {
             mLabel = label;
-            mLabelX = rowWidth/2 - mFont.getBoundingBox(label, 0, 0).width/2;
         }
     
     private:
-        ofBitmapFont mFont;
+    
+    
+    
+    
     
 };
+
+

@@ -22,10 +22,11 @@ class ofxDatGuiItem
         string getLabel();
         bool isExpanded();
         void setYPosition(int ypos);
-        
-        static void enableRetina(bool enable);
-        static void init(ofVec2f position, bool enableRetina = false);
-        static void init(uint8_t position, bool enableRetina = false);
+
+        static void setFont(string file);
+        static void enableRetina();
+        static void init(ofVec2f position);
+        static void init(uint8_t position);
     
         virtual void draw() = 0;
         virtual bool hitTest(ofPoint m) = 0;
@@ -51,7 +52,6 @@ class ofxDatGuiItem
         }
 
         static uint16_t guiWidth;
-        static uint16_t guiPadding;
         static uint16_t rowWidth;
         static uint16_t rowHeight;
         static uint16_t rowPadding;
@@ -71,23 +71,33 @@ class ofxDatGuiItem
         bool mMouseOver;
         bool mMouseDown;
         bool mIsExpanded;
-        static vector<uint16_t> properties;
     
         void drawBkgd(ofColor color = ofxDatGuiColor::ROW_BKGD);
         void drawLabel(ofColor color = ofxDatGuiColor::LABEL);
         void drawStripe(ofColor color = ofxDatGuiColor::ROW_BKGD);
         void drawText(string text, ofColor color, int xpos);
+        static ofRectangle getStringBoundingBox(string str, int x, int y);
     
         static uint16_t labelX;
         static uint16_t labelWidth;
         static uint16_t labelHeight;
+        static uint16_t fontSize;
         static uint16_t sliderX;
         static uint16_t sliderWidth;
         static uint16_t sliderLabelX;
         static uint16_t sliderLabelWidth;
         static uint16_t stripeWidth;
+        static uint16_t radioIconX;
+        static uint16_t radioIconY;
+        static uint16_t radioIconSize;
         static uint16_t dropdownIconX;
         static uint16_t dropdownIconY;
+        static uint16_t dropdownIconSize;
+    
+    private:
+        static ofBitmapFont bFont;
+        static ofTrueTypeFont tFont;
+        static bool retinaEnabled;
 
 };
 

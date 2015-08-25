@@ -15,8 +15,6 @@ class ofxDatGuiDropdownOption : public ofxDatGuiButton {
     
         ofxDatGuiDropdownOption(int index, string label, int ypos) : ofxDatGuiButton(index, label)
         {
-//            this->x += 10;
-//            this->mWidth = rowWidth - 10;
             this->y = originY = ypos;
         }
     
@@ -59,7 +57,7 @@ class ofxDatGuiDropdown : public ofxDatGuiButton {
             ofxDatGuiItem::drawStripe(ofxDatGuiColor::DROPDOWN_STRIPE);
             ofPushStyle();
                 ofSetColor(ofxDatGuiColor::LABEL);
-                icon.draw(x+dropdownIconX, y+dropdownIconY, 10, 10);
+                icon.draw(x+dropdownIconX, y+dropdownIconY, dropdownIconSize, dropdownIconSize);
                 if (mIsExpanded) {
             // draw the background behind the options //
                     ofSetColor(ofxDatGuiColor::GUI_BKGD);

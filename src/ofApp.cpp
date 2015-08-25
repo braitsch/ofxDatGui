@@ -1,18 +1,17 @@
 #include "ofApp.h"
 
-//--------------------------------------------------------------
 void ofApp::setup()
 {
     ofSetWindowPosition(100, 100);
-    gui = new ofxDatGui( ofxDatGuiAnchor::TR, true );
-    gui->addInput("INPUT", "HELLO");
-    gui->addSlider("WAVY X", 10, 20, 5);
-    gui->addSlider("WAVY Y", -20, 60);
-    gui->addSlider("WAVY Z", 0, 100, 75);
+    gui = new ofxDatGui( ofxDatGuiAnchor::TR );
+    gui->addInput("INPUT", "# OPEN FRAMEWORKS DAT GUI #");
+    gui->addSlider("X POSITION", 10, 20, 5);
+    gui->addSlider("X POSITION", -20, 60);
+    gui->addSlider("Z POSITION", 0, 100, 75);
     vector<string> options = {"OPTION - 1", "OPTION - 2", "OPTION - 3", "OPTION - 4"};
     gui->addDropdown(options);
     gui->addButton("CLICK");
-    gui->addToggle("TOGGLE", true);
+    gui->addToggle("TOGGLE", false);
     gui->onGuiEvent(this, &ofApp::onGuiEvent);
 }
 
@@ -31,69 +30,12 @@ void ofApp::onGuiEvent(ofxDatGuiEvent e)
     }
 }
 
-//--------------------------------------------------------------
 void ofApp::update()
 {
     gui->update();
 }
 
-//--------------------------------------------------------------
 void ofApp::draw()
 {
     gui->draw();
-}
-
-//--------------------------------------------------------------
-void ofApp::keyPressed(int key){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::keyReleased(int key){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y ){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseEntered(int x, int y){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseExited(int x, int y){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::windowResized(int w, int h){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){ 
-
 }

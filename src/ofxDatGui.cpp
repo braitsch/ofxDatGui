@@ -14,20 +14,20 @@ namespace ofxDatGuiPosition
     int y = 0;
 }
 
-ofxDatGui::ofxDatGui(ofVec2f pos, bool enableRetina)
+ofxDatGui::ofxDatGui(ofVec2f pos)
 {
-    ofxDatGuiItem::init(pos, enableRetina); init();
+    ofxDatGuiItem::init(pos); init();
 }
 
-ofxDatGui::ofxDatGui(uint8_t anchor, bool enableRetina)
+ofxDatGui::ofxDatGui(uint8_t anchor)
 {
-    ofxDatGuiItem::init(anchor, enableRetina); init();
+    ofxDatGuiItem::init(anchor); init();
 }
 
 void ofxDatGui::init()
 {
     mShowGui = true;
-    activeItem = nullptr;
+    activeHover = nullptr;
     activeFocus = nullptr;
     mousePressed = false;
     mGuiToggler = new ofxDatGuiToggler();
@@ -142,21 +142,21 @@ void ofxDatGui::collapseGui()
 void ofxDatGui::onMousePressed(ofMouseEventArgs &e)
 {
     mousePressed = true;
-    if (activeItem != nullptr){
+    if (activeHover != nullptr){
     //  cout << "onMousePressed" << endl;
-        activeItem->onMousePress(mouse);
+        activeHover->onMousePress(mouse);
     }
 }
 
 void ofxDatGui::onMouseReleased(ofMouseEventArgs &e)
 {
     mousePressed = false;
-    if (activeItem != nullptr){
+    if (activeHover != nullptr){
     //  cout << "onMouseReleased" << endl;
-        activeItem->onMouseRelease(mouse);
-        if (activeFocus!= activeItem){
+        activeHover->onMouseRelease(mouse);
+        if (activeFocus!= activeHover){
             if (activeFocus != nullptr) activeFocus->onFocusLost();
-            activeFocus = activeItem;
+            activeFocus = activeHover;
             activeFocus->onFocus();
         }
     }   else if (activeFocus != nullptr){
@@ -168,8 +168,8 @@ void ofxDatGui::onMouseReleased(ofMouseEventArgs &e)
 void ofxDatGui::onKeyPressed(ofKeyEventArgs &e)
 {
     bool disableShowAndHide = false;
-    if (activeItem != nullptr) {
-        activeItem->onKeyPressed(e.key);
+    if (activeFocus != nullptr) {
+        activeFocus->onKeyPressed(e.key);
         if ((e.key == OF_KEY_RETURN || e.key == OF_KEY_TAB)){
             activeFocus->onFocusLost();
             activeFocus = nullptr;
@@ -197,11 +197,11 @@ void ofxDatGui::update()
             if (hit) break;
         }
     }
-    if (!hit && activeItem != nullptr){
-        activeItem->onMouseLeave(mouse);
-        activeItem = nullptr;
+    if (!hit && activeHover != nullptr){
+        activeHover->onMouseLeave(mouse);
+        activeHover = nullptr;
     }   else if (hit){
-        if (mousePressed) activeItem->onMouseDrag(mouse);
+        if (mousePressed) activeHover->onMouseDrag(mouse);
     }
 }
 
@@ -210,15 +210,15 @@ bool ofxDatGui::isMouseOver(ofxDatGuiItem* item)
     bool hit = false;
     if (item->hitTest(mouse)){
         hit = true;
-        if (activeItem != nullptr){
-            if (activeItem != item){
-                activeItem->onMouseLeave(mouse);
-                activeItem = item;
-                activeItem->onMouseEnter(mouse);
+        if (activeHover != nullptr){
+            if (activeHover != item){
+                activeHover->onMouseLeave(mouse);
+                activeHover = item;
+                activeHover->onMouseEnter(mouse);
             }
         }   else{
-            activeItem = item;
-            activeItem->onMouseEnter(mouse);
+            activeHover = item;
+            activeHover->onMouseEnter(mouse);
         }
     }
     return hit;
@@ -228,7 +228,7 @@ void ofxDatGui::draw()
 {
     if (!mShowGui) return;
     ofSetColor(ofxDatGuiColor::GUI_BKGD);
-    ofDrawRectangle(ofxDatGuiPosition::x, ofxDatGuiPosition::y, ofxDatGuiItem::guiWidth, mHeight - ofxDatGuiItem::rowSpacing + (ofxDatGuiItem::guiPadding));
+    ofDrawRectangle(ofxDatGuiPosition::x, ofxDatGuiPosition::y, ofxDatGuiItem::guiWidth, mHeight - ofxDatGuiItem::rowSpacing);
     for (uint16_t i=0; i<items.size(); i++) items[i]->draw();
 }
 
