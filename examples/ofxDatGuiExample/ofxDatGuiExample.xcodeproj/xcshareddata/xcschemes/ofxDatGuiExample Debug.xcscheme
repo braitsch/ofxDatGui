@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-               BuildableName = "ofxDatGui.app"
-               BlueprintName = "ofxDatGui"
-               ReferencedContainer = "container:ofxDatGui.xcodeproj">
+               BuildableName = "ofxDatGuiExample.app"
+               BlueprintName = "ofxDatGuiExample"
+               ReferencedContainer = "container:ofxDatGuiExample.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -26,16 +26,16 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES"
-      buildConfiguration = "Release">
+      buildConfiguration = "Debug">
       <Testables>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "ofxDatGui.app"
-            BlueprintName = "ofxDatGui"
-            ReferencedContainer = "container:ofxDatGui.xcodeproj">
+            BuildableName = "ofxDatGuiExample.app"
+            BlueprintName = "ofxDatGuiExample"
+            ReferencedContainer = "container:ofxDatGuiExample.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -44,18 +44,17 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Release"
+      buildConfiguration = "Debug"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "ofxDatGui.app"
-            BlueprintName = "ofxDatGui"
-            ReferencedContainer = "container:ofxDatGui.xcodeproj">
+            BuildableName = "ofxDatGuiExample.app"
+            BlueprintName = "ofxDatGuiExample"
+            ReferencedContainer = "container:ofxDatGuiExample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -65,24 +64,23 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Release"
+      buildConfiguration = "Debug"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "ofxDatGui.app"
-            BlueprintName = "ofxDatGui"
-            ReferencedContainer = "container:ofxDatGui.xcodeproj">
+            BuildableName = "ofxDatGuiExample.app"
+            BlueprintName = "ofxDatGuiExample"
+            ReferencedContainer = "container:ofxDatGuiExample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
-      buildConfiguration = "Release">
+      buildConfiguration = "Debug">
    </AnalyzeAction>
    <ArchiveAction
-      buildConfiguration = "Release"
+      buildConfiguration = "Debug"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>

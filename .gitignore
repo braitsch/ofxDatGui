@@ -41,6 +41,12 @@ examples/**/[Rr]elease*/
 *.cpp.hex
 
 #########################
+# temp files
+#########################
+
+examples/ofxDatGuiExample/bin/data/bkgd-image.jpg
+
+#########################
 # IDE
 #########################
 

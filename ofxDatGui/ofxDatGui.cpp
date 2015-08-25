@@ -1,10 +1,24 @@
-//
-//  ofxDatGui.cpp
-//  ofxDatGui
-//
-//  Created by Stephen Braitsch on 8/17/15.
-//
-//
+/*
+    Copyright (C) 2015 Stephen Braitsch [http://braitsch.io]
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    SOFTWARE.
+*/
 
 #include "ofxDatGui.h"
 
@@ -32,9 +46,11 @@ void ofxDatGui::init()
     mousePressed = false;
     mGuiToggler = new ofxDatGuiToggler();
     attachItem( mGuiToggler );
-    ofAddListener(ofEvents().keyPressed, this, &ofxDatGui::onKeyPressed);
-    ofAddListener(ofEvents().mousePressed, this, &ofxDatGui::onMousePressed);
-    ofAddListener(ofEvents().mouseReleased, this, &ofxDatGui::onMouseReleased);
+    ofAddListener(ofEvents().draw, this, &ofxDatGui::onDraw, OF_EVENT_ORDER_AFTER_APP);
+    ofAddListener(ofEvents().update, this, &ofxDatGui::onUpdate, OF_EVENT_ORDER_AFTER_APP);
+    ofAddListener(ofEvents().keyPressed, this, &ofxDatGui::onKeyPressed, OF_EVENT_ORDER_BEFORE_APP);
+    ofAddListener(ofEvents().mousePressed, this, &ofxDatGui::onMousePressed, OF_EVENT_ORDER_BEFORE_APP);
+    ofAddListener(ofEvents().mouseReleased, this, &ofxDatGui::onMouseReleased, OF_EVENT_ORDER_BEFORE_APP);
 }
 
 void ofxDatGui::setOpacity(float opacity)
@@ -44,40 +60,46 @@ void ofxDatGui::setOpacity(float opacity)
 
 /* add component methods */
 
-void ofxDatGui::addInput(string label, string value)
+ofxDatGuiInput* ofxDatGui::addInput(string label, string value)
 {
     ofxDatGuiInput* input = new ofxDatGuiInput(items.size()-1, label, value);
     attachItem(input);
+    return input;
 }
 
-void ofxDatGui::addButton(string label)
+ofxDatGuiButton* ofxDatGui::addButton(string label)
 {
-    ofxDatGuiButton* btn = new ofxDatGuiButton(items.size()-1, label);
-    attachItem(btn);
+    ofxDatGuiButton* button = new ofxDatGuiButton(items.size()-1, label);
+    attachItem(button);
+    return button;
 }
 
-void ofxDatGui::addToggle(string label, bool state)
+ofxDatGuiToggle* ofxDatGui::addToggle(string label, bool state)
 {
-    ofxDatGuiToggle* btn = new ofxDatGuiToggle(items.size()-1, label, state);
-    attachItem(btn);
+    ofxDatGuiToggle* button = new ofxDatGuiToggle(items.size()-1, label, state);
+    attachItem(button);
+    return button;
 }
 
-void ofxDatGui::addSlider(string label, float min, float max)
+ofxDatGuiSlider* ofxDatGui::addSlider(string label, float min, float max)
 {
 // default to halfway between min & max values //
-    addSlider(label, min, max, min+((max-min)/2));
+    ofxDatGuiSlider* slider = addSlider(label, min, max, (max+min)/2);
+    return slider;
 }
 
-void ofxDatGui::addSlider(string label, float min, float max, float val)
+ofxDatGuiSlider* ofxDatGui::addSlider(string label, float min, float max, float val)
 {
     ofxDatGuiSlider* slider = new ofxDatGuiSlider(items.size()-1, label, min, max, val);
     attachItem(slider);
+    return slider;
 }
 
-void ofxDatGui::addDropdown(vector<string> options)
+ofxDatGuiDropdown* ofxDatGui::addDropdown(vector<string> options)
 {
     ofxDatGuiDropdown* dropdown = new ofxDatGuiDropdown(items.size()-1, "SELECT OPTION", options);
     attachItem(dropdown);
+    return dropdown;
 }
 
 void ofxDatGui::attachItem(ofxDatGuiItem* item)
@@ -186,7 +208,26 @@ void ofxDatGui::onKeyPressed(ofKeyEventArgs &e)
     if (e.key == 'h' && disableShowAndHide == false) mShowGui = !mShowGui;
 }
 
-void ofxDatGui::update()
+bool ofxDatGui::isMouseOver(ofxDatGuiItem* item)
+{
+    bool hit = false;
+    if (item->hitTest(mouse)){
+        hit = true;
+        if (activeHover != nullptr){
+            if (activeHover != item){
+                activeHover->onMouseLeave(mouse);
+                activeHover = item;
+                activeHover->onMouseEnter(mouse);
+            }
+        }   else{
+            activeHover = item;
+            activeHover->onMouseEnter(mouse);
+        }
+    }
+    return hit;
+}
+
+void ofxDatGui::onUpdate(ofEventArgs &e)
 {
     bool hit = false;
     mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
@@ -210,26 +251,7 @@ void ofxDatGui::update()
     }
 }
 
-bool ofxDatGui::isMouseOver(ofxDatGuiItem* item)
-{
-    bool hit = false;
-    if (item->hitTest(mouse)){
-        hit = true;
-        if (activeHover != nullptr){
-            if (activeHover != item){
-                activeHover->onMouseLeave(mouse);
-                activeHover = item;
-                activeHover->onMouseEnter(mouse);
-            }
-        }   else{
-            activeHover = item;
-            activeHover->onMouseEnter(mouse);
-        }
-    }
-    return hit;
-}
-
-void ofxDatGui::draw()
+void ofxDatGui::onDraw(ofEventArgs &e)
 {
     if (!mShowGui) return;
     ofPushStyle();
