@@ -27,7 +27,10 @@ class ofxDatGuiButton : public ofxDatGuiItem {
 
     public:
     
-        ofxDatGuiButton(int index, string label) : ofxDatGuiItem(index, label) { }
+        ofxDatGuiButton(int index, string label) : ofxDatGuiItem(index, label)
+        {
+            mIsExpanded = false;
+        }
     
         void onMouseRelease(ofPoint m)
         {
@@ -35,6 +38,11 @@ class ofxDatGuiButton : public ofxDatGuiItem {
         // dispatch event out to main application //
             ofxDatGuiEvent evt(ofxDatGuiEventType::BUTTON_CLICKED, mId);
             changeEventCallback(evt);
+        }
+    
+        bool isExpanded()
+        {
+            return mIsExpanded;
         }
     
         void draw()
@@ -61,6 +69,9 @@ class ofxDatGuiButton : public ofxDatGuiItem {
             return (m.x>=x && m.x<= x+guiWidth && m.y>=y && m.y<= y+mHeight);
         }
     
+        protected:
+            bool mIsExpanded;
+    
 };
 
 class ofxDatGuiToggle : public ofxDatGuiButton {
@@ -79,7 +90,12 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
             mEnabled =!mEnabled;
         }
     
-        int getValue()
+        void setEnabled(bool enable)
+        {
+            mEnabled = enable;
+        }
+    
+        bool getEnabled()
         {
             return mEnabled;
         }
@@ -159,17 +175,6 @@ class ofxDatGuiToggler : public ofxDatGuiButton {
                 setLabel("COLLAPSE CONTROLS");
             }
         }
-    
-        void setLabel(string label)
-        {
-            mLabel = label;
-        }
-    
-    private:
-    
-    
-    
-    
     
 };
 

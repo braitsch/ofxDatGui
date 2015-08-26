@@ -75,7 +75,7 @@ class ofxDatGuiDropdown : public ofxDatGuiButton {
             
         }
     
-        int getSelectedIndex()
+        int getSelectedChildIndex()
         {
             return mOption;
         }

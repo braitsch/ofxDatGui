@@ -20,7 +20,7 @@ void ofApp::setup()
     s3 = gui->addSlider("LINE LENGTH", 4, 200, 140);
     s4 = gui->addSlider("DATGUI OPACITY", 0, 100);
     
-    b1 = gui->addButton("CLEAR");
+    b1 = gui->addButton("RESET");
     t1 = gui->addToggle("PAUSE DRAWING", false);
     
 // listen for component events //
@@ -31,7 +31,7 @@ void ofApp::setup()
     lineWeight = s2->getValue();
     Line::MaxLength = s3->getValue();
     gui->setOpacity(s4->getScale());
-    drawingPaused = t1->getValue();
+    drawingPaused = t1->getEnabled();
     
     index = 0;
     lines.push_back(Line(ofGetWidth()*.2, ofGetHeight()/2, ofColor::fromHex(0xE0E4CC)));
@@ -47,7 +47,7 @@ void ofApp::onGuiEvent(ofxDatGuiEvent e)
 {
     if (e.type == ofxDatGuiEventType::BUTTON_CLICKED){
         ofxDatGuiItem* button = gui->getItemAt(e.index);
-        if (button == b1) clear();
+        if (button == b1) reset();
     }   else if (e.type == ofxDatGuiEventType::INPUT_CHANGED){
         cout << "onGuiEvent::INPUT_CHANGED " << e.index << " :: " << e.text << endl;
     }   else if (e.type == ofxDatGuiEventType::SLIDER_CHANGED){
@@ -92,9 +92,9 @@ void ofApp::draw()
     ofPopStyle();
 }
 
-void ofApp::clear()
+void ofApp::reset()
 {
-    for(int i=0; i<lines.size(); i++) lines[i].clear();
+    for(int i=0; i<lines.size(); i++) lines[i].reset();
 }
 
 

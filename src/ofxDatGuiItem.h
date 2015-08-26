@@ -35,7 +35,6 @@ class ofxDatGuiItem
         int getHeight();
         void setLabel(string label);
         string getLabel();
-        bool isExpanded();
         void setYPosition(int ypos);
         void onWindowResize(int w, int h);
 
@@ -52,11 +51,14 @@ class ofxDatGuiItem
         virtual void setValue(int value);
         virtual void setScale(float scale);
         virtual void setText(string text);
+        virtual void setEnabled(bool enabled);
     
         virtual int getValue();
         virtual float getScale();
         virtual string getText();
-        virtual int getSelectedIndex();
+        virtual bool getEnabled();
+        virtual int getSelectedChildIndex();
+        virtual bool isExpanded();
 
         virtual void onFocus();    
         virtual void onFocusLost();
@@ -97,7 +99,6 @@ class ofxDatGuiItem
         string mLabel;
         bool mMouseOver;
         bool mMouseDown;
-        bool mIsExpanded;
     
         void drawBkgd(ofColor color = ofxDatGuiColor::ROW_BKGD, int alpha=guiAlpha);
         void drawLabel(ofColor color = ofxDatGuiColor::LABEL);

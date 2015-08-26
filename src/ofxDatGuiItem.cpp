@@ -54,7 +54,6 @@ ofxDatGuiItem::ofxDatGuiItem(int id)
     mLabelX = labelX;
     mWidth = guiWidth;
     mHeight = rowHeight;
-    mIsExpanded = false;
     x = ofxDatGuiPosition::x;
     y = originY = ofxDatGuiPosition::y + (mId*(rowHeight+rowSpacing));
 }
@@ -127,21 +126,22 @@ void ofxDatGuiItem::setYPosition(int ypos) { y = originY + ypos; }
 string ofxDatGuiItem::getLabel() { return mLabel; }
 void ofxDatGuiItem::setLabel(string label) { mLabel = label; }
 
+/*
+    virtual methods overridden in derived classes
+*/
+
 void ofxDatGuiItem::setValue(int value){};
 int ofxDatGuiItem::getValue(){}
 void ofxDatGuiItem::setScale(float scale){};
 float ofxDatGuiItem::getScale(){}
 void ofxDatGuiItem::setText(string text){};
 string ofxDatGuiItem::getText(){};
-
 void ofxDatGuiItem::toggle(){};
+void ofxDatGuiItem::setEnabled(bool enabled){};
+bool ofxDatGuiItem::getEnabled(){};
 void ofxDatGuiItem::select(int index){};
-int ofxDatGuiItem::getSelectedIndex(){};
-
-bool ofxDatGuiItem::isExpanded()
-{
-    return mIsExpanded;
-}
+int ofxDatGuiItem::getSelectedChildIndex(){};
+bool ofxDatGuiItem::isExpanded(){}
 
 void ofxDatGuiItem::onWindowResize(int w, int h)
 {

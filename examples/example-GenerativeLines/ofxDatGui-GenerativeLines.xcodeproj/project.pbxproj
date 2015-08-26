@@ -44,7 +44,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		8A0D17251B8E451A00152BF3 /* ofxDatGui-GenerativeLines.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = "ofxDatGui-GenerativeLines.app"; path = "/Users/braitsch/Code/of_v0.9.0_rc1/apps/myApps/ofxDatGui/examples/example-GenerativeLines/bin/ofxDatGui-GenerativeLines.app"; sourceTree = "<absolute>"; };
+		8A0EED0E1B8E6A7700B6BE2A /* ofxDatGui-GenerativeLinesDebug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ofxDatGui-GenerativeLinesDebug.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A1BA0621B8CFE9E0034593B /* ofxDatGui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ofxDatGui.cpp; path = ../../src/ofxDatGui.cpp; sourceTree = "<group>"; };
 		8A1BA0631B8CFE9E0034593B /* ofxDatGui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxDatGui.h; path = ../../src/ofxDatGui.h; sourceTree = "<group>"; };
 		8A1BA0641B8CFE9E0034593B /* ofxDatGuiButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxDatGuiButton.h; path = ../../src/ofxDatGuiButton.h; sourceTree = "<group>"; };
@@ -115,6 +115,7 @@
 				E4B69E1C0A3A1BDC003C02F2 /* src */,
 				E4EEC9E9138DF44700A80321 /* openFrameworks */,
 				BB4B014C10F69532006C3DED /* addons */,
+				8A0EED0E1B8E6A7700B6BE2A /* ofxDatGui-GenerativeLinesDebug.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -156,7 +157,7 @@
 			);
 			name = "ofxDatGui-GenerativeLines";
 			productName = myOFApp;
-			productReference = 8A0D17251B8E451A00152BF3 /* ofxDatGui-GenerativeLines.app */;
+			productReference = 8A0EED0E1B8E6A7700B6BE2A /* ofxDatGui-GenerativeLinesDebug.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */

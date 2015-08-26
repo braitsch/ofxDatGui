@@ -8,6 +8,8 @@ class Line : public ofPolyline{
     public:
         Line(int x, int y, ofColor c){
             init();
+            ox = x;
+            oy = y;
             color = c;
             addVertex(x, y);
             addVertex(x, y);
@@ -16,6 +18,8 @@ class Line : public ofPolyline{
         int dy;
         int cl;
         int ml;
+        int ox;
+        int oy;
         ofColor color;
         ofPoint* head;
         static int MinLength;
@@ -59,13 +63,11 @@ class Line : public ofPolyline{
             cl = 0;
             ml = round(ofRandom(MinLength, MaxLength));
         }
-        void clear()
+        void reset()
         {
-            int x = head->x;
-            int y = head->y;
             ofPolyline::clear();
-            addVertex(x, y);
-            addVertex(x, y);
+            addVertex(ox, oy);
+            addVertex(ox, oy);
         }
         void constrain()
         {
@@ -86,7 +88,7 @@ class ofApp : public ofBaseApp{
 		void setup();
 		void draw();
         void update();
-        void clear();
+        void reset();
     
         int index;
         vector<Line> lines;
