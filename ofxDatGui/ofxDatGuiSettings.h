@@ -51,31 +51,28 @@ namespace ofxDatGuiPosition
 
 namespace ofxDatGuiAnchor
 {
-    enum ofxDatGuiAnchor{ TL = 0, TR = 1};
+    enum ofxDatGuiAnchor{ TOP_LEFT = 0, TOP_RIGHT = 1};
 }
 
 class ofxDatGuiEvent{
     
     public:
-        ofxDatGuiEvent(int eType, int eTarget, float eValue = 0.0f, float eScale = 0.0f){
+        ofxDatGuiEvent(int eType, int eIndex){
             type = eType;
-            target = eTarget;
-            value = eValue;
-            scale = eScale;
+            index = eIndex;
             child = 0;
+            value = 0;
+            scale = 0;
+            text = "";
+            enabled = 0;
         };
-        ofxDatGuiEvent(int eType, int eTarget, string eText){
-            type = eType;
-            target = eTarget;
-            text = eText;
-            child = 0;
-        }
         int type;
-        int target;
+        int index;
         int child;
         float value;
         float scale;
         string text;
+        bool enabled;
 };
 
 namespace ofxDatGuiEventType

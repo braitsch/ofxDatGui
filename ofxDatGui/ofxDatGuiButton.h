@@ -67,20 +67,16 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
     
     public:
     
-        ofxDatGuiToggle(int index, string label, bool state) : ofxDatGuiButton(index, label)
+        ofxDatGuiToggle(int index, string label, bool enabled) : ofxDatGuiButton(index, label)
         {
-            mState = state;
+            mEnabled = enabled;
             if (!radioOn.isAllocated()) radioOn.load("icon-radio-on.png");
             if (!radioOff.isAllocated()) radioOff.load("icon-radio-off.png");
         }
     
-        void onMouseRelease(ofPoint m)
+        void toggle()
         {
-            ofxDatGuiItem::onMouseRelease(m);
-            mState = !mState;
-        // dispatch event out to main application //
-            ofxDatGuiEvent evt(ofxDatGuiEventType::BUTTON_TOGGLED, mId, mState);
-            changeEventCallback(evt);
+            mEnabled =!mEnabled;
         }
 
         void draw()
@@ -90,7 +86,7 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
             ofxDatGuiItem::drawStripe(ofxDatGuiColor::TOGGLE_STRIPE);
             ofPushStyle();
                 ofSetColor(ofxDatGuiColor::LABEL);
-                if (mState == true){
+                if (mEnabled == true){
                     radioOn.draw(x+radioIconX, y+radioIconY, radioIconSize, radioIconSize);
                 }   else{
                     radioOff.draw(x+radioIconX, y+radioIconY, radioIconSize, radioIconSize);
@@ -98,8 +94,18 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
             ofPopStyle();
         }
     
+        void onMouseRelease(ofPoint m)
+        {
+            ofxDatGuiItem::onMouseRelease(m);
+            mEnabled = !mEnabled;
+        // dispatch event out to main application //
+            ofxDatGuiEvent e(ofxDatGuiEventType::BUTTON_TOGGLED, mId);
+            e.enabled = mEnabled;
+            changeEventCallback(e);
+        }
+    
     private:
-        bool mState;
+        bool mEnabled;
         ofImage radioOn;
         ofImage radioOff;
 
@@ -137,8 +143,9 @@ class ofxDatGuiToggler : public ofxDatGuiButton {
         {
             ofxDatGuiItem::onMouseRelease(m);
         // dispatch event out to main application //
-            ofxDatGuiEvent evt(ofxDatGuiEventType::GUI_TOGGLED, mId, mIsExpanded);
-            changeEventCallback(evt);
+            ofxDatGuiEvent e(ofxDatGuiEventType::GUI_TOGGLED, mId);
+            e.value = mIsExpanded;
+            changeEventCallback(e);
             if (mIsExpanded){
                 mIsExpanded = false;
                 setLabel("EXPAND CONTROLS");

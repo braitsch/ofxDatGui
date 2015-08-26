@@ -85,8 +85,9 @@ class ofxDatGuiInput : public ofxDatGuiItem {
             mInputBkgdColor = ofxDatGuiColor::INPUT;
             if (mTextChanged){
         // dispatch event out to main application //
-                ofxDatGuiEvent evt(ofxDatGuiEventType::INPUT_CHANGED, mId, mText);
-                changeEventCallback(evt);
+                ofxDatGuiEvent e(ofxDatGuiEventType::INPUT_CHANGED, mId);
+                e.text = mText;
+                changeEventCallback(e);
             }
         }
     

@@ -24,6 +24,7 @@
 
 ofBitmapFont ofxDatGuiItem::bFont;
 ofTrueTypeFont ofxDatGuiItem::tFont;
+int ofxDatGuiItem::mAnchorPosition;
 bool ofxDatGuiItem::retinaEnabled = false;
 uint16_t ofxDatGuiItem::guiAlpha = 255;
 uint16_t ofxDatGuiItem::guiWidth = 300;
@@ -79,8 +80,9 @@ void ofxDatGuiItem::init(ofVec2f position)
 
 void ofxDatGuiItem::init(uint8_t position)
 {
+    mAnchorPosition = position;
     if (ofGetScreenWidth()>=2560 && ofGetScreenHeight()>=1600) enableRetina();
-    if (position == ofxDatGuiAnchor::TR) ofxDatGuiPosition::x = ofGetWidth()-ofxDatGuiItem::guiWidth;
+    if (position == ofxDatGuiAnchor::TOP_RIGHT) ofxDatGuiPosition::x = ofGetWidth()-ofxDatGuiItem::guiWidth;
     labelHeight = getStringBoundingBox("ABCDEFG123456", 0, 0).height;
 }
 
@@ -137,6 +139,13 @@ bool ofxDatGuiItem::isExpanded()
 void ofxDatGuiItem::setYPosition(int ypos)
 {
     y = originY + ypos;
+}
+
+void ofxDatGuiItem::onWindowResize(int w, int h)
+{
+    if (mAnchorPosition == ofxDatGuiAnchor::TOP_RIGHT){
+        ofxDatGuiPosition::x = this->x = w-ofxDatGuiItem::guiWidth;
+    }
 }
 
 ofRectangle ofxDatGuiItem::getStringBoundingBox(string str, int x, int y)

@@ -64,6 +64,17 @@ class ofxDatGuiDropdown : public ofxDatGuiButton {
             mHeight = children.size() * (ofxDatGuiItem::rowHeight+ofxDatGuiItem::rowSpacing);
         }
     
+        void select(int cIndex)
+        {
+        // ensure value is in range //
+            if (cIndex < 0 || cIndex >= children.size()){
+                ofLogError() << "ofxDatGuiDropdown->select("<<cIndex<<") is out of range";
+            }   else{
+                mLabel = children[cIndex]->getLabel();
+            }
+            
+        }
+    
         void draw()
         {
             ofxDatGuiButton::drawBkgd();
@@ -103,8 +114,8 @@ class ofxDatGuiDropdown : public ofxDatGuiButton {
     
         void onOptionSelected(ofxDatGuiEvent e)
         {
-            e.child = e.target;
-            e.target = mId;
+            e.child = e.index;
+            e.index = mId;
         // convert button_pressed to type option_selected //
             e.type = ofxDatGuiEventType::OPTION_SELECTED;
             mLabel = children[e.child]->getLabel();

@@ -61,10 +61,9 @@ class ofxDatGui
     
         int mHeight;
         int mHeightMinimum;
-        int mAnchorPosition;
-        ofPoint mouse;
         bool mShowGui;
         bool mousePressed;
+        ofPoint mouse;
         ofxDatGuiItem* activeHover;
         ofxDatGuiItem* activeFocus;
         ofxDatGuiToggler* mGuiToggler;
@@ -77,6 +76,7 @@ class ofxDatGui
         void onKeyPressed(ofKeyEventArgs &e);
         void onMousePressed(ofMouseEventArgs &e);
         void onMouseReleased(ofMouseEventArgs &e);
+        void onWindowResized(ofResizeEventArgs &e);
 
         void expandGui();
         void collapseGui();

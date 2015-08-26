@@ -51,6 +51,7 @@ void ofxDatGui::init()
     ofAddListener(ofEvents().keyPressed, this, &ofxDatGui::onKeyPressed, OF_EVENT_ORDER_BEFORE_APP);
     ofAddListener(ofEvents().mousePressed, this, &ofxDatGui::onMousePressed, OF_EVENT_ORDER_BEFORE_APP);
     ofAddListener(ofEvents().mouseReleased, this, &ofxDatGui::onMouseReleased, OF_EVENT_ORDER_BEFORE_APP);
+    ofAddListener(ofEvents().windowResized, this, &ofxDatGui::onWindowResized, OF_EVENT_ORDER_AFTER_APP);
 }
 
 void ofxDatGui::setOpacity(float opacity)
@@ -121,16 +122,16 @@ void ofxDatGui::onGuiEventCallback(ofxDatGuiEvent e)
     
     if (e.type == ofxDatGuiEventType::DROPDOWN_EXPANDED){
     // shift everyone down //
-        ofxDatGuiDropdown* dd = dynamic_cast<ofxDatGuiDropdown*>(items[e.target]);
-        adjustHeight(e.target+1, dd->getHeight());
+        ofxDatGuiDropdown* dd = dynamic_cast<ofxDatGuiDropdown*>(items[e.index]);
+        adjustHeight(e.index+1, dd->getHeight());
     }   else if (e.type == ofxDatGuiEventType::DROPDOWN_COLLAPSED){
     // shift everyone back up //
-        ofxDatGuiDropdown* dd = dynamic_cast<ofxDatGuiDropdown*>(items[e.target]);
-        adjustHeight(e.target+1, 0);
+        ofxDatGuiDropdown* dd = dynamic_cast<ofxDatGuiDropdown*>(items[e.index]);
+        adjustHeight(e.index+1, 0);
     }   else if (e.type == ofxDatGuiEventType::OPTION_SELECTED){
     // shift everyone back up //
-        ofxDatGuiDropdown* dd = dynamic_cast<ofxDatGuiDropdown*>(items[e.target]);
-        adjustHeight(e.target+1, 0);
+        ofxDatGuiDropdown* dd = dynamic_cast<ofxDatGuiDropdown*>(items[e.index]);
+        adjustHeight(e.index+1, 0);
         changeEventCallback(e);
     }   else if (e.type == ofxDatGuiEventType::GUI_TOGGLED){
         mGuiToggler->isExpanded() ? collapseGui() : expandGui();
@@ -259,5 +260,10 @@ void ofxDatGui::onDraw(ofEventArgs &e)
         ofDrawRectangle(ofxDatGuiPosition::x, ofxDatGuiPosition::y, ofxDatGuiItem::guiWidth, mHeight - ofxDatGuiItem::rowSpacing);
         for (uint16_t i=0; i<items.size(); i++) items[i]->draw();
     ofPopStyle();
+}
+
+void ofxDatGui::onWindowResized(ofResizeEventArgs &e)
+{
+    for (uint16_t i=0; i<items.size(); i++) items[i]->onWindowResize(e.width, e.height);
 }
 

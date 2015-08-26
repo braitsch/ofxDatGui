@@ -36,6 +36,7 @@ class ofxDatGuiItem
         string getLabel();
         bool isExpanded();
         void setYPosition(int ypos);
+        void onWindowResize(int w, int h);
 
         static void setFont(string file);
         static void enableRetina();
@@ -110,6 +111,7 @@ class ofxDatGuiItem
         static uint16_t dropdownIconSize;
     
     private:
+        static int mAnchorPosition;
         static ofBitmapFont bFont;
         static ofTrueTypeFont tFont;
         static bool retinaEnabled;
