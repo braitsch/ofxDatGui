@@ -10,6 +10,7 @@ void ofApp::setup()
 // instantiate and position the gui //
     gui = new ofxDatGui( ofxDatGuiAnchor::TOP_RIGHT );
 // add some components //
+//  gui->setHeader("DATGUI EXAMPLE");
     gui->addTextInput("MESSAGE", "# OPEN FRAMEWORKS #");
     gui->addSlider("POSITION X", 0, 120, 75);
     gui->addSlider("POSITION Y", -40, 240, 200);
@@ -32,16 +33,16 @@ void ofApp::setup()
 void ofApp::onGuiEvent(ofxDatGuiEvent e)
 {
     if (e.type == ofxDatGuiEventType::BUTTON_CLICKED){
-        cout << "onGuiEvent::BUTTON_CLICKED " << e.index << endl;
+        cout << "COMPONENT #" << e.index << " :: BUTTON_CLICKED" << endl;
     }   else if (e.type == ofxDatGuiEventType::INPUT_CHANGED){
-        cout << "onGuiEvent::INPUT_CHANGED " << e.index << " :: " << e.text << endl;
+        cout << "COMPONENT #" << e.index << " :: INPUT_CHANGED" << " > " << e.text << endl;
     }   else if (e.type == ofxDatGuiEventType::SLIDER_CHANGED){
-        cout << "onGuiEvent::SLIDER_CHANGED " << e.index << " :: " << e.value << " :: " << e.scale<<"%" << endl;
-        if (e.index == 4) gui->setOpacity(e.scale);
+        cout << "COMPONENT #" << e.index << " :: SLIDER_CHANGED" << " > " << ofToString(e.value, 2) << " // " << e.scale<<"%" << endl;
+        if (e.index == 5) gui->setOpacity(e.scale);
     }   else if (e.type == ofxDatGuiEventType::OPTION_SELECTED){
-        cout << "onGuiEvent::OPTION_SELECTED " << e.index << " :: " << e.child << endl;
+        cout << "COMPONENT #" << e.index << " :: OPTION_SELECTED" << " > " << e.child << endl;
     }   else if (e.type == ofxDatGuiEventType::BUTTON_TOGGLED){
-        cout << "onGuiEvent::BUTTON_TOGGLED " << e.index << " :: " << e.enabled << endl;
+        cout << "COMPONENT #" << e.index << " :: BUTTON_TOGGLED" << " > " << e.enabled << endl;
     }
 }
 

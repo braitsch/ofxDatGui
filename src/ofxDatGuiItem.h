@@ -33,10 +33,13 @@ class ofxDatGuiItem : public ofxDatGuiInteractiveObject
     
         vector<ofxDatGuiItem*> children;
     
-        int getHeight();
+        virtual int getHeight();
         void setLabel(string label);
         string getLabel();
-        void setYPosition(int ypos);
+        virtual void setOrigin(int x, int y);
+        int getOriginY();
+        void setPositionY(int y);
+    
         void setVisible(bool visible);
         bool getVisible();
         void onWindowResize(int w, int h);

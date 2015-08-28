@@ -148,6 +148,7 @@ As you might expect each event carries a unique payload that describes what happ
 
 In addition to the component add* methods **ofxDatGui** currently provides two additional instance methods:
 
+	gui->setHeading(string label);
 	gui->setOpacity(float opacity); // between 0 & 1 //
 	gui->onGuiEvent(this, &ofApp::onGuiEventCallback);
  

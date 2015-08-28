@@ -27,21 +27,16 @@ class ofxDatGuiDropdownOption : public ofxDatGuiButton {
 
     public:
     
-        ofxDatGuiDropdownOption(int index, string label, int ypos) : ofxDatGuiButton(index, label)
+        ofxDatGuiDropdownOption(int index, string label) : ofxDatGuiButton(index, label)
         {
-            this->y = mOriginY = ypos;
+
         }
     
         void draw()
         {
             ofxDatGuiButton::drawBkgd();
-            ofxDatGuiFont::drawLabel(mLabel, x, y + mHeight/2);
-            ofxDatGuiItem::drawStripe(ofxDatGuiColor::DROPDOWN_STRIPE);
-        }
-    
-        void drawLabel()
-        {
             ofxDatGuiFont::drawLabel(" * "+mLabel, x, y + mHeight/2);
+            ofxDatGuiItem::drawStripe(ofxDatGuiColor::DROPDOWN_STRIPE);
         }
     
     private:
@@ -54,10 +49,8 @@ class ofxDatGuiDropdown : public ofxDatGuiButton {
     
         ofxDatGuiDropdown(int index, string label, vector<string> options) : ofxDatGuiButton(index, label)
         {
-            int vSpacing = ofxDatGuiGlobals::rowSpacing;
             for(uint8_t i=0; i<options.size(); i++){
-                int y = this->y+(children.size()*(mHeight+vSpacing)) + (mHeight+vSpacing);
-                ofxDatGuiDropdownOption* opt = new ofxDatGuiDropdownOption(children.size(), options[i], y);
+                ofxDatGuiDropdownOption* opt = new ofxDatGuiDropdownOption(children.size(), options[i]);
                 opt->onGuiEvent(this, &ofxDatGuiDropdown::onOptionSelected);
                 children.push_back(opt);
             }
@@ -95,14 +88,23 @@ class ofxDatGuiDropdown : public ofxDatGuiButton {
             }
         }
     
-        int getExpandedHeight()
+        void setOrigin(int x, int y)
         {
-            return mExpandedHeight;
+            ofxDatGuiItem::setOrigin(x, y);
+        }
+
+        bool isExpanded()
+        {
+            return mIsExpanded;
         }
     
-        void collapse()
+        int getHeight()
         {
-            mIsExpanded = false;
+            if (!mIsExpanded){
+                return mHeight;
+            }   else{
+                return mHeight + mExpandedHeight;
+            }
         }
     
         void onMouseRelease(ofPoint m)
@@ -135,6 +137,7 @@ class ofxDatGuiDropdown : public ofxDatGuiButton {
     
     protected:
         int mOption;
+        bool mIsExpanded;
         int mExpandedHeight;
         ofImage icon;
 };

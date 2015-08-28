@@ -55,6 +55,7 @@
 		8A72012F1B90000A004435C1 /* ofxDatGuiComponents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxDatGuiComponents.h; path = ../../src/ofxDatGuiComponents.h; sourceTree = "<group>"; };
 		8A7201301B90000A004435C1 /* ofxDatGuiTextInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxDatGuiTextInput.h; path = ../../src/ofxDatGuiTextInput.h; sourceTree = "<group>"; };
 		8A7201351B9008FA004435C1 /* ofxDatGui-GenerativeLinesDebug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ofxDatGui-GenerativeLinesDebug.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8AF96FFE1B911F63002EC8FB /* ofxDatGuiControls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxDatGuiControls.h; path = ../../src/ofxDatGuiControls.h; sourceTree = "<group>"; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E4B69E1D0A3A1BDC003C02F2 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = SOURCE_ROOT; };
 		E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofApp.cpp; path = src/ofApp.cpp; sourceTree = SOURCE_ROOT; };
@@ -85,6 +86,7 @@
 				8A1BA0671B8CFE9E0034593B /* ofxDatGuiItem.cpp */,
 				8A1BA0641B8CFE9E0034593B /* ofxDatGuiButton.h */,
 				8A1BA06A1B8CFE9E0034593B /* ofxDatGuiSlider.h */,
+				8AF96FFE1B911F63002EC8FB /* ofxDatGuiControls.h */,
 				8A1BA0651B8CFE9E0034593B /* ofxDatGuiDropdown.h */,
 				8A1BA0691B8CFE9E0034593B /* ofxDatGuiSettings.h */,
 				8A7201301B90000A004435C1 /* ofxDatGuiTextInput.h */,

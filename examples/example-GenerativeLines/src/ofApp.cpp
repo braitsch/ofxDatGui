@@ -49,7 +49,7 @@ void ofApp::onGuiEvent(ofxDatGuiEvent e)
         ofxDatGuiItem* button = gui->getItemAt(e.index);
         if (button == b1) reset();
     }   else if (e.type == ofxDatGuiEventType::INPUT_CHANGED){
-        cout << "onGuiEvent::INPUT_CHANGED " << e.index << " :: " << e.text << endl;
+        cout << "COMPONENT #" << e.index << " :: INPUT_CHANGED" << " > " << e.text << endl;
     }   else if (e.type == ofxDatGuiEventType::SLIDER_CHANGED){
         ofxDatGuiItem* slider = gui->getItemAt(e.index);
         if (slider == s1){
@@ -61,8 +61,6 @@ void ofApp::onGuiEvent(ofxDatGuiEvent e)
         }   else if (slider == s4){
             gui->setOpacity(e.scale);
         }
-    }   else if (e.type == ofxDatGuiEventType::OPTION_SELECTED){
-        cout << "onGuiEvent::OPTION_SELECTED " << e.index << " :: " << e.child << endl;
     }   else if (e.type == ofxDatGuiEventType::BUTTON_TOGGLED){
         drawingPaused = e.enabled;
     }

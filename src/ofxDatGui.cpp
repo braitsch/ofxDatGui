@@ -38,14 +38,23 @@ void ofxDatGui::init()
     activeHover = nullptr;
     activeFocus = nullptr;
     mousePressed = false;
-    mGuiToggler = new ofxDatGuiToggler();
-    attachItem( mGuiToggler );
+    
+    mGuiHeader = new ofxDatGuiHeader();
+    mGuiFooter = new ofxDatGuiFooter();
+    attachItem( mGuiHeader );
+    attachItem( mGuiFooter );
+    
     ofAddListener(ofEvents().draw, this, &ofxDatGui::onDraw, OF_EVENT_ORDER_AFTER_APP);
     ofAddListener(ofEvents().update, this, &ofxDatGui::onUpdate, OF_EVENT_ORDER_AFTER_APP);
     ofAddListener(ofEvents().keyPressed, this, &ofxDatGui::onKeyPressed, OF_EVENT_ORDER_BEFORE_APP);
     ofAddListener(ofEvents().mousePressed, this, &ofxDatGui::onMousePressed, OF_EVENT_ORDER_BEFORE_APP);
     ofAddListener(ofEvents().mouseReleased, this, &ofxDatGui::onMouseReleased, OF_EVENT_ORDER_BEFORE_APP);
     ofAddListener(ofEvents().windowResized, this, &ofxDatGui::onWindowResized, OF_EVENT_ORDER_AFTER_APP);
+}
+
+void ofxDatGui::setHeader(string label)
+{
+    mGuiHeader->setLabel(label);
 }
 
 void ofxDatGui::setOpacity(float opacity)
@@ -55,7 +64,8 @@ void ofxDatGui::setOpacity(float opacity)
 
 ofxDatGuiItem* ofxDatGui::getItemAt(int index)
 {
-    return items[index];
+// internally add 1 to index to compensate for header //
+    return items[index+1];
 }
 
 /* add component methods */
@@ -105,67 +115,80 @@ ofxDatGuiDropdown* ofxDatGui::addDropdown(vector<string> options)
 void ofxDatGui::attachItem(ofxDatGuiItem* item)
 {
     item->onGuiEvent(this, &ofxDatGui::onGuiEventCallback);
-    if (items.size() == 0){
+    if (items.size() < 2){
         items.push_back( item );
     }   else{
         items.insert(items.end()-1, item);
     }
     mHeight = 0;
-    for (int i=0; i<items.size(); i++) mHeight += items[i]->getHeight() + ofxDatGuiGlobals::rowSpacing;
+    for (int i=0; i<items.size(); i++) {
+        items[i]->setOrigin(ofxDatGuiGlobals::guiX, mHeight);
+        mHeight += items[i]->getHeight() + ofxDatGuiGlobals::rowSpacing;
+    }
     mHeightMinimum = mHeight;
-    mGuiToggler->setOriginY(mHeight - mGuiToggler->getHeight()-ofxDatGuiGlobals::rowSpacing + ofxDatGuiGlobals::guiY);
 }
 
 void ofxDatGui::onGuiEventCallback(ofxDatGuiEvent e)
 {
-    
     if (e.type == ofxDatGuiEventType::DROPDOWN_EXPANDED){
     // shift everyone down //
-        ofxDatGuiDropdown* dd = dynamic_cast<ofxDatGuiDropdown*>(items[e.index]);
-        adjustHeight(e.index+1, dd->getExpandedHeight());
+        adjustHeight(e.index);
     }   else if (e.type == ofxDatGuiEventType::DROPDOWN_COLLAPSED){
     // shift everyone back up //
-        ofxDatGuiDropdown* dd = dynamic_cast<ofxDatGuiDropdown*>(items[e.index]);
-        adjustHeight(e.index+1, 0);
+        adjustHeight(e.index);
     }   else if (e.type == ofxDatGuiEventType::OPTION_SELECTED){
     // shift everyone back up //
-        ofxDatGuiDropdown* dd = dynamic_cast<ofxDatGuiDropdown*>(items[e.index]);
-        adjustHeight(e.index+1, 0);
+        adjustHeight(e.index);
+    // compensate for the header and ensure index is zero based //
+        e.index--;
         changeEventCallback(e);
     }   else if (e.type == ofxDatGuiEventType::GUI_TOGGLED){
-        mGuiToggler->isExpanded() ? collapseGui() : expandGui();
+        mGuiFooter->isExpanded() ? collapseGui() : expandGui();
     }   else{
+    // compensate for the header and ensure index is zero based //
+        e.index--;
         changeEventCallback(e);
     }
 }
 
-void ofxDatGui::adjustHeight(int index, int amount)
+void ofxDatGui::adjustHeight(int index)
 {
-    for (uint8_t i=index; i<items.size(); i++) items[i]->setYPosition(amount);
-    mHeight = mHeightMinimum + amount;
+    ofxDatGuiItem* target = items[index];
+    mHeight = target->getOriginY() - ofxDatGuiGlobals::guiY + target->getHeight() + ofxDatGuiGlobals::rowSpacing;
+    for (uint8_t i=index+1; i<items.size(); i++){
+        items[i]->setPositionY(mHeight);
+        mHeight += items[i]->getHeight() + ofxDatGuiGlobals::rowSpacing;
+    }
+}
+
+void ofxDatGui::moveGui(ofPoint pt)
+{
+    mHeight = 0;
+    ofxDatGuiGlobals::guiX = pt.x;
+    ofxDatGuiGlobals::guiY = pt.y;
+    for (uint8_t i=0; i<items.size(); i++){
+        items[i]->setOrigin(ofxDatGuiGlobals::guiX, ofxDatGuiGlobals::guiY + mHeight);
+        mHeight += items[i]->getHeight() + ofxDatGuiGlobals::rowSpacing;
+    }
+// disable automatic repositioning on window resize //
+    ofxDatGuiGlobals::anchorPosition = 0;
 }
 
 void ofxDatGui::expandGui()
 {
-    for (uint8_t i=0; i<items.size(); i++) items[i]->setVisible(true);
-    mHeight = mHeightMinimum;
-    mGuiToggler->setYPosition(0);
+    mHeight = 0;
+    for (uint8_t i=0; i<items.size(); i++) {
+        items[i]->setVisible(true);
+        mHeight += items[i]->getHeight() + ofxDatGuiGlobals::rowSpacing;
+    }
+    mGuiFooter->setPositionY(mHeight - mGuiFooter->getHeight() - ofxDatGuiGlobals::rowSpacing);
 }
 
 void ofxDatGui::collapseGui()
 {
-    for (uint8_t i=0; i<items.size()-1; i++) {
-    // collapse anything that has children //
-        if (items[i]->children.size() > 0){
-            ofxDatGuiDropdown* dd = dynamic_cast<ofxDatGuiDropdown*>(items[i]);
-            dd->collapse();
-        }
-    // and reset all components back to their origin position //
-        items[i]->setYPosition(0);
-        items[i]->setVisible(false);
-    }
-    mHeight = mGuiToggler->getHeight();
-    mGuiToggler->setYPosition(ofxDatGuiGlobals::guiY + (mGuiToggler->getOriginY() * -1));
+    for (uint8_t i=0; i<items.size()-1; i++) items[i]->setVisible(false);
+    mGuiFooter->setPositionY(0);
+    mHeight = mGuiFooter->getHeight();
 }
 
 /* event handlers & update / draw loop */
@@ -257,7 +280,11 @@ void ofxDatGui::onUpdate(ofEventArgs &e)
         activeHover->onMouseLeave(mouse);
         activeHover = nullptr;
     }   else if (hit){
-        if (mousePressed) activeHover->onMouseDrag(mouse);
+        if (mousePressed) {
+            activeHover->onMouseDrag(mouse);
+        // allow the panel to be repositioned //
+            if (activeHover == mGuiHeader) moveGui(mouse-mGuiHeader->dragOffset);
+        }
     }
 }
 
@@ -271,6 +298,7 @@ void ofxDatGui::onDraw(ofEventArgs &e)
         for (uint16_t i=0; i<items.size(); i++) items[i]->draw();
     ofPopStyle();
 }
+
 
 void ofxDatGui::onWindowResized(ofResizeEventArgs &e)
 {

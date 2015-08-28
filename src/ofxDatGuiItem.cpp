@@ -57,11 +57,10 @@ ofxDatGuiItem::ofxDatGuiItem(int id)
 {
     mId = id;
     mVisible = true;
+    x = ofxDatGuiGlobals::guiX;
     mWidth = ofxDatGuiGlobals::guiWidth;
     mHeight = ofxDatGuiGlobals::rowHeight;
     mPadding = ofxDatGuiGlobals::rowPadding;
-    x = ofxDatGuiGlobals::guiX;
-    y = mOriginY = ofxDatGuiGlobals::guiY + (mId*(ofxDatGuiGlobals::rowHeight+ofxDatGuiGlobals::rowSpacing));
 }
 
 ofxDatGuiItem::ofxDatGuiItem(int id, string label, bool centerLabel) : ofxDatGuiItem(id)
@@ -179,8 +178,6 @@ void ofxDatGuiFont::drawLabel(string text, int xpos, int ypos, bool center)
 */
 
 int ofxDatGuiItem::getHeight() { return mHeight; }
-void ofxDatGuiItem::setYPosition(int ypos) { y = mOriginY + ypos; }
-
 string ofxDatGuiItem::getLabel() { return mLabel; }
 void ofxDatGuiItem::setLabel(string label) { mLabel = label; }
 
@@ -202,6 +199,17 @@ int ofxDatGuiItem::getSelectedChildIndex(){};
 bool ofxDatGuiItem::isExpanded(){}
 void ofxDatGuiItem::setVisible(bool visible) { mVisible = visible; }
 bool ofxDatGuiItem::getVisible() { return mVisible; }
+
+void ofxDatGuiItem::setOrigin(int x, int y)
+{
+    this->x = x;
+    this->y = mOriginY = y;
+    int vSpacing = ofxDatGuiGlobals::rowSpacing;
+    for(uint8_t i=0; i<children.size(); i++) children[i]->setOrigin(this->x, this->y + (mHeight+vSpacing)*(i+1));
+}
+
+int ofxDatGuiItem::getOriginY() { return mOriginY; }
+void ofxDatGuiItem::setPositionY(int ypos) { y = ofxDatGuiGlobals::guiY + ypos; }
 
 void ofxDatGuiItem::onWindowResize(int w, int h)
 {

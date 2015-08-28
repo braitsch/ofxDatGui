@@ -47,7 +47,7 @@ namespace ofxDatGuiColor
 
 namespace ofxDatGuiAnchor
 {
-    enum ofxDatGuiAnchor{ TOP_LEFT = 0, TOP_RIGHT = 1};
+    enum ofxDatGuiAnchor{ TOP_LEFT = 1, TOP_RIGHT = 2};
 }
 
 class ofxDatGuiEvent{

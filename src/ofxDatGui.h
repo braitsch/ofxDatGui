@@ -21,6 +21,7 @@
 */
 
 #pragma once
+#include "ofxDatGuiControls.h"
 #include "ofxDatGuiButton.h"
 #include "ofxDatGuiSlider.h"
 #include "ofxDatGuiDropdown.h"
@@ -35,6 +36,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofxDatGui(uint8_t position);
     
         void draw();
+        void setHeader(string label);
         void setOpacity(float opacity);
         ofxDatGuiItem* getItemAt(int index);
         ofxDatGuiTextInput* addTextInput(string label, string value = "");
@@ -53,7 +55,8 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofPoint mouse;
         ofxDatGuiItem* activeHover;
         ofxDatGuiItem* activeFocus;
-        ofxDatGuiToggler* mGuiToggler;
+        ofxDatGuiHeader* mGuiHeader;
+        ofxDatGuiFooter* mGuiFooter;
         vector<ofxDatGuiItem*> items;
     
         void init();
@@ -65,10 +68,11 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         void onMouseReleased(ofMouseEventArgs &e);
         void onWindowResized(ofResizeEventArgs &e);
 
+        void moveGui(ofPoint pt);
         void expandGui();
         void collapseGui();
         void attachItem(ofxDatGuiItem* item);
-        void adjustHeight(int index, int amount);
+        void adjustHeight(int index);
         void onGuiEventCallback(ofxDatGuiEvent e);
 
 };

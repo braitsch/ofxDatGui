@@ -27,10 +27,7 @@ class ofxDatGuiButton : public ofxDatGuiItem {
 
     public:
     
-        ofxDatGuiButton(int index, string label) : ofxDatGuiItem(index, label)
-        {
-            mIsExpanded = false;
-        }
+        ofxDatGuiButton(int index, string label) : ofxDatGuiItem(index, label) { }
     
         void onMouseRelease(ofPoint m)
         {
@@ -38,11 +35,6 @@ class ofxDatGuiButton : public ofxDatGuiItem {
         // dispatch event out to main application //
             ofxDatGuiEvent evt(ofxDatGuiEventType::BUTTON_CLICKED, mId);
             changeEventCallback(evt);
-        }
-    
-        bool isExpanded()
-        {
-            return mIsExpanded;
         }
     
         void draw()
@@ -70,9 +62,6 @@ class ofxDatGuiButton : public ofxDatGuiItem {
         {
             return (m.x>=x && m.x<= x+mWidth && m.y>=y && m.y<= y+mHeight);
         }
-    
-        protected:
-            bool mIsExpanded;
     
 };
 
@@ -136,51 +125,5 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
 
 };
 
-class ofxDatGuiToggler : public ofxDatGuiButton {
-
-
-    public:
-    
-        ofxDatGuiToggler() : ofxDatGuiButton(9999, "COLLAPSE CONTROLS")
-        {
-            mIsExpanded = true;
-            mHeight = ofxDatGuiGlobals::rowHeight*.8;
-            setLabel("COLLAPSE CONTROLS");
-        }
-    
-        void draw()
-        {
-            ofxDatGuiButton::drawBkgd();
-            ofxDatGuiFont::drawLabel(mLabel, x, y + mHeight/2, true);
-            ofxDatGuiItem::drawStripe(ofxDatGuiColor::BUTTON_STRIPE);
-        }
-    
-        int getOriginY()
-        {
-            return mOriginY;
-        }
-    
-        void setOriginY(int y)
-        {
-            this->y = mOriginY = y;
-        }
-    
-        void onMouseRelease(ofPoint m)
-        {
-            ofxDatGuiItem::onMouseRelease(m);
-        // dispatch event out to main application //
-            ofxDatGuiEvent e(ofxDatGuiEventType::GUI_TOGGLED, mId);
-            e.value = mIsExpanded;
-            changeEventCallback(e);
-            if (mIsExpanded){
-                mIsExpanded = false;
-                setLabel("EXPAND CONTROLS");
-            }   else{
-                mIsExpanded = true;
-                setLabel("COLLAPSE CONTROLS");
-            }
-        }
-    
-};
 
 
