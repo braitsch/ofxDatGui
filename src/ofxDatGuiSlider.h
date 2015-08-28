@@ -113,9 +113,12 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
         void onMouseDrag(ofPoint m)
         {
             if (mInputActive == false){
-                mScale =(m.x-x-sliderX)/sliderWidth;
-                if (mScale > .99) mScale = 1;
-                if (mScale < .01) mScale = 0;
+                float s = (m.x-x-sliderX)/sliderWidth;
+                if (s > .99) s = 1;
+                if (s < .01) s = 0;
+        // don't dispatch an event if scale hasn't changed //
+                if (s == mScale) return;
+                mScale = s;
                 mVal = ((mMax-mMin) * mScale) + mMin;
                 input->setText(ofToString(mVal, 2));
                 dispatchSliderChangedEvent();
@@ -152,6 +155,7 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
         float mMax;
         float mVal;
         float mScale;
+        bool mChanged;
         bool mInputActive;
         ofxDatGuiTextInputField* input;
         int static const TEXT_INDENT = 12;

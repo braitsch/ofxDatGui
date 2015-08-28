@@ -265,6 +265,7 @@ void ofxDatGui::onDraw(ofEventArgs &e)
 {
     if (!mShowGui) return;
     ofPushStyle();
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         ofSetColor(ofxDatGuiColor::GUI_BKGD, ofxDatGuiGlobals::guiAlpha);
         ofDrawRectangle(ofxDatGuiGlobals::guiX, ofxDatGuiGlobals::guiY, ofxDatGuiGlobals::guiWidth, mHeight - ofxDatGuiGlobals::rowSpacing);
         for (uint16_t i=0; i<items.size(); i++) items[i]->draw();

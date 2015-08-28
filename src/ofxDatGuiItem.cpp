@@ -207,6 +207,11 @@ void ofxDatGuiItem::onWindowResize(int w, int h)
 {
     if (ofxDatGuiGlobals::anchorPosition == ofxDatGuiAnchor::TOP_RIGHT){
         ofxDatGuiGlobals::guiX = this->x = w-ofxDatGuiGlobals::guiWidth;
+        if (this->children.size() != 0){
+            for (int i=0; i<this->children.size(); i++) {
+                this->children[i]->x = w-ofxDatGuiGlobals::guiWidth;
+            }
+        }
     }
 }
 
