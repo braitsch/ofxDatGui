@@ -26,6 +26,10 @@ This generates a Basic Button with the label "Click!"
  
 **ofxDatGui** currently provides the following components although more are in the works:
   
+**Text Input**
+ 
+	gui->addTextInput(string label, string value = "");
+  
 **Basic Button**
 	 	
 	gui->addButton(string label);
@@ -33,10 +37,6 @@ This generates a Basic Button with the label "Click!"
 **Toggle Button**
 
 	gui->addToggle(string label, bool enabled = false);
-
-**Text Input**
- 
- 	gui->addInput(string label, string value = "");
 
 **Range Slider**
 
@@ -58,9 +58,9 @@ If this is not set it will default to halfway between the min and max values.
 
 Every ``gui->add*`` method returns a pointer to an **ofxDatGuiItem** object that you can store in a variable for later manipulation.
 
-	ofxDatGuiInput* myInput;
- 	myInput = gui->addInput("Name:", "Stephen");
- 	myInput->setText("Freddy");
+	ofxDatGuiTextInput* myInput;
+	myInput = gui->addTextInput("Name:", "Stephen");
+	myInput->setText("Freddy");
 
 You can also manipulate items directly on **ofxDatGui** itself. 
 
@@ -72,6 +72,12 @@ Every **ofxDatGuiItem** has a mutable label that can easily be retrieved or chan
 	
 In addition some components have methods (typically getters & setters) that allow for the retrieval and manipulation of its unique properties.
 	
+**Text Input**
+ 
+	ofxDatGuiTextInput* myInput;
+	myInput->getText();
+	myInput->setText(string text);
+	
 **Toggle Button**
 
 	ofxDatGuiToggle* myToggle;
@@ -79,13 +85,7 @@ In addition some components have methods (typically getters & setters) that allo
 	myToggle->setEnabled(bool enable);
 	myToggle->getEnabled(); // returns true or false
 
-**Text Input**
- 
-	ofxDatGuiInput* myInput;
-	myInput->getText();
-	myInput->setText(string text);
-
-**Slider**
+**Range Slider**
 
 	ofxDatGuiSlider* mySlider;
 	mySlider->getScale(); 
@@ -93,13 +93,13 @@ In addition some components have methods (typically getters & setters) that allo
 	mySlider->getValue();
 	mySlider->setValue(float value); // a value between min & max //
 	
-**Dropdown**
+**Dropdown Menu**
 	
 	ofxDatGuiDropdown* myDropdown;
 	myDropdown->select(childIndex);
 	myDropdown->getSelectedChildIndex(); 
 	
-**Note:** All indicies are zero based so the first item in your  **ofxDatGui** instance will have an index of 0, the second item will have an index of 1, the third item and index of 2 etc..
+**Note:** All indicies are zero based so the first item in your  **ofxDatGui** instance will have an index of 0, the second item will have an index of 1, the third item an index of 2 etc..
 	
 ---	
 	
@@ -128,8 +128,8 @@ As you might expect each event carries a unique payload that describes what happ
 
 **INPUT_CHANGED**
         
-	(int) event.index // the index of the input in the gui //
-	(string) event.text // the new text value of the input field //
+	(int) event.index // the index of the text input in the gui //
+	(string) event.text // the new text value of the text input field //
 
 **SLIDER_CHANGED**
 

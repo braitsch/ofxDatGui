@@ -60,7 +60,7 @@ ofxDatGuiItem* ofxDatGui::getItemAt(int index)
 
 /* add component methods */
 
-ofxDatGuiTextInput* ofxDatGui::addMessage(string label, string value)
+ofxDatGuiTextInput* ofxDatGui::addTextInput(string label, string value)
 {
     ofxDatGuiTextInput* message = new ofxDatGuiTextInput(items.size()-1, label, value);
     attachItem(message);
@@ -174,8 +174,15 @@ void ofxDatGui::onMousePressed(ofMouseEventArgs &e)
 {
     mousePressed = true;
     if (activeHover != nullptr){
-    //  cout << "onMousePressed" << endl;
         activeHover->onMousePress(mouse);
+        if (activeFocus!= activeHover){
+            if (activeFocus != nullptr) activeFocus->onFocusLost();
+            activeFocus = activeHover;
+            activeFocus->onFocus();
+        }
+    }   else if (activeFocus != nullptr){
+        activeFocus->onFocusLost();
+        activeFocus = nullptr;
     }
 }
 
@@ -183,7 +190,6 @@ void ofxDatGui::onMouseReleased(ofMouseEventArgs &e)
 {
     mousePressed = false;
     if (activeHover != nullptr){
-    //  cout << "onMouseReleased" << endl;
         activeHover->onMouseRelease(mouse);
         if (activeFocus!= activeHover){
             if (activeFocus != nullptr) activeFocus->onFocusLost();

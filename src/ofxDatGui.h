@@ -37,7 +37,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         void draw();
         void setOpacity(float opacity);
         ofxDatGuiItem* getItemAt(int index);
-        ofxDatGuiTextInput* addMessage(string label, string value = "");
+        ofxDatGuiTextInput* addTextInput(string label, string value = "");
         ofxDatGuiButton* addButton(string label);
         ofxDatGuiToggle* addToggle(string label, bool state);
         ofxDatGuiSlider* addSlider(string label, float min, float max);

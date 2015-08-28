@@ -98,7 +98,7 @@ class ofApp : public ofBaseApp{
         ofImage bkgd;
     
         ofxDatGui* gui;
-        ofxDatGuiInput*  i1;
+        ofxDatGuiTextInput*  i1;
         ofxDatGuiSlider* s1;
         ofxDatGuiSlider* s2;
         ofxDatGuiSlider* s3;

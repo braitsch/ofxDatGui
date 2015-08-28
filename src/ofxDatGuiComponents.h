@@ -74,14 +74,18 @@ class ofxDatGuiFont{
 class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
 
     public:
+    
         ofxDatGuiTextInputField(int width)
         {
             mRect.width = width;
             mTextColor = ofxDatGuiColor::TEXT;
             mBkgdColor = ofxDatGuiColor::INPUT;
             mRect.height = ofxDatGuiGlobals::rowHeight - (ofxDatGuiGlobals::rowPadding*2);
+            mRestrict = false;
             mTextChanged = false;
             mHighlightText = false;
+            mTextActiveColor = ofxDatGuiColor::LABEL;
+            mTextInactiveColor = ofxDatGuiColor::TEXT;
         }
     
         void draw(int x, int y)
@@ -91,6 +95,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             ofPushStyle();
                 ofSetColor(mBkgdColor);
                 ofDrawRectangle(mRect);
+                mTextColor = mHighlightText ? mTextActiveColor : mTextInactiveColor;
                 ofxDatGuiFont::drawText(mText, mTextColor, x+mTextIndent, y+mRect.height/2, mHighlightText);
             ofPopStyle();
         }
@@ -110,19 +115,33 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             mTextIndent = indent;
         }
     
+        void setTextActiveColor(ofColor color)
+        {
+            mTextActiveColor = color;
+        }
+    
+        void setTextInactiveColor(ofColor color)
+        {
+            mTextInactiveColor = color;
+        }
+    
+        void setRestrictToNumbers(bool restrict)
+        {
+            mRestrict = restrict;
+        }
+    
         void onFocus()
         {
             mHighlightText = true;
-            mTextColor = ofxDatGuiColor::LABEL;
             mBkgdColor = ofxDatGuiColor::BUTTON_OVER;
         }
     
         void onFocusLost()
         {
             mHighlightText = false;
-            mTextColor = ofxDatGuiColor::TEXT;
             mBkgdColor = ofxDatGuiColor::INPUT;
             if (mTextChanged){
+                mTextChanged = false;
                 ofxDatGuiEvent e(ofxDatGuiEventType::INPUT_CHANGED, 0);
                 e.text = mText;
                 changeEventCallback(e);
@@ -131,8 +150,9 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
     
         void onKeyPressed(int key)
         {
+            if (!keyIsValid(key)) return;
             if (mHighlightText) mText = "";
-            if (key != OF_KEY_BACKSPACE){
+            if (key!=OF_KEY_BACKSPACE){
                 mText += key;
             }   else {
                 if (mText.size() > 0) mText.resize(mText.size()-1);
@@ -142,14 +162,38 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             mText = ofToUpper(mText);
         }
     
+        bool keyIsValid(int key)
+        {
+            if (mRestrict){
+                if (key==OF_KEY_BACKSPACE){
+                    return true;
+            // allow dash (-) or dot (.) //
+                }   else if (key==45 || key==46){
+                    return true;
+            // allows numbers 0-9 //
+                }   else if (key>=48 && key<=57){
+                    return true;
+            // an invalid key was entered //
+                }   else{
+                    return false;
+                }
+            }   else{
+            // allow anything //
+                return true;
+            }
+        }
+    
     private:
         string mText;
         ofRectangle mRect;
         int mTextIndent;
+        bool mRestrict;
         bool mTextChanged;
         bool mHighlightText;
         ofColor mBkgdColor;
         ofColor mTextColor;
         ofColor mHighLightColor;
+        ofColor mTextActiveColor;
+        ofColor mTextInactiveColor;
 };
 

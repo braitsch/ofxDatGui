@@ -9,9 +9,8 @@ void ofApp::setup()
     
 // instantiate and position the gui //
     gui = new ofxDatGui( ofxDatGuiAnchor::TOP_RIGHT );
-    
 // add some components //
-    gui->addMessage("MESSAGE", "# OPEN FRAMEWORKS #");
+    gui->addTextInput("MESSAGE", "# OPEN FRAMEWORKS #");
     gui->addSlider("POSITION X", 0, 120, 75);
     gui->addSlider("POSITION Y", -40, 240, 200);
     gui->addSlider("POSITION Z", -80, 120, -40);

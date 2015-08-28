@@ -14,7 +14,7 @@ void ofApp::setup()
     gui = new ofxDatGui( ofxDatGuiAnchor::TOP_RIGHT );
     
 // add some components //
-    i1 = gui->addInput("INPUT", "# OPEN FRAMEWORKS #");
+    i1 = gui->addTextInput("MESSAGE", "# OPEN FRAMEWORKS #");
     s1 = gui->addSlider("DRAW SPEED", 0, 120, 5);
     s2 = gui->addSlider("LINE WEIGHT", 1, 60, 2);
     s3 = gui->addSlider("LINE LENGTH", 4, 200, 140);

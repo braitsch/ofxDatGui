@@ -93,8 +93,8 @@ class ofxDatGuiItem : public ofxDatGuiInteractiveObject
         static uint16_t inputTextIndent;
         static uint16_t sliderX;
         static uint16_t sliderWidth;
-        static uint16_t sliderLabelX;
-        static uint16_t sliderLabelWidth;
+        static uint16_t sliderInputX;
+        static uint16_t sliderInputWidth;
         static uint16_t stripeWidth;
         static uint16_t radioIconX;
         static uint16_t radioIconY;

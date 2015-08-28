@@ -32,7 +32,19 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
             mMin = min;
             mMax = max;
             mVal = val;
+            input = new ofxDatGuiTextInputField(sliderInputWidth);
+            input->setText(ofToString(mVal, 2));
+            input->setTextInactiveColor(ofxDatGuiColor::SLIDER);
+            input->setTextIndent(ofxDatGuiFont::retinaEnabled ? TEXT_INDENT*2 : TEXT_INDENT);
+            input->setRestrictToNumbers(true);
+            input->onGuiEvent(this, &ofxDatGuiSlider::onInputChanged);
             calcScale();
+        }
+    
+        void onInputChanged(ofxDatGuiEvent e)
+        {
+            setValue(ofToFloat(e.text));
+            dispatchSliderChangedEvent();
         }
     
         void setValue(float value)
@@ -76,22 +88,42 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
                         ofSetColor(ofxDatGuiColor::SLIDER);
                         ofDrawRectangle(x+sliderX, y+mPadding, sliderWidth*mScale, mHeight-(mPadding*2));
                     }
-                // value bkgd //
-                    ofSetColor(ofxDatGuiColor::INPUT);
-                    ofDrawRectangle(x+sliderLabelX, y+mPadding, sliderLabelWidth, mHeight-(mPadding*2));
-                // value label //
-                    ofxDatGuiFont::drawText(ofToString(mVal, 2), ofxDatGuiColor::SLIDER, x+sliderLabelX+ofxDatGuiFont::labelX, y+mHeight/2);
+                // numeric input field //
+                input->draw(x + sliderInputX, y + mPadding);
                 ofPopStyle();
             }
         }
-
+    
+        void onFocusLost()
+        {
+            if (mInputActive) input->onFocusLost();
+        }
+    
+        void onMousePress(ofPoint m)
+        {
+            if (input->hitTest(m)){
+                input->onFocus();
+                mInputActive = true;
+            }   else{
+                input->onFocusLost();
+                mInputActive = false;
+            }
+        }
     
         void onMouseDrag(ofPoint m)
         {
-            mScale =(m.x-x-sliderX)/sliderWidth;
-            if (mScale > .99) mScale = 1;
-            if (mScale < .01) mScale = 0;
-            mVal = ((mMax-mMin) * mScale) + mMin;
+            if (mInputActive == false){
+                mScale =(m.x-x-sliderX)/sliderWidth;
+                if (mScale > .99) mScale = 1;
+                if (mScale < .01) mScale = 0;
+                mVal = ((mMax-mMin) * mScale) + mMin;
+                input->setText(ofToString(mVal, 2));
+                dispatchSliderChangedEvent();
+            }
+        }
+    
+        void dispatchSliderChangedEvent()
+        {
         // dispatch event out to main application //
             ofxDatGuiEvent e(ofxDatGuiEventType::SLIDER_CHANGED, mId);
             e.value = mVal;
@@ -99,19 +131,30 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
             changeEventCallback(e);
         }
     
-        bool hitTest(ofPoint m)
+        void onKeyPressed(int key)
         {
-            return (m.x>=x+sliderX && m.x<= x+sliderX+sliderWidth && m.y>=y+mPadding && m.y<= y+mHeight-mPadding);
+            if (mInputActive) input->onKeyPressed(key);
         }
     
-    protected:
-
+        bool hitTest(ofPoint m)
+        {
+            if (m.x>=x+sliderX && m.x<= x+sliderX+sliderWidth && m.y>=y+mPadding && m.y<= y+mHeight-mPadding){
+                return true;
+            }   else if (input->hitTest(m)){
+                return true;
+            }   else{
+                return false;
+            }
+        }
     
     private:
         float mMin;
         float mMax;
         float mVal;
         float mScale;
+        bool mInputActive;
+        ofxDatGuiTextInputField* input;
+        int static const TEXT_INDENT = 12;
     
         void calcScale()
         {
@@ -136,6 +179,7 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
                     mScale = (mVal-mMin)/(mMax-mMin);
                 }
             }
+            input->setText(ofToString(mVal, 2));
         }
         
 };
