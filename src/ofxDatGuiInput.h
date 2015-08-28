@@ -34,7 +34,7 @@ class ofxDatGuiInput : public ofxDatGuiItem {
             mHighlightText = false;
             mInputTextColor = ofxDatGuiColor::TEXT;
             mInputBkgdColor = ofxDatGuiColor::INPUT;
-            mTextHeight = getStringBoundingBox(mText, 0, 0).height;
+            mTextHeight = ofxDatGuiFont::getStringBoundingBox(mText, 0, 0).height;
         }
     
         void setText(string text)
@@ -45,7 +45,7 @@ class ofxDatGuiInput : public ofxDatGuiItem {
         void draw()
         {
             ofxDatGuiItem::drawBkgd();
-            ofxDatGuiItem::drawLabel();
+            ofxDatGuiFont::drawLabel(mLabel, x, y + mHeight/2);
             ofxDatGuiItem::drawStripe(ofxDatGuiColor::INPUT_STRIPE);
             mInputRect = ofRectangle(x+inputX, y+rowPadding, guiWidth-rowPadding-inputX, rowHeight-(rowPadding*2));
         // draw input field //
@@ -56,7 +56,7 @@ class ofxDatGuiInput : public ofxDatGuiItem {
                     ofSetColor(ofxDatGuiColor::TEXT_HIGHLIGHT);
                     ofDrawRectangle(mHighlightRect);
                 }
-                ofxDatGuiItem::drawText(mText, mInputTextColor, mInputRect.x+inputTextIndent);
+                ofxDatGuiFont::drawText(mText, mInputTextColor, mInputRect.x+inputTextIndent, y+rowHeight/2, mHighlightText);
             ofPopStyle();
         }
     
@@ -69,7 +69,7 @@ class ofxDatGuiInput : public ofxDatGuiItem {
         {
             mTextChanged = false;
             mHighlightText = true;
-            mHighlightRect = getStringBoundingBox(mText, mInputRect.x+inputTextIndent, mInputRect.y+mLabelY-(labelHeight/2)+1);
+            mHighlightRect = ofxDatGuiFont::getStringBoundingBox(mText, mInputRect.x+inputTextIndent, mInputRect.y+mLabelY-(ofxDatGuiFont::labelHeight/2)+1);
             mHighlightRect.x -= mHighlightPadding;
             mHighlightRect.width += mHighlightPadding*2;
             mHighlightRect.y -= mHighlightPadding;
@@ -108,7 +108,7 @@ class ofxDatGuiInput : public ofxDatGuiItem {
             mTextChanged = true;
             mHighlightText = false;
             mText = ofToUpper(mText);
-            mTextHeight = getStringBoundingBox(mText, 0, 0).height;
+            mTextHeight = ofxDatGuiFont::getStringBoundingBox(mText, 0, 0).height;
         }
     
     private:

@@ -22,8 +22,9 @@
 
 #pragma once
 #include "ofxDatGuiSettings.h"
+#include "ofxDatGuiComponents.h"
 
-class ofxDatGuiItem
+class ofxDatGuiItem : public ofxDatGuiInteractiveObject
 {
     public:
     
@@ -36,11 +37,12 @@ class ofxDatGuiItem
         void setLabel(string label);
         string getLabel();
         void setYPosition(int ypos);
+        void setVisible(bool visible);
+        bool getVisible();
         void onWindowResize(int w, int h);
 
-        static void setFont(string file);
         static void enableRetina();
-        static void init(ofVec2f position);
+        static void init(int x, int y);
         static void init(uint8_t position);
     
         virtual void draw() = 0;
@@ -68,47 +70,25 @@ class ofxDatGuiItem
         virtual void onMouseDrag(ofPoint m);
         virtual void onMouseLeave(ofPoint m);
         virtual void onMouseRelease(ofPoint m);
-
-    // this typedef is also used in ofxDatGui.h //
-        typedef std::function<void(ofxDatGuiEvent)> onChangeEventCallback;
-        onChangeEventCallback changeEventCallback;
-        
-        template<typename T, typename args, class ListenerClass>
-        void onGuiEvent(T* owner, void (ListenerClass::*listenerMethod)(args))
-        {
-            using namespace std::placeholders;
-            changeEventCallback = std::bind(listenerMethod, owner, _1);
-        }
-
-        static uint16_t guiAlpha;
-        static uint16_t guiWidth;
-        static uint16_t rowHeight;
-        static uint16_t rowPadding;
-        static uint16_t rowSpacing;
-
+    
     protected:
     
         int x;
         int y;
         int mId;
-        int originY;
         int mWidth;
         int mHeight;
-        int mLabelX;
-        int mLabelY;
+        int mOriginY;
+        int mPadding;
+
         string mLabel;
+        bool mVisible;
         bool mMouseOver;
         bool mMouseDown;
     
-        void drawBkgd(ofColor color = ofxDatGuiColor::ROW_BKGD, int alpha=guiAlpha);
-        void drawLabel(ofColor color = ofxDatGuiColor::LABEL);
+        void drawBkgd(ofColor color = ofxDatGuiColor::ROW_BKGD, int alpha=ofxDatGuiGlobals::guiAlpha);
         void drawStripe(ofColor color = ofxDatGuiColor::ROW_BKGD);
-        void drawText(string text, ofColor color, int xpos);
-        static ofRectangle getStringBoundingBox(string str, int x, int y);
     
-        static uint16_t labelX;
-        static uint16_t labelHeight;
-        static uint16_t fontSize;
         static uint16_t inputX;
         static uint16_t inputTextIndent;
         static uint16_t sliderX;
@@ -122,12 +102,6 @@ class ofxDatGuiItem
         static uint16_t dropdownIconX;
         static uint16_t dropdownIconY;
         static uint16_t dropdownIconSize;
-    
-    private:
-        static int mAnchorPosition;
-        static ofBitmapFont bFont;
-        static ofTrueTypeFont tFont;
-        static bool retinaEnabled;
 
 };
 

@@ -21,42 +21,28 @@
 */
 
 #pragma once
-#include "ofMain.h"
-#include "ofEvents.h"
-#include "ofxDatGuiSettings.h"
-#include "ofxDatGuiItem.h"
-#include "ofxDatGuiInput.h"
 #include "ofxDatGuiButton.h"
 #include "ofxDatGuiSlider.h"
 #include "ofxDatGuiDropdown.h"
+#include "ofxDatGuiTextInput.h"
 
-class ofxDatGui
+class ofxDatGui : public ofxDatGuiInteractiveObject
 {
     
     public:
     
-        ofxDatGui(ofVec2f position);
+        ofxDatGui(int x, int y);
         ofxDatGui(uint8_t position);
     
         void draw();
         void setOpacity(float opacity);
         ofxDatGuiItem* getItemAt(int index);
-        ofxDatGuiInput* addInput(string label, string value = "");
+        ofxDatGuiTextInput* addMessage(string label, string value = "");
         ofxDatGuiButton* addButton(string label);
         ofxDatGuiToggle* addToggle(string label, bool state);
         ofxDatGuiSlider* addSlider(string label, float min, float max);
         ofxDatGuiSlider* addSlider(string label, float min, float max, float val);
         ofxDatGuiDropdown* addDropdown(vector<string> options);
-    
-        ofxDatGuiItem::onChangeEventCallback changeEventCallback;
-    
-    // template methods must be declared in header file //
-        template<typename T, typename args, class ListenerClass>
-        void onGuiEvent(T* owner, void (ListenerClass::*listenerMethod)(args))
-        {
-            using namespace std::placeholders;
-            changeEventCallback = std::bind(listenerMethod, owner, _1);
-        }
     
     private:
     

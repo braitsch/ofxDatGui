@@ -47,9 +47,11 @@ class ofxDatGuiButton : public ofxDatGuiItem {
     
         void draw()
         {
-            drawBkgd();
-            ofxDatGuiItem::drawLabel();
-            ofxDatGuiItem::drawStripe(ofxDatGuiColor::BUTTON_STRIPE);
+            if (mVisible){
+                drawBkgd();
+                ofxDatGuiFont::drawLabel(mLabel, x, y + mHeight/2);
+                ofxDatGuiItem::drawStripe(ofxDatGuiColor::BUTTON_STRIPE);
+            }
         }
     
         void drawBkgd()
@@ -66,7 +68,7 @@ class ofxDatGuiButton : public ofxDatGuiItem {
     
         bool hitTest(ofPoint m)
         {
-            return (m.x>=x && m.x<= x+guiWidth && m.y>=y && m.y<= y+mHeight);
+            return (m.x>=x && m.x<= x+mWidth && m.y>=y && m.y<= y+mHeight);
         }
     
         protected:
@@ -102,17 +104,19 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
 
         void draw()
         {
-            drawBkgd();
-            ofxDatGuiItem::drawLabel();
-            ofxDatGuiItem::drawStripe(ofxDatGuiColor::TOGGLE_STRIPE);
-            ofPushStyle();
-                ofSetColor(ofxDatGuiColor::LABEL);
-                if (mEnabled == true){
-                    radioOn.draw(x+radioIconX, y+radioIconY, radioIconSize, radioIconSize);
-                }   else{
-                    radioOff.draw(x+radioIconX, y+radioIconY, radioIconSize, radioIconSize);
-                }
-            ofPopStyle();
+            if (mVisible){
+                ofxDatGuiButton::drawBkgd();
+                ofxDatGuiFont::drawLabel(mLabel, x, y + mHeight/2);
+                ofxDatGuiItem::drawStripe(ofxDatGuiColor::TOGGLE_STRIPE);
+                ofPushStyle();
+                    ofSetColor(ofxDatGuiColor::LABEL);
+                    if (mEnabled == true){
+                        radioOn.draw(x+radioIconX, y+radioIconY, radioIconSize, radioIconSize);
+                    }   else{
+                        radioOff.draw(x+radioIconX, y+radioIconY, radioIconSize, radioIconSize);
+                    }
+                ofPopStyle();
+            }
         }
     
         void onMouseRelease(ofPoint m)
@@ -140,24 +144,25 @@ class ofxDatGuiToggler : public ofxDatGuiButton {
         ofxDatGuiToggler() : ofxDatGuiButton(9999, "COLLAPSE CONTROLS")
         {
             mIsExpanded = true;
-            mHeight = rowHeight*.8;
+            mHeight = ofxDatGuiGlobals::rowHeight*.8;
             setLabel("COLLAPSE CONTROLS");
         }
     
         void draw()
         {
-            mLabelX = guiWidth/2 - getStringBoundingBox(mLabel, 0, 0).width/2;
-            ofxDatGuiButton::draw();
+            ofxDatGuiButton::drawBkgd();
+            ofxDatGuiFont::drawLabel(mLabel, x, y + mHeight/2, true);
+            ofxDatGuiItem::drawStripe(ofxDatGuiColor::BUTTON_STRIPE);
         }
     
         int getOriginY()
         {
-            return originY;
+            return mOriginY;
         }
     
         void setOriginY(int y)
         {
-            this->y = originY = y;
+            this->y = mOriginY = y;
         }
     
         void onMouseRelease(ofPoint m)

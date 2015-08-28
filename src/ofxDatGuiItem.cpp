@@ -22,40 +22,46 @@
 
 #include "ofxDatGuiItem.h"
 
-ofBitmapFont ofxDatGuiItem::bFont;
-ofTrueTypeFont ofxDatGuiItem::tFont;
-int ofxDatGuiItem::mAnchorPosition;
-bool ofxDatGuiItem::retinaEnabled = false;
-uint16_t ofxDatGuiItem::guiAlpha = 255;
-uint16_t ofxDatGuiItem::guiWidth = 300;
-uint16_t ofxDatGuiItem::rowHeight = 26;
-uint16_t ofxDatGuiItem::rowPadding = 2;
-uint16_t ofxDatGuiItem::rowSpacing = 1;
-uint16_t ofxDatGuiItem::labelX = 12;
-uint16_t ofxDatGuiItem::labelHeight = 0;
-uint16_t ofxDatGuiItem::fontSize = 6;
+int ofxDatGuiGlobals::guiX = 0;
+int ofxDatGuiGlobals::guiY = 0;
+int ofxDatGuiGlobals::guiAlpha = 255;
+int ofxDatGuiGlobals::guiWidth = 300;
+int ofxDatGuiGlobals::rowHeight = 26;
+int ofxDatGuiGlobals::rowPadding = 2;
+int ofxDatGuiGlobals::rowSpacing = 1;
+int ofxDatGuiGlobals::anchorPosition;
+
+int ofxDatGuiFont::fontSize = 6;
+int ofxDatGuiFont::labelX = 12;
+int ofxDatGuiFont::labelHeight = 0;
+int ofxDatGuiFont::highlightPadding = 3;
+bool ofxDatGuiFont::retinaEnabled = false;
+ofBitmapFont ofxDatGuiFont::bFont;
+ofTrueTypeFont ofxDatGuiFont::tFont;
+
 uint16_t ofxDatGuiItem::inputX = 120;
 uint16_t ofxDatGuiItem::inputTextIndent = 8;
 uint16_t ofxDatGuiItem::sliderX = inputX;
 uint16_t ofxDatGuiItem::sliderWidth = 110;
-uint16_t ofxDatGuiItem::sliderLabelX = sliderX+sliderWidth+rowPadding;
-uint16_t ofxDatGuiItem::sliderLabelWidth = guiWidth-sliderLabelX-rowPadding;
+uint16_t ofxDatGuiItem::sliderLabelX = sliderX+sliderWidth+ofxDatGuiGlobals::rowPadding;
+uint16_t ofxDatGuiItem::sliderLabelWidth = ofxDatGuiGlobals::guiWidth-sliderLabelX-ofxDatGuiGlobals::rowPadding;
 uint16_t ofxDatGuiItem::stripeWidth = 2;
-uint16_t ofxDatGuiItem::radioIconX = guiWidth-20;
+uint16_t ofxDatGuiItem::radioIconX = ofxDatGuiGlobals::guiWidth-20;
 uint16_t ofxDatGuiItem::radioIconY = 8;
 uint16_t ofxDatGuiItem::radioIconSize = 10;
-uint16_t ofxDatGuiItem::dropdownIconX = guiWidth-20;
+uint16_t ofxDatGuiItem::dropdownIconX = ofxDatGuiGlobals::guiWidth-20;
 uint16_t ofxDatGuiItem::dropdownIconY = 9;
 uint16_t ofxDatGuiItem::dropdownIconSize = 10;
 
 ofxDatGuiItem::ofxDatGuiItem(int id)
 {
     mId = id;
-    mLabelX = labelX;
-    mWidth = guiWidth;
-    mHeight = rowHeight;
-    x = ofxDatGuiPosition::x;
-    y = originY = ofxDatGuiPosition::y + (mId*(rowHeight+rowSpacing));
+    mVisible = true;
+    mWidth = ofxDatGuiGlobals::guiWidth;
+    mHeight = ofxDatGuiGlobals::rowHeight;
+    mPadding = ofxDatGuiGlobals::rowPadding;
+    x = ofxDatGuiGlobals::guiX;
+    y = mOriginY = ofxDatGuiGlobals::guiY + (mId*(ofxDatGuiGlobals::rowHeight+ofxDatGuiGlobals::rowSpacing));
 }
 
 ofxDatGuiItem::ofxDatGuiItem(int id, string label, bool centerLabel) : ofxDatGuiItem(id)
@@ -69,51 +75,103 @@ ofxDatGuiItem::ofxDatGuiItem(int id, string label, bool centerLabel) : ofxDatGui
     static methods
 */
 
-void ofxDatGuiItem::init(ofVec2f position)
+void ofxDatGuiItem::init(int x, int y)
 {
-    ofxDatGuiPosition::x = position.x;
-    ofxDatGuiPosition::y = position.y;
+    ofxDatGuiGlobals::guiX = x;
+    ofxDatGuiGlobals::guiY = y;
+    ofxDatGuiFont::labelHeight = ofxDatGuiFont::getStringBoundingBox("ABCDEFG123456", 0, 0).height;
     if (ofGetScreenWidth()>=2560 && ofGetScreenHeight()>=1600) enableRetina();
-    labelHeight = getStringBoundingBox("ABCDEFG123456", 0, 0).height;
 }
 
 void ofxDatGuiItem::init(uint8_t position)
 {
-    mAnchorPosition = position;
+    ofxDatGuiGlobals::anchorPosition = position;
+    ofxDatGuiFont::labelHeight = ofxDatGuiFont::getStringBoundingBox("ABCDEFG123456", 0, 0).height;
     if (ofGetScreenWidth()>=2560 && ofGetScreenHeight()>=1600) enableRetina();
-    if (position == ofxDatGuiAnchor::TOP_RIGHT) ofxDatGuiPosition::x = ofGetWidth()-ofxDatGuiItem::guiWidth;
-    labelHeight = getStringBoundingBox("ABCDEFG123456", 0, 0).height;
+    if (position == ofxDatGuiAnchor::TOP_RIGHT) ofxDatGuiGlobals::guiX = ofGetWidth()-ofxDatGuiGlobals::guiWidth;
 }
 
-void ofxDatGuiItem::setFont(string file)
+void ofxDatGuiItem::enableRetina()
+{
+    ofxDatGuiGlobals::guiWidth=540;
+    ofxDatGuiGlobals::rowHeight*=2;
+    ofxDatGuiGlobals::rowPadding*=2;
+    ofxDatGuiGlobals::rowSpacing*=2;
+
+    inputX=190;
+    inputTextIndent*=2;
+    sliderX=inputX;
+    sliderWidth=240;
+    sliderLabelX = sliderX+sliderWidth+ofxDatGuiGlobals::rowPadding;
+    sliderLabelWidth = ofxDatGuiGlobals::guiWidth-sliderLabelX-ofxDatGuiGlobals::rowPadding;
+    stripeWidth*=2;
+    dropdownIconX=ofxDatGuiGlobals::guiWidth-39;
+    dropdownIconY*=2;
+    dropdownIconSize*=2;
+    radioIconX=ofxDatGuiGlobals::guiWidth-40;
+    radioIconY*=2;
+    radioIconSize*=2;
+
+    ofxDatGuiFont::labelX*=2;
+    ofxDatGuiFont::fontSize*=2;
+    ofxDatGuiFont::highlightPadding*=2;
+    ofxDatGuiFont::retinaEnabled = true;
+    ofxDatGuiFont::load(ofxDatGuiAssetDir+"font-verdana.ttf");
+}
+
+void ofxDatGuiFont::load(string file)
 {
     tFont.load(file, fontSize);
     labelHeight = getStringBoundingBox("ABCDEFG123456", 0, 0).height;
 }
 
-void ofxDatGuiItem::enableRetina()
+ofRectangle ofxDatGuiFont::getStringBoundingBox(string str, int x, int y)
 {
-    guiWidth=540;
-    rowHeight*=2;
-    rowPadding*=2;
-    rowSpacing*=2;
-    labelX*=2;
-    fontSize*=2;
-    inputX=190;
-    inputTextIndent*=2;
-    sliderX=inputX;
-    sliderWidth=240;
-    sliderLabelX = sliderX+sliderWidth+rowPadding;
-    sliderLabelWidth = guiWidth-sliderLabelX-rowPadding;
-    stripeWidth*=2;
-    dropdownIconX=guiWidth-39;
-    dropdownIconY*=2;
-    dropdownIconSize*=2;
-    radioIconX=guiWidth-40;
-    radioIconY*=2;
-    radioIconSize*=2;
-    retinaEnabled=true;
-    setFont(ofxDatGuiAssetDir+"font-verdana.ttf");
+    if (tFont.isLoaded()){
+        return tFont.getStringBoundingBox(str, x, y);
+    }   else{
+        return bFont.getBoundingBox(str, x, y);
+    }
+}
+
+void ofxDatGuiFont::drawText(string text, ofColor color, int xpos, int ypos, bool highlight)
+{
+    ofPushStyle();
+        if (highlight){
+            ofRectangle hRect = getStringBoundingBox(text, xpos, ypos+labelHeight/2);
+            hRect.x -= highlightPadding;
+            hRect.width += highlightPadding*2;
+            hRect.y -= highlightPadding;
+            hRect.height += highlightPadding*2;
+            ofSetColor(ofxDatGuiColor::TEXT_HIGHLIGHT);
+            ofDrawRectangle(hRect);
+        }
+        ofSetColor(color);
+        if (tFont.isLoaded()){
+            tFont.drawString(text, xpos, ypos+labelHeight/2);
+        }   else{
+            if (!retinaEnabled) ypos-=2;
+            ofDrawBitmapString(text, xpos, ypos+labelHeight/2);
+        }
+    ofPopStyle();
+}
+
+void ofxDatGuiFont::drawLabel(string text, int xpos, int ypos, bool center)
+{
+    if (!center) {
+        xpos += labelX;
+    }   else{
+        xpos += ofxDatGuiGlobals::guiWidth/2 - getStringBoundingBox(text, 0, 0).width/2;
+    }
+    ofPushStyle();
+        ofSetColor(ofxDatGuiColor::LABEL);
+        if (tFont.isLoaded()){
+            tFont.drawString(text, xpos, ypos+labelHeight/2);
+        }   else{
+            if (!retinaEnabled) ypos-=2;
+            ofDrawBitmapString(text, xpos, ypos+labelHeight/2);
+        }
+    ofPopStyle();
 }
 
 /*
@@ -121,7 +179,7 @@ void ofxDatGuiItem::enableRetina()
 */
 
 int ofxDatGuiItem::getHeight() { return mHeight; }
-void ofxDatGuiItem::setYPosition(int ypos) { y = originY + ypos; }
+void ofxDatGuiItem::setYPosition(int ypos) { y = mOriginY + ypos; }
 
 string ofxDatGuiItem::getLabel() { return mLabel; }
 void ofxDatGuiItem::setLabel(string label) { mLabel = label; }
@@ -142,20 +200,13 @@ bool ofxDatGuiItem::getEnabled(){};
 void ofxDatGuiItem::select(int index){};
 int ofxDatGuiItem::getSelectedChildIndex(){};
 bool ofxDatGuiItem::isExpanded(){}
+void ofxDatGuiItem::setVisible(bool visible) { mVisible = visible; }
+bool ofxDatGuiItem::getVisible() { return mVisible; }
 
 void ofxDatGuiItem::onWindowResize(int w, int h)
 {
-    if (mAnchorPosition == ofxDatGuiAnchor::TOP_RIGHT){
-        ofxDatGuiPosition::x = this->x = w-ofxDatGuiItem::guiWidth;
-    }
-}
-
-ofRectangle ofxDatGuiItem::getStringBoundingBox(string str, int x, int y)
-{
-    if (tFont.isLoaded()){
-        return tFont.getStringBoundingBox(str, x, y);
-    }   else{
-        return bFont.getBoundingBox(str, x, y);
+    if (ofxDatGuiGlobals::anchorPosition == ofxDatGuiAnchor::TOP_RIGHT){
+        ofxDatGuiGlobals::guiX = this->x = w-ofxDatGuiGlobals::guiWidth;
     }
 }
 
@@ -168,34 +219,6 @@ void ofxDatGuiItem::drawBkgd(ofColor color, int alpha)
     ofPushStyle();
         ofSetColor(color, alpha);
         ofDrawRectangle(x, y, mWidth, mHeight);
-    ofPopStyle();
-}
-
-void ofxDatGuiItem::drawLabel(ofColor color)
-{
-    mLabelY = mHeight/2 + labelHeight/2;
-    ofPushStyle();
-        ofSetColor(color);
-        if (tFont.isLoaded()){
-            tFont.drawString(mLabel, x + mLabelX, y + mLabelY);
-        }   else{
-            if (!retinaEnabled) mLabelY-=2;
-            ofDrawBitmapString(mLabel, x + mLabelX, y + mLabelY);
-        }
-    ofPopStyle();
-}
-
-void ofxDatGuiItem::drawText(string text, ofColor color, int xpos)
-{
-    mLabelY = mHeight/2 + labelHeight/2;
-    ofPushStyle();
-        ofSetColor(color);
-        if (tFont.isLoaded()){
-            tFont.drawString(text, xpos, y + mLabelY);
-        }   else{
-            if (!retinaEnabled) mLabelY-=2;
-            ofDrawBitmapString(text, xpos, y + mLabelY);
-        }
     ofPopStyle();
 }
 

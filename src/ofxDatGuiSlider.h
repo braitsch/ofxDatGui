@@ -63,25 +63,26 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
     
         void draw()
         {
-            ofPushStyle();
-                ofxDatGuiItem::drawBkgd();
-                ofxDatGuiItem::drawStripe(ofxDatGuiColor::SLIDER_STRIPE);
-                ofxDatGuiItem::drawLabel();
-            // slider bkgd //
-                ofSetColor(ofxDatGuiColor::INPUT);
-                ofDrawRectangle(x+sliderX, y+rowPadding, sliderWidth, rowHeight-(rowPadding*2));
-            // slider fill //
-                if (mScale > 0){
-                    ofSetColor(ofxDatGuiColor::SLIDER);
-                    ofDrawRectangle(x+sliderX, y+rowPadding, sliderWidth*mScale, rowHeight-(rowPadding*2));
-                }
-            // value bkgd //
-                ofSetColor(ofxDatGuiColor::INPUT);
-                ofDrawRectangle(x+sliderLabelX, y+rowPadding, sliderLabelWidth, rowHeight-(rowPadding*2));
-            // value label //
-                ofxDatGuiItem::drawText(ofToString(mVal, 2), ofxDatGuiColor::SLIDER, x+sliderLabelX+labelX);
-            //
-            ofPopStyle();
+            if (mVisible){
+                ofPushStyle();
+                    ofxDatGuiItem::drawBkgd();
+                    ofxDatGuiFont::drawLabel(mLabel, x, y + mHeight/2);
+                    ofxDatGuiItem::drawStripe(ofxDatGuiColor::SLIDER_STRIPE);
+                // slider bkgd //
+                    ofSetColor(ofxDatGuiColor::INPUT);
+                    ofDrawRectangle(x+sliderX, y+mPadding, sliderWidth, mHeight-(mPadding*2));
+                // slider fill //
+                    if (mScale > 0){
+                        ofSetColor(ofxDatGuiColor::SLIDER);
+                        ofDrawRectangle(x+sliderX, y+mPadding, sliderWidth*mScale, mHeight-(mPadding*2));
+                    }
+                // value bkgd //
+                    ofSetColor(ofxDatGuiColor::INPUT);
+                    ofDrawRectangle(x+sliderLabelX, y+mPadding, sliderLabelWidth, mHeight-(mPadding*2));
+                // value label //
+                    ofxDatGuiFont::drawText(ofToString(mVal, 2), ofxDatGuiColor::SLIDER, x+sliderLabelX+ofxDatGuiFont::labelX, y+mHeight/2);
+                ofPopStyle();
+            }
         }
 
     
@@ -100,7 +101,7 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
     
         bool hitTest(ofPoint m)
         {
-            return (m.x>=x+sliderX && m.x<= x+sliderX+sliderWidth && m.y>=y+rowPadding && m.y<= y+rowHeight-rowPadding);
+            return (m.x>=x+sliderX && m.x<= x+sliderX+sliderWidth && m.y>=y+mPadding && m.y<= y+mHeight-mPadding);
         }
     
     protected:

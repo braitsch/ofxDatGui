@@ -29,19 +29,19 @@ class ofxDatGuiDropdownOption : public ofxDatGuiButton {
     
         ofxDatGuiDropdownOption(int index, string label, int ypos) : ofxDatGuiButton(index, label)
         {
-            this->y = originY = ypos;
+            this->y = mOriginY = ypos;
         }
     
         void draw()
         {
             ofxDatGuiButton::drawBkgd();
-            drawLabel();
+            ofxDatGuiFont::drawLabel(mLabel, x, y + mHeight/2);
             ofxDatGuiItem::drawStripe(ofxDatGuiColor::DROPDOWN_STRIPE);
         }
     
         void drawLabel()
         {
-            ofxDatGuiItem::drawText(" * "+mLabel, ofxDatGuiColor::LABEL, x+labelX);
+            ofxDatGuiFont::drawLabel(" * "+mLabel, x, y + mHeight/2);
         }
     
     private:
@@ -54,14 +54,15 @@ class ofxDatGuiDropdown : public ofxDatGuiButton {
     
         ofxDatGuiDropdown(int index, string label, vector<string> options) : ofxDatGuiButton(index, label)
         {
+            int vSpacing = ofxDatGuiGlobals::rowSpacing;
             for(uint8_t i=0; i<options.size(); i++){
-                int y = this->y+(children.size()*(rowHeight+rowSpacing)) + (rowHeight+rowSpacing);
+                int y = this->y+(children.size()*(mHeight+vSpacing)) + (mHeight+vSpacing);
                 ofxDatGuiDropdownOption* opt = new ofxDatGuiDropdownOption(children.size(), options[i], y);
                 opt->onGuiEvent(this, &ofxDatGuiDropdown::onOptionSelected);
                 children.push_back(opt);
             }
             if (icon.isAllocated() == false) icon.load(ofxDatGuiAssetDir+"icon-dropdown.png");
-            mHeight = children.size() * (ofxDatGuiItem::rowHeight+ofxDatGuiItem::rowSpacing);
+            mExpandedHeight = children.size() * (mHeight+ofxDatGuiGlobals::rowSpacing);
         }
     
         void select(int cIndex)
@@ -82,19 +83,21 @@ class ofxDatGuiDropdown : public ofxDatGuiButton {
     
         void draw()
         {
-            ofxDatGuiButton::drawBkgd();
-            ofxDatGuiItem::drawLabel();
-            ofxDatGuiItem::drawStripe(ofxDatGuiColor::DROPDOWN_STRIPE);
-            ofPushStyle();
-                ofSetColor(ofxDatGuiColor::LABEL);
-                icon.draw(x+dropdownIconX, y+dropdownIconY, dropdownIconSize, dropdownIconSize);
-                if (mIsExpanded) for(uint8_t i=0; i<children.size(); i++) children[i]->draw();
-            ofPopStyle();
+            if (mVisible){
+                ofxDatGuiButton::drawBkgd();
+                ofxDatGuiFont::drawLabel(mLabel, x, y + mHeight/2);
+                ofxDatGuiItem::drawStripe(ofxDatGuiColor::DROPDOWN_STRIPE);
+                ofPushStyle();
+                    ofSetColor(ofxDatGuiColor::LABEL);
+                    icon.draw(x+dropdownIconX, y+dropdownIconY, dropdownIconSize, dropdownIconSize);
+                    if (mIsExpanded) for(uint8_t i=0; i<children.size(); i++) children[i]->draw();
+                ofPopStyle();
+            }
         }
     
-        int getHeight()
+        int getExpandedHeight()
         {
-            return mHeight;
+            return mExpandedHeight;
         }
     
         void collapse()
@@ -132,7 +135,7 @@ class ofxDatGuiDropdown : public ofxDatGuiButton {
     
     protected:
         int mOption;
-        int mHeight;
+        int mExpandedHeight;
         ofImage icon;
 };
 

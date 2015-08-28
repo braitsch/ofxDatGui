@@ -45,12 +45,6 @@ namespace ofxDatGuiColor
     const ofColor DROPDOWN_STRIPE   = ofColor::fromHex(0x1ED36F);
 }
 
-namespace ofxDatGuiPosition
-{
-    extern int x;
-    extern int y;
-}
-
 namespace ofxDatGuiAnchor
 {
     enum ofxDatGuiAnchor{ TOP_LEFT = 0, TOP_RIGHT = 1};
