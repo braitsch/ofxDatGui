@@ -43,6 +43,8 @@ namespace ofxDatGuiColor
     const ofColor TOGGLE_STRIPE     = ofColor::fromHex(0xFFD00B);
     const ofColor SLIDER_STRIPE     = ofColor::fromHex(0x2FA1D6);
     const ofColor DROPDOWN_STRIPE   = ofColor::fromHex(0x1ED36F);
+//    const ofColor HEADER_STRIPE     = ofColor::fromHex(0xCCCCCC);
+//    const ofColor FOOTER_STRIPE     = ofColor::fromHex(0xCCCCCC);
 }
 
 namespace ofxDatGuiAnchor
@@ -82,8 +84,7 @@ namespace ofxDatGuiEventType
         INPUT_CHANGED,
         SLIDER_CHANGED,
         OPTION_SELECTED,
-        DROPDOWN_EXPANDED,
-        DROPDOWN_COLLAPSED
+        DROPDOWN_TOGGLED
     };
 }
 

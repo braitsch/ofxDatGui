@@ -130,20 +130,18 @@ void ofxDatGui::attachItem(ofxDatGuiItem* item)
 
 void ofxDatGui::onGuiEventCallback(ofxDatGuiEvent e)
 {
-    if (e.type == ofxDatGuiEventType::DROPDOWN_EXPANDED){
-    // shift everyone down //
+    if (e.type == ofxDatGuiEventType::DROPDOWN_TOGGLED){
         adjustHeight(e.index);
-    }   else if (e.type == ofxDatGuiEventType::DROPDOWN_COLLAPSED){
-    // shift everyone back up //
-        adjustHeight(e.index);
+        
     }   else if (e.type == ofxDatGuiEventType::OPTION_SELECTED){
-    // shift everyone back up //
         adjustHeight(e.index);
     // compensate for the header and ensure index is zero based //
         e.index--;
         changeEventCallback(e);
+        
     }   else if (e.type == ofxDatGuiEventType::GUI_TOGGLED){
         mGuiFooter->isExpanded() ? collapseGui() : expandGui();
+        
     }   else{
     // compensate for the header and ensure index is zero based //
         e.index--;
@@ -154,7 +152,7 @@ void ofxDatGui::onGuiEventCallback(ofxDatGuiEvent e)
 void ofxDatGui::adjustHeight(int index)
 {
     ofxDatGuiItem* target = items[index];
-    mHeight = target->getOriginY() - ofxDatGuiGlobals::guiY + target->getHeight() + ofxDatGuiGlobals::rowSpacing;
+    mHeight = target->getPositionY() - ofxDatGuiGlobals::guiY + target->getHeight() + ofxDatGuiGlobals::rowSpacing;
     for (uint8_t i=index+1; i<items.size(); i++){
         items[i]->setPositionY(mHeight);
         mHeight += items[i]->getHeight() + ofxDatGuiGlobals::rowSpacing;
@@ -241,20 +239,38 @@ void ofxDatGui::onKeyPressed(ofKeyEventArgs &e)
     if (e.key == 'h' && disableShowAndHide == false) mShowGui = !mShowGui;
 }
 
-bool ofxDatGui::isMouseOver(ofxDatGuiItem* item)
+bool ofxDatGui::isMouseOverRow(ofxDatGuiItem* row)
 {
     bool hit = false;
-    if (item->getVisible() && item->hitTest(mouse)){
+    if (row->getVisible() && row->hitTest(mouse)){
         hit = true;
         if (activeHover != nullptr){
-            if (activeHover != item){
+            if (activeHover != row){
                 activeHover->onMouseLeave(mouse);
-                activeHover = item;
+                activeHover = row;
                 activeHover->onMouseEnter(mouse);
             }
         }   else{
-            activeHover = item;
+            activeHover = row;
             activeHover->onMouseEnter(mouse);
+        }
+    }
+    return hit;
+}
+
+bool ofxDatGui::isMouseOverGui()
+{
+    bool hit = false;
+    for (uint8_t i=0; i<items.size(); i++) {
+        if (items[i]->isExpanded()){
+            for (uint8_t j=0; j<items[i]->children.size(); j++) {
+                hit = isMouseOverRow(items[i]->children[j]);
+                if (hit) return true;
+            }
+        }
+        if (!hit) {
+            hit = isMouseOverRow(items[i]);
+            if (hit) return true;
         }
     }
     return hit;
@@ -262,20 +278,9 @@ bool ofxDatGui::isMouseOver(ofxDatGuiItem* item)
 
 void ofxDatGui::onUpdate(ofEventArgs &e)
 {
-    bool hit = false;
     mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
-    for (uint8_t i=0; i<items.size(); i++) {
-        if (items[i]->isExpanded()){
-            for (uint8_t j=0; j<items[i]->children.size(); j++) {
-                hit = isMouseOver(items[i]->children[j]);
-                if (hit) break;
-            }
-        }
-        if (!hit) {
-            hit = isMouseOver(items[i]);
-            if (hit) break;
-        }
-    }
+    bool hit = isMouseOverGui();
+
     if (!hit && activeHover != nullptr){
         activeHover->onMouseLeave(mouse);
         activeHover = nullptr;

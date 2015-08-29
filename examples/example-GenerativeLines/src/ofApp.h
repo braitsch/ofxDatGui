@@ -89,6 +89,7 @@ class ofApp : public ofBaseApp{
 		void draw();
         void update();
         void reset();
+        void keyPressed(int key);
     
         int index;
         vector<Line> lines;

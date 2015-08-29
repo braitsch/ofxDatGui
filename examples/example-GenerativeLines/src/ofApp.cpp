@@ -12,6 +12,7 @@ void ofApp::setup()
     
 // instantiate and position the gui //
     gui = new ofxDatGui( ofxDatGuiAnchor::TOP_RIGHT );
+    gui->setHeader(":: DRAG ME TO MOVE GUI ::");
     
 // add some components //
     i1 = gui->addTextInput("MESSAGE", "# OPEN FRAMEWORKS #");
@@ -93,6 +94,11 @@ void ofApp::draw()
 void ofApp::reset()
 {
     for(int i=0; i<lines.size(); i++) lines[i].reset();
+}
+
+void ofApp::keyPressed(int key)
+{
+    if (key == 'f') ofToggleFullscreen();
 }
 
 

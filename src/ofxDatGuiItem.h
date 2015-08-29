@@ -38,8 +38,9 @@ class ofxDatGuiItem : public ofxDatGuiInteractiveObject
         string getLabel();
         virtual void setOrigin(int x, int y);
         int getOriginY();
-        void setPositionY(int y);
-    
+        virtual void setPositionY(int y);
+        int getPositionY();
+        
         void setVisible(bool visible);
         bool getVisible();
         void onWindowResize(int w, int h);

@@ -57,7 +57,6 @@ ofxDatGuiItem::ofxDatGuiItem(int id)
 {
     mId = id;
     mVisible = true;
-    x = ofxDatGuiGlobals::guiX;
     mWidth = ofxDatGuiGlobals::guiWidth;
     mHeight = ofxDatGuiGlobals::rowHeight;
     mPadding = ofxDatGuiGlobals::rowPadding;
@@ -210,6 +209,7 @@ void ofxDatGuiItem::setOrigin(int x, int y)
 
 int ofxDatGuiItem::getOriginY() { return mOriginY; }
 void ofxDatGuiItem::setPositionY(int ypos) { y = ofxDatGuiGlobals::guiY + ypos; }
+int ofxDatGuiItem::getPositionY() { return y;} 
 
 void ofxDatGuiItem::onWindowResize(int w, int h)
 {

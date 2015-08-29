@@ -80,10 +80,10 @@
 		8A7F93951B8E538800D06A57 /* ofxDatGui */ = {
 			isa = PBXGroup;
 			children = (
-				8AF970021B9121EC002EC8FB /* ofxDatGuiControls.h */,
 				8A7F93961B8E539B00D06A57 /* ofxDatGui.cpp */,
 				8A7F93971B8E539B00D06A57 /* ofxDatGui.h */,
 				8A7F93981B8E539B00D06A57 /* ofxDatGuiButton.h */,
+				8AF970021B9121EC002EC8FB /* ofxDatGuiControls.h */,
 				8A7F93991B8E539B00D06A57 /* ofxDatGuiDropdown.h */,
 				8A7F939B1B8E539B00D06A57 /* ofxDatGuiItem.cpp */,
 				8A7F939C1B8E539B00D06A57 /* ofxDatGuiItem.h */,

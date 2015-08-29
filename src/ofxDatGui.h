@@ -62,7 +62,8 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         void init();
         void onDraw(ofEventArgs &e);
         void onUpdate(ofEventArgs &e);
-        bool isMouseOver(ofxDatGuiItem* item);
+        bool isMouseOverRow(ofxDatGuiItem* row);
+        bool isMouseOverGui();
         void onKeyPressed(ofKeyEventArgs &e);
         void onMousePressed(ofMouseEventArgs &e);
         void onMouseReleased(ofMouseEventArgs &e);

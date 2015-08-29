@@ -10,7 +10,7 @@ void ofApp::setup()
 // instantiate and position the gui //
     gui = new ofxDatGui( ofxDatGuiAnchor::TOP_RIGHT );
 // add some components //
-//  gui->setHeader("DATGUI EXAMPLE");
+    gui->setHeader(":: DRAG ME TO MOVE GUI ::");
     gui->addTextInput("MESSAGE", "# OPEN FRAMEWORKS #");
     gui->addSlider("POSITION X", 0, 120, 75);
     gui->addSlider("POSITION Y", -40, 240, 200);
@@ -18,12 +18,16 @@ void ofApp::setup()
     gui->addSlider("DATGUI OPACITY", 0, 100);
     
 // add a dropdown //
-    vector<string> options = {"OPTION - 1", "OPTION - 2", "OPTION - 3", "OPTION - 4"};
-    gui->addDropdown(options);
+    vector<string> o1 = {"OPTION - 1", "OPTION - 2", "OPTION - 3", "OPTION - 4"};
+    gui->addDropdown(o1);
 
 // and a couple buttons //
     gui->addButton("CLICK");
     gui->addToggle("TOGGLE", false);
+
+// add another dropdown //
+    vector<string> o2 = {"OPTION - A", "OPTION - B", "OPTION - C", "OPTION - D"};
+    gui->addDropdown(o2);
     
 // listen for component events //
     gui->onGuiEvent(this, &ofApp::onGuiEvent);

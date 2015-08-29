@@ -27,7 +27,7 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
 
     public:
 
-        ofxDatGuiHeader() : ofxDatGuiButton(9999, "DRAG ME TO MOVE GUI")
+        ofxDatGuiHeader() : ofxDatGuiButton(9999, "")
         {
             mHeight = ofxDatGuiGlobals::rowHeight*.8;
         }
@@ -37,7 +37,7 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
             if (mVisible){
                 ofxDatGuiButton::drawBkgd();
                 ofxDatGuiFont::drawLabel(mLabel, x, y + mHeight/2, true);
-                ofxDatGuiItem::drawStripe(ofxDatGuiColor::BUTTON_STRIPE);
+            //  ofxDatGuiItem::drawStripe(ofxDatGuiColor::HEADER_STRIPE);
             }
         }
     
@@ -77,7 +77,7 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
         {
             ofxDatGuiButton::drawBkgd();
             ofxDatGuiFont::drawLabel(mLabel, x, y + mHeight/2, true);
-            ofxDatGuiItem::drawStripe(ofxDatGuiColor::BUTTON_STRIPE);
+        //  ofxDatGuiItem::drawStripe(ofxDatGuiColor::FOOTER_STRIPE);
         }
     
         void onMouseRelease(ofPoint m)
