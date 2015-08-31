@@ -28,9 +28,10 @@ class ofxDatGuiItem : public ofxDatGuiInteractiveObject
 {
     public:
     
-        ofxDatGuiItem(int id, string label);
+        ofxDatGuiItem(string label);
         vector<ofxDatGuiItem*> children;
     
+        void setIndex(int index);
         virtual int getHeight();
         void setLabel(string label);
         string getLabel();

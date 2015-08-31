@@ -12,7 +12,6 @@ void ofApp::setup()
     
 // instantiate and position the gui //
     gui = new ofxDatGui( ofxDatGuiAnchor::TOP_RIGHT );
-    gui->setHeader(":: DRAG ME TO MOVE GUI ::");
     
 // add some components //
     i1 = gui->addTextInput("MESSAGE", "# OPEN FRAMEWORKS #");
@@ -23,6 +22,8 @@ void ofApp::setup()
     
     b1 = gui->addButton("RESET");
     t1 = gui->addToggle("PAUSE DRAWING", false);
+    
+    gui->addFooter();
     
 // listen for component events //
     gui->onGuiEvent(this, &ofApp::onGuiEvent);

@@ -18,8 +18,11 @@ It also automatically renders at high resolution for retina displays o_O!
 * Range Sliders
 * Dropdown Menus
 * Folders to logically group components together
-* An optional draggable header to reposition the UI
+* An optional header that allows you to drag the Gui around
+* An optional footer that allows you to collapse & expand the Gui
 * No external dependencies!
+
+---
 
 ##Getting Started
 
@@ -176,7 +179,8 @@ As you might expect each event carries a unique payload that describes what happ
 
 In addition to the component add* methods **ofxDatGui** also provides a few extra instance methods:
 
-	gui->setHeading(string label);
+	gui->addHeader(string label);
+	gui->addFooter();
 	gui->setOpacity(float opacity); // between 0 & 1 //
 	gui->onGuiEvent(this, &ofApp::onGuiEventCallback);
  
@@ -186,11 +190,11 @@ You can also show & hide **ofxDatGui** by pressing the 'h' key.
 
 ---
 
-##Planned Features
+##In Progess
 
-	* ~~folders/groups~~
-	* color pickers
-	* save/load settings
+	* color pickers!
+	* ability to save/load settings
+	* more examples, tutorials & documentation
 
 ---
 

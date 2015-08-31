@@ -33,9 +33,11 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofxDatGui(uint8_t position);
     
         void draw();
-        void setHeader(string label);
         void setOpacity(float opacity);
+    
         ofxDatGuiItem* getItemAt(int index);
+        ofxDatGuiHeader* addHeader(string label = "");
+        ofxDatGuiFooter* addFooter();
         ofxDatGuiTextInput* addTextInput(string label, string value = "");
         ofxDatGuiButton* addButton(string label);
         ofxDatGuiToggle* addToggle(string label, bool state);
@@ -58,6 +60,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         vector<ofxDatGuiItem*> items;
     
         void init();
+        void layoutGui();
         void onDraw(ofEventArgs &e);
         void onUpdate(ofEventArgs &e);
         bool isMouseOverRow(ofxDatGuiItem* row);

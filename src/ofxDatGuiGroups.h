@@ -29,7 +29,7 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
 
     public:
     
-        ofxDatGuiGroup(int index, string label) : ofxDatGuiButton(index, label)
+        ofxDatGuiGroup(string label) : ofxDatGuiButton(label)
         {
             mIsExpanded = false;
             mChildrenHeight = 0;
@@ -131,7 +131,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
 
     public:
     
-        ofxDatGuiFolder(int index, string label, ofColor color) : ofxDatGuiGroup(index, label)
+        ofxDatGuiFolder(string label, ofColor color) : ofxDatGuiGroup(label)
         {
     // all items within a folder share the same stripe color //
             mStripeColor = color;
@@ -146,7 +146,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
 
         ofxDatGuiButton* addButton(string label)
         {
-            ofxDatGuiButton* button = new ofxDatGuiButton(children.size(), label);
+            ofxDatGuiButton* button = new ofxDatGuiButton(label);
             button->setStripeColor(mStripeColor);
             attachItem(button);
             return button;
@@ -154,7 +154,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
     
         ofxDatGuiButton* addToggle(string label, bool enabled = false)
         {
-            ofxDatGuiToggle* toggle = new ofxDatGuiToggle(children.size(), label, enabled);
+            ofxDatGuiToggle* toggle = new ofxDatGuiToggle(label, enabled);
             toggle->setStripeColor(mStripeColor);
             attachItem(toggle);
             return toggle;
@@ -170,7 +170,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
 
         ofxDatGuiSlider* addSlider(string label, float min, float max, float val)
         {
-            ofxDatGuiSlider* slider = new ofxDatGuiSlider(children.size(), label, min, max, val);
+            ofxDatGuiSlider* slider = new ofxDatGuiSlider(label, min, max, val);
             slider->setStripeColor(mStripeColor);
             attachItem(slider);
             return slider;
@@ -178,7 +178,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
     
         ofxDatGuiTextInput* addTextInput(string label, string value)
         {
-            ofxDatGuiTextInput* input = new ofxDatGuiTextInput(children.size(), label, value);
+            ofxDatGuiTextInput* input = new ofxDatGuiTextInput(label, value);
             input->setStripeColor(mStripeColor);
             attachItem(input);
             return input;
@@ -188,6 +188,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
         {
             item->onGuiEvent(this, &ofxDatGuiFolder::onFolderEvent);
             item->setVisible(false);
+            item->setIndex(children.size());
             children.push_back(item);
         // recalculate the group's height //
             mChildrenHeight = 0;
@@ -200,7 +201,7 @@ class ofxDatGuiDropdownOption : public ofxDatGuiButton {
 
     public:
     
-        ofxDatGuiDropdownOption(int index, string label) : ofxDatGuiButton(index, label)
+        ofxDatGuiDropdownOption(string label) : ofxDatGuiButton(label)
         {
             mStripeColor = ofxDatGuiColor::DROPDOWN_STRIPE;
         }
@@ -220,11 +221,12 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
 
     public:
     
-        ofxDatGuiDropdown(int index, string label, vector<string> options) : ofxDatGuiGroup(index, label)
+        ofxDatGuiDropdown(string label, vector<string> options) : ofxDatGuiGroup(label)
         {
             mStripeColor = ofxDatGuiColor::DROPDOWN_STRIPE;
             for(uint8_t i=0; i<options.size(); i++){
-                ofxDatGuiDropdownOption* opt = new ofxDatGuiDropdownOption(children.size(), options[i]);
+                ofxDatGuiDropdownOption* opt = new ofxDatGuiDropdownOption(options[i]);
+                opt->setIndex(children.size());
                 opt->onGuiEvent(this, &ofxDatGuiDropdown::onOptionSelected);
                 opt->setVisible(false);
                 children.push_back(opt);

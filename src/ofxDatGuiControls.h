@@ -27,7 +27,7 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
 
     public:
 
-        ofxDatGuiHeader() : ofxDatGuiButton(9999, "")
+        ofxDatGuiHeader(string label) : ofxDatGuiButton(label)
         {
             mHeight = ofxDatGuiGlobals::rowHeight*.8;
         }
@@ -62,7 +62,7 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
 
     public:
     
-        ofxDatGuiFooter() : ofxDatGuiButton(9999, "COLLAPSE CONTROLS")
+        ofxDatGuiFooter() : ofxDatGuiButton("COLLAPSE CONTROLS")
         {
             mIsExpanded = true;
             mHeight = ofxDatGuiGlobals::rowHeight*.8;

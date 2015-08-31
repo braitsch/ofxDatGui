@@ -11,7 +11,6 @@ void ofApp::setup()
     gui = new ofxDatGui( ofxDatGuiAnchor::TOP_RIGHT );
     
 // add some components //
-    gui->setHeader(":: DRAG ME TO MOVE GUI ::");
     gui->addTextInput("MESSAGE", "# OPEN FRAMEWORKS #");
     
 // add a folder to group a few components //
@@ -24,6 +23,7 @@ void ofApp::setup()
     gui->addSlider("POSITION Y", -40, 240, 200);
     gui->addSlider("POSITION Z", -80, 120, -40);
     opacitySlider = gui->addSlider("DATGUI OPACITY", 0, 100);
+
     
 // add a dropdown //
     vector<string> o1 = {"OPTION - 1", "OPTION - 2", "OPTION - 3", "OPTION - 4"};
@@ -32,7 +32,13 @@ void ofApp::setup()
 // and a couple buttons //
     gui->addButton("CLICK");
     gui->addToggle("TOGGLE", true);
-    
+
+// adding the optional header allows you to drag the gui around //
+    gui->addHeader(":: DRAG ME TO REPOSITION ::");
+
+// adding the optional footer allows you to collapse/expand the gui //
+    gui->addFooter();
+
 // listen for component events //
     gui->onGuiEvent(this, &ofApp::onGuiEvent);
 

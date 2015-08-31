@@ -35,26 +35,42 @@ ofxDatGui::ofxDatGui(uint8_t anchor)
 void ofxDatGui::init()
 {
     mShowGui = true;
+    mousePressed = false;
+    mGuiHeader = nullptr;
+    mGuiFooter = nullptr;
     activeHover = nullptr;
     activeFocus = nullptr;
-    mousePressed = false;
-    
-    mGuiHeader = new ofxDatGuiHeader();
-    mGuiFooter = new ofxDatGuiFooter();
-    attachItem( mGuiHeader );
-    attachItem( mGuiFooter );
     
     ofAddListener(ofEvents().draw, this, &ofxDatGui::onDraw, OF_EVENT_ORDER_AFTER_APP);
     ofAddListener(ofEvents().update, this, &ofxDatGui::onUpdate, OF_EVENT_ORDER_AFTER_APP);
     ofAddListener(ofEvents().keyPressed, this, &ofxDatGui::onKeyPressed, OF_EVENT_ORDER_BEFORE_APP);
     ofAddListener(ofEvents().mousePressed, this, &ofxDatGui::onMousePressed, OF_EVENT_ORDER_BEFORE_APP);
     ofAddListener(ofEvents().mouseReleased, this, &ofxDatGui::onMouseReleased, OF_EVENT_ORDER_BEFORE_APP);
-    ofAddListener(ofEvents().windowResized, this, &ofxDatGui::onWindowResized, OF_EVENT_ORDER_AFTER_APP);
+    ofAddListener(ofEvents().windowResized, this, &ofxDatGui::onWindowResized, OF_EVENT_ORDER_BEFORE_APP);
 }
 
-void ofxDatGui::setHeader(string label)
+ofxDatGuiHeader* ofxDatGui::addHeader(string label)
 {
-    mGuiHeader->setLabel(label);
+    if (mGuiHeader == nullptr){
+        mGuiHeader = new ofxDatGuiHeader(label);
+        if (items.size() == 0){
+            items.push_back(mGuiHeader);
+        }   else{
+    // always ensure header is at the top of the panel //
+            items.insert(items.begin(), mGuiHeader);
+        }
+        layoutGui();
+    }
+}
+
+ofxDatGuiFooter* ofxDatGui::addFooter()
+{
+    if (mGuiFooter == nullptr){
+        mGuiFooter = new ofxDatGuiFooter();
+        items.push_back(mGuiFooter);
+        mGuiFooter->onGuiEvent(this, &ofxDatGui::onGuiEventCallback);
+        layoutGui();
+    }
 }
 
 void ofxDatGui::setOpacity(float opacity)
@@ -64,29 +80,33 @@ void ofxDatGui::setOpacity(float opacity)
 
 ofxDatGuiItem* ofxDatGui::getItemAt(int index)
 {
-// internally add 1 to index to compensate for header //
-    return items[index+1];
+    if (mGuiHeader == nullptr){
+        return items[index];
+    }   else{
+    // internally add 1 to compensate for the header //
+        return items[index+1];
+    }
 }
 
 /* add component methods */
 
 ofxDatGuiTextInput* ofxDatGui::addTextInput(string label, string value)
 {
-    ofxDatGuiTextInput* input = new ofxDatGuiTextInput(items.size()-1, label, value);
+    ofxDatGuiTextInput* input = new ofxDatGuiTextInput(label, value);
     attachItem(input);
     return input;
 }
 
 ofxDatGuiButton* ofxDatGui::addButton(string label)
 {
-    ofxDatGuiButton* button = new ofxDatGuiButton(items.size()-1, label);
+    ofxDatGuiButton* button = new ofxDatGuiButton(label);
     attachItem(button);
     return button;
 }
 
 ofxDatGuiToggle* ofxDatGui::addToggle(string label, bool state)
 {
-    ofxDatGuiToggle* button = new ofxDatGuiToggle(items.size()-1, label, state);
+    ofxDatGuiToggle* button = new ofxDatGuiToggle(label, state);
     attachItem(button);
     return button;
 }
@@ -100,21 +120,21 @@ ofxDatGuiSlider* ofxDatGui::addSlider(string label, float min, float max)
 
 ofxDatGuiSlider* ofxDatGui::addSlider(string label, float min, float max, float val)
 {
-    ofxDatGuiSlider* slider = new ofxDatGuiSlider(items.size()-1, label, min, max, val);
+    ofxDatGuiSlider* slider = new ofxDatGuiSlider(label, min, max, val);
     attachItem(slider);
     return slider;
 }
 
 ofxDatGuiDropdown* ofxDatGui::addDropdown(vector<string> options)
 {
-    ofxDatGuiDropdown* dropdown = new ofxDatGuiDropdown(items.size()-1, "SELECT OPTION", options);
+    ofxDatGuiDropdown* dropdown = new ofxDatGuiDropdown("SELECT OPTION", options);
     attachItem(dropdown);
     return dropdown;
 }
 
 ofxDatGuiFolder* ofxDatGui::addFolder(string label, ofColor color)
 {
-    ofxDatGuiFolder* folder = new ofxDatGuiFolder(items.size()-1, label, color);
+    ofxDatGuiFolder* folder = new ofxDatGuiFolder(label, color);
     attachItem(folder);
     return folder;
 }
@@ -123,13 +143,19 @@ ofxDatGuiFolder* ofxDatGui::addFolder(string label, ofColor color)
 void ofxDatGui::attachItem(ofxDatGuiItem* item)
 {
     item->onGuiEvent(this, &ofxDatGui::onGuiEventCallback);
-    if (items.size() < 2){
-        items.push_back( item );
-    }   else{
+    if (mGuiFooter != nullptr){
         items.insert(items.end()-1, item);
+    }   else {
+        items.push_back( item );
     }
+    layoutGui();
+}
+
+void ofxDatGui::layoutGui()
+{
     mHeight = 0;
     for (int i=0; i<items.size(); i++) {
+        items[i]->setIndex(i);
         items[i]->setOrigin(ofxDatGuiGlobals::guiX, mHeight);
         mHeight += items[i]->getHeight() + ofxDatGuiGlobals::rowSpacing;
     }
@@ -144,7 +170,7 @@ void ofxDatGui::onGuiEventCallback(ofxDatGuiEvent e)
     }   else if (e.type == ofxDatGuiEventType::OPTION_SELECTED){
         adjustHeight(e.index);
     // compensate for the header and ensure index is zero based //
-        e.index--;
+        if (mGuiHeader != nullptr) e.index--;
         changeEventCallback(e);
         
     }   else if (e.type == ofxDatGuiEventType::GUI_TOGGLED){
@@ -152,7 +178,7 @@ void ofxDatGui::onGuiEventCallback(ofxDatGuiEvent e)
         
     }   else{
     // compensate for the header and ensure index is zero based //
-        e.index--;
+        if (mGuiHeader != nullptr) e.index--;
         changeEventCallback(e);
     }
 }
@@ -296,7 +322,7 @@ void ofxDatGui::onUpdate(ofEventArgs &e)
         if (mousePressed) {
             activeHover->onMouseDrag(mouse);
         // allow the panel to be repositioned //
-            if (activeHover == mGuiHeader) moveGui(mouse-mGuiHeader->dragOffset);
+            if (mGuiHeader != nullptr && activeHover == mGuiHeader) moveGui(mouse-mGuiHeader->dragOffset);
         }
     }
 }

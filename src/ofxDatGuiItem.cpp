@@ -53,9 +53,8 @@ uint16_t ofxDatGuiItem::dropdownIconX = ofxDatGuiGlobals::guiWidth-20;
 uint16_t ofxDatGuiItem::dropdownIconY = 9;
 uint16_t ofxDatGuiItem::dropdownIconSize = 10;
 
-ofxDatGuiItem::ofxDatGuiItem(int id, string label)
+ofxDatGuiItem::ofxDatGuiItem(string label)
 {
-    mId = id;
     mLabel = label;
     mVisible = true;
     mMouseOver = false;
@@ -177,6 +176,7 @@ void ofxDatGuiFont::drawLabel(string text, int xpos, int ypos, bool center)
     instance methods
 */
 
+void ofxDatGuiItem::setIndex(int index) { mId = index; }
 int ofxDatGuiItem::getHeight() { return mHeight; }
 string ofxDatGuiItem::getLabel() { return mLabel; }
 void ofxDatGuiItem::setLabel(string label) { mLabel = label; }

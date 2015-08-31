@@ -26,7 +26,7 @@
 class ofxDatGuiTextInput : public ofxDatGuiItem {
 
     public:
-        ofxDatGuiTextInput(int index, string label, string text) : ofxDatGuiItem(index, label)
+        ofxDatGuiTextInput(string label, string text) : ofxDatGuiItem(label)
         {
             mStripeColor = ofxDatGuiColor::INPUT_STRIPE;
             input = new ofxDatGuiTextInputField(mWidth-mPadding-inputX);

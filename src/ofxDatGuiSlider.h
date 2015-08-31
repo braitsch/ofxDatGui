@@ -27,7 +27,7 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
 
     public:
     
-        ofxDatGuiSlider(int index, string label, float min, float max, float val) : ofxDatGuiItem(index, label)
+        ofxDatGuiSlider(string label, float min, float max, float val) : ofxDatGuiItem(label)
         {
             mMin = min;
             mMax = max;

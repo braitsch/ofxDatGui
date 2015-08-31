@@ -27,7 +27,7 @@ class ofxDatGuiButton : public ofxDatGuiItem {
 
     public:
     
-        ofxDatGuiButton(int index, string label) : ofxDatGuiItem(index, label)
+        ofxDatGuiButton(string label) : ofxDatGuiItem(label)
         {
             mStripeColor = ofxDatGuiColor::BUTTON_STRIPE;
         }
@@ -72,7 +72,7 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
     
     public:
     
-        ofxDatGuiToggle(int index, string label, bool enabled) : ofxDatGuiButton(index, label)
+        ofxDatGuiToggle(string label, bool enabled) : ofxDatGuiButton(label)
         {
             mEnabled = enabled;
             mStripeColor = ofxDatGuiColor::TOGGLE_STRIPE;
