@@ -32,6 +32,7 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
             mMin = min;
             mMax = max;
             mVal = val;
+            mStripeColor = ofxDatGuiColor::SLIDER_STRIPE;
             input = new ofxDatGuiTextInputField(sliderInputWidth);
             input->setText(ofToString(mVal, 2));
             input->setTextInactiveColor(ofxDatGuiColor::SLIDER);
@@ -79,7 +80,7 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
                 ofPushStyle();
                     ofxDatGuiItem::drawBkgd();
                     ofxDatGuiFont::drawLabel(mLabel, x, y + mHeight/2);
-                    ofxDatGuiItem::drawStripe(ofxDatGuiColor::SLIDER_STRIPE);
+                    ofxDatGuiItem::drawStripe();
                 // slider bkgd //
                     ofSetColor(ofxDatGuiColor::INPUT);
                     ofDrawRectangle(x+sliderX, y+mPadding, sliderWidth, mHeight-(mPadding*2));

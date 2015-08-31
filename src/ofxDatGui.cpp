@@ -72,9 +72,9 @@ ofxDatGuiItem* ofxDatGui::getItemAt(int index)
 
 ofxDatGuiTextInput* ofxDatGui::addTextInput(string label, string value)
 {
-    ofxDatGuiTextInput* message = new ofxDatGuiTextInput(items.size()-1, label, value);
-    attachItem(message);
-    return message;
+    ofxDatGuiTextInput* input = new ofxDatGuiTextInput(items.size()-1, label, value);
+    attachItem(input);
+    return input;
 }
 
 ofxDatGuiButton* ofxDatGui::addButton(string label)
@@ -112,6 +112,14 @@ ofxDatGuiDropdown* ofxDatGui::addDropdown(vector<string> options)
     return dropdown;
 }
 
+ofxDatGuiFolder* ofxDatGui::addFolder(string label, ofColor color)
+{
+    ofxDatGuiFolder* folder = new ofxDatGuiFolder(items.size()-1, label, color);
+    attachItem(folder);
+    return folder;
+}
+
+
 void ofxDatGui::attachItem(ofxDatGuiItem* item)
 {
     item->onGuiEvent(this, &ofxDatGui::onGuiEventCallback);
@@ -140,7 +148,7 @@ void ofxDatGui::onGuiEventCallback(ofxDatGuiEvent e)
         changeEventCallback(e);
         
     }   else if (e.type == ofxDatGuiEventType::GUI_TOGGLED){
-        mGuiFooter->isExpanded() ? collapseGui() : expandGui();
+        mGuiFooter->getIsExpanded() ? collapseGui() : expandGui();
         
     }   else{
     // compensate for the header and ensure index is zero based //
@@ -262,7 +270,7 @@ bool ofxDatGui::isMouseOverGui()
 {
     bool hit = false;
     for (uint8_t i=0; i<items.size(); i++) {
-        if (items[i]->isExpanded()){
+        if (items[i]->getIsExpanded()){
             for (uint8_t j=0; j<items[i]->children.size(); j++) {
                 hit = isMouseOverRow(items[i]->children[j]);
                 if (hit) return true;

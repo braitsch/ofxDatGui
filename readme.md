@@ -8,6 +8,21 @@ It also automatically renders at high resolution for retina displays o_O!
 
 ---
 
+##Features
+
+**ofxDatGui** offers the following features & components:
+
+* Basic Buttons
+* Toggle (On/Off) Buttons
+* Text Inputs
+* Range Sliders
+* Dropdown Menus
+* Folders to logically group components together
+* An optional draggable header to reposition the UI
+* No external dependencies!
+
+##Getting Started
+
 To add **ofxDatGui** to your project simply pass in the X and Y coordinates where you would like it to live or use one of the convenient pre-defined anchors.
 
 	ofxDatGui* gui = new ofxDatGui( 100, 100 );
@@ -52,6 +67,19 @@ If this is not set it will default to halfway between the min and max values.
 	vector<string> options = {"ONE", "TWO", "THREE", "FOUR"};
 	gui->addDropdown(options);
 	
+---
+
+##Component Groups (Folders)
+
+You can also group related components into folders:
+
+	ofxDatGuiFolder* folder = gui->addFolder(string label);
+	folder->addButton("Nested Button");
+	folder->addSlider("Nested Slider", 0, 100);
+	folder->addTextInput("I am a Nested Text Input");
+
+**Note:** Currently folders only support one level of depth and cannot contain grouped objects such as other folders or dropdowns. 
+
 ---
 	
 ## Manipulation
@@ -146,7 +174,7 @@ As you might expect each event carries a unique payload that describes what happ
 		
 ##ofxDatGui Methods
 
-In addition to the component add* methods **ofxDatGui** currently provides two additional instance methods:
+In addition to the component add* methods **ofxDatGui** also provides a few extra instance methods:
 
 	gui->setHeading(string label);
 	gui->setOpacity(float opacity); // between 0 & 1 //
@@ -160,7 +188,7 @@ You can also show & hide **ofxDatGui** by pressing the 'h' key.
 
 ##Planned Features
 
-	* folders/groups
+	* ~~folders/groups~~
 	* color pickers
 	* save/load settings
 

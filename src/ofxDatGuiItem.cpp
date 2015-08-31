@@ -53,20 +53,17 @@ uint16_t ofxDatGuiItem::dropdownIconX = ofxDatGuiGlobals::guiWidth-20;
 uint16_t ofxDatGuiItem::dropdownIconY = 9;
 uint16_t ofxDatGuiItem::dropdownIconSize = 10;
 
-ofxDatGuiItem::ofxDatGuiItem(int id)
+ofxDatGuiItem::ofxDatGuiItem(int id, string label)
 {
     mId = id;
+    mLabel = label;
     mVisible = true;
+    mMouseOver = false;
+    mMouseDown = false;
+    mStripeColor = ofColor::fromHex(0xEEEEEE);
     mWidth = ofxDatGuiGlobals::guiWidth;
     mHeight = ofxDatGuiGlobals::rowHeight;
     mPadding = ofxDatGuiGlobals::rowPadding;
-}
-
-ofxDatGuiItem::ofxDatGuiItem(int id, string label, bool centerLabel) : ofxDatGuiItem(id)
-{
-    mLabel = label;
-    mMouseOver = false;
-    mMouseDown = false;
 }
 
 /*
@@ -81,7 +78,7 @@ void ofxDatGuiItem::init(int x, int y)
     if (ofGetScreenWidth()>=2560 && ofGetScreenHeight()>=1600) enableRetina();
 }
 
-void ofxDatGuiItem::init(uint8_t position)
+void ofxDatGuiItem::init(int position)
 {
     ofxDatGuiGlobals::anchorPosition = position;
     ofxDatGuiFont::labelHeight = ofxDatGuiFont::getStringBoundingBox("ABCDEFG123456", 0, 0).height;
@@ -116,6 +113,10 @@ void ofxDatGuiItem::enableRetina()
     ofxDatGuiFont::retinaEnabled = true;
     ofxDatGuiFont::load(ofxDatGuiAssetDir+"font-verdana.ttf");
 }
+
+/*
+    ofxDatGuiFont
+*/
 
 void ofxDatGuiFont::load(string file)
 {
@@ -195,9 +196,10 @@ void ofxDatGuiItem::setEnabled(bool enabled){};
 bool ofxDatGuiItem::getEnabled(){};
 void ofxDatGuiItem::select(int index){};
 int ofxDatGuiItem::getSelectedChildIndex(){};
-bool ofxDatGuiItem::isExpanded(){}
+bool ofxDatGuiItem::getIsExpanded(){}
 void ofxDatGuiItem::setVisible(bool visible) { mVisible = visible; }
 bool ofxDatGuiItem::getVisible() { return mVisible; }
+void ofxDatGuiItem::setStripeColor(ofColor color) { mStripeColor = color; }
 
 void ofxDatGuiItem::setOrigin(int x, int y)
 {
@@ -235,10 +237,10 @@ void ofxDatGuiItem::drawBkgd(ofColor color, int alpha)
     ofPopStyle();
 }
 
-void ofxDatGuiItem::drawStripe(ofColor color)
+void ofxDatGuiItem::drawStripe()
 {
     ofPushStyle();
-        ofSetColor(color);
+        ofSetColor(mStripeColor);
         ofDrawRectangle(x, y, stripeWidth, mHeight);
     ofPopStyle();
 }

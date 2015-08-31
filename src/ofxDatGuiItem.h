@@ -28,14 +28,13 @@ class ofxDatGuiItem : public ofxDatGuiInteractiveObject
 {
     public:
     
-        ofxDatGuiItem(int id);
-        ofxDatGuiItem(int id, string label, bool centerLabel = false);
-    
+        ofxDatGuiItem(int id, string label);
         vector<ofxDatGuiItem*> children;
     
         virtual int getHeight();
         void setLabel(string label);
         string getLabel();
+        void setStripeColor(ofColor color);
         virtual void setOrigin(int x, int y);
         int getOriginY();
         virtual void setPositionY(int y);
@@ -47,7 +46,7 @@ class ofxDatGuiItem : public ofxDatGuiInteractiveObject
 
         static void enableRetina();
         static void init(int x, int y);
-        static void init(uint8_t position);
+        static void init(int position);
     
         virtual void draw() = 0;
         virtual bool hitTest(ofPoint m) = 0;
@@ -63,8 +62,8 @@ class ofxDatGuiItem : public ofxDatGuiInteractiveObject
         virtual float getScale();
         virtual string getText();
         virtual bool getEnabled();
+        virtual bool getIsExpanded();
         virtual int getSelectedChildIndex();
-        virtual bool isExpanded();
 
         virtual void onFocus();    
         virtual void onFocusLost();
@@ -84,6 +83,7 @@ class ofxDatGuiItem : public ofxDatGuiInteractiveObject
         int mHeight;
         int mOriginY;
         int mPadding;
+        ofColor mStripeColor;
 
         string mLabel;
         bool mVisible;
@@ -91,7 +91,7 @@ class ofxDatGuiItem : public ofxDatGuiInteractiveObject
         bool mMouseDown;
     
         void drawBkgd(ofColor color = ofxDatGuiColor::ROW_BKGD, int alpha=ofxDatGuiGlobals::guiAlpha);
-        void drawStripe(ofColor color = ofxDatGuiColor::ROW_BKGD);
+        void drawStripe();
     
         static uint16_t inputX;
         static uint16_t inputTextIndent;

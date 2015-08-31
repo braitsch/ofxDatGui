@@ -11,7 +11,9 @@ class ofApp : public ofBaseApp{
         void update();
     
         ofxDatGui* gui;
+        ofxDatGuiSlider* opacitySlider;
         void onGuiEvent(ofxDatGuiEvent e);
+        void log(ofxDatGuiEvent e, string s);
     
 };
 

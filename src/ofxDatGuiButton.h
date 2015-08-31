@@ -27,7 +27,10 @@ class ofxDatGuiButton : public ofxDatGuiItem {
 
     public:
     
-        ofxDatGuiButton(int index, string label) : ofxDatGuiItem(index, label) { }
+        ofxDatGuiButton(int index, string label) : ofxDatGuiItem(index, label)
+        {
+            mStripeColor = ofxDatGuiColor::BUTTON_STRIPE;
+        }
     
         void onMouseRelease(ofPoint m)
         {
@@ -42,7 +45,7 @@ class ofxDatGuiButton : public ofxDatGuiItem {
             if (mVisible){
                 drawBkgd();
                 ofxDatGuiFont::drawLabel(mLabel, x, y + mHeight/2);
-                ofxDatGuiItem::drawStripe(ofxDatGuiColor::BUTTON_STRIPE);
+                ofxDatGuiItem::drawStripe();
             }
         }
     
@@ -72,6 +75,7 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
         ofxDatGuiToggle(int index, string label, bool enabled) : ofxDatGuiButton(index, label)
         {
             mEnabled = enabled;
+            mStripeColor = ofxDatGuiColor::TOGGLE_STRIPE;
             if (!radioOn.isAllocated()) radioOn.load(ofxDatGuiAssetDir+"icon-radio-on.png");
             if (!radioOff.isAllocated()) radioOff.load(ofxDatGuiAssetDir+"icon-radio-off.png");
         }
@@ -96,7 +100,7 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
             if (mVisible){
                 ofxDatGuiButton::drawBkgd();
                 ofxDatGuiFont::drawLabel(mLabel, x, y + mHeight/2);
-                ofxDatGuiItem::drawStripe(ofxDatGuiColor::TOGGLE_STRIPE);
+                ofxDatGuiItem::drawStripe();
                 ofPushStyle();
                     ofSetColor(ofxDatGuiColor::LABEL);
                     if (mEnabled == true){

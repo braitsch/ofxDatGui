@@ -37,7 +37,7 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
             if (mVisible){
                 ofxDatGuiButton::drawBkgd();
                 ofxDatGuiFont::drawLabel(mLabel, x, y + mHeight/2, true);
-            //  ofxDatGuiItem::drawStripe(ofxDatGuiColor::HEADER_STRIPE);
+            //  ofxDatGuiItem::drawStripe();
             }
         }
     
@@ -68,7 +68,7 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
             mHeight = ofxDatGuiGlobals::rowHeight*.8;
         }
     
-        bool isExpanded()
+        bool getIsExpanded()
         {
             return mIsExpanded;
         }
@@ -77,7 +77,7 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
         {
             ofxDatGuiButton::drawBkgd();
             ofxDatGuiFont::drawLabel(mLabel, x, y + mHeight/2, true);
-        //  ofxDatGuiItem::drawStripe(ofxDatGuiColor::FOOTER_STRIPE);
+        //  ofxDatGuiItem::drawStripe();
         }
     
         void onMouseRelease(ofPoint m)

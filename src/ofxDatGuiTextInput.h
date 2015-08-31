@@ -28,6 +28,7 @@ class ofxDatGuiTextInput : public ofxDatGuiItem {
     public:
         ofxDatGuiTextInput(int index, string label, string text) : ofxDatGuiItem(index, label)
         {
+            mStripeColor = ofxDatGuiColor::INPUT_STRIPE;
             input = new ofxDatGuiTextInputField(mWidth-mPadding-inputX);
             input->setText(text);
             input->setTextIndent(ofxDatGuiFont::retinaEnabled ? TEXT_INDENT*2 : TEXT_INDENT);
@@ -45,7 +46,7 @@ class ofxDatGuiTextInput : public ofxDatGuiItem {
             if (mVisible){
                 ofxDatGuiItem::drawBkgd();
                 ofxDatGuiFont::drawLabel(mLabel, x, y + mHeight/2);
-                ofxDatGuiItem::drawStripe(ofxDatGuiColor::INPUT_STRIPE);
+                ofxDatGuiItem::drawStripe();
                 input->draw(x + inputX, y + mPadding);
             }
         }

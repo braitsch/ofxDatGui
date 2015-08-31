@@ -21,11 +21,8 @@
 */
 
 #pragma once
+#include "ofxDatGuiGroups.h"
 #include "ofxDatGuiControls.h"
-#include "ofxDatGuiButton.h"
-#include "ofxDatGuiSlider.h"
-#include "ofxDatGuiDropdown.h"
-#include "ofxDatGuiTextInput.h"
 
 class ofxDatGui : public ofxDatGuiInteractiveObject
 {
@@ -45,6 +42,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofxDatGuiSlider* addSlider(string label, float min, float max);
         ofxDatGuiSlider* addSlider(string label, float min, float max, float val);
         ofxDatGuiDropdown* addDropdown(vector<string> options);
+        ofxDatGuiFolder* addFolder(string label, ofColor color = ofxDatGuiColor::LABEL);
     
     private:
     
