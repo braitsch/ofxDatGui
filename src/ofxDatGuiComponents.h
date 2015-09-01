@@ -84,6 +84,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             mRestrict = false;
             mTextChanged = false;
             mHighlightText = false;
+            mMaxCharacters = 99;
             mTextActiveColor = ofxDatGuiColor::LABEL;
             mTextInactiveColor = ofxDatGuiColor::TEXT;
         }
@@ -100,9 +101,20 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             ofPopStyle();
         }
     
+        int getWidth()
+        {
+            return mRect.width;
+        }
+    
+        int getHeight()
+        {
+            return mRect.height;
+        }
+    
         bool hitTest(ofPoint m)
         {
-            return mRect.inside(m);
+            return (m.x>=mRect.x && m.x<=mRect.x+mRect.width && m.y>=mRect.y && m.y<=mRect.y+mRect.height);
+            //return mRect.inside(m);
         }
     
         void setText(string text)
@@ -123,6 +135,11 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
         void setTextInactiveColor(ofColor color)
         {
             mTextInactiveColor = color;
+        }
+    
+        void setMaxNumOfCharacters(int max)
+        {
+            mMaxCharacters = max;
         }
     
         void setRestrictToNumbers(bool restrict)
@@ -190,6 +207,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
         bool mRestrict;
         bool mTextChanged;
         bool mHighlightText;
+        int mMaxCharacters;
         ofColor mBkgdColor;
         ofColor mTextColor;
         ofColor mHighLightColor;

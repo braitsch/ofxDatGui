@@ -24,6 +24,9 @@ void ofApp::setup()
     gui->addSlider("POSITION Z", -80, 120, -40);
     opacitySlider = gui->addSlider("DATGUI OPACITY", 0, 100);
 
+// add a colorpicker //
+
+//  gui->addColorPicker("COLOR PICKER");
     
 // add a dropdown //
     vector<string> o1 = {"OPTION - 1", "OPTION - 2", "OPTION - 3", "OPTION - 4"};

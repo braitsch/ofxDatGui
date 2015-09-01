@@ -24,6 +24,20 @@ It also automatically renders at high resolution for retina displays o_O!
 
 ---
 
+##Setup
+
+**ofxDatGui** currently requires [openFrameworks v0.9.0 or above](https://github.com/openframeworks/openFrameworks) which you can get by cloning/downloading the master branch on Github.
+
+Once you've installed openFrameworks, clone or download the zip of this repository and unpack it into your openFrameworks/addons directory.
+
+Then create a new project using the project generator and be sure to include **ofxDatGui** by selecting the ```addons``` button in the generator.
+
+Once your project has been created copy the ```ofxdatgui_assets``` directory in the root of this repository to your project's bin/data directory.
+
+Finally add ```#include "ofxDatGui.h``` to the top of your ofApp.h file and you should be good to go.
+
+---
+
 ##Getting Started
 
 To add **ofxDatGui** to your project simply pass in the X and Y coordinates where you would like it to live or use one of the convenient pre-defined anchors.

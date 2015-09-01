@@ -24,6 +24,7 @@
 #include "ofxDatGuiButton.h"
 #include "ofxDatGuiSlider.h"
 #include "ofxDatGuiTextInput.h"
+#include "ofxDatGuiColorPicker.h"
 
 class ofxDatGuiGroup : public ofxDatGuiButton {
 

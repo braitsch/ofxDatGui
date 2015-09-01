@@ -139,6 +139,13 @@ ofxDatGuiFolder* ofxDatGui::addFolder(string label, ofColor color)
     return folder;
 }
 
+ofxDatGuiColorPicker* ofxDatGui::addColorPicker(string label)
+{
+    ofxDatGuiColorPicker* picker = new ofxDatGuiColorPicker(label);
+    attachItem(picker);
+    pickers.push_back(picker);
+    return picker;
+}
 
 void ofxDatGui::attachItem(ofxDatGuiItem* item)
 {
@@ -156,7 +163,7 @@ void ofxDatGui::layoutGui()
     mHeight = 0;
     for (int i=0; i<items.size(); i++) {
         items[i]->setIndex(i);
-        items[i]->setOrigin(ofxDatGuiGlobals::guiX, mHeight);
+        items[i]->setOrigin(ofxDatGuiGlobals::guiX, ofxDatGuiGlobals::guiY + mHeight);
         mHeight += items[i]->getHeight() + ofxDatGuiGlobals::rowSpacing;
     }
     mHeightMinimum = mHeight;
@@ -335,6 +342,7 @@ void ofxDatGui::onDraw(ofEventArgs &e)
         ofSetColor(ofxDatGuiColor::GUI_BKGD, ofxDatGuiGlobals::guiAlpha);
         ofDrawRectangle(ofxDatGuiGlobals::guiX, ofxDatGuiGlobals::guiY, ofxDatGuiGlobals::guiWidth, mHeight - ofxDatGuiGlobals::rowSpacing);
         for (uint16_t i=0; i<items.size(); i++) items[i]->draw();
+        for (uint16_t i=0; i<pickers.size(); i++) pickers[i]->draw();
     ofPopStyle();
 }
 

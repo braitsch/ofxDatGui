@@ -51,6 +51,7 @@
 		8A1BA0681B8CFE9E0034593B /* ofxDatGuiItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxDatGuiItem.h; path = ../../src/ofxDatGuiItem.h; sourceTree = "<group>"; };
 		8A1BA0691B8CFE9E0034593B /* ofxDatGuiSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxDatGuiSettings.h; path = ../../src/ofxDatGuiSettings.h; sourceTree = "<group>"; };
 		8A1BA06A1B8CFE9E0034593B /* ofxDatGuiSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxDatGuiSlider.h; path = ../../src/ofxDatGuiSlider.h; sourceTree = "<group>"; };
+		8A670E461B952E31009BC7EB /* ofxDatGuiColorPicker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ofxDatGuiColorPicker.h; path = ../../src/ofxDatGuiColorPicker.h; sourceTree = "<group>"; };
 		8A72012F1B90000A004435C1 /* ofxDatGuiComponents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxDatGuiComponents.h; path = ../../src/ofxDatGuiComponents.h; sourceTree = "<group>"; };
 		8A7201301B90000A004435C1 /* ofxDatGuiTextInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxDatGuiTextInput.h; path = ../../src/ofxDatGuiTextInput.h; sourceTree = "<group>"; };
 		8A7201351B9008FA004435C1 /* ofxDatGui-GenerativeLinesDebug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ofxDatGui-GenerativeLinesDebug.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -90,6 +91,7 @@
 				8ACA16961B94F145005D9A15 /* ofxDatGuiGroups.h */,
 				8AF96FFE1B911F63002EC8FB /* ofxDatGuiControls.h */,
 				8A1BA0691B8CFE9E0034593B /* ofxDatGuiSettings.h */,
+				8A670E461B952E31009BC7EB /* ofxDatGuiColorPicker.h */,
 				8A72012F1B90000A004435C1 /* ofxDatGuiComponents.h */,
 			);
 			name = ofxDatGui;

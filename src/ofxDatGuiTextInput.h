@@ -35,12 +35,6 @@ class ofxDatGuiTextInput : public ofxDatGuiItem {
             input->onGuiEvent(this, &ofxDatGuiTextInput::onInputChanged);
         }
     
-        void onInputChanged(ofxDatGuiEvent e)
-        {
-            e.index = mId;
-            changeEventCallback(e);
-        }
-    
         void draw()
         {
             if (mVisible){
@@ -75,8 +69,17 @@ class ofxDatGuiTextInput : public ofxDatGuiItem {
             input->onKeyPressed(key);
         }
     
-    private:
+    protected:
+    
+        virtual void onInputChanged(ofxDatGuiEvent e)
+        {
+            e.index = mId;
+            changeEventCallback(e);
+        }
+    
         ofxDatGuiTextInputField* input;
+
+    private:
         static int const TEXT_INDENT = 8;
     
 };
