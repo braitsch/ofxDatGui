@@ -35,8 +35,11 @@ void ofApp::setup()
     b1 = gui->addButton("RESET");
     t1 = gui->addToggle("PAUSE DRAWING", false);
     
-// finally listen for component events //
-    gui->onGuiEvent(this, &ofApp::onGuiEvent);
+// finally register a few callbacks to listen for specific component events //
+    gui->onButtonEvent(this, &ofApp::onButtonEvent);
+    gui->onSliderEvent(this, &ofApp::onSliderEvent);
+    gui->onTextInputEvent(this, &ofApp::onTextInputEvent);
+    gui->onColorPickerEvent(this, &ofApp::onColorPickerEvent);
     
 // capture the default slider values into variables //
     drawSpeed = s1->getValue();
@@ -55,41 +58,47 @@ void ofApp::setup()
     bkgd.load("bkgd-pattern.png");
 }
 
-void ofApp::onGuiEvent(ofxDatGuiEvent e)
+void ofApp::onSliderEvent(ofxDatGuiSliderEvent e)
 {
-    if (e.type == ofxDatGuiEventType::BUTTON_CLICKED){
-        ofxDatGuiItem* button = gui->getItemAt(e.index);
-        if (button == b1) reset();
-    }   else if (e.type == ofxDatGuiEventType::INPUT_CHANGED){
-        cout << "COMPONENT #" << e.index << " :: INPUT_CHANGED" << " > " << e.text << endl;
-    /* 
-        events will very soon carry a pointer to the component that dispatched it so this will become much easier!
-    */
-    }   else if (e.index == 2){
-        if (e.child == 0){
-            drawSpeed = e.value;
-        }   else if (e.child == 1){
-            lineWeight = e.value;
-        }   else if (e.child == 2){
-            Line::MaxLength = e.value;
-        }
-    }   else if (e.type == ofxDatGuiEventType::SLIDER_CHANGED){
-        gui->setOpacity(e.scale);
-    }   else if (e.type == ofxDatGuiEventType::BUTTON_TOGGLED){
-        drawingPaused = e.enabled;
-    }   else if (e.type == ofxDatGuiEventType::COLOR_CHANGED){
-    /* 
-        events will very soon carry a pointer to the component that dispatched it so this will become much easier!
-    */
-        if (e.child == 0){
-            lines[0].color = p1->getColor();
-        }   else if (e.child == 1){
-            lines[1].color = p2->getColor();
-        }   else if (e.child == 2){
-            lines[2].color = p3->getColor();
-        }   else if (e.child == 3){
-            lines[3].color = p4->getColor();
-        }
+//  every event has a pointer to the object (target) that dispatched the event
+    if (e.target->getLabel() == "DRAW SPEED"){
+        drawSpeed = e.value;
+// you can also compare the target pointer against a local variable
+    }   else if (e.target == s2){
+        lineWeight = e.value;
+// slider event objects also carry the current scale & value of the slider
+    }   else if (e.target == s3){
+        Line::MaxLength = e.value;
+    }   else if (e.target->getLabel() == "DATGUI OPACITY"){
+// however you can always read these values directly off of the slider itself
+        gui->setOpacity(e.target->getScale());
+    }
+}
+
+void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
+{
+    if (e.target == b1) {
+        reset();
+    }   else if (e.target == t1) {
+        drawingPaused = t1->getEnabled();
+    }
+}
+
+void ofApp::onTextInputEvent(ofxDatGuiTextInputEvent e)
+{
+    cout << "onTextInputEvent: " << e.target->getLabel() << " " << e.target->getText() << endl;
+}
+
+void ofApp::onColorPickerEvent(ofxDatGuiColorPickerEvent e)
+{
+    if (e.target->getLabel() == "LINE 1"){
+        lines[0].color = e.target->getColor();
+    }   else if (e.target->getLabel() == "LINE 2"){
+        lines[1].color = e.target->getColor();
+    }   else if (e.target->getLabel() == "LINE 3"){
+        lines[2].color = e.target->getColor();
+    }   else if (e.target->getLabel() == "LINE 4"){
+        lines[3].color = e.target->getColor();
     }
 }
 

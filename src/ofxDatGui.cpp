@@ -68,7 +68,7 @@ ofxDatGuiFooter* ofxDatGui::addFooter()
     if (mGuiFooter == nullptr){
         mGuiFooter = new ofxDatGuiFooter();
         items.push_back(mGuiFooter);
-        mGuiFooter->onGuiEvent(this, &ofxDatGui::onGuiEventCallback);
+        mGuiFooter->onInternalEvent(this, &ofxDatGui::onInternalEventCallback);
         layoutGui();
     }
 }
@@ -78,21 +78,12 @@ void ofxDatGui::setOpacity(float opacity)
     ofxDatGuiGlobals::guiAlpha = opacity*255;
 }
 
-ofxDatGuiItem* ofxDatGui::getItemAt(int index)
-{
-    if (mGuiHeader == nullptr){
-        return items[index];
-    }   else{
-    // internally add 1 to compensate for the header //
-        return items[index+1];
-    }
-}
-
 /* add component methods */
 
 ofxDatGuiTextInput* ofxDatGui::addTextInput(string label, string value)
 {
     ofxDatGuiTextInput* input = new ofxDatGuiTextInput(label, value);
+    input->onTextInputEvent(this, &ofxDatGui::onTextInputEventCallback);
     attachItem(input);
     return input;
 }
@@ -117,19 +108,31 @@ ofxDatGuiSlider* ofxDatGui::addSlider(string label, float min, float max)
 {
 // default to halfway between min & max values //
     ofxDatGuiSlider* slider = addSlider(label, min, max, (max+min)/2);
+    slider->onSliderEvent(this, &ofxDatGui::onSliderEventCallback);
     return slider;
 }
 
 ofxDatGuiSlider* ofxDatGui::addSlider(string label, float min, float max, float val)
 {
     ofxDatGuiSlider* slider = new ofxDatGuiSlider(label, min, max, val);
+    slider->onSliderEvent(this, &ofxDatGui::onSliderEventCallback);
     attachItem(slider);
     return slider;
+}
+
+ofxDatGuiColorPicker* ofxDatGui::addColorPicker(string label)
+{
+    ofxDatGuiColorPicker* picker = new ofxDatGuiColorPicker(label);
+    picker->onColorPickerEvent(this, &ofxDatGui::onColorPickerEventCallback);
+    attachItem(picker);
+    return picker;
 }
 
 ofxDatGuiDropdown* ofxDatGui::addDropdown(vector<string> options)
 {
     ofxDatGuiDropdown* dropdown = new ofxDatGuiDropdown("SELECT OPTION", options);
+    dropdown->onDropdownEvent(this, &ofxDatGui::onDropdownEventCallback);
+    dropdown->onInternalEvent(this, &ofxDatGui::onInternalEventCallback);
     attachItem(dropdown);
     return dropdown;
 }
@@ -137,20 +140,17 @@ ofxDatGuiDropdown* ofxDatGui::addDropdown(vector<string> options)
 ofxDatGuiFolder* ofxDatGui::addFolder(string label, ofColor color)
 {
     ofxDatGuiFolder* folder = new ofxDatGuiFolder(label, color);
+    folder->onButtonEvent(this, &ofxDatGui::onButtonEventCallback);
+    folder->onSliderEvent(this, &ofxDatGui::onSliderEventCallback);
+    folder->onTextInputEvent(this, &ofxDatGui::onTextInputEventCallback);
+    folder->onColorPickerEvent(this, &ofxDatGui::onColorPickerEventCallback);
+    folder->onInternalEvent(this, &ofxDatGui::onInternalEventCallback);
     attachItem(folder);
     return folder;
 }
 
-ofxDatGuiColorPicker* ofxDatGui::addColorPicker(string label)
-{
-    ofxDatGuiColorPicker* picker = new ofxDatGuiColorPicker(label);
-    attachItem(picker);
-    return picker;
-}
-
 void ofxDatGui::attachItem(ofxDatGuiItem* item)
 {
-    item->onGuiEvent(this, &ofxDatGui::onGuiEventCallback);
     if (mGuiFooter != nullptr){
         items.insert(items.end()-1, item);
     }   else {
@@ -170,29 +170,43 @@ void ofxDatGui::layoutGui()
     mHeightMinimum = mHeight;
 }
 
+/*
+    event callbacks
+*/
+
 void ofxDatGui::onButtonEventCallback(ofxDatGuiButtonEvent e)
 {
     buttonEventCallback(e);
 }
 
-void ofxDatGui::onGuiEventCallback(ofxDatGuiEvent e)
+void ofxDatGui::onSliderEventCallback(ofxDatGuiSliderEvent e)
 {
+    sliderEventCallback(e);
+}
+
+void ofxDatGui::onTextInputEventCallback(ofxDatGuiTextInputEvent e)
+{
+    textInputEventCallback(e);
+}
+
+void ofxDatGui::onDropdownEventCallback(ofxDatGuiDropdownEvent e)
+{
+    adjustHeight(e.parent);
+    dropdownEventCallback(e);
+}
+
+void ofxDatGui::onColorPickerEventCallback(ofxDatGuiColorPickerEvent e)
+{
+    colorPickerEventCallback(e);
+}
+
+void ofxDatGui::onInternalEventCallback(ofxDatGuiInternalEvent e)
+{
+// these events are not dispatched out to the main application //
     if (e.type == ofxDatGuiEventType::DROPDOWN_TOGGLED){
         adjustHeight(e.index);
-        
-    }   else if (e.type == ofxDatGuiEventType::OPTION_SELECTED){
-        adjustHeight(e.index);
-    // compensate for the header and ensure index is zero based //
-        if (mGuiHeader != nullptr) e.index--;
-        changeEventCallback(e);
-        
     }   else if (e.type == ofxDatGuiEventType::GUI_TOGGLED){
         mGuiFooter->getIsExpanded() ? collapseGui() : expandGui();
-        
-    }   else{
-    // compensate for the header and ensure index is zero based //
-        if (mGuiHeader != nullptr) e.index--;
-        changeEventCallback(e);
     }
 }
 

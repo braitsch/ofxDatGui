@@ -23,53 +23,98 @@
 #pragma once
 #include <string>
 #include <iostream>
+#include "ofColor.h"
 
 class ofxDatGuiButton;
 class ofxDatGuiSlider;
+class ofxDatGuiDropdown;
+class ofxDatGuiTextInput;
+class ofxDatGuiColorPicker;
 
-class ofxDatGuiEvent{
+enum ofxDatGuiEventType
+{
+    GUI_TOGGLED = 0,
+    BUTTON_CLICKED,
+    BUTTON_TOGGLED,
+    INPUT_CHANGED,
+    COLOR_CHANGED,
+    SLIDER_CHANGED,
+    OPTION_SELECTED,
+    DROPDOWN_TOGGLED
+};
+
+class ofxDatGuiInternalEvent{
     
     public:
-        ofxDatGuiEvent(int eType, int eIndex){
+        ofxDatGuiInternalEvent(int eType, int eIndex){
             type = eType;
             index = eIndex;
-            child = 0;
-            value = 0;
-            scale = 0;
-            text = "";
-            enabled = 0;
         };
         int type;
         int index;
-        int child;
-        float value;
-        float scale;
-        std::string text;
-        bool enabled;
 };
 
 class ofxDatGuiButtonEvent{
 
     public:
-        ofxDatGuiButtonEvent(ofxDatGuiButton* t)
+        ofxDatGuiButtonEvent(ofxDatGuiButton* t, bool e = false)
         {
             target = t;
+            enabled = e;
         }
+    bool enabled;
     ofxDatGuiButton* target;
 };
 
-namespace ofxDatGuiEventType
-{
-    enum ofxDatGuiEventType{
-        GUI_TOGGLED = 0,
-        BUTTON_PRESSED,
-        BUTTON_RELEASED,
-        BUTTON_CLICKED,
-        BUTTON_TOGGLED,
-        INPUT_CHANGED,
-        COLOR_CHANGED,
-        SLIDER_CHANGED,
-        OPTION_SELECTED,
-        DROPDOWN_TOGGLED
-    };
-}
+class ofxDatGuiSliderEvent{
+
+    public:
+        ofxDatGuiSliderEvent(ofxDatGuiSlider* t, float v, float s)
+        {
+            value = v;
+            scale = s;
+            target = t;
+        }
+    float value;
+    float scale;
+    ofxDatGuiSlider* target;
+};
+
+class ofxDatGuiTextInputEvent{
+
+    public:
+        ofxDatGuiTextInputEvent(ofxDatGuiTextInput* t, std::string s)
+        {
+            text = s;
+            target = t;
+        }
+    std::string text;
+    ofxDatGuiTextInput* target;
+};
+
+class ofxDatGuiColorPickerEvent{
+    
+    public:
+        ofxDatGuiColorPickerEvent(ofxDatGuiColorPicker* t, ofColor c)
+        {
+            color = c;
+            target = t;
+        }
+    ofColor color;
+    ofxDatGuiColorPicker* target;
+};
+
+class ofxDatGuiDropdownEvent{
+
+    public:
+        ofxDatGuiDropdownEvent(ofxDatGuiDropdown* t, int p, int c)
+        {
+            child = c;
+            parent = p;
+            target = t;
+        }
+    int child;
+    int parent;
+    ofxDatGuiDropdown* target;
+};
+

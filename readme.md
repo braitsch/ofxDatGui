@@ -15,11 +15,11 @@
 * Range Sliders
 * Dropdown Menus
 * Folders to group components together
-* Optional header & footer that allows you to collapse and drag the Gui around
+* An optional header & footer that allow you to collapse and drag the Gui around
 
 ##Installation
 
-**ofxDatGui** is built on top of C++11 and currently requires openFrameworks 0.9.0 or later which you can easily install by [cloning or downloading the repository on Github.](https://github.com/openframeworks/openFrameworks) 
+**ofxDatGui** is built on top of C++11 and currently requires openFrameworks 0.9.0 or later which you can easily install by [cloning or downloading the repository from Github.](https://github.com/openframeworks/openFrameworks) 
 
 * Once you've downloaded openFrameworks, clone or download this repository and unpack it into your openFrameworks/addons directory.
 
@@ -71,13 +71,13 @@ This generates a Basic Button with the label "Click!"
 **Range Slider**
 
 	gui->addSlider(string label, float min, float max);
+
+![ofxDatGui](./img/ofxdatgui_slider.png?raw=true)
 	
 Optionally you can set the starting value of the slider.  
 If this is not set it will default to halfway between the min and max values.
 
 	gui->addSlider(string label, float min, float max, float value);
-
-![ofxDatGui](./img/ofxdatgui_slider.png?raw=true)
 	
 **Color Picker**	
 	
@@ -96,11 +96,10 @@ If this is not set it will default to halfway between the min and max values.
 
 You can also group related components into folders. When constructing a folder pass in a label to name the folder and an optional color to help visually group its contents.
 
-	ofxDatGuiFolder* folder = gui->addFolder(string label, ofColor color);
-	folder->addButton("Nested Button");
-	folder->addSlider("Nested Slider", 0, 100);
-	folder->addTextInput("I am a Nested Text Input");
-	folder->addColorPicker("I am a Nested Color Picker");
+	ofxDatGuiFolder* folder = gui->addFolder("My White Folder", ofColor::white);
+	folder->addTextInput("** Input", "A Nested Text Input");
+	folder->addSlider("** Slider", 0, 100);
+	folder->addToggle("** Toggle", false);
 
 ![ofxDatGui](./img/ofxdatgui_folder.png?raw=true)
 	
@@ -111,10 +110,7 @@ Every ``gui->add*`` method returns a pointer to an **ofxDatGuiItem** object that
 	ofxDatGuiTextInput* myInput;
 	myInput = gui->addTextInput("Name:", "Stephen");
 	myInput->setText("Freddy");
-
-You can also manipulate items directly on **ofxDatGui** itself. 
-
-	gui->getItemAt(itemIndex)->setText("Hello World");	
+	
 Every **ofxDatGuiItem** has a mutable label that can easily be retrieved or changed via:
 
 	item->getLabel();
@@ -159,68 +155,100 @@ In addition some components have methods (typically getters & setters) that allo
 	
 **Note:** All indicies are zero based so the first item in your  **ofxDatGui** instance will have an index of 0, the second item will have an index of 1, the third item an index of 2 etc..
 	
----	
-	
 ## Events
 
-Every component dispatches a unique event when it is interacted with.
-The simplest way to listen for these events is to register a single callback with your **ofxDatGui** instance.
+**ofxDatGuiEvents** are designed to be as easy as possible to interact with.
 
-    gui->onGuiEvent(this, &ofApp::onGuiEvent);
-    void onGuiEvent(ofxDatGuiEvent e)
-    {
-	    if (e.type == ofxDatGuiEventType::BUTTON_CLICKED){
-        cout << "item# " << e.index << " was clicked!" << endl;
-    }
-
-As you might expect each event carries a unique payload that describes what happened.
-
-**BUTTON_CLICKED**
-
-	(int) event.index // the index of the button in the gui //
-         
-**BUTTON_TOGGLED**
-       
-	(int) event.index // the index of the button in the gui //
-	(bool) event.enabled // whether the button is on or off //
-
-**INPUT_CHANGED**
-        
-	(int) event.index // the index of the text input in the gui //
-	(string) event.text // the new text value of the text input field //
-
-**SLIDER_CHANGED**
-
-	(int) event.index // the index of the slider in the gui //
-	(float) event.value // the new value of the slider //
-	(float) event.scale // the position % of the slider (0 - 1) //
-
-**OPTION_SELECTED**
-
-	(int) event.index // the index of the dropdown in the gui //
-	(int) event.child // the index of the option in the dropdown // 
+To listen for an event simply register a callback to be executed when an event you care about is received:
 	
----
+	gui->onButtonEvent(this, &ofApp::onButtonEvent);
+	void onButtonEvent(ofxDatGuiButtonEvent e)
+	{
+		cout << "A button was clicked!" << endl;
+	}
+    
+Every callback you register will receive an event object that contains a pointer (called target) to the object that created the event. 
+
+	gui->addButton("My Button");
+	gui->onButtonEvent(this, &ofApp::onButtonEvent);
+	void onButtonEvent(ofxDatGuiButtonEvent e)
+	{
+		cout << e.target->getLabel() << endl; // prints "My Button"
+	}
+
+If you saved the pointer returned by ```gui->add()``` in a variable you can compare it to the event target to decide how to handle the event. 
+
+	ofxDatGuiButton* b1 = gui->addButton("Button 1");
+	ofxDatGuiButton* b2 = gui->addButton("Button 2");
+	gui->onButtonEvent(this, &ofApp::onButtonEvent);
+	void onButtonEvent(ofxDatGuiButtonEvent e)
+	{
+		if (e.target == b1){
+			cout << "Button 1 was clicked" << endl;
+		} else if (e.target == b2){
+		// 	button 2 was clicked, do something else //
+		}
+	}
+
+All events also contain additonal properties that allow convenient access to the state of the component that dispatched the event.
+
+**ofxDatGuiButtonEvent**
+
+	ofxDatGuiButtonEvent e
+	bool e.enabled // the enabled state of a toggle button
+			
+**ofxDatGuiSliderEvent**
+
+	ofxDatGuiSliderEvent e
+	float e.value // current value of the slider 
+	float e.scale // current scale of the slider 
+
+**ofxDatGuiTextInputEvent**
+	
+	ofxDatGuiTextInputEvent e
+	string e.text // current text in the textfield
+	
+**ofxDatGuiColorPickerEvent**
+
+	ofxDatGuiColorPickerEvent e
+	ofColor e.color // the color of the picker
+	 
+**ofxDatGuiDropdownEvent**
+	
+	ofxDatGuiDropdownEvent e
+	int e.child // the index of the selected option (zero based)
+	
+**Note:** You can always retrieve these properties directly from the event target itself.
+
+	ofxDatGuiSliderEvent e
+	float value = e.target->getValue();
+	float scale = e.target->getScale();
+	
 		
-##ofxDatGui Methods
+##Headers & Footers
 
-In addition to the component add* methods **ofxDatGui** also provides a few extra instance methods:
+**ofxDatGui** also provides an optional header and footer that allow you to title your gui, drag it around and conveniently collapse and expand it.
 
-	gui->addHeader(string label);
+	gui->addHeader(":: Drag Me To Reposition ::");
+	
+![ofxDatGui](./img/ofxdatgui_header.png?raw=true)
+	
 	gui->addFooter();
-	gui->setOpacity(float opacity); // between 0 & 1 //
-	gui->onGuiEvent(this, &ofApp::onGuiEventCallback);
  
-**Note: ofxDatGui** internally updates and draws itself on top of your application so there is no need to call ``draw()`` or ``update()`` on it.
+![ofxDatGui](./img/ofxdatgui_footer.png?raw=true)
  
-You can also show & hide **ofxDatGui** by pressing the 'h' key.
+##Customization 
 
----
+Eventually custom themes will be supported however for now you can adjust the transparency of the gui via: 
+ 
+	gui->setOpacity(float opacity); // between 0 & 1 // 
+ 
+You can also show & hide **ofxDatGui** by pressing the ``h`` key.
 
 ##Additonal Notes
 
 Thanks for reading all this and checking the project out. 
 
-I'm actively looking for people to help me beta test this and provide feedback to help shape the project's development. If you'd like to see a feature prioritized or have any general questions or feedback please send me a message or open an issue.
+I'm actively looking for people to help me test this and provide feedback to help shape ongoing development. If you'd like to see a feature prioritized or have any general questions or feedback please send me a message or open an issue here on Github.
 
 Thanks!

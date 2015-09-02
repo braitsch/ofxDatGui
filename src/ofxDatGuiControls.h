@@ -84,9 +84,8 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
         {
             ofxDatGuiItem::onMouseRelease(m);
         // dispatch event out to main application //
-            ofxDatGuiEvent e(ofxDatGuiEventType::GUI_TOGGLED, mId);
-            e.value = mIsExpanded;
-            changeEventCallback(e);
+            ofxDatGuiInternalEvent e(ofxDatGuiEventType::GUI_TOGGLED, mId);
+            internalEventCallback(e);
             if (mIsExpanded){
                 mIsExpanded = false;
                 setLabel("EXPAND CONTROLS");

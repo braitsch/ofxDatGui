@@ -30,19 +30,15 @@ class ofxDatGuiItem : public ofxDatGuiInteractiveObject
         ofxDatGuiItem(string label);
         vector<ofxDatGuiItem*> children;
     
-        void setIndex(int index);
-        virtual int getHeight();
-        void setLabel(string label);
-        string getLabel();
-        void setStripeColor(ofColor color);
-        virtual void setOrigin(int x, int y);
-        int getOriginY();
-        virtual void setPositionY(int y);
-        int getPositionY();
-        
-        void setVisible(bool visible);
-        bool getVisible();
-        void onWindowResize(int w, int h);
+        string  getLabel();
+        int     getOriginY();
+        int     getPositionY();
+        void    setIndex(int index);
+        void    setLabel(string label);
+        void    setStripeColor(ofColor color);
+        void    setVisible(bool visible);
+        bool    getVisible();
+        void    onWindowResize(int w, int h);
 
         static void enableRetina();
         static void init(int x, int y);
@@ -50,21 +46,12 @@ class ofxDatGuiItem : public ofxDatGuiInteractiveObject
     
         virtual void draw() = 0;
         virtual bool hitTest(ofPoint m) = 0;
-        virtual void drawColorPicker();
 
-        virtual void toggle();
-        virtual void select(int index);
-        virtual void setValue(int value);
-        virtual void setScale(float scale);
-        virtual void setText(string text);
-        virtual void setEnabled(bool enabled);
-    
-        virtual int getValue();
-        virtual float getScale();
-        virtual string getText();
-        virtual bool getEnabled();
+        virtual int  getHeight();
         virtual bool getIsExpanded();
-        virtual int getSelectedChildIndex();
+        virtual void drawColorPicker();
+        virtual void setPositionY(int y);
+        virtual void setOrigin(int x, int y);
 
         virtual void onFocus();    
         virtual void onFocusLost();

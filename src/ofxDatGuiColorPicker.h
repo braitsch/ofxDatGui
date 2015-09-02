@@ -45,7 +45,7 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
             rainbowHeight = pickerRect.height -(mPadding*2);
             rainbowRect = ofRectangle(0, 0, rainbowWidth, rainbowHeight);
             gradientRect = ofRectangle(0, 0, pickerRect.width-rainbowRect.width-(mPadding*3), rainbowHeight);
-            if (rainbow.isAllocated() == false) rainbow.load(ofxDatGuiAssetDir+"picker-rainbow.png");
+            if (rainbow.isAllocated() == false) rainbow.load(ofxDatGuiAssetDir+"/picker-rainbow.png");
             
         // setup the vbo that draws the gradient //
             gPoints.push_back(ofVec2f(0, 0));
@@ -146,9 +146,8 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
                 }   else if (gradientRect.inside(m) && mMouseDown){
                     mColor = gColor;
                 // dispatch a color changed event out to our application //
-                    ofxDatGuiEvent e(ofxDatGuiEventType::COLOR_CHANGED, mId);
-                    e.text = mColorHex;
-                    changeEventCallback(e);
+                    ofxDatGuiColorPickerEvent e(this, mColor);
+                    colorPickerEventCallback(e);
                     setTextFieldInputColor();
                 }
                 return true;
@@ -170,19 +169,21 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
             input->setTextInactiveColor(mColor.getBrightness() < BRIGHTNESS_THRESHOLD ? ofColor::white : ofColor::black);
         }
     
-        void onInputChanged(ofxDatGuiEvent e)
+        void onInputChanged(ofxDatGuiInternalEvent e)
         {
-            mColor = ofColor::fromHex(ofHexToInt(e.text));
+            mColor = ofColor::fromHex(ofHexToInt(input->getText()));
+            
         // set the input field text & background colors //
             input->setBackgroundColor(mColor);
             input->setTextInactiveColor(mColor.getBrightness() < BRIGHTNESS_THRESHOLD ? ofColor::white : ofColor::black);
+            
         // update the gradient picker //
             gColors[1] = mColor;
             vbo.setColorData(&gColors[0], 4, GL_DYNAMIC_DRAW );
-        // dispatch change event out to main application //
-            e.index = mId;
-            e.type = ofxDatGuiEventType::COLOR_CHANGED;
-            changeEventCallback(e);
+            
+        // dispatch change event out to the main application //
+            ofxDatGuiColorPickerEvent evt(this, mColor);
+            colorPickerEventCallback(evt);
         }
     
     private:

@@ -34,7 +34,7 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
         {
             mIsExpanded = false;
             mChildrenHeight = 0;
-            if (mIcon.isAllocated() == false) mIcon.load(ofxDatGuiAssetDir+"icon-dropdown.png");
+            if (mIcon.isAllocated() == false) mIcon.load(ofxDatGuiAssetDir+"/icon-dropdown.png");
         }
     
         void setOrigin(int x, int y)
@@ -96,8 +96,8 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
     // open & close the group when its header is clicked //
             ofxDatGuiItem::onMouseRelease(m);
             mIsExpanded ? collapse() : expand();
-            ofxDatGuiEvent e = ofxDatGuiEvent(ofxDatGuiEventType::DROPDOWN_TOGGLED, mId);
-            changeEventCallback(e);
+            ofxDatGuiInternalEvent e(ofxDatGuiEventType::DROPDOWN_TOGGLED, mId);
+            internalEventCallback(e);
         }
 
     
@@ -143,17 +143,31 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
             if (mVisible) for(int i=0; i<pickers.size(); i++) pickers[i]->drawColorPicker();
         }
     
-        void onFolderEvent(ofxDatGuiEvent e)
+        void dispatchButtonEvent(ofxDatGuiButtonEvent e)
         {
-            e.child = e.index;
-            e.index = mId;
-            changeEventCallback(e);
+            buttonEventCallback(e);
+        }
+    
+        void dispatchSliderEvent(ofxDatGuiSliderEvent e)
+        {
+            sliderEventCallback(e);
+        }
+    
+        void dispatchTextInputEvent(ofxDatGuiTextInputEvent e)
+        {
+            textInputEventCallback(e);
+        }
+    
+        void dispatchColorPickerEvent(ofxDatGuiColorPickerEvent e)
+        {
+            colorPickerEventCallback(e);
         }
 
         ofxDatGuiButton* addButton(string label)
         {
             ofxDatGuiButton* button = new ofxDatGuiButton(label);
             button->setStripeColor(mStripeColor);
+            button->onButtonEvent(this, &ofxDatGuiFolder::dispatchButtonEvent);
             attachItem(button);
             return button;
         }
@@ -162,6 +176,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
         {
             ofxDatGuiToggle* toggle = new ofxDatGuiToggle(label, enabled);
             toggle->setStripeColor(mStripeColor);
+            toggle->onButtonEvent(this, &ofxDatGuiFolder::dispatchButtonEvent);
             attachItem(toggle);
             return toggle;
         }
@@ -171,6 +186,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
         // default to halfway between min & max values //
             ofxDatGuiSlider* slider = addSlider(label, min, max, (max+min)/2);
             slider->setStripeColor(mStripeColor);
+            slider->onSliderEvent(this, &ofxDatGuiFolder::dispatchSliderEvent);
             return slider;
         }
 
@@ -178,6 +194,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
         {
             ofxDatGuiSlider* slider = new ofxDatGuiSlider(label, min, max, val);
             slider->setStripeColor(mStripeColor);
+            slider->onSliderEvent(this, &ofxDatGuiFolder::dispatchSliderEvent);
             attachItem(slider);
             return slider;
         }
@@ -186,6 +203,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
         {
             ofxDatGuiTextInput* input = new ofxDatGuiTextInput(label, value);
             input->setStripeColor(mStripeColor);
+            input->onTextInputEvent(this, &ofxDatGuiFolder::dispatchTextInputEvent);
             attachItem(input);
             return input;
         }
@@ -194,6 +212,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
         {
             shared_ptr<ofxDatGuiColorPicker> picker(new ofxDatGuiColorPicker(label, color));
             picker->setStripeColor(mStripeColor);
+            picker->onColorPickerEvent(this, &ofxDatGuiFolder::dispatchColorPickerEvent);
             attachItem(picker.get());
             pickers.push_back(picker);
             return picker.get();
@@ -201,7 +220,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
     
         void attachItem(ofxDatGuiItem* item)
         {
-            item->onGuiEvent(this, &ofxDatGuiFolder::onFolderEvent);
+        //    item->onGuiEvent(this, &ofxDatGuiFolder::onFolderEvent);
             item->setVisible(false);
             item->setIndex(children.size());
             children.push_back(item);
@@ -246,7 +265,7 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
             for(uint8_t i=0; i<options.size(); i++){
                 ofxDatGuiDropdownOption* opt = new ofxDatGuiDropdownOption(options[i]);
                 opt->setIndex(children.size());
-                opt->onGuiEvent(this, &ofxDatGuiDropdown::onOptionSelected);
+                opt->onButtonEvent(this, &ofxDatGuiDropdown::onOptionSelected);
                 opt->setVisible(false);
                 children.push_back(opt);
             }
@@ -268,17 +287,14 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
             return mOption;
         }
     
-        void onOptionSelected(ofxDatGuiEvent e)
+        void onOptionSelected(ofxDatGuiButtonEvent e)
         {
-            mOption = e.index;
-            e.index = mId;
-            e.child = mOption;
-        // convert button_pressed event to option_selected //
-            e.type = ofxDatGuiEventType::OPTION_SELECTED;
-            mLabel = children[e.child]->getLabel();
-        // auto close the dropdown when an option is selected //
+            for(int i=0; i<children.size(); i++) if (e.target == children[i]) mOption = i;
+            mLabel = children[mOption]->getLabel();
             collapse();
-            changeEventCallback(e);
+        // dispatch an event to tell the main application an option was selected //
+            ofxDatGuiDropdownEvent e1(this, mId, mOption);
+            dropdownEventCallback(e1);
         }
     
     private:

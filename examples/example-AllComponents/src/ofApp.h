@@ -12,9 +12,12 @@ class ofApp : public ofBaseApp{
     
         ofxDatGui* gui;
         ofxDatGuiSlider* opacitySlider;
-        void onGuiEvent(ofxDatGuiEvent e);
+
         void onButtonEvent(ofxDatGuiButtonEvent e);
-        void log(ofxDatGuiEvent e, string s);
+        void onSliderEvent(ofxDatGuiSliderEvent e);
+        void onTextInputEvent(ofxDatGuiTextInputEvent e);
+        void onDropdownEvent(ofxDatGuiDropdownEvent e);
+        void onColorPickerEvent(ofxDatGuiColorPickerEvent e);
     
 };
 

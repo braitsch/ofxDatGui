@@ -110,7 +110,7 @@ void ofxDatGuiItem::enableRetina()
     ofxDatGuiFont::fontSize*=2;
     ofxDatGuiFont::highlightPadding*=2;
     ofxDatGuiFont::retinaEnabled = true;
-    ofxDatGuiFont::load(ofxDatGuiAssetDir+"font-verdana.ttf");
+    ofxDatGuiFont::load(ofxDatGuiAssetDir+"/font-verdana.ttf");
 }
 
 /*
@@ -185,17 +185,6 @@ void ofxDatGuiItem::setLabel(string label) { mLabel = label; }
     virtual methods overridden in derived classes
 */
 
-void ofxDatGuiItem::setValue(int value){};
-int ofxDatGuiItem::getValue(){}
-void ofxDatGuiItem::setScale(float scale){};
-float ofxDatGuiItem::getScale(){}
-void ofxDatGuiItem::setText(string text){};
-string ofxDatGuiItem::getText(){};
-void ofxDatGuiItem::toggle(){};
-void ofxDatGuiItem::setEnabled(bool enabled){};
-bool ofxDatGuiItem::getEnabled(){};
-void ofxDatGuiItem::select(int index){};
-int ofxDatGuiItem::getSelectedChildIndex(){};
 bool ofxDatGuiItem::getIsExpanded(){}
 void ofxDatGuiItem::setVisible(bool visible) { mVisible = visible; }
 bool ofxDatGuiItem::getVisible() { return mVisible; }

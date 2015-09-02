@@ -36,12 +36,8 @@ class ofxDatGuiButton : public ofxDatGuiItem {
         {
             ofxDatGuiItem::onMouseRelease(m);
         // dispatch event out to main application //
-            ofxDatGuiEvent evt(ofxDatGuiEventType::BUTTON_CLICKED, mId);
-            changeEventCallback(evt);
-
-        // NEW BUTTON EVENT //
-            ofxDatGuiButtonEvent bEvent(this);
-            buttonEventCallback(bEvent);
+            ofxDatGuiButtonEvent e(this);
+            buttonEventCallback(e);
         }
     
         void draw()
@@ -70,6 +66,10 @@ class ofxDatGuiButton : public ofxDatGuiItem {
             return (m.x>=x && m.x<= x+mWidth && m.y>=y && m.y<= y+mHeight);
         }
     
+        virtual void toggle(){}
+        virtual void setEnabled(bool enable){}
+        virtual bool getEnabled(){return false;}
+    
 };
 
 class ofxDatGuiToggle : public ofxDatGuiButton {
@@ -80,8 +80,8 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
         {
             mEnabled = enabled;
             mStripeColor = ofxDatGuiColor::TOGGLE_STRIPE;
-            if (!radioOn.isAllocated()) radioOn.load(ofxDatGuiAssetDir+"icon-radio-on.png");
-            if (!radioOff.isAllocated()) radioOff.load(ofxDatGuiAssetDir+"icon-radio-off.png");
+            if (!radioOn.isAllocated()) radioOn.load(ofxDatGuiAssetDir+"/icon-radio-on.png");
+            if (!radioOff.isAllocated()) radioOff.load(ofxDatGuiAssetDir+"/icon-radio-off.png");
         }
     
         void toggle()
@@ -121,13 +121,8 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
             ofxDatGuiItem::onMouseRelease(m);
             mEnabled = !mEnabled;
         // dispatch event out to main application //
-            ofxDatGuiEvent e(ofxDatGuiEventType::BUTTON_TOGGLED, mId);
-            e.enabled = mEnabled;
-            changeEventCallback(e);
-            
-        // NEW BUTTON EVENT //
-            ofxDatGuiButtonEvent bEvent(this);
-            buttonEventCallback(bEvent);
+            ofxDatGuiButtonEvent e(this, mEnabled);
+            buttonEventCallback(e);
         }
     
     private:

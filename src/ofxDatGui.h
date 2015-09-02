@@ -35,7 +35,6 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         void draw();
         void setOpacity(float opacity);
     
-        ofxDatGuiItem* getItemAt(int index);
         ofxDatGuiHeader* addHeader(string label = "");
         ofxDatGuiFooter* addFooter();
         ofxDatGuiTextInput* addTextInput(string label, string value = "");
@@ -76,7 +75,12 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         void collapseGui();
         void attachItem(ofxDatGuiItem* item);
         void adjustHeight(int index);
-        void onGuiEventCallback(ofxDatGuiEvent e);
+        
+        void onInternalEventCallback(ofxDatGuiInternalEvent e);
         void onButtonEventCallback(ofxDatGuiButtonEvent e);
+        void onSliderEventCallback(ofxDatGuiSliderEvent e);
+        void onTextInputEventCallback(ofxDatGuiTextInputEvent e);
+        void onDropdownEventCallback(ofxDatGuiDropdownEvent e);
+        void onColorPickerEventCallback(ofxDatGuiColorPickerEvent e);
 
 };

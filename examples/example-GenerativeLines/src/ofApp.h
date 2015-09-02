@@ -99,18 +99,22 @@ class ofApp : public ofBaseApp{
         ofImage bkgd;
     
         ofxDatGui* gui;
-        ofxDatGuiTextInput* i1;
         ofxDatGuiSlider* s1;
         ofxDatGuiSlider* s2;
         ofxDatGuiSlider* s3;
         ofxDatGuiSlider* s4;
         ofxDatGuiButton* b1;
-        ofxDatGuiButton* t1;
+        ofxDatGuiToggle* t1;
         ofxDatGuiColorPicker* p1;
         ofxDatGuiColorPicker* p2;
         ofxDatGuiColorPicker* p3;
         ofxDatGuiColorPicker* p4;
-        void onGuiEvent(ofxDatGuiEvent k);
+
+        void onButtonEvent(ofxDatGuiButtonEvent e);
+        void onSliderEvent(ofxDatGuiSliderEvent e);
+        void onTextInputEvent(ofxDatGuiTextInputEvent e);
+        void onDropdownEvent(ofxDatGuiDropdownEvent e);
+        void onColorPickerEvent(ofxDatGuiColorPickerEvent e);
     
 };
 

@@ -38,13 +38,13 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
             input->setTextInactiveColor(ofxDatGuiColor::SLIDER);
             input->setTextIndent(ofxDatGuiFont::retinaEnabled ? TEXT_INDENT*2 : TEXT_INDENT);
             input->setTextInputFieldType(ofxDatGuiTextInputField::NUMERIC);
-            input->onGuiEvent(this, &ofxDatGuiSlider::onInputChanged);
+            input->onInternalEvent(this, &ofxDatGuiSlider::onInputChanged);
             calcScale();
         }
     
-        void onInputChanged(ofxDatGuiEvent e)
+        void onInputChanged(ofxDatGuiInternalEvent e)
         {
-            setValue(ofToFloat(e.text));
+            setValue(ofToFloat(input->getText()));
             dispatchSliderChangedEvent();
         }
     
@@ -54,7 +54,7 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
             calcScale();
         }
     
-        int getValue()
+        float getValue()
         {
             return mVal;
         }
@@ -129,10 +129,8 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
         void dispatchSliderChangedEvent()
         {
         // dispatch event out to main application //
-            ofxDatGuiEvent e(ofxDatGuiEventType::SLIDER_CHANGED, mId);
-            e.value = mVal;
-            e.scale = mScale;
-            changeEventCallback(e);
+            ofxDatGuiSliderEvent e(this, mVal, mScale);
+            sliderEventCallback(e);
         }
     
         void onKeyPressed(int key)

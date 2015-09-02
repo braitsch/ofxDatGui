@@ -18,6 +18,7 @@ void ofApp::setup()
     folder->addTextInput("** INPUT", "A NESTED TEXT INPUT");
     folder->addSlider("** SLIDER", 0, 100);
     folder->addToggle("** TOGGLE");
+    folder->addColorPicker("picker");
     
 // add a couple range sliders //
     gui->addSlider("POSITION X", 0, 120, 75);
@@ -42,44 +43,37 @@ void ofApp::setup()
 // adding the optional footer allows you to collapse/expand the gui //
     gui->addFooter();
 
-// finally register a callback to listen for component events //
-    gui->onGuiEvent(this, &ofApp::onGuiEvent);
+// finally register a few callbacks to listen for specific component events //
     gui->onButtonEvent(this, &ofApp::onButtonEvent);
+    gui->onSliderEvent(this, &ofApp::onSliderEvent);
+    gui->onTextInputEvent(this, &ofApp::onTextInputEvent);
+    gui->onDropdownEvent(this, &ofApp::onDropdownEvent);
+    gui->onColorPickerEvent(this, &ofApp::onColorPickerEvent);
+}
+
+void ofApp::onSliderEvent(ofxDatGuiSliderEvent e)
+{
+    cout << "Target: " << e.target->getLabel() << " " << e.target->getValue() << endl;
 }
 
 void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
 {
-    cout << "onButtonEvent" << endl;
-    cout << e.target->getLabel() << endl;
+    cout << "Target: " << e.target->getLabel() << " " << e.target->getEnabled() << endl;
 }
 
-void ofApp::onGuiEvent(ofxDatGuiEvent e)
+void ofApp::onTextInputEvent(ofxDatGuiTextInputEvent e)
 {
-    if (e.type == ofxDatGuiEventType::BUTTON_CLICKED){
-        log(e, "BUTTON_CLICKED");
-        
-    }   else if (e.type == ofxDatGuiEventType::INPUT_CHANGED){
-        log(e, "INPUT_CHANGED : " + e.text);
-        
-    }   else if (e.type == ofxDatGuiEventType::SLIDER_CHANGED){
-    // set the gui opacity from the slider's scale value (0-1) //
-        if (gui->getItemAt(e.index) == opacitySlider) gui->setOpacity(e.scale);
-        log(e, "SLIDER_CHANGED : " + ofToString(e.value, 2) + " // " + ofToString(e.scale, 2) + "%" );
-        
-    }   else if (e.type == ofxDatGuiEventType::OPTION_SELECTED){
-        log(e, "OPTION_SELECTED");
-        
-    }   else if (e.type == ofxDatGuiEventType::BUTTON_TOGGLED){
-        log(e, "BUTTON_TOGGLED : " + ofToString(e.enabled));
-    
-    }   else if (e.type == ofxDatGuiEventType::COLOR_CHANGED){
-        log(e, "COLOR_CHANGED : " + ofToString(e.text));
-    }
+    cout << "Target: " << e.target->getLabel() << " " << e.target->getText() << endl;
 }
 
-void ofApp::log(ofxDatGuiEvent e, string s)
+void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
 {
-    cout << "COMPONENT #" << e.index << ":" << e.child << " >> " << s << endl;
+    cout << "Target: " << e.target->getLabel() << " Selected Child Index: " << e.target->getSelectedChildIndex() << endl;
+}
+
+void ofApp::onColorPickerEvent(ofxDatGuiColorPickerEvent e)
+{
+    cout << "Target: " << e.target->getLabel() << " " << e.target->getColor() << endl;
 }
 
 void ofApp::update()

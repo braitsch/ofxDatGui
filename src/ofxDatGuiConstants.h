@@ -23,7 +23,7 @@
 #pragma once
 #include "ofMain.h"
 
-static const string ofxDatGuiAssetDir = "ofxdatgui_assets/";
+static const string ofxDatGuiAssetDir = "ofxdatgui_assets";
 
 namespace ofxDatGuiColor
 {
@@ -45,10 +45,12 @@ namespace ofxDatGuiColor
     const ofColor DROPDOWN_STRIPE   = ofColor::fromHex(0x1ED36F);
 }
 
-namespace ofxDatGuiAnchor
+enum ofxDatGuiAnchor
 {
-    enum ofxDatGuiAnchor{ TOP_LEFT = 1, TOP_RIGHT = 2};
-}
+    TOP_LEFT = 1,
+    TOP_RIGHT = 2
+};
+
 
 
 

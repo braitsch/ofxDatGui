@@ -49,8 +49,9 @@
 		8A1BA0641B8CFE9E0034593B /* ofxDatGuiButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxDatGuiButton.h; path = ../../src/ofxDatGuiButton.h; sourceTree = "<group>"; };
 		8A1BA0671B8CFE9E0034593B /* ofxDatGuiItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ofxDatGuiItem.cpp; path = ../../src/ofxDatGuiItem.cpp; sourceTree = "<group>"; };
 		8A1BA0681B8CFE9E0034593B /* ofxDatGuiItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxDatGuiItem.h; path = ../../src/ofxDatGuiItem.h; sourceTree = "<group>"; };
-		8A1BA0691B8CFE9E0034593B /* ofxDatGuiSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxDatGuiSettings.h; path = ../../src/ofxDatGuiSettings.h; sourceTree = "<group>"; };
 		8A1BA06A1B8CFE9E0034593B /* ofxDatGuiSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxDatGuiSlider.h; path = ../../src/ofxDatGuiSlider.h; sourceTree = "<group>"; };
+		8A63A6EA1B97945900975ADE /* ofxDatGuiConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxDatGuiConstants.h; path = ../../src/ofxDatGuiConstants.h; sourceTree = "<group>"; };
+		8A63A6EB1B97945900975ADE /* ofxDatGuiEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxDatGuiEvents.h; path = ../../src/ofxDatGuiEvents.h; sourceTree = "<group>"; };
 		8A670E461B952E31009BC7EB /* ofxDatGuiColorPicker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ofxDatGuiColorPicker.h; path = ../../src/ofxDatGuiColorPicker.h; sourceTree = "<group>"; };
 		8A72012F1B90000A004435C1 /* ofxDatGuiComponents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxDatGuiComponents.h; path = ../../src/ofxDatGuiComponents.h; sourceTree = "<group>"; };
 		8A7201301B90000A004435C1 /* ofxDatGuiTextInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxDatGuiTextInput.h; path = ../../src/ofxDatGuiTextInput.h; sourceTree = "<group>"; };
@@ -83,18 +84,27 @@
 			children = (
 				8A1BA0631B8CFE9E0034593B /* ofxDatGui.h */,
 				8A1BA0621B8CFE9E0034593B /* ofxDatGui.cpp */,
-				8A1BA0681B8CFE9E0034593B /* ofxDatGuiItem.h */,
-				8A1BA0671B8CFE9E0034593B /* ofxDatGuiItem.cpp */,
+				8A63A6ED1B97947000975ADE /* core */,
 				8A1BA0641B8CFE9E0034593B /* ofxDatGuiButton.h */,
 				8A1BA06A1B8CFE9E0034593B /* ofxDatGuiSlider.h */,
 				8A7201301B90000A004435C1 /* ofxDatGuiTextInput.h */,
 				8ACA16961B94F145005D9A15 /* ofxDatGuiGroups.h */,
 				8AF96FFE1B911F63002EC8FB /* ofxDatGuiControls.h */,
-				8A1BA0691B8CFE9E0034593B /* ofxDatGuiSettings.h */,
 				8A670E461B952E31009BC7EB /* ofxDatGuiColorPicker.h */,
-				8A72012F1B90000A004435C1 /* ofxDatGuiComponents.h */,
 			);
 			name = ofxDatGui;
+			sourceTree = "<group>";
+		};
+		8A63A6ED1B97947000975ADE /* core */ = {
+			isa = PBXGroup;
+			children = (
+				8A1BA0681B8CFE9E0034593B /* ofxDatGuiItem.h */,
+				8A1BA0671B8CFE9E0034593B /* ofxDatGuiItem.cpp */,
+				8A63A6EB1B97945900975ADE /* ofxDatGuiEvents.h */,
+				8A63A6EA1B97945900975ADE /* ofxDatGuiConstants.h */,
+				8A72012F1B90000A004435C1 /* ofxDatGuiComponents.h */,
+			);
+			name = core;
 			sourceTree = "<group>";
 		};
 		BB4B014C10F69532006C3DED /* addons */ = {

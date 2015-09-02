@@ -41,6 +41,7 @@ class ofxDatGuiInteractiveObject{
 
     public:
 
+    // button events //
         typedef std::function<void(ofxDatGuiButtonEvent)> onButtonEventCallback;
         onButtonEventCallback buttonEventCallback;
     
@@ -51,14 +52,59 @@ class ofxDatGuiInteractiveObject{
             buttonEventCallback = std::bind(listenerMethod, owner, _1);
         }
 
-        typedef std::function<void(ofxDatGuiEvent)> onChangeEventCallback;
-        onChangeEventCallback changeEventCallback;
-        
+    // slider events //
+        typedef std::function<void(ofxDatGuiSliderEvent)> onSliderEventCallback;
+        onSliderEventCallback sliderEventCallback;
+    
         template<typename T, typename args, class ListenerClass>
-        void onGuiEvent(T* owner, void (ListenerClass::*listenerMethod)(args))
+        void onSliderEvent(T* owner, void (ListenerClass::*listenerMethod)(args))
         {
             using namespace std::placeholders;
-            changeEventCallback = std::bind(listenerMethod, owner, _1);
+            sliderEventCallback = std::bind(listenerMethod, owner, _1);
+        }
+    
+    // text input events //
+        typedef std::function<void(ofxDatGuiTextInputEvent)> onTextInputEventCallback;
+        onTextInputEventCallback textInputEventCallback;
+    
+        template<typename T, typename args, class ListenerClass>
+        void onTextInputEvent(T* owner, void (ListenerClass::*listenerMethod)(args))
+        {
+            using namespace std::placeholders;
+            textInputEventCallback = std::bind(listenerMethod, owner, _1);
+        }
+    
+    // color picker events //
+        typedef std::function<void(ofxDatGuiColorPickerEvent)> onColorPickerEventCallback;
+        onColorPickerEventCallback colorPickerEventCallback;
+    
+        template<typename T, typename args, class ListenerClass>
+        void onColorPickerEvent(T* owner, void (ListenerClass::*listenerMethod)(args))
+        {
+            using namespace std::placeholders;
+            colorPickerEventCallback = std::bind(listenerMethod, owner, _1);
+        }
+    
+    // dropdown events //
+        typedef std::function<void(ofxDatGuiDropdownEvent)> onDropdownEventCallback;
+        onDropdownEventCallback dropdownEventCallback;
+    
+        template<typename T, typename args, class ListenerClass>
+        void onDropdownEvent(T* owner, void (ListenerClass::*listenerMethod)(args))
+        {
+            using namespace std::placeholders;
+            dropdownEventCallback = std::bind(listenerMethod, owner, _1);
+        }
+
+    // internal events //
+        typedef std::function<void(ofxDatGuiInternalEvent)> onInternalEventCallback;
+        onInternalEventCallback internalEventCallback;
+        
+        template<typename T, typename args, class ListenerClass>
+        void onInternalEvent(T* owner, void (ListenerClass::*listenerMethod)(args))
+        {
+            using namespace std::placeholders;
+            internalEventCallback = std::bind(listenerMethod, owner, _1);
         }
 
 };
@@ -141,6 +187,11 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             mTextChanged = true;
         }
     
+        string getText()
+        {
+            return mText;
+        }
+    
         void setTextIndent(int indent)
         {
             mTextIndent = indent;
@@ -183,9 +234,8 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             mHighlightText = false;
             if (mTextChanged){
                 mTextChanged = false;
-                ofxDatGuiEvent e(ofxDatGuiEventType::INPUT_CHANGED, 0);
-                e.text = mText;
-                changeEventCallback(e);
+                ofxDatGuiInternalEvent e(ofxDatGuiEventType::INPUT_CHANGED, 0);
+                internalEventCallback(e);
             }
             if (mType != COLORPICKER) mBkgdColor = ofxDatGuiColor::INPUT;
         }

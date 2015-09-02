@@ -32,7 +32,7 @@ class ofxDatGuiTextInput : public ofxDatGuiItem {
             input = new ofxDatGuiTextInputField(mWidth-mPadding-inputX);
             input->setText(text);
             input->setTextIndent(ofxDatGuiFont::retinaEnabled ? TEXT_INDENT*2 : TEXT_INDENT);
-            input->onGuiEvent(this, &ofxDatGuiTextInput::onInputChanged);
+            input->onInternalEvent(this, &ofxDatGuiTextInput::onInputChanged);
         }
     
         void draw()
@@ -43,6 +43,16 @@ class ofxDatGuiTextInput : public ofxDatGuiItem {
                 ofxDatGuiItem::drawStripe();
                 input->draw(x + inputX, y + mPadding);
             }
+        }
+    
+        string getText()
+        {
+            return input->getText();
+        }
+    
+        void setText(string text)
+        {
+            return input->setText(text);
         }
     
         bool hitTest(ofPoint m)
@@ -71,10 +81,10 @@ class ofxDatGuiTextInput : public ofxDatGuiItem {
     
     protected:
     
-        virtual void onInputChanged(ofxDatGuiEvent e)
+        virtual void onInputChanged(ofxDatGuiInternalEvent e)
         {
-            e.index = mId;
-            changeEventCallback(e);
+            ofxDatGuiTextInputEvent ev(this, input->getText());
+            textInputEventCallback(ev);
         }
     
         ofxDatGuiTextInputField* input;
