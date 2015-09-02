@@ -245,6 +245,8 @@ void ofxDatGuiItem::drawStripe()
     ofPopStyle();
 }
 
+void ofxDatGuiItem::drawColorPicker() { }
+
 /*
     events
 */

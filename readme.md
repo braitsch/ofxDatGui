@@ -4,7 +4,7 @@
 
 It also automatically renders at high resolution for retina displays o_O!
 
-![ofxDatGui](./img/ofxdatgui_01.png?raw=true)
+![ofxDatGui](./img/ofxdatgui_02.png?raw=true)
 
 ---
 
@@ -15,6 +15,7 @@ It also automatically renders at high resolution for retina displays o_O!
 * Basic Buttons
 * Toggle (On/Off) Buttons
 * Text Inputs
+* Color Pickers
 * Range Sliders
 * Dropdown Menus
 * Folders to logically group components together
@@ -79,6 +80,10 @@ If this is not set it will default to halfway between the min and max values.
 
 	gui->addSlider(string label, float min, float max, float value);
 	
+**Color Picker**	
+	
+	gui->addColorPicker(string label, ofColor color = ofColor::black);
+	
 **Dropdown Menu**
 	
 	vector<string> options = {"ONE", "TWO", "THREE", "FOUR"};
@@ -88,14 +93,13 @@ If this is not set it will default to halfway between the min and max values.
 
 ##Component Groups (Folders)
 
-You can also group related components into folders:
+You can also group related components into folders. When constructing a folder pass in a label to name the folder and an optional color to help visually group its contents.
 
-	ofxDatGuiFolder* folder = gui->addFolder(string label);
+	ofxDatGuiFolder* folder = gui->addFolder(string label, ofColor color);
 	folder->addButton("Nested Button");
 	folder->addSlider("Nested Slider", 0, 100);
 	folder->addTextInput("I am a Nested Text Input");
-
-**Note:** Currently folders only support one level of depth and cannot contain grouped objects such as other folders or dropdowns. 
+	folder->addColorPicker("I am a Nested Color Picker");
 
 ---
 	
@@ -137,6 +141,14 @@ In addition some components have methods (typically getters & setters) that allo
 	mySlider->setScale(float scale); // a value between 0 & 1 //
 	mySlider->getValue();
 	mySlider->setValue(float value); // a value between min & max //
+
+**Color Picker**
+	
+	ofxDatGuiColorPicker* myColorPicker;
+	myColorPicker->getColor();
+	myColorPicker->setColor(int hexValue);
+	myColorPicker->setColor(int r, int g, int b);
+	myColorPicker->setColor(ofColor color);
 	
 **Dropdown Menu**
 	
@@ -204,14 +216,10 @@ You can also show & hide **ofxDatGui** by pressing the 'h' key.
 
 ---
 
-##In Progess
-
-	* color pickers!
-	* ability to save/load settings
-	* more examples, tutorials & documentation
-
----
-
 ##Additonal Notes
 
-As this is a new project that is actively being developed feature requests, concerns, and suggestions are all very welcome.
+Thanks for reading all this and checking the project out. 
+
+I'm actively looking for people to help me beta test this and provide feedback to help shape the project's development. If you'd like to see a feature prioritized or have any general questions or feedback please send me a message or open an issue.
+
+Thanks!

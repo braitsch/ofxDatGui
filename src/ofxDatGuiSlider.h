@@ -37,7 +37,7 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
             input->setText(ofToString(mVal, 2));
             input->setTextInactiveColor(ofxDatGuiColor::SLIDER);
             input->setTextIndent(ofxDatGuiFont::retinaEnabled ? TEXT_INDENT*2 : TEXT_INDENT);
-            input->setRestrictToNumbers(true);
+            input->setTextInputFieldType(ofxDatGuiTextInputField::NUMERIC);
             input->onGuiEvent(this, &ofxDatGuiSlider::onInputChanged);
             calcScale();
         }

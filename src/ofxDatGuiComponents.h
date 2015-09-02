@@ -75,16 +75,23 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
 
     public:
     
+        enum ofxDatGuiTextInputFieldType
+        {
+            NUMERIC = 1,
+            ALPHA_NUMERIC,
+            COLORPICKER
+        };
+    
         ofxDatGuiTextInputField(int width)
         {
             mRect.width = width;
             mTextColor = ofxDatGuiColor::TEXT;
             mBkgdColor = ofxDatGuiColor::INPUT;
             mRect.height = ofxDatGuiGlobals::rowHeight - (ofxDatGuiGlobals::rowPadding*2);
-            mRestrict = false;
             mTextChanged = false;
             mHighlightText = false;
             mMaxCharacters = 99;
+            mType = ALPHA_NUMERIC;
             mTextActiveColor = ofxDatGuiColor::LABEL;
             mTextInactiveColor = ofxDatGuiColor::TEXT;
         }
@@ -97,7 +104,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
                 ofSetColor(mBkgdColor);
                 ofDrawRectangle(mRect);
                 mTextColor = mHighlightText ? mTextActiveColor : mTextInactiveColor;
-                ofxDatGuiFont::drawText(mText, mTextColor, x+mTextIndent, y+mRect.height/2, mHighlightText);
+                ofxDatGuiFont::drawText(mType==COLORPICKER ? "#"+mText : mText, mTextColor, x+mTextIndent, y+mRect.height/2, mHighlightText);
             ofPopStyle();
         }
     
@@ -114,12 +121,12 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
         bool hitTest(ofPoint m)
         {
             return (m.x>=mRect.x && m.x<=mRect.x+mRect.width && m.y>=mRect.y && m.y<=mRect.y+mRect.height);
-            //return mRect.inside(m);
         }
     
         void setText(string text)
         {
             mText = text;
+            mTextChanged = true;
         }
     
         void setTextIndent(int indent)
@@ -137,32 +144,38 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             mTextInactiveColor = color;
         }
     
+        void setTextInputFieldType(ofxDatGuiTextInputFieldType type)
+        {
+            mType = type;
+        }
+    
+        void setBackgroundColor(ofColor color)
+        {
+            mBkgdColor = color;
+        }
+    
         void setMaxNumOfCharacters(int max)
         {
             mMaxCharacters = max;
         }
     
-        void setRestrictToNumbers(bool restrict)
+        virtual void onFocus()
         {
-            mRestrict = restrict;
-        }
-    
-        void onFocus()
-        {
+            mTextChanged = false;
             mHighlightText = true;
-            mBkgdColor = ofxDatGuiColor::BUTTON_OVER;
+            if (mType != COLORPICKER) mBkgdColor = ofxDatGuiColor::BUTTON_OVER;
         }
     
-        void onFocusLost()
+        virtual void onFocusLost()
         {
             mHighlightText = false;
-            mBkgdColor = ofxDatGuiColor::INPUT;
             if (mTextChanged){
                 mTextChanged = false;
                 ofxDatGuiEvent e(ofxDatGuiEventType::INPUT_CHANGED, 0);
                 e.text = mText;
                 changeEventCallback(e);
             }
+            if (mType != COLORPICKER) mBkgdColor = ofxDatGuiColor::INPUT;
         }
     
         void onKeyPressed(int key)
@@ -181,7 +194,22 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
     
         bool keyIsValid(int key)
         {
-            if (mRestrict){
+            if (mType == COLORPICKER){
+               if (key==OF_KEY_BACKSPACE){
+                    return true;
+            // limit string length to six hex characters //
+                } else if (!mHighlightText && mText.size() == 6){
+                    return false;
+            // allows numbers 0-9 //
+                }   else if (key>=48 && key<=57){
+                    return true;
+            // allows letters a-f & A-F //
+                }   else if ((key>=97 && key<=102) || (key>=65 && key<=70)){
+                    return true;
+                }   else{
+                    return false;
+                }
+            }   else if (mType == NUMERIC){
                 if (key==OF_KEY_BACKSPACE){
                     return true;
             // allow dash (-) or dot (.) //
@@ -204,7 +232,6 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
         string mText;
         ofRectangle mRect;
         int mTextIndent;
-        bool mRestrict;
         bool mTextChanged;
         bool mHighlightText;
         int mMaxCharacters;
@@ -213,5 +240,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
         ofColor mHighLightColor;
         ofColor mTextActiveColor;
         ofColor mTextInactiveColor;
+        ofxDatGuiTextInputFieldType mType;
 };
+
 

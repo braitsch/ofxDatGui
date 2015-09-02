@@ -28,23 +28,57 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
 
     public:
     
-        ofxDatGuiColorPicker(string label) : ofxDatGuiTextInput(label, "#FF0000")
+        ofxDatGuiColorPicker(string label, ofColor color = ofColor::black) : ofxDatGuiTextInput(label)
         {
-            mColor = ofColor::fromHex(0xFF0000);
+            mColor = color;
             mStripeColor = ofxDatGuiColor::TOGGLE_STRIPE;
+            
         // center the text input field //
+            input->setTextInputFieldType(ofxDatGuiTextInputField::COLORPICKER);
             input->setTextIndent(input->getWidth()/2 - ofxDatGuiFont::getStringBoundingBox("#FF0000", 0, 0).width/2);
+            setTextFieldInputColor();
+            
         // attach the picker //
             mShowPicker = false;
             pickerRect = ofRectangle(0, 0, input->getWidth(), (ofxDatGuiGlobals::rowHeight+mPadding) * 3);
-        //  cout << (ofxDatGuiGlobals::rowHeight+mPadding) * 3; //168
             rainbowWidth = 20;
             rainbowHeight = pickerRect.height -(mPadding*2);
             rainbowRect = ofRectangle(0, 0, rainbowWidth, rainbowHeight);
             gradientRect = ofRectangle(0, 0, pickerRect.width-rainbowRect.width-(mPadding*3), rainbowHeight);
             if (rainbow.isAllocated() == false) rainbow.load(ofxDatGuiAssetDir+"picker-rainbow.png");
+            
+        // setup the vbo that draws the gradient //
+            gPoints.push_back(ofVec2f(0, 0));
+            gPoints.push_back(ofVec2f(0, 0));
+            gPoints.push_back(ofVec2f(0, 0));
+            gPoints.push_back(ofVec2f(0, 0));
+            gColors.push_back(ofColor::white);
+            gColors.push_back(mColor);
+            gColors.push_back(ofColor::black);
+            gColors.push_back(ofColor::black);
+            vbo.setColorData(&gColors[0], 4, GL_DYNAMIC_DRAW );
         }
     
+        void setColor(ofColor color)
+        {
+            mColor = color;
+        }
+    
+        void setColor(int hex)
+        {
+            mColor = ofColor::fromHex(hex);
+        }
+    
+        void setColor(int r, int g, int b, int a = 255)
+        {
+            mColor = ofColor(r, g, b, a);
+        }
+    
+        ofColor getColor()
+        {
+            return mColor;
+        }
+
         void onMouseEnter(ofPoint mouse)
         {
             mShowPicker = true;
@@ -66,14 +100,32 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
                     rainbowRect.y = pickerRect.y+mPadding;
                     gradientRect.x = pickerRect.x + mPadding;
                     gradientRect.y = pickerRect.y + mPadding;
+                    gPoints[0] = ofVec2f(gradientRect.x, gradientRect.y);
+                    gPoints[1] = ofVec2f(gradientRect.x+ gradientRect.width, gradientRect.y);
+                    gPoints[2] = ofVec2f(gradientRect.x+ gradientRect.width, gradientRect.y+gradientRect.height);
+                    gPoints[3] = ofVec2f(gradientRect.x, gradientRect.y+gradientRect.height);
+                    vbo.setVertexData(&gPoints[0], 4, GL_DYNAMIC_DRAW );
                     ofPushStyle();
                         ofSetColor(ofxDatGuiColor::LABEL);
                         ofDrawRectangle(pickerRect);
+                        ofSetColor(ofColor::white);
                         rainbow.draw(rainbowRect);
-                        ofSetColor(mColor);
-                        ofDrawRectangle(gradientRect);
+                        vbo.draw( GL_QUADS, 0, 4 );
                     ofPopStyle();
                 }
+            }
+        }
+    
+        void drawColorPicker()
+        {
+            if (mVisible && mShowPicker){
+                ofPushStyle();
+                    ofSetColor(ofxDatGuiColor::LABEL);
+                    ofDrawRectangle(pickerRect);
+                    ofSetColor(ofColor::white);
+                    rainbow.draw(rainbowRect);
+                    vbo.draw( GL_QUADS, 0, 4 );
+                ofPopStyle();
             }
         }
     
@@ -82,41 +134,76 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
             if (input->hitTest(m)){
                 return true;
             }   else if (mShowPicker && pickerRect.inside(m)){
-                getColorFromPicker(m);
+                unsigned char p[3];
+                int y = (ofGetMouseY()-ofGetHeight())*-1;
+                glReadPixels(ofGetMouseX(), y, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, &p);
+                gColor.r = int(p[0]);
+                gColor.g = int(p[1]);
+                gColor.b = int(p[2]);
+                if (rainbowRect.inside(m) && mMouseDown){
+                    gColors[1] = gColor;
+                    vbo.setColorData(&gColors[0], 4, GL_DYNAMIC_DRAW );
+                }   else if (gradientRect.inside(m) && mMouseDown){
+                    mColor = gColor;
+                // dispatch a color changed event out to our application //
+                    ofxDatGuiEvent e(ofxDatGuiEventType::COLOR_CHANGED, mId);
+                    e.text = mColorHex;
+                    changeEventCallback(e);
+                    setTextFieldInputColor();
+                }
                 return true;
             }   else{
                 return false;
             }
         }
     
-        void getColorFromPicker(ofPoint m)
+        inline void setTextFieldInputColor()
         {
-            if (rainbowRect.inside(m)){
-                mColor = rainbow.getColor(m.x-rainbowRect.x, m.y-rainbowRect.y);
-                std::stringstream ss;
-                ss<< std::hex << mColor.getHex(); // int decimal_value
-                std::string res ( ss.str() );
-                while(res.size() < 6) res+="0";
-                input->setText("#"+ofToUpper(res));
-            }
+        // convert color value to a six character hex string //
+            std::stringstream ss;
+            ss<< std::hex << mColor.getHex();
+            std::string res ( ss.str() );
+            while(res.size() < 6) res+="0";
+            mColorHex = ofToUpper(res);
+            input->setText(mColorHex);
+            input->setBackgroundColor(mColor);
+            input->setTextInactiveColor(mColor.getBrightness() < BRIGHTNESS_THRESHOLD ? ofColor::white : ofColor::black);
         }
     
         void onInputChanged(ofxDatGuiEvent e)
         {
-            cout << "onInputChanged"  << endl;
-//            e.index = mId;
-  //          changeEventCallback(e);
+            mColor = ofColor::fromHex(ofHexToInt(e.text));
+        // set the input field text & background colors //
+            input->setBackgroundColor(mColor);
+            input->setTextInactiveColor(mColor.getBrightness() < BRIGHTNESS_THRESHOLD ? ofColor::white : ofColor::black);
+        // update the gradient picker //
+            gColors[1] = mColor;
+            vbo.setColorData(&gColors[0], 4, GL_DYNAMIC_DRAW );
+        // dispatch change event out to main application //
+            e.index = mId;
+            e.type = ofxDatGuiEventType::COLOR_CHANGED;
+            changeEventCallback(e);
         }
     
     private:
 
-        bool mShowPicker;
         ofColor mColor;
+        ofColor gColor;
+        string mColorHex;
+    
         ofImage rainbow;
         int rainbowWidth;
         int rainbowHeight;
+        bool mShowPicker;
+    
+        ofVbo vbo;
+        vector<ofVec2f> gPoints;
+        vector<ofFloatColor> gColors;
         ofRectangle pickerRect;
         ofRectangle rainbowRect;
         ofRectangle gradientRect;
+    
+        static const int BRIGHTNESS_THRESHOLD = 185;
 
 };
+

@@ -13,22 +13,22 @@ void ofApp::setup()
 // add some components //
     gui->addTextInput("MESSAGE", "# OPEN FRAMEWORKS #");
     
-// add a folder to group a few components //
+// add a folder to group a few components together //
     ofxDatGuiFolder* folder = gui->addFolder("MY WHITE FOLDER", ofColor::white);
     folder->addTextInput("** INPUT", "A NESTED TEXT INPUT");
     folder->addSlider("** SLIDER", 0, 100);
     folder->addToggle("** TOGGLE");
     
+// add a couple range sliders //
     gui->addSlider("POSITION X", 0, 120, 75);
     gui->addSlider("POSITION Y", -40, 240, 200);
     gui->addSlider("POSITION Z", -80, 120, -40);
     opacitySlider = gui->addSlider("DATGUI OPACITY", 0, 100);
 
-// add a colorpicker //
-
-//  gui->addColorPicker("COLOR PICKER");
+// and a colorpicker! //
+    gui->addColorPicker("COLOR PICKER");
     
-// add a dropdown //
+// add a dropdown menu //
     vector<string> o1 = {"OPTION - 1", "OPTION - 2", "OPTION - 3", "OPTION - 4"};
     gui->addDropdown(o1);
 
@@ -42,7 +42,7 @@ void ofApp::setup()
 // adding the optional footer allows you to collapse/expand the gui //
     gui->addFooter();
 
-// listen for component events //
+// finally register a callback to listen for component events //
     gui->onGuiEvent(this, &ofApp::onGuiEvent);
 
 }
@@ -65,6 +65,9 @@ void ofApp::onGuiEvent(ofxDatGuiEvent e)
         
     }   else if (e.type == ofxDatGuiEventType::BUTTON_TOGGLED){
         log(e, "BUTTON_TOGGLED : " + ofToString(e.enabled));
+    
+    }   else if (e.type == ofxDatGuiEventType::COLOR_CHANGED){
+        log(e, "COLOR_CHANGED : " + ofToString(e.text));
     }
 }
 

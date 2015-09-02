@@ -59,7 +59,6 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofxDatGuiHeader* mGuiHeader;
         ofxDatGuiFooter* mGuiFooter;
         vector<ofxDatGuiItem*> items;
-        vector<ofxDatGuiColorPicker*> pickers;
     
         void init();
         void layoutGui();

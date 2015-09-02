@@ -51,6 +51,7 @@ class ofxDatGuiItem : public ofxDatGuiInteractiveObject
     
         virtual void draw() = 0;
         virtual bool hitTest(ofPoint m) = 0;
+        virtual void drawColorPicker();
 
         virtual void toggle();
         virtual void select(int index);

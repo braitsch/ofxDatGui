@@ -138,6 +138,11 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
             mStripeColor = color;
         }
     
+        void drawColorPicker()
+        {
+            if (mVisible) for(int i=0; i<pickers.size(); i++) pickers[i]->drawColorPicker();
+        }
+    
         void onFolderEvent(ofxDatGuiEvent e)
         {
             e.child = e.index;
@@ -185,6 +190,15 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
             return input;
         }
     
+        ofxDatGuiColorPicker* addColorPicker(string label, ofColor color = ofColor::black)
+        {
+            shared_ptr<ofxDatGuiColorPicker> picker(new ofxDatGuiColorPicker(label, color));
+            picker->setStripeColor(mStripeColor);
+            attachItem(picker.get());
+            pickers.push_back(picker);
+            return picker.get();
+        }
+    
         void attachItem(ofxDatGuiItem* item)
         {
             item->onGuiEvent(this, &ofxDatGuiFolder::onFolderEvent);
@@ -195,6 +209,10 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
             mChildrenHeight = 0;
             for(int i=0; i<children.size(); i++) mChildrenHeight += children[i]->getHeight() + ofxDatGuiGlobals::rowSpacing;
         }
+
+    private:
+    
+        vector<shared_ptr<ofxDatGuiColorPicker>> pickers;
     
 };
 

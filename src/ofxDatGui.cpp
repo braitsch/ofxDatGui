@@ -143,7 +143,6 @@ ofxDatGuiColorPicker* ofxDatGui::addColorPicker(string label)
 {
     ofxDatGuiColorPicker* picker = new ofxDatGuiColorPicker(label);
     attachItem(picker);
-    pickers.push_back(picker);
     return picker;
 }
 
@@ -341,8 +340,9 @@ void ofxDatGui::onDraw(ofEventArgs &e)
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         ofSetColor(ofxDatGuiColor::GUI_BKGD, ofxDatGuiGlobals::guiAlpha);
         ofDrawRectangle(ofxDatGuiGlobals::guiX, ofxDatGuiGlobals::guiY, ofxDatGuiGlobals::guiWidth, mHeight - ofxDatGuiGlobals::rowSpacing);
-        for (uint16_t i=0; i<items.size(); i++) items[i]->draw();
-        for (uint16_t i=0; i<pickers.size(); i++) pickers[i]->draw();
+        for (int i=0; i<items.size(); i++) items[i]->draw();
+    // color pickers overlap other components when expanded so they must be drawn last //
+        for (int i=0; i<items.size(); i++) items[i]->drawColorPicker();
     ofPopStyle();
 }
 
