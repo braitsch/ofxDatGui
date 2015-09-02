@@ -21,6 +21,8 @@
 */
 
 #pragma once
+#include "ofxDatGuiEvents.h"
+#include "ofxDatGuiConstants.h"
 
 class ofxDatGuiGlobals{
 
@@ -38,6 +40,16 @@ class ofxDatGuiGlobals{
 class ofxDatGuiInteractiveObject{
 
     public:
+
+        typedef std::function<void(ofxDatGuiButtonEvent)> onButtonEventCallback;
+        onButtonEventCallback buttonEventCallback;
+    
+        template<typename T, typename args, class ListenerClass>
+        void onButtonEvent(T* owner, void (ListenerClass::*listenerMethod)(args))
+        {
+            using namespace std::placeholders;
+            buttonEventCallback = std::bind(listenerMethod, owner, _1);
+        }
 
         typedef std::function<void(ofxDatGuiEvent)> onChangeEventCallback;
         onChangeEventCallback changeEventCallback;

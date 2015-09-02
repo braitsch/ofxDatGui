@@ -77,5 +77,6 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         void attachItem(ofxDatGuiItem* item);
         void adjustHeight(int index);
         void onGuiEventCallback(ofxDatGuiEvent e);
+        void onButtonEventCallback(ofxDatGuiButtonEvent e);
 
 };

@@ -100,6 +100,7 @@ ofxDatGuiTextInput* ofxDatGui::addTextInput(string label, string value)
 ofxDatGuiButton* ofxDatGui::addButton(string label)
 {
     ofxDatGuiButton* button = new ofxDatGuiButton(label);
+    button->onButtonEvent(this, &ofxDatGui::onButtonEventCallback);
     attachItem(button);
     return button;
 }
@@ -107,6 +108,7 @@ ofxDatGuiButton* ofxDatGui::addButton(string label)
 ofxDatGuiToggle* ofxDatGui::addToggle(string label, bool state)
 {
     ofxDatGuiToggle* button = new ofxDatGuiToggle(label, state);
+    button->onButtonEvent(this, &ofxDatGui::onButtonEventCallback);
     attachItem(button);
     return button;
 }
@@ -166,6 +168,11 @@ void ofxDatGui::layoutGui()
         mHeight += items[i]->getHeight() + ofxDatGuiGlobals::rowSpacing;
     }
     mHeightMinimum = mHeight;
+}
+
+void ofxDatGui::onButtonEventCallback(ofxDatGuiButtonEvent e)
+{
+    buttonEventCallback(e);
 }
 
 void ofxDatGui::onGuiEventCallback(ofxDatGuiEvent e)

@@ -1,47 +1,37 @@
 ##ofxDatGui
 
-**ofxDatGui** is a simple to use, lightweight graphical user interface for [openFrameworks](http://openframeworks.cc/) modeled after the popular JavaScript  [datgui](http://workshop.chromeexperiments.com/examples/gui/) interface.  
-
-It also automatically renders at high resolution for retina displays o_O!
+**ofxDatGui** is a **simple to use**, lightweight, high-resolution graphical user interface for [openFrameworks](http://openframeworks.cc/) inspired by the popular JavaScript  [datgui](http://workshop.chromeexperiments.com/examples/gui/) interface.  
 
 ![ofxDatGui](./img/ofxdatgui_02.png?raw=true)
 
----
 
 ##Features
 
 **ofxDatGui** offers the following features & components:
 
-* Basic Buttons
-* Toggle (On/Off) Buttons
-* Text Inputs
+* Click & Toggle (On/Off) Buttons
+* Text Input Fields
 * Color Pickers
 * Range Sliders
 * Dropdown Menus
-* Folders to logically group components together
-* An optional header that allows you to drag the Gui around
-* An optional footer that allows you to collapse & expand the Gui
-* No external dependencies!
+* Folders to group components together
+* Optional header & footer that allows you to collapse and drag the Gui around
 
----
+##Installation
+
+**ofxDatGui** is built on top of C++11 and currently requires openFrameworks 0.9.0 or later which you can easily install by [cloning or downloading the repository on Github.](https://github.com/openframeworks/openFrameworks) 
+
+* Once you've downloaded openFrameworks, clone or download this repository and unpack it into your openFrameworks/addons directory.
+
+* Create a new project using the project generator and include **ofxDatGui** by selecting the ```addons``` button in the generator.
+
+* Once your project has been created copy the ```ofxdatgui_assets``` directory in the root of this repository to your newly created project's bin/data directory.
+
+* Now add **ofxDatGui** to your project by adding  ```#include "ofxDatGui.h"``` to the top of your ```ofApp.h``` file and you're ready to go!
 
 ##Setup
 
-**ofxDatGui** currently requires [openFrameworks v0.9.0 or above](https://github.com/openframeworks/openFrameworks) which you can get by cloning/downloading the master branch on Github.
-
-Once you've installed openFrameworks, clone or download the zip of this repository and unpack it into your openFrameworks/addons directory.
-
-Then create a new project using the project generator and be sure to include **ofxDatGui** by selecting the ```addons``` button in the generator.
-
-Once your project has been created copy the ```ofxdatgui_assets``` directory in the root of this repository to your project's bin/data directory.
-
-Finally add ```#include "ofxDatGui.h``` to the top of your ofApp.h file and you should be good to go.
-
----
-
-##Getting Started
-
-To add **ofxDatGui** to your project simply pass in the X and Y coordinates where you would like it to live or use one of the convenient pre-defined anchors.
+To create an **ofxDatGui** simply pass in the X and Y coordinates where you would like it to live or use one of the convenient pre-defined anchors.
 
 	ofxDatGui* gui = new ofxDatGui( 100, 100 );
 	ofxDatGui* gui = new ofxDatGui( ofxDatGuiAnchor::TOP_LEFT );
@@ -53,23 +43,30 @@ Adding components to **ofxDatGui** is as simple as:
 	
 This generates a Basic Button with the label "Click!"
 
----
+![ofxDatGui](./img/ofxdatgui_click.png?raw=true)
 
 ## Components
  
-**ofxDatGui** currently provides the following components although more are in the works:
+**ofxDatGui** currently offers the following components:
   
 **Text Input**
  
 	gui->addTextInput(string label, string value = "");
+	
+![ofxDatGui](./img/ofxdatgui_input.png?raw=true)
   
 **Basic Button**
 	 	
 	gui->addButton(string label);
 	
+![ofxDatGui](./img/ofxdatgui_click.png?raw=true)	
+	
 **Toggle Button**
 
 	gui->addToggle(string label, bool enabled = false);
+
+
+![ofxDatGui](./img/ofxdatgui_toggle.png?raw=true)
 
 **Range Slider**
 
@@ -79,17 +76,21 @@ Optionally you can set the starting value of the slider.
 If this is not set it will default to halfway between the min and max values.
 
 	gui->addSlider(string label, float min, float max, float value);
+
+![ofxDatGui](./img/ofxdatgui_slider.png?raw=true)
 	
 **Color Picker**	
 	
 	gui->addColorPicker(string label, ofColor color = ofColor::black);
+
+![ofxDatGui](./img/ofxdatgui_color.png?raw=true)
 	
 **Dropdown Menu**
 	
 	vector<string> options = {"ONE", "TWO", "THREE", "FOUR"};
 	gui->addDropdown(options);
 	
----
+![ofxDatGui](./img/ofxdatgui_dropdown.png?raw=true)
 
 ##Component Groups (Folders)
 
@@ -101,7 +102,7 @@ You can also group related components into folders. When constructing a folder p
 	folder->addTextInput("I am a Nested Text Input");
 	folder->addColorPicker("I am a Nested Color Picker");
 
----
+![ofxDatGui](./img/ofxdatgui_folder.png?raw=true)
 	
 ## Manipulation
 

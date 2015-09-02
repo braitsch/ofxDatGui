@@ -38,6 +38,10 @@ class ofxDatGuiButton : public ofxDatGuiItem {
         // dispatch event out to main application //
             ofxDatGuiEvent evt(ofxDatGuiEventType::BUTTON_CLICKED, mId);
             changeEventCallback(evt);
+
+        // NEW BUTTON EVENT //
+            ofxDatGuiButtonEvent bEvent(this);
+            buttonEventCallback(bEvent);
         }
     
         void draw()
@@ -120,6 +124,10 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
             ofxDatGuiEvent e(ofxDatGuiEventType::BUTTON_TOGGLED, mId);
             e.enabled = mEnabled;
             changeEventCallback(e);
+            
+        // NEW BUTTON EVENT //
+            ofxDatGuiButtonEvent bEvent(this);
+            buttonEventCallback(bEvent);
         }
     
     private:

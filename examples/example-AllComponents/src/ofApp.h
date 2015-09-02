@@ -13,6 +13,7 @@ class ofApp : public ofBaseApp{
         ofxDatGui* gui;
         ofxDatGuiSlider* opacitySlider;
         void onGuiEvent(ofxDatGuiEvent e);
+        void onButtonEvent(ofxDatGuiButtonEvent e);
         void log(ofxDatGuiEvent e, string s);
     
 };

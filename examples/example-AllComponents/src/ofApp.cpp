@@ -44,7 +44,13 @@ void ofApp::setup()
 
 // finally register a callback to listen for component events //
     gui->onGuiEvent(this, &ofApp::onGuiEvent);
+    gui->onButtonEvent(this, &ofApp::onButtonEvent);
+}
 
+void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
+{
+    cout << "onButtonEvent" << endl;
+    cout << e.target->getLabel() << endl;
 }
 
 void ofApp::onGuiEvent(ofxDatGuiEvent e)

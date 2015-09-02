@@ -50,40 +50,5 @@ namespace ofxDatGuiAnchor
     enum ofxDatGuiAnchor{ TOP_LEFT = 1, TOP_RIGHT = 2};
 }
 
-class ofxDatGuiEvent{
-    
-    public:
-        ofxDatGuiEvent(int eType, int eIndex){
-            type = eType;
-            index = eIndex;
-            child = 0;
-            value = 0;
-            scale = 0;
-            text = "";
-            enabled = 0;
-        };
-        int type;
-        int index;
-        int child;
-        float value;
-        float scale;
-        string text;
-        bool enabled;
-};
 
-namespace ofxDatGuiEventType
-{
-    enum ofxDatGuiEventType{
-        GUI_TOGGLED = 0,
-        BUTTON_PRESSED,
-        BUTTON_RELEASED,
-        BUTTON_CLICKED,
-        BUTTON_TOGGLED,
-        INPUT_CHANGED,
-        COLOR_CHANGED,
-        SLIDER_CHANGED,
-        OPTION_SELECTED,
-        DROPDOWN_TOGGLED
-    };
-}
 
