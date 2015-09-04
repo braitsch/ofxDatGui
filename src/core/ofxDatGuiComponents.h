@@ -95,6 +95,17 @@ class ofxDatGuiInteractiveObject{
             using namespace std::placeholders;
             dropdownEventCallback = std::bind(listenerMethod, owner, _1);
         }
+    
+    // 2d pad events //
+        typedef std::function<void(ofxDatGui2dPadEvent)> on2dPadEventCallback;
+        on2dPadEventCallback pad2dEventCallback;
+    
+        template<typename T, typename args, class ListenerClass>
+        void on2dPadEvent(T* owner, void (ListenerClass::*listenerMethod)(args))
+        {
+            using namespace std::placeholders;
+            pad2dEventCallback = std::bind(listenerMethod, owner, _1);
+        }
 
     // internal events //
         typedef std::function<void(ofxDatGuiInternalEvent)> onInternalEventCallback;

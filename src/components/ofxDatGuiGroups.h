@@ -24,6 +24,7 @@
 #include "ofxDatGuiButton.h"
 #include "ofxDatGuiSlider.h"
 #include "ofxDatGuiTextInput.h"
+#include "ofxDatGui2dPad.h"
 #include "ofxDatGuiColorPicker.h"
 
 class ofxDatGuiGroup : public ofxDatGuiButton {
@@ -99,13 +100,6 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
             ofxDatGuiInternalEvent e(ofxDatGuiEventType::DROPDOWN_TOGGLED, mId);
             internalEventCallback(e);
         }
-
-    
-    protected:
-    
-        ofImage mIcon;
-        bool mIsExpanded;
-        int mChildrenHeight;
     
         void expand()
         {
@@ -125,6 +119,13 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
                 children[i]->setOrigin(x, y);
             }
         }
+
+    
+    protected:
+    
+        ofImage mIcon;
+        bool mIsExpanded;
+        int mChildrenHeight;
     
 };
 

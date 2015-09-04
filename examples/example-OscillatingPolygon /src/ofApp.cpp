@@ -2,6 +2,7 @@
 
 void ofApp::setup()
 {
+// setup the gui //
     gui = new ofxDatGui( ofxDatGuiAnchor::TOP_RIGHT );
     gui->addHeader("POLYGON EXAMPLE");
     gui->addSlider("MIN RADIUS", 0, 100);
@@ -11,17 +12,23 @@ void ofApp::setup()
     gui->addSlider("MARGIN", -100, 500);
     gui->addColorPicker("LINE COLOR");
     gui->addSlider("LINE WEIGHT", 1, 100);
+    gui->add2dPad("POLY POSITION");
     gui->addColorPicker("BACKGROUND");
     gui->addButton("RESET");
     gui->addFooter();
     
+// and register callbacks to listen for events //
     gui->onButtonEvent(this, &ofApp::onButtonEvent);
     gui->onSliderEvent(this, &ofApp::onSliderEvent);
+    gui->on2dPadEvent(this, &ofApp::on2dPadEvent);
     gui->onColorPickerEvent(this, &ofApp::onColorPickerEvent);
-    
-    reset();
+
+// let's launch the app fullscreen //
     isFullscreen = true;
     ofSetFullscreen(isFullscreen);
+    
+// setup the poly and default gui settings //
+    reset();
 }
 
 void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
@@ -40,16 +47,22 @@ void ofApp::reset()
     lineWeight = 2;
     lineColor = ofColor::fromHex(0xEEEEEE);
     bkgdColor = ofColor::fromHex(0x333333);
-    gui->getSliderByName("MIN RADIUS")->setValue(minRadius);
-    gui->getSliderByName("MAX RADIUS")->setValue(maxRadius);
-    gui->getSliderByName("ZOOM SPEED")->setScale(zSpeed);
-    gui->getSliderByName("NUM SIDES")->setValue(numSides);
-    gui->getSliderByName("MARGIN")->setValue(margin);
-    gui->getSliderByName("LINE WEIGHT")->setValue(lineWeight);
-    gui->getColorPickerByName("LINE COLOR")->setColor(lineColor);
+
+// reset the gui //
+    gui->getSlider("min radius")->setValue(minRadius);
+    gui->getSlider("max radius")->setValue(maxRadius);
+    gui->getSlider("zoom speed")->setScale(zSpeed);
+    gui->getSlider("num sides")->setValue(numSides);
+    gui->getSlider("margin")->setValue(margin);
+    gui->getSlider("line weight")->setValue(lineWeight);
+    gui->get2dPad("poly position")->reset();
+    gui->getColorPicker("line color")->setColor(lineColor);
+
+// reset the poly params //
+    ofSetBackgroundColor(bkgdColor);
     poly.setLineColor(lineColor);
     poly.setLineWeight(lineWeight);
-    ofSetBackgroundColor(bkgdColor);
+    poly.setOrigin(ofGetWidth()/2, ofGetHeight()/2);
     poly.reset(margin, (maxRadius-minRadius)/2, numSides);
 }
 
@@ -68,6 +81,11 @@ void ofApp::onSliderEvent(ofxDatGuiSliderEvent e)
     }  else if (e.target->getLabel() == "LINE WEIGHT"){
         poly.setLineWeight(e.target->getValue());
     }
+}
+
+void ofApp::on2dPadEvent(ofxDatGui2dPadEvent e)
+{
+    poly.setOrigin(e.x, e.y);
 }
 
 void ofApp::onColorPickerEvent(ofxDatGuiColorPickerEvent e)

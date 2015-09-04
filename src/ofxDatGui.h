@@ -43,13 +43,18 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofxDatGuiSlider* addSlider(string label, float min, float max);
         ofxDatGuiSlider* addSlider(string label, float min, float max, float val);
         ofxDatGuiDropdown* addDropdown(vector<string> options);
+        ofxDatGui2dPad* add2dPad(string label);
+        ofxDatGui2dPad* add2dPad(string label, ofRectangle bounds);
         ofxDatGuiColorPicker* addColorPicker(string label, ofColor color = ofColor::black);
         ofxDatGuiFolder* addFolder(string label, ofColor color = ofxDatGuiColor::LABEL);
     
     // experimental //
-        ofxDatGuiSlider* getSlider(int index);
-        ofxDatGuiSlider* getSliderByName(string name);
-        ofxDatGuiColorPicker* getColorPickerByName(string name);
+        ofxDatGuiButton* getButton(string key);
+        ofxDatGuiSlider* getSlider(string key);
+        ofxDatGui2dPad* get2dPad(string key);
+        ofxDatGuiDropdown* getDropdown(string key);
+        ofxDatGuiTextInput* getTextInput(string key);
+        ofxDatGuiColorPicker* getColorPicker(string key);
     
     private:
     
@@ -64,8 +69,6 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofxDatGuiFooter* mGuiFooter;
         vector<ofxDatGuiItem*> items;
         vector<ofxDatGuiItem*> trash;
-        vector<ofxDatGuiSlider*> sliders;
-        vector<ofxDatGuiColorPicker*> pickers;
     
         void init();
         void layoutGui();
@@ -83,12 +86,14 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         void collapseGui();
         void attachItem(ofxDatGuiItem* item);
         void adjustHeight(int index);
-        
+    
+        ofxDatGuiItem* getComponent(string key);
         void onInternalEventCallback(ofxDatGuiInternalEvent e);
         void onButtonEventCallback(ofxDatGuiButtonEvent e);
         void onSliderEventCallback(ofxDatGuiSliderEvent e);
         void onTextInputEventCallback(ofxDatGuiTextInputEvent e);
         void onDropdownEventCallback(ofxDatGuiDropdownEvent e);
+        void on2dPadEventCallback(ofxDatGui2dPadEvent e);
         void onColorPickerEventCallback(ofxDatGuiColorPickerEvent e);
 
 };

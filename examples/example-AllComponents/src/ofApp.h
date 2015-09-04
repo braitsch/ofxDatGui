@@ -11,11 +11,13 @@ class ofApp : public ofBaseApp{
         void update();
     
         ofxDatGui* gui;
-        ofxDatGuiSlider* opacitySlider;
+        bool isFullscreen;
 
+        void keyPressed(int key);
         void onButtonEvent(ofxDatGuiButtonEvent e);
         void onSliderEvent(ofxDatGuiSliderEvent e);
         void onTextInputEvent(ofxDatGuiTextInputEvent e);
+        void on2dPadEvent(ofxDatGui2dPadEvent e);
         void onDropdownEvent(ofxDatGuiDropdownEvent e);
         void onColorPickerEvent(ofxDatGuiColorPickerEvent e);
     

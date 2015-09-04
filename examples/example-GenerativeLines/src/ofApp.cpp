@@ -5,11 +5,6 @@ int Line::MaxLength = 100;
 
 void ofApp::setup()
 {
-    if (ofGetWidth()!=ofGetScreenWidth()) {
-        ofSetWindowShape(1920, 1080);
-        ofSetWindowPosition((ofGetScreenWidth()/2)-(1920/2), 0);
-    }
-    
 // instantiate and position the gui //
     gui = new ofxDatGui( ofxDatGuiAnchor::TOP_RIGHT );
 
@@ -19,21 +14,23 @@ void ofApp::setup()
     
 // add some color pickers to color our lines //
     ofxDatGuiFolder* f1 = gui->addFolder("LINE COLORS", ofColor::green);
-    p1 = f1->addColorPicker("LINE 1", ofColor::fromHex(0xE0E4CC));
-    p2 = f1->addColorPicker("LINE 2", ofColor::fromHex(0x53777A));
-    p3 = f1->addColorPicker("LINE 3", ofColor::fromHex(0x542437));
-    p4 = f1->addColorPicker("LINE 4", ofColor::fromHex(0xECD078));
+    f1->addColorPicker("LINE 1", ofColor::fromHex(0x20201f));
+    f1->addColorPicker("LINE 2", ofColor::fromHex(0x80b0b0));
+    f1->addColorPicker("LINE 3", ofColor::fromHex(0x4f4b4d));
+    f1->addColorPicker("LINE 4", ofColor::fromHex(0xe5e2d9));
+    f1->expand();
     
 // and some sliders to adjust how they're drawn //
     ofxDatGuiFolder* f2 = gui->addFolder("LINE CONTROLS", ofxDatGuiColor::SLIDER);
     s1 = f2->addSlider("DRAW SPEED", 0, 120, 5);
     s2 = f2->addSlider("LINE WEIGHT", 1, 60, 2);
     s3 = f2->addSlider("LINE LENGTH", 4, 200, 140);
+    f2->expand();
     
 // and a few others widgits for good measure :) //
-    s4 = gui->addSlider("DATGUI OPACITY", 0, 100);
-    b1 = gui->addButton("RESET");
-    t1 = gui->addToggle("PAUSE DRAWING", false);
+    gui->addSlider("DATGUI OPACITY", 0, 100);
+    gui->addButton("RESET");
+    gui->addToggle("PAUSE DRAWING", false);
     
 // register a few callbacks to listen for our gui events //
     gui->onButtonEvent(this, &ofApp::onButtonEvent);
@@ -45,14 +42,18 @@ void ofApp::setup()
     drawSpeed = s1->getValue();
     lineWeight = s2->getValue();
     Line::MaxLength = s3->getValue();
-    gui->setOpacity(s4->getScale());
-    drawingPaused = t1->getEnabled();
+    gui->setOpacity(gui->getSlider("datgui opacity")->getScale());
+    drawingPaused = gui->getButton("pause drawing")->getEnabled();
     
 // finally add some generative lines to draw //
-    lines.push_back(Line(ofGetWidth()*.2, ofGetHeight()/2, p1->getColor()));
-    lines.push_back(Line(ofGetWidth()*.4, ofGetHeight()/2, p2->getColor()));
-    lines.push_back(Line(ofGetWidth()*.6, ofGetHeight()/2, p3->getColor()));
-    lines.push_back(Line(ofGetWidth()*.8, ofGetHeight()/2, p4->getColor()));
+    lines.push_back(Line(ofGetWidth()*.2, ofGetHeight()/2, gui->getColorPicker("line 1")->getColor()));
+    lines.push_back(Line(ofGetWidth()*.4, ofGetHeight()/2, gui->getColorPicker("line 2")->getColor()));
+    lines.push_back(Line(ofGetWidth()*.6, ofGetHeight()/2, gui->getColorPicker("line 3")->getColor()));
+    lines.push_back(Line(ofGetWidth()*.8, ofGetHeight()/2, gui->getColorPicker("line 4")->getColor()));
+    
+// let's launch the app fullscreen //
+    isFullscreen = true;
+    ofSetFullscreen(isFullscreen);
     
 // and tile the background with a pattern //
     bkgd.load("bkgd-pattern.png");
@@ -77,10 +78,10 @@ void ofApp::onSliderEvent(ofxDatGuiSliderEvent e)
 
 void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
 {
-    if (e.target == b1) {
+    if (e.target->getLabel() == "RESET") {
         reset();
-    }   else if (e.target == t1) {
-        drawingPaused = t1->getEnabled();
+    }   else if (e.target->getLabel() == "PAUSE DRAWING") {
+        drawingPaused = e.enabled;
     }
 }
 
@@ -133,7 +134,14 @@ void ofApp::reset()
 
 void ofApp::keyPressed(int key)
 {
-    if (key == 'f') ofToggleFullscreen();
+    if (key == 'f') {
+        isFullscreen =!isFullscreen;
+        ofSetFullscreen(isFullscreen);
+        if (!isFullscreen) {
+            ofSetWindowShape(1920, 1080);
+            ofSetWindowPosition((ofGetScreenWidth()/2)-(1920/2), 0);
+        }
+    }
 }
 
 

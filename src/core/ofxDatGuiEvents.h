@@ -29,6 +29,7 @@ class ofxDatGuiButton;
 class ofxDatGuiSlider;
 class ofxDatGuiDropdown;
 class ofxDatGuiTextInput;
+class ofxDatGui2dPad;
 class ofxDatGuiColorPicker;
 
 enum ofxDatGuiEventType
@@ -117,4 +118,20 @@ class ofxDatGuiDropdownEvent{
     int parent;
     ofxDatGuiDropdown* target;
 };
+
+class ofxDatGui2dPadEvent{
+
+    public:
+        ofxDatGui2dPadEvent(ofxDatGui2dPad* t, float px, float py)
+        {
+            x = px;
+            y = py;
+            target = t;
+        }
+    float x;
+    float y;
+    ofxDatGui2dPad* target;
+};
+
+
 

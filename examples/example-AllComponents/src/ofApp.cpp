@@ -2,36 +2,36 @@
 
 void ofApp::setup()
 {
-    if (ofGetWidth()!=ofGetScreenWidth()) {
-        ofSetWindowShape(1920, 1080);
-        ofSetWindowPosition((ofGetScreenWidth()/2)-(1920/2), 0);
-    }
-    
 // instantiate and position the gui //
     gui = new ofxDatGui( ofxDatGuiAnchor::TOP_RIGHT );
     
 // add some components //
-    gui->addTextInput("MESSAGE", "# OPEN FRAMEWORKS #");
+    gui->addTextInput("MESSAGE", "OPEN FRAMEWORKS DATGUI");
     
 // add a folder to group a few components together //
     ofxDatGuiFolder* folder = gui->addFolder("MY WHITE FOLDER", ofColor::white);
-    folder->addTextInput("** INPUT", "A NESTED TEXT INPUT");
+    folder->addTextInput("** INPUT", "");
     folder->addSlider("** SLIDER", 0, 100);
     folder->addToggle("** TOGGLE");
-    folder->addColorPicker("picker");
+    folder->addColorPicker("** PICKER", ofxDatGuiColor::DROPDOWN_STRIPE);
+// let's have it open by default. note: call this only after you're done adding items //
+    folder->expand();
     
 // add a couple range sliders //
     gui->addSlider("POSITION X", 0, 120, 75);
     gui->addSlider("POSITION Y", -40, 240, 200);
     gui->addSlider("POSITION Z", -80, 120, -40);
-    opacitySlider = gui->addSlider("DATGUI OPACITY", 0, 100);
+    gui->addSlider("DATGUI OPACITY", 0, 100);
 
 // and a colorpicker! //
-    gui->addColorPicker("COLOR PICKER");
+    gui->addColorPicker("COLOR PICKER", ofxDatGuiColor::TOGGLE_STRIPE);
     
 // add a dropdown menu //
     vector<string> o1 = {"OPTION - 1", "OPTION - 2", "OPTION - 3", "OPTION - 4"};
     gui->addDropdown(o1);
+
+// add a 2d pad //
+    gui->add2dPad("2D PAD");
 
 // and a couple buttons //
     gui->addButton("CLICK");
@@ -47,13 +47,20 @@ void ofApp::setup()
     gui->onButtonEvent(this, &ofApp::onButtonEvent);
     gui->onSliderEvent(this, &ofApp::onSliderEvent);
     gui->onTextInputEvent(this, &ofApp::onTextInputEvent);
+    gui->on2dPadEvent(this, &ofApp::on2dPadEvent);
     gui->onDropdownEvent(this, &ofApp::onDropdownEvent);
     gui->onColorPickerEvent(this, &ofApp::onColorPickerEvent);
+    
+// let's launch the app fullscreen //
+    isFullscreen = true;
+    ofSetFullscreen(isFullscreen);
+    gui->setOpacity(gui->getSlider("datgui opacity")->getScale());
 }
 
 void ofApp::onSliderEvent(ofxDatGuiSliderEvent e)
 {
     cout << "Target: " << e.target->getLabel() << " " << e.target->getValue() << endl;
+    if (e.target->getLabel()=="DATGUI OPACITY") gui->setOpacity(e.scale);
 }
 
 void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
@@ -66,6 +73,11 @@ void ofApp::onTextInputEvent(ofxDatGuiTextInputEvent e)
     cout << "Target: " << e.target->getLabel() << " " << e.target->getText() << endl;
 }
 
+void ofApp::on2dPadEvent(ofxDatGui2dPadEvent e)
+{
+    cout << "Target: " << e.target->getLabel() << " " << e.x << ":" << e.y << endl;
+}
+
 void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
 {
     cout << "Target: " << e.target->getLabel() << " Selected Child Index: " << e.target->getSelectedChildIndex() << endl;
@@ -74,16 +86,21 @@ void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
 void ofApp::onColorPickerEvent(ofxDatGuiColorPickerEvent e)
 {
     cout << "Target: " << e.target->getLabel() << " " << e.target->getColor() << endl;
+    ofSetBackgroundColor(e.color);
 }
 
-void ofApp::update()
+void ofApp::draw() { }
+void ofApp::update() { }
+
+void ofApp::keyPressed(int key)
 {
-
+    if (key == 'f') {
+        isFullscreen =!isFullscreen;
+        ofSetFullscreen(isFullscreen);
+        if (!isFullscreen) {
+            ofSetWindowShape(1920, 1080);
+            ofSetWindowPosition((ofGetScreenWidth()/2)-(1920/2), 0);
+        }
+    }
 }
-
-void ofApp::draw()
-{
-
-}
-
 

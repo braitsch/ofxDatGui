@@ -6,6 +6,12 @@ class PolyMesh {
 
     public:
     
+        void setOrigin(float x, float y)
+        {
+            origin.x = x;
+            origin.y = y;
+        }
+    
         void setRadius(int r)
         {
             mRadius = r;
@@ -73,7 +79,6 @@ class PolyMesh {
             pLines.clear();
             iPolys.clear();
             oPolys.clear();
-            origin = ofPoint(ofGetWidth()/2, ofGetHeight()/2);
             float ang = 360/mNumSides;
             float a1 = 0;
             float a2 = ang;

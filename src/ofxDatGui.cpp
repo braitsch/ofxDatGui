@@ -40,7 +40,6 @@ void ofxDatGui::init()
     mGuiFooter = nullptr;
     activeHover = nullptr;
     activeFocus = nullptr;
-    
     ofAddListener(ofEvents().draw, this, &ofxDatGui::onDraw, OF_EVENT_ORDER_AFTER_APP);
     ofAddListener(ofEvents().update, this, &ofxDatGui::onUpdate, OF_EVENT_ORDER_AFTER_APP);
     ofAddListener(ofEvents().keyPressed, this, &ofxDatGui::onKeyPressed, OF_EVENT_ORDER_BEFORE_APP);
@@ -78,7 +77,9 @@ void ofxDatGui::setOpacity(float opacity)
     ofxDatGuiGlobals::guiAlpha = opacity*255;
 }
 
-/* add component methods */
+/* 
+    add component methods
+*/
 
 ofxDatGuiTextInput* ofxDatGui::addTextInput(string label, string value)
 {
@@ -109,7 +110,6 @@ ofxDatGuiSlider* ofxDatGui::addSlider(string label, float min, float max)
 // default to halfway between min & max values //
     ofxDatGuiSlider* slider = addSlider(label, min, max, (max+min)/2);
     slider->onSliderEvent(this, &ofxDatGui::onSliderEventCallback);
-    sliders.push_back(slider);
     return slider;
 }
 
@@ -117,7 +117,6 @@ ofxDatGuiSlider* ofxDatGui::addSlider(string label, float min, float max, float 
 {
     ofxDatGuiSlider* slider = new ofxDatGuiSlider(label, min, max, val);
     slider->onSliderEvent(this, &ofxDatGui::onSliderEventCallback);
-    sliders.push_back(slider);
     attachItem(slider);
     return slider;
 }
@@ -126,7 +125,6 @@ ofxDatGuiColorPicker* ofxDatGui::addColorPicker(string label, ofColor color)
 {
     ofxDatGuiColorPicker* picker = new ofxDatGuiColorPicker(label, color);
     picker->onColorPickerEvent(this, &ofxDatGui::onColorPickerEventCallback);
-    pickers.push_back(picker);
     attachItem(picker);
     return picker;
 }
@@ -140,6 +138,22 @@ ofxDatGuiDropdown* ofxDatGui::addDropdown(vector<string> options)
     return dropdown;
 }
 
+ofxDatGui2dPad* ofxDatGui::add2dPad(string label)
+{
+    ofxDatGui2dPad* pad = new ofxDatGui2dPad(label);
+    pad->on2dPadEvent(this, &ofxDatGui::on2dPadEventCallback);
+    attachItem(pad);
+    return pad;
+}
+
+ofxDatGui2dPad* ofxDatGui::add2dPad(string label, ofRectangle bounds)
+{
+    ofxDatGui2dPad* pad = new ofxDatGui2dPad(label, bounds);
+    pad->on2dPadEvent(this, &ofxDatGui::on2dPadEventCallback);
+    attachItem(pad);
+    return pad;
+}
+
 ofxDatGuiFolder* ofxDatGui::addFolder(string label, ofColor color)
 {
     ofxDatGuiFolder* folder = new ofxDatGuiFolder(label, color);
@@ -151,7 +165,6 @@ ofxDatGuiFolder* ofxDatGui::addFolder(string label, ofColor color)
     attachItem(folder);
     return folder;
 }
-
 
 void ofxDatGui::attachItem(ofxDatGuiItem* item)
 {
@@ -178,46 +191,100 @@ void ofxDatGui::layoutGui()
     experimental component retrieval methods
 */
 
-ofxDatGuiSlider* ofxDatGui::getSlider(int index)
+ofxDatGuiButton* ofxDatGui::getButton(string key)
 {
-    if (index >= 0 && index < sliders.size()){
-        return sliders[index];
+    ofxDatGuiItem* item = getComponent(key);
+    if (item != nullptr){
+        return static_cast<ofxDatGuiButton*>(item);
+    }   else{
+        ofxDatGuiButton* button = new ofxDatGuiButton("X");
+        cout << "ERROR! BUTTON: "<< key <<" NOT FOUND!" << endl;
+        trash.push_back(button);
+        return button;
+    }
+}
+
+ofxDatGuiSlider* ofxDatGui::getSlider(string key)
+{
+    ofxDatGuiItem* item = getComponent(key);
+    if (item != nullptr){
+        return static_cast<ofxDatGuiSlider*>(item);
     }   else{
         ofxDatGuiSlider* slider = new ofxDatGuiSlider("X", 0, 100, 50);
-        cout << "ERROR! SLIDER REQUSTED AT INDEX "<< index <<" IS OUT OF RANGE." << endl;
+        cout << "ERROR! SLIDER: "<< key <<" NOT FOUND!" << endl;
         trash.push_back(slider);
         return slider;
     }
 }
 
-ofxDatGuiSlider* ofxDatGui::getSliderByName(string name)
+ofxDatGuiTextInput* ofxDatGui::getTextInput(string key)
 {
-    ofxDatGuiSlider* slider = nullptr;
-    for (int i=0; i<sliders.size(); i++) if (ofToLower(sliders[i]->getLabel()) == ofToLower(name)) slider = sliders[i];
-    if (slider != nullptr){
-        return slider;
+    ofxDatGuiItem* item = getComponent(key);
+    if (item != nullptr){
+        return static_cast<ofxDatGuiTextInput*>(item);
     }   else{
-        ofxDatGuiSlider* slider = new ofxDatGuiSlider("X", 0, 100, 50);
-        cout << "ERROR! SLIDER: "<< name <<" NOT FOUND!" << endl;
-        trash.push_back(slider);
-        return slider;
+        ofxDatGuiTextInput* input = new ofxDatGuiTextInput("X", "");
+        cout << "ERROR! TEXT INPUT: "<< key <<" NOT FOUND!" << endl;
+        trash.push_back(input);
+        return input;
     }
 }
 
-ofxDatGuiColorPicker* ofxDatGui::getColorPickerByName(string name)
+ofxDatGuiDropdown* ofxDatGui::getDropdown(string key)
 {
-    ofxDatGuiColorPicker* picker = nullptr;
-    for (int i=0; i<pickers.size(); i++) if (ofToLower(pickers[i]->getLabel()) == ofToLower(name)) picker = pickers[i];
-    if (picker != nullptr){
-        return picker;
+    ofxDatGuiItem* item = getComponent(key);
+    if (item != nullptr){
+        return static_cast<ofxDatGuiDropdown*>(item);
+    }   else{
+        vector<string> opts = {" ", " "};
+        ofxDatGuiDropdown* dd = new ofxDatGuiDropdown("", opts);
+        cout << "ERROR! DROPDOWN: "<< key <<" NOT FOUND!" << endl;
+        trash.push_back(dd);
+        return dd;
+    }
+}
+
+ofxDatGui2dPad* ofxDatGui::get2dPad(string key)
+{
+    ofxDatGuiItem* item = getComponent(key);
+    if (item != nullptr){
+        return static_cast<ofxDatGui2dPad*>(item);
+    }   else{
+        ofxDatGui2dPad* pad = new ofxDatGui2dPad("X");
+        cout << "ERROR! 2DPAD: "<< key <<" NOT FOUND!" << endl;
+        trash.push_back(pad);
+        return pad;
+    }
+}
+
+ofxDatGuiColorPicker* ofxDatGui::getColorPicker(string key)
+{
+    ofxDatGuiItem* item = getComponent(key);
+    if (item != nullptr){
+        return static_cast<ofxDatGuiColorPicker*>(item);
     }   else{
         ofxDatGuiColorPicker* picker = new ofxDatGuiColorPicker("X");
-        cout << "ERROR! COLOPICKER: "<< name <<" NOT FOUND!" << endl;
+        cout << "ERROR! COLOPICKER: "<< key <<" NOT FOUND!" << endl;
         trash.push_back(picker);
         return picker;
     }
 }
 
+ofxDatGuiItem* ofxDatGui::getComponent(string key)
+{
+    ofxDatGuiItem* item = nullptr;
+    for (int i=0; i<items.size(); i++)
+    {
+    // first search against labels, then keys, ids, etc...
+        ofxDatGuiItem* o = items[i];
+        if (ofToLower(o->getLabel()) == ofToLower(key)) return items[i];
+        for (int j=0; j<o->children.size(); j++)
+        {
+            if (ofToLower(o->children[j]->getLabel()) == ofToLower(key)) return o->children[j];
+        }
+    }
+    return item;
+}
 
 /*
     event callbacks
@@ -242,6 +309,11 @@ void ofxDatGui::onDropdownEventCallback(ofxDatGuiDropdownEvent e)
 {
     adjustHeight(e.parent);
     dropdownEventCallback(e);
+}
+
+void ofxDatGui::on2dPadEventCallback(ofxDatGui2dPadEvent e)
+{
+    pad2dEventCallback(e);
 }
 
 void ofxDatGui::onColorPickerEventCallback(ofxDatGuiColorPickerEvent e)

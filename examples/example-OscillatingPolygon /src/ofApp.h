@@ -28,5 +28,6 @@ class ofApp : public ofBaseApp{
         void keyPressed(int key);
         void onButtonEvent(ofxDatGuiButtonEvent e);
         void onSliderEvent(ofxDatGuiSliderEvent e);
+        void on2dPadEvent(ofxDatGui2dPadEvent e);
         void onColorPickerEvent(ofxDatGuiColorPickerEvent e);
 };

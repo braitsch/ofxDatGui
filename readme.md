@@ -14,6 +14,7 @@
 * Color Pickers
 * Range Sliders
 * Dropdown Menus
+* 2D Coordinate Pads
 * Folders to group components together
 * An optional header & footer that allow you to collapse and drag the Gui around
 
@@ -91,6 +92,14 @@ If this is not set it will default to halfway between the min and max values.
 	gui->addDropdown(options);
 	
 ![ofxDatGui](./img/ofxdatgui_dropdown.png?raw=true)
+
+**2D Coordinate Pad**
+
+	gui->add2dPad(string label, ofRectangle bounds);
+
+![ofxDatGui](./img/ofxdatgui_2dpad.png?raw=true)
+
+The bounds parameter is optional and will default to the window dimensions if omitted.
 
 ##Component Groups (Folders)
 
@@ -212,6 +221,12 @@ All events also contain additonal properties that allow convenient access to the
 
 	ofxDatGuiColorPickerEvent e
 	ofColor e.color // the color of the picker
+	
+**ofxDatGui2dPadEvent**
+
+	ofxDatGui2dPadEvent e
+	float e.x // x coordinate within the pad's bounds rectangle
+	float e.y // y coordinate within the pad's bounds rectangle
 	 
 **ofxDatGuiDropdownEvent**
 	

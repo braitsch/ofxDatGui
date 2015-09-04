@@ -40,7 +40,6 @@ class ofxDatGuiItem : public ofxDatGuiInteractiveObject
         void    setStripeColor(ofColor color);
         void    setVisible(bool visible);
         bool    getVisible();
-        void    onWindowResize(int w, int h);
 
         static void enableRetina();
         static void init(int x, int y);
@@ -63,6 +62,7 @@ class ofxDatGuiItem : public ofxDatGuiInteractiveObject
         virtual void onMouseDrag(ofPoint m);
         virtual void onMouseLeave(ofPoint m);
         virtual void onMouseRelease(ofPoint m);
+        virtual void onWindowResize(int w, int h);
     
     protected:
     

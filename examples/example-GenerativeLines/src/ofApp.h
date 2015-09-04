@@ -18,18 +18,13 @@ class ofApp : public ofBaseApp{
         bool drawingPaused;
         ofImage bkgd;
         vector<Line> lines;
+        bool isFullscreen;
     
         ofxDatGui* gui;
         ofxDatGuiSlider* s1;
         ofxDatGuiSlider* s2;
         ofxDatGuiSlider* s3;
         ofxDatGuiSlider* s4;
-        ofxDatGuiButton* b1;
-        ofxDatGuiToggle* t1;
-        ofxDatGuiColorPicker* p1;
-        ofxDatGuiColorPicker* p2;
-        ofxDatGuiColorPicker* p3;
-        ofxDatGuiColorPicker* p4;
 
         void onButtonEvent(ofxDatGuiButtonEvent e);
         void onSliderEvent(ofxDatGuiSliderEvent e);
