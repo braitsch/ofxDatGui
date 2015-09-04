@@ -25,11 +25,11 @@
 
 * Create a new project using the project generator and include **ofxDatGui** by selecting the ```addons``` button in the generator.
 
-* Once your project has been created copy the ```ofxdatgui_assets``` directory in the root of this repository to your newly created project's bin/data directory.
+* Copy the ```ofxdatgui_assets``` directory in the root of this repository to your newly created project's bin/data directory.
 
-* Now add **ofxDatGui** to your project by adding  ```#include "ofxDatGui.h"``` to the top of your ```ofApp.h``` file and you're ready to go!
+* Add **ofxDatGui** to your project by adding  ```#include "ofxDatGui.h"``` to the top of your ```ofApp.h``` file and you're ready to go!
 
-##Setup
+##Getting Started
 
 To create an **ofxDatGui** simply pass in the X and Y coordinates where you would like it to live or use one of the convenient pre-defined anchors.
 
@@ -159,7 +159,7 @@ In addition some components have methods (typically getters & setters) that allo
 
 **ofxDatGuiEvents** are designed to be as easy as possible to interact with.
 
-To listen for an event simply register a callback to be executed when an event you care about is received:
+To listen for an event simply register a callback to be executed when an event you care about is fired:
 	
 	gui->onButtonEvent(this, &ofApp::onButtonEvent);
 	void onButtonEvent(ofxDatGuiButtonEvent e)
@@ -176,7 +176,7 @@ Every callback you register will receive an event object that contains a pointer
 		cout << e.target->getLabel() << endl; // prints "My Button"
 	}
 
-If you saved the pointer returned by ```gui->add()``` in a variable you can compare it to the event target to decide how to handle the event. 
+If you saved the pointer returned by ``gui->add*`` in a variable you can compare it to the event target to decide how to handle the event. 
 
 	ofxDatGuiButton* b1 = gui->addButton("Button 1");
 	ofxDatGuiButton* b2 = gui->addButton("Button 2");

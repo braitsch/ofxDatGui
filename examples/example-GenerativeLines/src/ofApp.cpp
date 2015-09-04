@@ -35,7 +35,7 @@ void ofApp::setup()
     b1 = gui->addButton("RESET");
     t1 = gui->addToggle("PAUSE DRAWING", false);
     
-// finally register a few callbacks to listen for specific component events //
+// register a few callbacks to listen for our gui events //
     gui->onButtonEvent(this, &ofApp::onButtonEvent);
     gui->onSliderEvent(this, &ofApp::onSliderEvent);
     gui->onTextInputEvent(this, &ofApp::onTextInputEvent);
@@ -48,13 +48,13 @@ void ofApp::setup()
     gui->setOpacity(s4->getScale());
     drawingPaused = t1->getEnabled();
     
-    index = 0;
+// finally add some generative lines to draw //
     lines.push_back(Line(ofGetWidth()*.2, ofGetHeight()/2, p1->getColor()));
     lines.push_back(Line(ofGetWidth()*.4, ofGetHeight()/2, p2->getColor()));
     lines.push_back(Line(ofGetWidth()*.6, ofGetHeight()/2, p3->getColor()));
     lines.push_back(Line(ofGetWidth()*.8, ofGetHeight()/2, p4->getColor()));
     
-// tile the background with a pattern //
+// and tile the background with a pattern //
     bkgd.load("bkgd-pattern.png");
 }
 

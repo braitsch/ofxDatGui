@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8A1BA06B1B8CFE9E0034593B /* ofxDatGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A1BA0621B8CFE9E0034593B /* ofxDatGui.cpp */; };
-		8A1BA06C1B8CFE9E0034593B /* ofxDatGuiItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A1BA0671B8CFE9E0034593B /* ofxDatGuiItem.cpp */; };
+		8A4426391B98B15800BA729F /* ofxDatGuiItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A4426351B98B15800BA729F /* ofxDatGuiItem.cpp */; };
+		8A44263A1B98B15800BA729F /* ofxDatGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A4426371B98B15800BA729F /* ofxDatGui.cpp */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
 		E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4B69E1D0A3A1BDC003C02F2 /* main.cpp */; };
 		E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */; };
@@ -44,22 +44,22 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		8A1BA0621B8CFE9E0034593B /* ofxDatGui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ofxDatGui.cpp; path = ../../src/ofxDatGui.cpp; sourceTree = "<group>"; };
-		8A1BA0631B8CFE9E0034593B /* ofxDatGui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxDatGui.h; path = ../../src/ofxDatGui.h; sourceTree = "<group>"; };
-		8A1BA0641B8CFE9E0034593B /* ofxDatGuiButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiButton.h; sourceTree = "<group>"; };
-		8A1BA0671B8CFE9E0034593B /* ofxDatGuiItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ofxDatGuiItem.cpp; path = ../../src/core/ofxDatGuiItem.cpp; sourceTree = "<group>"; };
-		8A1BA0681B8CFE9E0034593B /* ofxDatGuiItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxDatGuiItem.h; path = ../../src/core/ofxDatGuiItem.h; sourceTree = "<group>"; };
-		8A1BA06A1B8CFE9E0034593B /* ofxDatGuiSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiSlider.h; sourceTree = "<group>"; };
-		8A63A6EA1B97945900975ADE /* ofxDatGuiConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxDatGuiConstants.h; path = ../../src/core/ofxDatGuiConstants.h; sourceTree = "<group>"; };
-		8A63A6EB1B97945900975ADE /* ofxDatGuiEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxDatGuiEvents.h; path = ../../src/core/ofxDatGuiEvents.h; sourceTree = "<group>"; };
-		8A670E461B952E31009BC7EB /* ofxDatGuiColorPicker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiColorPicker.h; sourceTree = "<group>"; };
-		8A72012F1B90000A004435C1 /* ofxDatGuiComponents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxDatGuiComponents.h; path = ../../src/core/ofxDatGuiComponents.h; sourceTree = "<group>"; };
-		8A7201301B90000A004435C1 /* ofxDatGuiTextInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiTextInput.h; sourceTree = "<group>"; };
-		8A7201351B9008FA004435C1 /* ofxDatGui-GenerativeLinesDebug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ofxDatGui-GenerativeLinesDebug.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		8A92A3D51B98ACA300910732 /* Line.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Line.h; sourceTree = "<group>"; };
-		8ACA16961B94F145005D9A15 /* ofxDatGuiGroups.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiGroups.h; sourceTree = "<group>"; };
-		8AF96FFE1B911F63002EC8FB /* ofxDatGuiControls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiControls.h; sourceTree = "<group>"; };
+		8A44262B1B98B15800BA729F /* ofxDatGuiButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiButton.h; sourceTree = "<group>"; };
+		8A44262C1B98B15800BA729F /* ofxDatGuiColorPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiColorPicker.h; sourceTree = "<group>"; };
+		8A44262D1B98B15800BA729F /* ofxDatGuiControls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiControls.h; sourceTree = "<group>"; };
+		8A44262E1B98B15800BA729F /* ofxDatGuiGroups.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiGroups.h; sourceTree = "<group>"; };
+		8A44262F1B98B15800BA729F /* ofxDatGuiSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiSlider.h; sourceTree = "<group>"; };
+		8A4426301B98B15800BA729F /* ofxDatGuiTextInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiTextInput.h; sourceTree = "<group>"; };
+		8A4426321B98B15800BA729F /* ofxDatGuiComponents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiComponents.h; sourceTree = "<group>"; };
+		8A4426331B98B15800BA729F /* ofxDatGuiConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiConstants.h; sourceTree = "<group>"; };
+		8A4426341B98B15800BA729F /* ofxDatGuiEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiEvents.h; sourceTree = "<group>"; };
+		8A4426351B98B15800BA729F /* ofxDatGuiItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxDatGuiItem.cpp; sourceTree = "<group>"; };
+		8A4426361B98B15800BA729F /* ofxDatGuiItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiItem.h; sourceTree = "<group>"; };
+		8A4426371B98B15800BA729F /* ofxDatGui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ofxDatGui.cpp; path = ../../src/ofxDatGui.cpp; sourceTree = "<group>"; };
+		8A4426381B98B15800BA729F /* ofxDatGui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxDatGui.h; path = ../../src/ofxDatGui.h; sourceTree = "<group>"; };
+		8A44263B1B98B1CE00BA729F /* PolyMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PolyMesh.h; sourceTree = "<group>"; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
+		E4B69B5B0A3A1756003C02F2 /* example-OscillatingPolygonDebug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "example-OscillatingPolygonDebug.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4B69E1D0A3A1BDC003C02F2 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = SOURCE_ROOT; };
 		E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofApp.cpp; path = src/ofApp.cpp; sourceTree = SOURCE_ROOT; };
 		E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ofApp.h; path = src/ofApp.h; sourceTree = SOURCE_ROOT; };
@@ -80,47 +80,48 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		8A1BA0611B8CFE8F0034593B /* ofxDatGui */ = {
+		8A4426291B98B14100BA729F /* ofxDatGui */ = {
 			isa = PBXGroup;
 			children = (
-				8A1BA0631B8CFE9E0034593B /* ofxDatGui.h */,
-				8A1BA0621B8CFE9E0034593B /* ofxDatGui.cpp */,
-				8A63A6ED1B97947000975ADE /* core */,
-				8A92A3D61B98AE8400910732 /* components */,
+				8A44262A1B98B15800BA729F /* components */,
+				8A4426311B98B15800BA729F /* core */,
+				8A4426371B98B15800BA729F /* ofxDatGui.cpp */,
+				8A4426381B98B15800BA729F /* ofxDatGui.h */,
 			);
 			name = ofxDatGui;
 			sourceTree = "<group>";
 		};
-		8A63A6ED1B97947000975ADE /* core */ = {
+		8A44262A1B98B15800BA729F /* components */ = {
 			isa = PBXGroup;
 			children = (
-				8A1BA0681B8CFE9E0034593B /* ofxDatGuiItem.h */,
-				8A1BA0671B8CFE9E0034593B /* ofxDatGuiItem.cpp */,
-				8A63A6EB1B97945900975ADE /* ofxDatGuiEvents.h */,
-				8A63A6EA1B97945900975ADE /* ofxDatGuiConstants.h */,
-				8A72012F1B90000A004435C1 /* ofxDatGuiComponents.h */,
-			);
-			name = core;
-			sourceTree = "<group>";
-		};
-		8A92A3D61B98AE8400910732 /* components */ = {
-			isa = PBXGroup;
-			children = (
-				8A1BA0641B8CFE9E0034593B /* ofxDatGuiButton.h */,
-				8A1BA06A1B8CFE9E0034593B /* ofxDatGuiSlider.h */,
-				8A7201301B90000A004435C1 /* ofxDatGuiTextInput.h */,
-				8ACA16961B94F145005D9A15 /* ofxDatGuiGroups.h */,
-				8AF96FFE1B911F63002EC8FB /* ofxDatGuiControls.h */,
-				8A670E461B952E31009BC7EB /* ofxDatGuiColorPicker.h */,
+				8A44262B1B98B15800BA729F /* ofxDatGuiButton.h */,
+				8A44262C1B98B15800BA729F /* ofxDatGuiColorPicker.h */,
+				8A44262D1B98B15800BA729F /* ofxDatGuiControls.h */,
+				8A44262E1B98B15800BA729F /* ofxDatGuiGroups.h */,
+				8A44262F1B98B15800BA729F /* ofxDatGuiSlider.h */,
+				8A4426301B98B15800BA729F /* ofxDatGuiTextInput.h */,
 			);
 			name = components;
 			path = ../../src/components;
 			sourceTree = "<group>";
 		};
+		8A4426311B98B15800BA729F /* core */ = {
+			isa = PBXGroup;
+			children = (
+				8A4426321B98B15800BA729F /* ofxDatGuiComponents.h */,
+				8A4426331B98B15800BA729F /* ofxDatGuiConstants.h */,
+				8A4426341B98B15800BA729F /* ofxDatGuiEvents.h */,
+				8A4426351B98B15800BA729F /* ofxDatGuiItem.cpp */,
+				8A4426361B98B15800BA729F /* ofxDatGuiItem.h */,
+			);
+			name = core;
+			path = ../../src/core;
+			sourceTree = "<group>";
+		};
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
-				8A1BA0611B8CFE8F0034593B /* ofxDatGui */,
+				8A4426291B98B14100BA729F /* ofxDatGui */,
 			);
 			name = addons;
 			sourceTree = "<group>";
@@ -141,7 +142,7 @@
 				E4B69E1C0A3A1BDC003C02F2 /* src */,
 				E4EEC9E9138DF44700A80321 /* openFrameworks */,
 				BB4B014C10F69532006C3DED /* addons */,
-				8A7201351B9008FA004435C1 /* ofxDatGui-GenerativeLinesDebug.app */,
+				E4B69B5B0A3A1756003C02F2 /* example-OscillatingPolygonDebug.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -149,9 +150,9 @@
 			isa = PBXGroup;
 			children = (
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
-				8A92A3D51B98ACA300910732 /* Line.h */,
-				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
 				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
+				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
+				8A44263B1B98B1CE00BA729F /* PolyMesh.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -168,9 +169,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		E4B69B5A0A3A1756003C02F2 /* ofxDatGui-GenerativeLines */ = {
+		E4B69B5A0A3A1756003C02F2 /* example-OscillatingPolygon */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E4B69B5F0A3A1757003C02F2 /* Build configuration list for PBXNativeTarget "ofxDatGui-GenerativeLines" */;
+			buildConfigurationList = E4B69B5F0A3A1757003C02F2 /* Build configuration list for PBXNativeTarget "example-OscillatingPolygon" */;
 			buildPhases = (
 				E4B69B580A3A1756003C02F2 /* Sources */,
 				E4B69B590A3A1756003C02F2 /* Frameworks */,
@@ -182,9 +183,9 @@
 			dependencies = (
 				E4EEB9AC138B136A00A80321 /* PBXTargetDependency */,
 			);
-			name = "ofxDatGui-GenerativeLines";
+			name = "example-OscillatingPolygon";
 			productName = myOFApp;
-			productReference = 8A7201351B9008FA004435C1 /* ofxDatGui-GenerativeLinesDebug.app */;
+			productReference = E4B69B5B0A3A1756003C02F2 /* example-OscillatingPolygonDebug.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -195,7 +196,7 @@
 			attributes = {
 				LastUpgradeCheck = 0600;
 			};
-			buildConfigurationList = E4B69B4D0A3A1720003C02F2 /* Build configuration list for PBXProject "ofxDatGui-GenerativeLines" */;
+			buildConfigurationList = E4B69B4D0A3A1720003C02F2 /* Build configuration list for PBXProject "example-OscillatingPolygon" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -216,7 +217,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				E4B69B5A0A3A1756003C02F2 /* ofxDatGui-GenerativeLines */,
+				E4B69B5A0A3A1756003C02F2 /* example-OscillatingPolygon */,
 			);
 		};
 /* End PBXProject section */
@@ -252,10 +253,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8A1BA06C1B8CFE9E0034593B /* ofxDatGuiItem.cpp in Sources */,
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
+				8A44263A1B98B15800BA729F /* ofxDatGui.cpp in Sources */,
+				8A4426391B98B15800BA729F /* ofxDatGuiItem.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
-				8A1BA06B1B8CFE9E0034593B /* ofxDatGui.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -347,7 +348,7 @@
 				INFOPLIST_FILE = "openFrameworks-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				PRODUCT_NAME = "ofxDatGui-GenerativeLinesDebug";
+				PRODUCT_NAME = "example-OscillatingPolygonDebug";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -370,7 +371,7 @@
 				INFOPLIST_FILE = "openFrameworks-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				PRODUCT_NAME = "ofxDatGui-GenerativeLines";
+				PRODUCT_NAME = "example-OscillatingPolygon";
 				WRAPPER_EXTENSION = app;
 				baseConfigurationReference = E4EB6923138AFD0F00A09F29;
 			};
@@ -379,7 +380,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E4B69B4D0A3A1720003C02F2 /* Build configuration list for PBXProject "ofxDatGui-GenerativeLines" */ = {
+		E4B69B4D0A3A1720003C02F2 /* Build configuration list for PBXProject "example-OscillatingPolygon" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E4B69B4E0A3A1720003C02F2 /* Debug */,
@@ -388,7 +389,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E4B69B5F0A3A1757003C02F2 /* Build configuration list for PBXNativeTarget "ofxDatGui-GenerativeLines" */ = {
+		E4B69B5F0A3A1757003C02F2 /* Build configuration list for PBXNativeTarget "example-OscillatingPolygon" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E4B69B600A3A1757003C02F2 /* Debug */,

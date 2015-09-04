@@ -42,6 +42,12 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
             calcScale();
         }
     
+        ~ofxDatGuiSlider()
+        {
+            delete input;
+            cout << "bye bye" << endl;
+        }
+    
         void onInputChanged(ofxDatGuiInternalEvent e)
         {
             setValue(ofToFloat(input->getText()));

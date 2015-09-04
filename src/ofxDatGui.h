@@ -43,8 +43,13 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofxDatGuiSlider* addSlider(string label, float min, float max);
         ofxDatGuiSlider* addSlider(string label, float min, float max, float val);
         ofxDatGuiDropdown* addDropdown(vector<string> options);
-        ofxDatGuiColorPicker* addColorPicker(string label);
+        ofxDatGuiColorPicker* addColorPicker(string label, ofColor color = ofColor::black);
         ofxDatGuiFolder* addFolder(string label, ofColor color = ofxDatGuiColor::LABEL);
+    
+    // experimental //
+        ofxDatGuiSlider* getSlider(int index);
+        ofxDatGuiSlider* getSliderByName(string name);
+        ofxDatGuiColorPicker* getColorPickerByName(string name);
     
     private:
     
@@ -58,6 +63,9 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofxDatGuiHeader* mGuiHeader;
         ofxDatGuiFooter* mGuiFooter;
         vector<ofxDatGuiItem*> items;
+        vector<ofxDatGuiItem*> trash;
+        vector<ofxDatGuiSlider*> sliders;
+        vector<ofxDatGuiColorPicker*> pickers;
     
         void init();
         void layoutGui();

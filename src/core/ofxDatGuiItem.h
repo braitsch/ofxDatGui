@@ -28,6 +28,8 @@ class ofxDatGuiItem : public ofxDatGuiInteractiveObject
     public:
     
         ofxDatGuiItem(string label);
+        virtual ~ofxDatGuiItem();
+        
         vector<ofxDatGuiItem*> children;
     
         string  getLabel();

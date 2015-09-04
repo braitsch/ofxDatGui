@@ -109,6 +109,7 @@ ofxDatGuiSlider* ofxDatGui::addSlider(string label, float min, float max)
 // default to halfway between min & max values //
     ofxDatGuiSlider* slider = addSlider(label, min, max, (max+min)/2);
     slider->onSliderEvent(this, &ofxDatGui::onSliderEventCallback);
+    sliders.push_back(slider);
     return slider;
 }
 
@@ -116,14 +117,16 @@ ofxDatGuiSlider* ofxDatGui::addSlider(string label, float min, float max, float 
 {
     ofxDatGuiSlider* slider = new ofxDatGuiSlider(label, min, max, val);
     slider->onSliderEvent(this, &ofxDatGui::onSliderEventCallback);
+    sliders.push_back(slider);
     attachItem(slider);
     return slider;
 }
 
-ofxDatGuiColorPicker* ofxDatGui::addColorPicker(string label)
+ofxDatGuiColorPicker* ofxDatGui::addColorPicker(string label, ofColor color)
 {
-    ofxDatGuiColorPicker* picker = new ofxDatGuiColorPicker(label);
+    ofxDatGuiColorPicker* picker = new ofxDatGuiColorPicker(label, color);
     picker->onColorPickerEvent(this, &ofxDatGui::onColorPickerEventCallback);
+    pickers.push_back(picker);
     attachItem(picker);
     return picker;
 }
@@ -149,6 +152,7 @@ ofxDatGuiFolder* ofxDatGui::addFolder(string label, ofColor color)
     return folder;
 }
 
+
 void ofxDatGui::attachItem(ofxDatGuiItem* item)
 {
     if (mGuiFooter != nullptr){
@@ -169,6 +173,51 @@ void ofxDatGui::layoutGui()
     }
     mHeightMinimum = mHeight;
 }
+
+/*
+    experimental component retrieval methods
+*/
+
+ofxDatGuiSlider* ofxDatGui::getSlider(int index)
+{
+    if (index >= 0 && index < sliders.size()){
+        return sliders[index];
+    }   else{
+        ofxDatGuiSlider* slider = new ofxDatGuiSlider("X", 0, 100, 50);
+        cout << "ERROR! SLIDER REQUSTED AT INDEX "<< index <<" IS OUT OF RANGE." << endl;
+        trash.push_back(slider);
+        return slider;
+    }
+}
+
+ofxDatGuiSlider* ofxDatGui::getSliderByName(string name)
+{
+    ofxDatGuiSlider* slider = nullptr;
+    for (int i=0; i<sliders.size(); i++) if (ofToLower(sliders[i]->getLabel()) == ofToLower(name)) slider = sliders[i];
+    if (slider != nullptr){
+        return slider;
+    }   else{
+        ofxDatGuiSlider* slider = new ofxDatGuiSlider("X", 0, 100, 50);
+        cout << "ERROR! SLIDER: "<< name <<" NOT FOUND!" << endl;
+        trash.push_back(slider);
+        return slider;
+    }
+}
+
+ofxDatGuiColorPicker* ofxDatGui::getColorPickerByName(string name)
+{
+    ofxDatGuiColorPicker* picker = nullptr;
+    for (int i=0; i<pickers.size(); i++) if (ofToLower(pickers[i]->getLabel()) == ofToLower(name)) picker = pickers[i];
+    if (picker != nullptr){
+        return picker;
+    }   else{
+        ofxDatGuiColorPicker* picker = new ofxDatGuiColorPicker("X");
+        cout << "ERROR! COLOPICKER: "<< name <<" NOT FOUND!" << endl;
+        trash.push_back(picker);
+        return picker;
+    }
+}
+
 
 /*
     event callbacks
@@ -352,6 +401,9 @@ void ofxDatGui::onUpdate(ofEventArgs &e)
             if (mGuiHeader != nullptr && activeHover == mGuiHeader) moveGui(mouse-mGuiHeader->dragOffset);
         }
     }
+// empty the trash //
+    for (int i=0; i<trash.size(); i++) delete trash[i];
+    trash.clear();
 }
 
 void ofxDatGui::onDraw(ofEventArgs &e)

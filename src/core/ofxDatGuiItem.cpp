@@ -65,6 +65,8 @@ ofxDatGuiItem::ofxDatGuiItem(string label)
     mPadding = ofxDatGuiGlobals::rowPadding;
 }
 
+ofxDatGuiItem::~ofxDatGuiItem(){ }
+
 /*
     static methods
 */

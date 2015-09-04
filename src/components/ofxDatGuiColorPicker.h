@@ -62,16 +62,19 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
         void setColor(ofColor color)
         {
             mColor = color;
+            setTextFieldInputColor();
         }
     
         void setColor(int hex)
         {
             mColor = ofColor::fromHex(hex);
+            setTextFieldInputColor();
         }
     
         void setColor(int r, int g, int b, int a = 255)
         {
             mColor = ofColor(r, g, b, a);
+            setTextFieldInputColor();
         }
     
         ofColor getColor()
