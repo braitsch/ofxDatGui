@@ -22,6 +22,7 @@ void ofApp::setup()
     gui->onSliderEvent(this, &ofApp::onSliderEvent);
     gui->on2dPadEvent(this, &ofApp::on2dPadEvent);
     gui->onColorPickerEvent(this, &ofApp::onColorPickerEvent);
+    gui->setOpacity(.5);
 
 // let's launch the app fullscreen //
     isFullscreen = true;

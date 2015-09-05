@@ -85,7 +85,7 @@ class ofxDatGui2dPad : public ofxDatGuiItem {
             if (mPad.inside(m)){
                 mx = (m.x-mPad.x)/mPad.width;
                 my = (m.y-mPad.y)/mPad.height;
-                ofxDatGui2dPadEvent e(this, mBounds.x + (mBounds.width*mx), mBounds.y + (mBounds.height*mx));
+                ofxDatGui2dPadEvent e(this, mBounds.x + (mBounds.width*mx), mBounds.y + (mBounds.height*my));
                 pad2dEventCallback(e);
             }
         }
