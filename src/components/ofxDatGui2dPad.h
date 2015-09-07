@@ -27,14 +27,14 @@ class ofxDatGui2dPad : public ofxDatGuiItem {
 
     public:
     
-        ofxDatGui2dPad(string label) : ofxDatGuiItem(label)
+        ofxDatGui2dPad(ofxDatGuiGlobals *gui, string label) : ofxDatGuiItem(gui, label)
         {
             init();
             mScaleOnResize = true;
             mBounds = ofRectangle(0, 0, ofGetWidth(), ofGetHeight());
         }
     
-        ofxDatGui2dPad(string label, ofRectangle bounds) : ofxDatGuiItem(label)
+        ofxDatGui2dPad(ofxDatGuiGlobals *gui, string label, ofRectangle bounds) : ofxDatGuiItem(gui, label)
         {
             init();
             mBounds = bounds;
@@ -46,7 +46,7 @@ class ofxDatGui2dPad : public ofxDatGuiItem {
             reset();
             mHeight = 140;
             mStripeColor = ofxDatGuiColor::BUTTON_STRIPE;
-            mPad = ofRectangle(0, 0, mWidth-mPadding-inputX, mHeight-(mPadding*2));
+            mPad = ofRectangle(0, 0, mWidth-mPadding-mGui->input.x, mHeight-(mPadding*2));
         }
     
         void reset()
@@ -58,12 +58,12 @@ class ofxDatGui2dPad : public ofxDatGuiItem {
         void draw()
         {
             if (mVisible){
-                mPad.x = x + inputX;
+                mPad.x = x + mGui->input.x;
                 mPad.y = y + mPadding;
                 pt.x = mPad.x + mPad.width * mx;
                 pt.y = mPad.y + mPad.height * my;
                 drawBkgd();
-                ofxDatGuiFont::drawLabel(mLabel, x, y + mHeight/2);
+                ofxDatGuiItem::drawLabel();
                 ofxDatGuiItem::drawStripe();
                 ofSetColor(ofxDatGuiColor::INPUT);
                 ofDrawRectangle(mPad);

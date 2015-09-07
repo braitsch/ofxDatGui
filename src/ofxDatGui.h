@@ -65,12 +65,14 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofPoint mouse;
         ofxDatGuiItem* activeHover;
         ofxDatGuiItem* activeFocus;
+        ofxDatGuiGlobals mGui;
         ofxDatGuiHeader* mGuiHeader;
         ofxDatGuiFooter* mGuiFooter;
         vector<ofxDatGuiItem*> items;
         vector<ofxDatGuiItem*> trash;
     
         void init();
+        void enableRetina();
         void layoutGui();
         void onDraw(ofEventArgs &e);
         void onUpdate(ofEventArgs &e);

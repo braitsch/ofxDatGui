@@ -24,16 +24,24 @@
 
 ofxDatGui::ofxDatGui(int x, int y)
 {
-    ofxDatGuiItem::init(x, y); init();
+    mGui.x = x;
+    mGui.y = y;
+    mGui.anchor = 0;
+    init();
 }
 
 ofxDatGui::ofxDatGui(uint8_t anchor)
 {
-    ofxDatGuiItem::init(anchor); init();
+    mGui.x = 0;
+    mGui.y = 0;
+    mGui.anchor = anchor;
+    init();
+    if (anchor == ofxDatGuiAnchor::TOP_RIGHT) mGui.x = ofGetWidth()-mGui.width;
 }
 
 void ofxDatGui::init()
 {
+    mGui.init();
     mShowGui = true;
     mousePressed = false;
     mGuiHeader = nullptr;
@@ -51,7 +59,7 @@ void ofxDatGui::init()
 ofxDatGuiHeader* ofxDatGui::addHeader(string label)
 {
     if (mGuiHeader == nullptr){
-        mGuiHeader = new ofxDatGuiHeader(label);
+        mGuiHeader = new ofxDatGuiHeader(&mGui, label);
         if (items.size() == 0){
             items.push_back(mGuiHeader);
         }   else{
@@ -65,7 +73,7 @@ ofxDatGuiHeader* ofxDatGui::addHeader(string label)
 ofxDatGuiFooter* ofxDatGui::addFooter()
 {
     if (mGuiFooter == nullptr){
-        mGuiFooter = new ofxDatGuiFooter();
+        mGuiFooter = new ofxDatGuiFooter(&mGui);
         items.push_back(mGuiFooter);
         mGuiFooter->onInternalEvent(this, &ofxDatGui::onInternalEventCallback);
         layoutGui();
@@ -74,7 +82,7 @@ ofxDatGuiFooter* ofxDatGui::addFooter()
 
 void ofxDatGui::setOpacity(float opacity)
 {
-    ofxDatGuiGlobals::guiAlpha = opacity*255;
+    mGui.alpha = opacity*255;
 }
 
 /* 
@@ -83,7 +91,7 @@ void ofxDatGui::setOpacity(float opacity)
 
 ofxDatGuiTextInput* ofxDatGui::addTextInput(string label, string value)
 {
-    ofxDatGuiTextInput* input = new ofxDatGuiTextInput(label, value);
+    ofxDatGuiTextInput* input = new ofxDatGuiTextInput(&mGui, label, value);
     input->onTextInputEvent(this, &ofxDatGui::onTextInputEventCallback);
     attachItem(input);
     return input;
@@ -91,7 +99,7 @@ ofxDatGuiTextInput* ofxDatGui::addTextInput(string label, string value)
 
 ofxDatGuiButton* ofxDatGui::addButton(string label)
 {
-    ofxDatGuiButton* button = new ofxDatGuiButton(label);
+    ofxDatGuiButton* button = new ofxDatGuiButton(&mGui, label);
     button->onButtonEvent(this, &ofxDatGui::onButtonEventCallback);
     attachItem(button);
     return button;
@@ -99,7 +107,7 @@ ofxDatGuiButton* ofxDatGui::addButton(string label)
 
 ofxDatGuiToggle* ofxDatGui::addToggle(string label, bool state)
 {
-    ofxDatGuiToggle* button = new ofxDatGuiToggle(label, state);
+    ofxDatGuiToggle* button = new ofxDatGuiToggle(&mGui, label, state);
     button->onButtonEvent(this, &ofxDatGui::onButtonEventCallback);
     attachItem(button);
     return button;
@@ -115,7 +123,7 @@ ofxDatGuiSlider* ofxDatGui::addSlider(string label, float min, float max)
 
 ofxDatGuiSlider* ofxDatGui::addSlider(string label, float min, float max, float val)
 {
-    ofxDatGuiSlider* slider = new ofxDatGuiSlider(label, min, max, val);
+    ofxDatGuiSlider* slider = new ofxDatGuiSlider(&mGui, label, min, max, val);
     slider->onSliderEvent(this, &ofxDatGui::onSliderEventCallback);
     attachItem(slider);
     return slider;
@@ -123,7 +131,7 @@ ofxDatGuiSlider* ofxDatGui::addSlider(string label, float min, float max, float 
 
 ofxDatGuiColorPicker* ofxDatGui::addColorPicker(string label, ofColor color)
 {
-    ofxDatGuiColorPicker* picker = new ofxDatGuiColorPicker(label, color);
+    ofxDatGuiColorPicker* picker = new ofxDatGuiColorPicker(&mGui, label, color);
     picker->onColorPickerEvent(this, &ofxDatGui::onColorPickerEventCallback);
     attachItem(picker);
     return picker;
@@ -131,7 +139,7 @@ ofxDatGuiColorPicker* ofxDatGui::addColorPicker(string label, ofColor color)
 
 ofxDatGuiDropdown* ofxDatGui::addDropdown(vector<string> options)
 {
-    ofxDatGuiDropdown* dropdown = new ofxDatGuiDropdown("SELECT OPTION", options);
+    ofxDatGuiDropdown* dropdown = new ofxDatGuiDropdown(&mGui, "SELECT OPTION", options);
     dropdown->onDropdownEvent(this, &ofxDatGui::onDropdownEventCallback);
     dropdown->onInternalEvent(this, &ofxDatGui::onInternalEventCallback);
     attachItem(dropdown);
@@ -140,7 +148,7 @@ ofxDatGuiDropdown* ofxDatGui::addDropdown(vector<string> options)
 
 ofxDatGui2dPad* ofxDatGui::add2dPad(string label)
 {
-    ofxDatGui2dPad* pad = new ofxDatGui2dPad(label);
+    ofxDatGui2dPad* pad = new ofxDatGui2dPad(&mGui, label);
     pad->on2dPadEvent(this, &ofxDatGui::on2dPadEventCallback);
     attachItem(pad);
     return pad;
@@ -148,7 +156,7 @@ ofxDatGui2dPad* ofxDatGui::add2dPad(string label)
 
 ofxDatGui2dPad* ofxDatGui::add2dPad(string label, ofRectangle bounds)
 {
-    ofxDatGui2dPad* pad = new ofxDatGui2dPad(label, bounds);
+    ofxDatGui2dPad* pad = new ofxDatGui2dPad(&mGui, label, bounds);
     pad->on2dPadEvent(this, &ofxDatGui::on2dPadEventCallback);
     attachItem(pad);
     return pad;
@@ -156,7 +164,7 @@ ofxDatGui2dPad* ofxDatGui::add2dPad(string label, ofRectangle bounds)
 
 ofxDatGuiFolder* ofxDatGui::addFolder(string label, ofColor color)
 {
-    ofxDatGuiFolder* folder = new ofxDatGuiFolder(label, color);
+    ofxDatGuiFolder* folder = new ofxDatGuiFolder(&mGui, label, color);
     folder->onButtonEvent(this, &ofxDatGui::onButtonEventCallback);
     folder->onSliderEvent(this, &ofxDatGui::onSliderEventCallback);
     folder->onTextInputEvent(this, &ofxDatGui::onTextInputEventCallback);
@@ -181,8 +189,8 @@ void ofxDatGui::layoutGui()
     mHeight = 0;
     for (int i=0; i<items.size(); i++) {
         items[i]->setIndex(i);
-        items[i]->setOrigin(ofxDatGuiGlobals::guiX, ofxDatGuiGlobals::guiY + mHeight);
-        mHeight += items[i]->getHeight() + ofxDatGuiGlobals::rowSpacing;
+        items[i]->setOrigin(mGui.x, mGui.y + mHeight);
+        mHeight += items[i]->getHeight() + mGui.row.spacing;
     }
     mHeightMinimum = mHeight;
 }
@@ -197,7 +205,7 @@ ofxDatGuiButton* ofxDatGui::getButton(string key)
     if (item != nullptr){
         return static_cast<ofxDatGuiButton*>(item);
     }   else{
-        ofxDatGuiButton* button = new ofxDatGuiButton("X");
+        ofxDatGuiButton* button = new ofxDatGuiButton(&mGui, "X");
         cout << "ERROR! BUTTON: "<< key <<" NOT FOUND!" << endl;
         trash.push_back(button);
         return button;
@@ -210,7 +218,7 @@ ofxDatGuiSlider* ofxDatGui::getSlider(string key)
     if (item != nullptr){
         return static_cast<ofxDatGuiSlider*>(item);
     }   else{
-        ofxDatGuiSlider* slider = new ofxDatGuiSlider("X", 0, 100, 50);
+        ofxDatGuiSlider* slider = new ofxDatGuiSlider(&mGui, "X", 0, 100, 50);
         cout << "ERROR! SLIDER: "<< key <<" NOT FOUND!" << endl;
         trash.push_back(slider);
         return slider;
@@ -223,7 +231,7 @@ ofxDatGuiTextInput* ofxDatGui::getTextInput(string key)
     if (item != nullptr){
         return static_cast<ofxDatGuiTextInput*>(item);
     }   else{
-        ofxDatGuiTextInput* input = new ofxDatGuiTextInput("X", "");
+        ofxDatGuiTextInput* input = new ofxDatGuiTextInput(&mGui, "X", "");
         cout << "ERROR! TEXT INPUT: "<< key <<" NOT FOUND!" << endl;
         trash.push_back(input);
         return input;
@@ -237,7 +245,7 @@ ofxDatGuiDropdown* ofxDatGui::getDropdown(string key)
         return static_cast<ofxDatGuiDropdown*>(item);
     }   else{
         vector<string> opts = {" ", " "};
-        ofxDatGuiDropdown* dd = new ofxDatGuiDropdown("", opts);
+        ofxDatGuiDropdown* dd = new ofxDatGuiDropdown(&mGui, "", opts);
         cout << "ERROR! DROPDOWN: "<< key <<" NOT FOUND!" << endl;
         trash.push_back(dd);
         return dd;
@@ -250,7 +258,7 @@ ofxDatGui2dPad* ofxDatGui::get2dPad(string key)
     if (item != nullptr){
         return static_cast<ofxDatGui2dPad*>(item);
     }   else{
-        ofxDatGui2dPad* pad = new ofxDatGui2dPad("X");
+        ofxDatGui2dPad* pad = new ofxDatGui2dPad(&mGui, "X");
         cout << "ERROR! 2DPAD: "<< key <<" NOT FOUND!" << endl;
         trash.push_back(pad);
         return pad;
@@ -263,7 +271,7 @@ ofxDatGuiColorPicker* ofxDatGui::getColorPicker(string key)
     if (item != nullptr){
         return static_cast<ofxDatGuiColorPicker*>(item);
     }   else{
-        ofxDatGuiColorPicker* picker = new ofxDatGuiColorPicker("X");
+        ofxDatGuiColorPicker* picker = new ofxDatGuiColorPicker(&mGui, "X");
         cout << "ERROR! COLOPICKER: "<< key <<" NOT FOUND!" << endl;
         trash.push_back(picker);
         return picker;
@@ -334,24 +342,24 @@ void ofxDatGui::onInternalEventCallback(ofxDatGuiInternalEvent e)
 void ofxDatGui::adjustHeight(int index)
 {
     ofxDatGuiItem* target = items[index];
-    mHeight = target->getPositionY() - ofxDatGuiGlobals::guiY + target->getHeight() + ofxDatGuiGlobals::rowSpacing;
+    mHeight = target->getPositionY() - mGui.y + target->getHeight() + mGui.row.spacing;
     for (uint8_t i=index+1; i<items.size(); i++){
         items[i]->setPositionY(mHeight);
-        mHeight += items[i]->getHeight() + ofxDatGuiGlobals::rowSpacing;
+        mHeight += items[i]->getHeight() + mGui.row.spacing;
     }
 }
 
 void ofxDatGui::moveGui(ofPoint pt)
 {
     mHeight = 0;
-    ofxDatGuiGlobals::guiX = pt.x;
-    ofxDatGuiGlobals::guiY = pt.y;
+    mGui.x = pt.x;
+    mGui.y = pt.y;
     for (uint8_t i=0; i<items.size(); i++){
-        items[i]->setOrigin(ofxDatGuiGlobals::guiX, ofxDatGuiGlobals::guiY + mHeight);
-        mHeight += items[i]->getHeight() + ofxDatGuiGlobals::rowSpacing;
+        items[i]->setOrigin(mGui.x, mGui.y + mHeight);
+        mHeight += items[i]->getHeight() + mGui.row.spacing;
     }
 // disable automatic repositioning on window resize //
-    ofxDatGuiGlobals::anchorPosition = 0;
+    mGui.anchor = 0;
 }
 
 void ofxDatGui::expandGui()
@@ -359,9 +367,9 @@ void ofxDatGui::expandGui()
     mHeight = 0;
     for (uint8_t i=0; i<items.size(); i++) {
         items[i]->setVisible(true);
-        mHeight += items[i]->getHeight() + ofxDatGuiGlobals::rowSpacing;
+        mHeight += items[i]->getHeight() + mGui.row.spacing;
     }
-    mGuiFooter->setPositionY(mHeight - mGuiFooter->getHeight() - ofxDatGuiGlobals::rowSpacing);
+    mGuiFooter->setPositionY(mHeight - mGuiFooter->getHeight() - mGui.row.spacing);
 }
 
 void ofxDatGui::collapseGui()
@@ -483,8 +491,8 @@ void ofxDatGui::onDraw(ofEventArgs &e)
     if (!mShowGui) return;
     ofPushStyle();
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-        ofSetColor(ofxDatGuiColor::GUI_BKGD, ofxDatGuiGlobals::guiAlpha);
-        ofDrawRectangle(ofxDatGuiGlobals::guiX, ofxDatGuiGlobals::guiY, ofxDatGuiGlobals::guiWidth, mHeight - ofxDatGuiGlobals::rowSpacing);
+        ofSetColor(ofxDatGuiColor::GUI_BKGD, mGui.alpha);
+        ofDrawRectangle(mGui.x, mGui.y, mGui.width, mHeight - mGui.row.spacing);
         for (int i=0; i<items.size(); i++) items[i]->draw();
     // color pickers overlap other components when expanded so they must be drawn last //
         for (int i=0; i<items.size(); i++) items[i]->drawColorPicker();

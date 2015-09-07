@@ -27,33 +27,37 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
 
     public:
 
-        ofxDatGuiHeader(string label) : ofxDatGuiButton(label)
+        ofxDatGuiHeader(ofxDatGuiGlobals *gui, string label) : ofxDatGuiButton(gui, label)
         {
-            mHeight = ofxDatGuiGlobals::rowHeight*.8;
+            mHeight = mGui->row.height*.8;
+        // center the label //
+            mLabelX = mGui->width/2 - mGui->font.getStringBoundingBox(mLabel, 0, 0).width/2;
+            mLabelY = mHeight/2;
         }
     
         void draw()
         {
             if (mVisible){
                 ofxDatGuiButton::drawBkgd();
-                ofxDatGuiFont::drawLabel(mLabel, x, y + mHeight/2, true);
-            //  ofxDatGuiItem::drawStripe();
+                mGui->font.drawLabel(mLabel, x+mLabelX, y+mLabelY);
             }
         }
     
         void onMousePress(ofPoint m)
         {
-        //  ofxDatGuiItem::onMousePress(m);
             dragOffset = ofPoint(m.x-this->x,m.y-this->y);
         }
     
         void onMouseRelease(ofPoint m)
         {
             dragOffset = m;
-        //  ofxDatGuiItem::onMouseRelease(m);
         }
     
         ofPoint dragOffset;
+    
+    private:
+        int mLabelX;
+        int mLabelY;
 
 };
 
@@ -62,10 +66,13 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
 
     public:
     
-        ofxDatGuiFooter() : ofxDatGuiButton("COLLAPSE CONTROLS")
+        ofxDatGuiFooter(ofxDatGuiGlobals *gui) : ofxDatGuiButton(gui, "COLLAPSE CONTROLS")
         {
             mIsExpanded = true;
-            mHeight = ofxDatGuiGlobals::rowHeight*.8;
+            mHeight = mGui->row.height*.8;
+        // center the label //
+            mLabelX = mGui->width/2 - mGui->font.getStringBoundingBox(mLabel, 0, 0).width/2;
+            mLabelY = mHeight/2;
         }
     
         bool getIsExpanded()
@@ -76,8 +83,7 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
         void draw()
         {
             ofxDatGuiButton::drawBkgd();
-            ofxDatGuiFont::drawLabel(mLabel, x, y + mHeight/2, true);
-        //  ofxDatGuiItem::drawStripe();
+            mGui->font.drawLabel(mLabel, x+mLabelX, y+mLabelY);
         }
     
         void onMouseRelease(ofPoint m)
@@ -89,13 +95,17 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
             if (mIsExpanded){
                 mIsExpanded = false;
                 setLabel("EXPAND CONTROLS");
+                mLabelX = mGui->width/2 - mGui->font.getStringBoundingBox(mLabel, 0, 0).width/2;
             }   else{
                 mIsExpanded = true;
                 setLabel("COLLAPSE CONTROLS");
+                mLabelX = mGui->width/2 - mGui->font.getStringBoundingBox(mLabel, 0, 0).width/2;
             }
         }
     
     private:
+        int mLabelX;
+        int mLabelY;
         bool mIsExpanded;
     
 };

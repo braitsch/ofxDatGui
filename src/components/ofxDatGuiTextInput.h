@@ -26,12 +26,12 @@
 class ofxDatGuiTextInput : public ofxDatGuiItem {
 
     public:
-        ofxDatGuiTextInput(string label, string text = "") : ofxDatGuiItem(label)
+        ofxDatGuiTextInput(ofxDatGuiGlobals *gui, string label, string text = "") : ofxDatGuiItem(gui, label)
         {
             mStripeColor = ofxDatGuiColor::INPUT_STRIPE;
-            input = new ofxDatGuiTextInputField(mWidth-mPadding-inputX);
+            input = new ofxDatGuiTextInputField(mGui, mWidth-mPadding-mGui->input.x);
             input->setText(text);
-            input->setTextIndent(ofxDatGuiFont::retinaEnabled ? TEXT_INDENT*2 : TEXT_INDENT);
+            input->setTextIndent(ofxDatGuiGlobals::retinaEnabled ? TEXT_INDENT*2 : TEXT_INDENT);
             input->onInternalEvent(this, &ofxDatGuiTextInput::onInputChanged);
         }
     
@@ -39,9 +39,9 @@ class ofxDatGuiTextInput : public ofxDatGuiItem {
         {
             if (mVisible){
                 ofxDatGuiItem::drawBkgd();
-                ofxDatGuiFont::drawLabel(mLabel, x, y + mHeight/2);
+                ofxDatGuiItem::drawLabel();
                 ofxDatGuiItem::drawStripe();
-                input->draw(x + inputX, y + mPadding);
+                input->draw(x + mGui->input.x, y + mPadding);
             }
         }
     

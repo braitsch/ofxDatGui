@@ -31,7 +31,7 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
 
     public:
     
-        ofxDatGuiGroup(string label) : ofxDatGuiButton(label)
+        ofxDatGuiGroup(ofxDatGuiGlobals *gui, string label) : ofxDatGuiButton(gui, label)
         {
             mIsExpanded = false;
             mChildrenHeight = 0;
@@ -41,7 +41,7 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
         void setOrigin(int x, int y)
         {
             ofxDatGuiItem::setOrigin(x, y);
-            int ypos = mHeight + ofxDatGuiGlobals::rowSpacing;
+            int ypos = mHeight + mGui->row.spacing;
             for(int i=0; i<children.size(); i++) {
                 if (mIsExpanded){
                     children[i]->setOrigin(x, y + (ypos*(i+1)));
@@ -54,7 +54,7 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
         void setPositionY(int y)
         {
             ofxDatGuiItem::setPositionY(y);
-            int ypos = mHeight + ofxDatGuiGlobals::rowSpacing;
+            int ypos = mHeight + mGui->row.spacing;
             for(int i=0; i<children.size(); i++) {
                 if (mIsExpanded){
                     children[i]->setPositionY(y + (ypos*(i+1)));
@@ -82,11 +82,11 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
         {
             if (mVisible){
                 ofxDatGuiButton::drawBkgd();
-                ofxDatGuiFont::drawLabel(mLabel, x, y + mHeight/2);
+                ofxDatGuiItem::drawLabel();
                 ofxDatGuiItem::drawStripe();
                 ofPushStyle();
                     ofSetColor(ofxDatGuiColor::LABEL);
-                    mIcon.draw(x+dropdownIconX, y+dropdownIconY, dropdownIconSize, dropdownIconSize);
+                    mIcon.draw(x+mGui->icons.dropdown.x, y+mGui->icons.dropdown.y, mGui->icons.dropdown.size, mGui->icons.dropdown.size);
                     for(int i=0; i<children.size(); i++) children[i]->draw();
                 ofPopStyle();
             }
@@ -104,7 +104,7 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
         void expand()
         {
             mIsExpanded = true;
-            int ypos = mHeight + ofxDatGuiGlobals::rowSpacing;
+            int ypos = mHeight + mGui->row.spacing;
             for(int i=0; i<children.size(); i++) {
                 children[i]->setVisible(true);
                 children[i]->setOrigin(x, y + (ypos*(i+1)));
@@ -133,7 +133,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
 
     public:
     
-        ofxDatGuiFolder(string label, ofColor color) : ofxDatGuiGroup(label)
+        ofxDatGuiFolder(ofxDatGuiGlobals *gui, string label, ofColor color) : ofxDatGuiGroup(gui, label)
         {
     // all items within a folder share the same stripe color //
             mStripeColor = color;
@@ -166,7 +166,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
 
         ofxDatGuiButton* addButton(string label)
         {
-            ofxDatGuiButton* button = new ofxDatGuiButton(label);
+            ofxDatGuiButton* button = new ofxDatGuiButton(mGui, label);
             button->setStripeColor(mStripeColor);
             button->onButtonEvent(this, &ofxDatGuiFolder::dispatchButtonEvent);
             attachItem(button);
@@ -175,7 +175,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
     
         ofxDatGuiButton* addToggle(string label, bool enabled = false)
         {
-            ofxDatGuiToggle* toggle = new ofxDatGuiToggle(label, enabled);
+            ofxDatGuiToggle* toggle = new ofxDatGuiToggle(mGui, label, enabled);
             toggle->setStripeColor(mStripeColor);
             toggle->onButtonEvent(this, &ofxDatGuiFolder::dispatchButtonEvent);
             attachItem(toggle);
@@ -193,7 +193,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
 
         ofxDatGuiSlider* addSlider(string label, float min, float max, float val)
         {
-            ofxDatGuiSlider* slider = new ofxDatGuiSlider(label, min, max, val);
+            ofxDatGuiSlider* slider = new ofxDatGuiSlider(mGui, label, min, max, val);
             slider->setStripeColor(mStripeColor);
             slider->onSliderEvent(this, &ofxDatGuiFolder::dispatchSliderEvent);
             attachItem(slider);
@@ -202,7 +202,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
     
         ofxDatGuiTextInput* addTextInput(string label, string value)
         {
-            ofxDatGuiTextInput* input = new ofxDatGuiTextInput(label, value);
+            ofxDatGuiTextInput* input = new ofxDatGuiTextInput(mGui, label, value);
             input->setStripeColor(mStripeColor);
             input->onTextInputEvent(this, &ofxDatGuiFolder::dispatchTextInputEvent);
             attachItem(input);
@@ -211,7 +211,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
     
         ofxDatGuiColorPicker* addColorPicker(string label, ofColor color = ofColor::black)
         {
-            shared_ptr<ofxDatGuiColorPicker> picker(new ofxDatGuiColorPicker(label, color));
+            shared_ptr<ofxDatGuiColorPicker> picker(new ofxDatGuiColorPicker(mGui, label, color));
             picker->setStripeColor(mStripeColor);
             picker->onColorPickerEvent(this, &ofxDatGuiFolder::dispatchColorPickerEvent);
             attachItem(picker.get());
@@ -221,13 +221,12 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
     
         void attachItem(ofxDatGuiItem* item)
         {
-        //    item->onGuiEvent(this, &ofxDatGuiFolder::onFolderEvent);
             item->setVisible(false);
             item->setIndex(children.size());
             children.push_back(item);
         // recalculate the group's height //
             mChildrenHeight = 0;
-            for(int i=0; i<children.size(); i++) mChildrenHeight += children[i]->getHeight() + ofxDatGuiGlobals::rowSpacing;
+            for(int i=0; i<children.size(); i++) mChildrenHeight += children[i]->getHeight() + mGui->row.spacing;
         }
 
     private:
@@ -240,7 +239,7 @@ class ofxDatGuiDropdownOption : public ofxDatGuiButton {
 
     public:
     
-        ofxDatGuiDropdownOption(string label) : ofxDatGuiButton(label)
+        ofxDatGuiDropdownOption(ofxDatGuiGlobals *gui, string label) : ofxDatGuiButton(gui, label)
         {
             mStripeColor = ofxDatGuiColor::DROPDOWN_STRIPE;
         }
@@ -249,7 +248,7 @@ class ofxDatGuiDropdownOption : public ofxDatGuiButton {
         {
             if (mVisible){
                 ofxDatGuiButton::drawBkgd();
-                ofxDatGuiFont::drawLabel(" * "+mLabel, x, y + mHeight/2);
+                ofxDatGuiItem::drawLabel("* "+mLabel);
                 ofxDatGuiItem::drawStripe();
             }
         }
@@ -260,17 +259,17 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
 
     public:
     
-        ofxDatGuiDropdown(string label, vector<string> options) : ofxDatGuiGroup(label)
+        ofxDatGuiDropdown(ofxDatGuiGlobals *gui, string label, vector<string> options) : ofxDatGuiGroup(gui, label)
         {
             mStripeColor = ofxDatGuiColor::DROPDOWN_STRIPE;
             for(uint8_t i=0; i<options.size(); i++){
-                ofxDatGuiDropdownOption* opt = new ofxDatGuiDropdownOption(options[i]);
+                ofxDatGuiDropdownOption* opt = new ofxDatGuiDropdownOption(mGui, options[i]);
                 opt->setIndex(children.size());
                 opt->onButtonEvent(this, &ofxDatGuiDropdown::onOptionSelected);
                 opt->setVisible(false);
                 children.push_back(opt);
             }
-            mChildrenHeight = children.size() * (mHeight+ofxDatGuiGlobals::rowSpacing);
+            mChildrenHeight = children.size() * (mHeight+mGui->row.spacing);
         }
     
         void select(int cIndex)

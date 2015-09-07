@@ -54,7 +54,7 @@ void ofApp::setup()
 // let's launch the app fullscreen //
     isFullscreen = true;
     ofSetFullscreen(isFullscreen);
-    gui->setOpacity(gui->getSlider("datgui opacity")->getScale());
+    gui->setOpacity(gui->getSlider("datgui opacity")->getScale());    
 }
 
 void ofApp::onSliderEvent(ofxDatGuiSliderEvent e)

@@ -27,7 +27,7 @@ class ofxDatGuiButton : public ofxDatGuiItem {
 
     public:
     
-        ofxDatGuiButton(string label) : ofxDatGuiItem(label)
+        ofxDatGuiButton(ofxDatGuiGlobals *gui, string label) : ofxDatGuiItem(gui, label)
         {
             mStripeColor = ofxDatGuiColor::BUTTON_STRIPE;
         }
@@ -44,7 +44,7 @@ class ofxDatGuiButton : public ofxDatGuiItem {
         {
             if (mVisible){
                 drawBkgd();
-                ofxDatGuiFont::drawLabel(mLabel, x, y + mHeight/2);
+                ofxDatGuiItem::drawLabel();
                 ofxDatGuiItem::drawStripe();
             }
         }
@@ -53,11 +53,11 @@ class ofxDatGuiButton : public ofxDatGuiItem {
         {
         // anything that extends ofxDatGuiButton has the same rollover effect //
             if (mMouseDown){
-                ofxDatGuiItem::drawBkgd(ofxDatGuiColor::BUTTON_DOWN, 255);
+                ofxDatGuiItem::drawBkgd(ofxDatGuiColor::BUTTON_DOWN);
             }   else if (mMouseOver){
-                ofxDatGuiItem::drawBkgd(ofxDatGuiColor::BUTTON_OVER, 255);
+                ofxDatGuiItem::drawBkgd(ofxDatGuiColor::BUTTON_OVER);
             }   else{
-                ofxDatGuiItem::drawBkgd(ofxDatGuiColor::ROW_BKGD);
+                ofxDatGuiItem::drawBkgd(ofxDatGuiColor::ROW_BKGD, mGui->alpha);
             }
         }
     
@@ -76,7 +76,7 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
     
     public:
     
-        ofxDatGuiToggle(string label, bool enabled) : ofxDatGuiButton(label)
+        ofxDatGuiToggle(ofxDatGuiGlobals *gui, string label, bool enabled) : ofxDatGuiButton(gui, label)
         {
             mEnabled = enabled;
             mStripeColor = ofxDatGuiColor::TOGGLE_STRIPE;
@@ -103,14 +103,14 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
         {
             if (mVisible){
                 ofxDatGuiButton::drawBkgd();
-                ofxDatGuiFont::drawLabel(mLabel, x, y + mHeight/2);
+                ofxDatGuiItem::drawLabel();
                 ofxDatGuiItem::drawStripe();
                 ofPushStyle();
                     ofSetColor(ofxDatGuiColor::LABEL);
                     if (mEnabled == true){
-                        radioOn.draw(x+radioIconX, y+radioIconY, radioIconSize, radioIconSize);
+                        radioOn.draw(x+mGui->icons.radio.x, y+mGui->icons.radio.y, mGui->icons.radio.size, mGui->icons.radio.size);
                     }   else{
-                        radioOff.draw(x+radioIconX, y+radioIconY, radioIconSize, radioIconSize);
+                        radioOff.draw(x+mGui->icons.radio.x, y+mGui->icons.radio.y, mGui->icons.radio.size, mGui->icons.radio.size);
                     }
                 ofPopStyle();
             }

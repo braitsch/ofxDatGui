@@ -27,9 +27,9 @@ class ofxDatGuiItem : public ofxDatGuiInteractiveObject
 {
     public:
     
-        ofxDatGuiItem(string label);
+        ofxDatGuiItem(ofxDatGuiGlobals *gui, string label);
         virtual ~ofxDatGuiItem();
-        
+    
         vector<ofxDatGuiItem*> children;
     
         string  getLabel();
@@ -40,10 +40,6 @@ class ofxDatGuiItem : public ofxDatGuiInteractiveObject
         void    setStripeColor(ofColor color);
         void    setVisible(bool visible);
         bool    getVisible();
-
-        static void enableRetina();
-        static void init(int x, int y);
-        static void init(int position);
     
         virtual void draw() = 0;
         virtual bool hitTest(ofPoint m) = 0;
@@ -73,29 +69,16 @@ class ofxDatGuiItem : public ofxDatGuiInteractiveObject
         int mHeight;
         int mOriginY;
         int mPadding;
-        ofColor mStripeColor;
-
-        string mLabel;
         bool mVisible;
         bool mMouseOver;
         bool mMouseDown;
+        string mLabel;
+        ofColor mStripeColor;
+        ofxDatGuiGlobals* mGui;
     
-        void drawBkgd(ofColor color = ofxDatGuiColor::ROW_BKGD, int alpha=ofxDatGuiGlobals::guiAlpha);
+        void drawBkgd(ofColor color = ofxDatGuiColor::ROW_BKGD, int alpha=255);
+        void drawLabel(string label="");
         void drawStripe();
     
-        static uint16_t inputX;
-        static uint16_t inputTextIndent;
-        static uint16_t sliderX;
-        static uint16_t sliderWidth;
-        static uint16_t sliderInputX;
-        static uint16_t sliderInputWidth;
-        static uint16_t stripeWidth;
-        static uint16_t radioIconX;
-        static uint16_t radioIconY;
-        static uint16_t radioIconSize;
-        static uint16_t dropdownIconX;
-        static uint16_t dropdownIconY;
-        static uint16_t dropdownIconSize;
-
 };
 

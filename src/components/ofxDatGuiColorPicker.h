@@ -28,19 +28,19 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
 
     public:
     
-        ofxDatGuiColorPicker(string label, ofColor color = ofColor::black) : ofxDatGuiTextInput(label)
+        ofxDatGuiColorPicker(ofxDatGuiGlobals *gui, string label, ofColor color = ofColor::black) : ofxDatGuiTextInput(gui, label)
         {
             mColor = color;
             mStripeColor = ofxDatGuiColor::TOGGLE_STRIPE;
             
         // center the text input field //
             input->setTextInputFieldType(ofxDatGuiTextInputField::COLORPICKER);
-            input->setTextIndent(input->getWidth()/2 - ofxDatGuiFont::getStringBoundingBox("#FF0000", 0, 0).width/2);
+            input->setTextIndent(input->getWidth()/2 - mGui->font.getStringBoundingBox("#FF0000", 0, 0).width/2);
             setTextFieldInputColor();
             
         // attach the picker //
             mShowPicker = false;
-            pickerRect = ofRectangle(0, 0, input->getWidth(), (ofxDatGuiGlobals::rowHeight+mPadding) * 3);
+            pickerRect = ofRectangle(0, 0, input->getWidth(), (mGui->row.height+mPadding) * 3);
             rainbowWidth = 20;
             rainbowHeight = pickerRect.height -(mPadding*2);
             rainbowRect = ofRectangle(0, 0, rainbowWidth, rainbowHeight);
@@ -97,7 +97,7 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
             if (mVisible){
                 ofxDatGuiTextInput::draw();
                 if (mShowPicker) {
-                    pickerRect.x = this->x + inputX;
+                    pickerRect.x = this->x + mGui->input.x;
                     pickerRect.y = this->y + mPadding + input->getHeight();
                     rainbowRect.x = pickerRect.x+pickerRect.width-rainbowWidth-mPadding;
                     rainbowRect.y = pickerRect.y+mPadding;
