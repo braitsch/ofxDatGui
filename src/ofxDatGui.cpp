@@ -41,7 +41,7 @@ ofxDatGui::ofxDatGui(uint8_t anchor)
 
 void ofxDatGui::init()
 {
-    mGui.init();
+    mGui.init(540);
     mShowGui = true;
     mousePressed = false;
     mGuiHeader = nullptr;
@@ -54,6 +54,11 @@ void ofxDatGui::init()
     ofAddListener(ofEvents().mousePressed, this, &ofxDatGui::onMousePressed, OF_EVENT_ORDER_BEFORE_APP);
     ofAddListener(ofEvents().mouseReleased, this, &ofxDatGui::onMouseReleased, OF_EVENT_ORDER_BEFORE_APP);
     ofAddListener(ofEvents().windowResized, this, &ofxDatGui::onWindowResized, OF_EVENT_ORDER_BEFORE_APP);
+}
+
+void ofxDatGui::setWidth(int width)
+{
+    mGui.init(width);
 }
 
 ofxDatGuiHeader* ofxDatGui::addHeader(string label)

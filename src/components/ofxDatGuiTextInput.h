@@ -29,9 +29,8 @@ class ofxDatGuiTextInput : public ofxDatGuiItem {
         ofxDatGuiTextInput(ofxDatGuiGlobals *gui, string label, string text = "") : ofxDatGuiItem(gui, label)
         {
             mStripeColor = ofxDatGuiColor::INPUT_STRIPE;
-            input = new ofxDatGuiTextInputField(mGui, mWidth-mPadding-mGui->input.x);
+            input = new ofxDatGuiTextInputField(mGui);
             input->setText(text);
-            input->setTextIndent(ofxDatGuiGlobals::retinaEnabled ? TEXT_INDENT*2 : TEXT_INDENT);
             input->onInternalEvent(this, &ofxDatGuiTextInput::onInputChanged);
         }
     
@@ -41,7 +40,7 @@ class ofxDatGuiTextInput : public ofxDatGuiItem {
                 ofxDatGuiItem::drawBkgd();
                 ofxDatGuiItem::drawLabel();
                 ofxDatGuiItem::drawStripe();
-                input->draw(x + mGui->input.x, y + mPadding);
+                input->draw(x + mGui->input.x, y + mPadding, mGui->width-mPadding-mGui->input.x);
             }
         }
     

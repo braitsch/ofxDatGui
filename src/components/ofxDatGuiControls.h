@@ -30,16 +30,14 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
         ofxDatGuiHeader(ofxDatGuiGlobals *gui, string label) : ofxDatGuiButton(gui, label)
         {
             mHeight = mGui->row.height*.8;
-        // center the label //
-            mLabelX = mGui->width/2 - mGui->font.getStringBoundingBox(mLabel, 0, 0).width/2;
-            mLabelY = mHeight/2;
+            mLabelWidth = mGui->font.getStringBoundingBox(mLabel, 0, 0).width;
         }
     
         void draw()
         {
             if (mVisible){
                 ofxDatGuiButton::drawBkgd();
-                mGui->font.drawLabel(mLabel, x+mLabelX, y+mLabelY);
+                mGui->font.drawLabel(mLabel, x+mGui->width/2-mLabelWidth/2, y+mHeight/2);
             }
         }
     
@@ -56,8 +54,7 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
         ofPoint dragOffset;
     
     private:
-        int mLabelX;
-        int mLabelY;
+        int mLabelWidth;
 
 };
 
@@ -70,9 +67,7 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
         {
             mIsExpanded = true;
             mHeight = mGui->row.height*.8;
-        // center the label //
-            mLabelX = mGui->width/2 - mGui->font.getStringBoundingBox(mLabel, 0, 0).width/2;
-            mLabelY = mHeight/2;
+            mLabelWidth = mGui->font.getStringBoundingBox(mLabel, 0, 0).width;
         }
     
         bool getIsExpanded()
@@ -83,7 +78,7 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
         void draw()
         {
             ofxDatGuiButton::drawBkgd();
-            mGui->font.drawLabel(mLabel, x+mLabelX, y+mLabelY);
+            mGui->font.drawLabel(mLabel, x+mGui->width/2-mLabelWidth/2, y+mHeight/2);
         }
     
         void onMouseRelease(ofPoint m)
@@ -95,17 +90,16 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
             if (mIsExpanded){
                 mIsExpanded = false;
                 setLabel("EXPAND CONTROLS");
-                mLabelX = mGui->width/2 - mGui->font.getStringBoundingBox(mLabel, 0, 0).width/2;
+                mLabelWidth = mGui->font.getStringBoundingBox(mLabel, 0, 0).width;
             }   else{
                 mIsExpanded = true;
                 setLabel("COLLAPSE CONTROLS");
-                mLabelX = mGui->width/2 - mGui->font.getStringBoundingBox(mLabel, 0, 0).width/2;
+                mLabelWidth = mGui->font.getStringBoundingBox(mLabel, 0, 0).width;
             }
         }
     
     private:
-        int mLabelX;
-        int mLabelY;
+        int mLabelWidth;
         bool mIsExpanded;
     
 };

@@ -35,7 +35,6 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
             
         // center the text input field //
             input->setTextInputFieldType(ofxDatGuiTextInputField::COLORPICKER);
-            input->setTextIndent(input->getWidth()/2 - mGui->font.getStringBoundingBox("#FF0000", 0, 0).width/2);
             setTextFieldInputColor();
             
         // attach the picker //
@@ -99,10 +98,12 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
                 if (mShowPicker) {
                     pickerRect.x = this->x + mGui->input.x;
                     pickerRect.y = this->y + mPadding + input->getHeight();
+                    pickerRect.width = input->getWidth();
                     rainbowRect.x = pickerRect.x+pickerRect.width-rainbowWidth-mPadding;
                     rainbowRect.y = pickerRect.y+mPadding;
                     gradientRect.x = pickerRect.x + mPadding;
                     gradientRect.y = pickerRect.y + mPadding;
+                    gradientRect.width = pickerRect.width-rainbowRect.width-(mPadding*3);
                     gPoints[0] = ofVec2f(gradientRect.x, gradientRect.y);
                     gPoints[1] = ofVec2f(gradientRect.x+ gradientRect.width, gradientRect.y);
                     gPoints[2] = ofVec2f(gradientRect.x+ gradientRect.width, gradientRect.y+gradientRect.height);

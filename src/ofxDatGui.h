@@ -33,6 +33,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofxDatGui(uint8_t position);
     
         void draw();
+        void setWidth(int width);
         void setOpacity(float opacity);
     
         ofxDatGuiHeader* addHeader(string label = "");

@@ -63,7 +63,7 @@ class ofxDatGuiButton : public ofxDatGuiItem {
     
         bool hitTest(ofPoint m)
         {
-            return (m.x>=x && m.x<= x+mWidth && m.y>=y && m.y<= y+mHeight);
+            return (m.x>=x && m.x<= x+mGui->width && m.y>=y && m.y<= y+mHeight);
         }
     
         virtual void toggle(){}

@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8A4426391B98B15800BA729F /* ofxDatGuiItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A4426351B98B15800BA729F /* ofxDatGuiItem.cpp */; };
-		8A44263A1B98B15800BA729F /* ofxDatGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A4426371B98B15800BA729F /* ofxDatGui.cpp */; };
+		8A57D3F61B9EA0DD002ECA39 /* ofxDatGuiItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A57D3F21B9EA0DD002ECA39 /* ofxDatGuiItem.cpp */; };
+		8A57D3F71B9EA0DD002ECA39 /* ofxDatGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A57D3F41B9EA0DD002ECA39 /* ofxDatGui.cpp */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
 		E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4B69E1D0A3A1BDC003C02F2 /* main.cpp */; };
 		E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */; };
@@ -44,28 +44,27 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		8A265A0C1B9A0267001B537D /* ofxDatGui2dPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGui2dPad.h; sourceTree = "<group>"; };
-		8A44262B1B98B15800BA729F /* ofxDatGuiButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiButton.h; sourceTree = "<group>"; };
-		8A44262C1B98B15800BA729F /* ofxDatGuiColorPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiColorPicker.h; sourceTree = "<group>"; };
-		8A44262D1B98B15800BA729F /* ofxDatGuiControls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiControls.h; sourceTree = "<group>"; };
-		8A44262E1B98B15800BA729F /* ofxDatGuiGroups.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiGroups.h; sourceTree = "<group>"; };
-		8A44262F1B98B15800BA729F /* ofxDatGuiSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiSlider.h; sourceTree = "<group>"; };
-		8A4426301B98B15800BA729F /* ofxDatGuiTextInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiTextInput.h; sourceTree = "<group>"; };
-		8A4426321B98B15800BA729F /* ofxDatGuiComponents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiComponents.h; sourceTree = "<group>"; };
-		8A4426331B98B15800BA729F /* ofxDatGuiConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiConstants.h; sourceTree = "<group>"; };
-		8A4426341B98B15800BA729F /* ofxDatGuiEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiEvents.h; sourceTree = "<group>"; };
-		8A4426351B98B15800BA729F /* ofxDatGuiItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxDatGuiItem.cpp; sourceTree = "<group>"; };
-		8A4426361B98B15800BA729F /* ofxDatGuiItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiItem.h; sourceTree = "<group>"; };
-		8A4426371B98B15800BA729F /* ofxDatGui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ofxDatGui.cpp; path = ../../src/ofxDatGui.cpp; sourceTree = "<group>"; };
-		8A4426381B98B15800BA729F /* ofxDatGui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxDatGui.h; path = ../../src/ofxDatGui.h; sourceTree = "<group>"; };
-		8A44263B1B98B1CE00BA729F /* PolyMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PolyMesh.h; sourceTree = "<group>"; };
-		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
+		8A57D3E71B9EA0DD002ECA39 /* ofxDatGui2dPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGui2dPad.h; sourceTree = "<group>"; };
+		8A57D3E81B9EA0DD002ECA39 /* ofxDatGuiButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiButton.h; sourceTree = "<group>"; };
+		8A57D3E91B9EA0DD002ECA39 /* ofxDatGuiColorPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiColorPicker.h; sourceTree = "<group>"; };
+		8A57D3EA1B9EA0DD002ECA39 /* ofxDatGuiControls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiControls.h; sourceTree = "<group>"; };
+		8A57D3EB1B9EA0DD002ECA39 /* ofxDatGuiGroups.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiGroups.h; sourceTree = "<group>"; };
+		8A57D3EC1B9EA0DD002ECA39 /* ofxDatGuiSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiSlider.h; sourceTree = "<group>"; };
+		8A57D3ED1B9EA0DD002ECA39 /* ofxDatGuiTextInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiTextInput.h; sourceTree = "<group>"; };
+		8A57D3EF1B9EA0DD002ECA39 /* ofxDatGuiComponents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiComponents.h; sourceTree = "<group>"; };
+		8A57D3F01B9EA0DD002ECA39 /* ofxDatGuiConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiConstants.h; sourceTree = "<group>"; };
+		8A57D3F11B9EA0DD002ECA39 /* ofxDatGuiEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiEvents.h; sourceTree = "<group>"; };
+		8A57D3F21B9EA0DD002ECA39 /* ofxDatGuiItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxDatGuiItem.cpp; sourceTree = "<group>"; };
+		8A57D3F31B9EA0DD002ECA39 /* ofxDatGuiItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiItem.h; sourceTree = "<group>"; };
+		8A57D3F41B9EA0DD002ECA39 /* ofxDatGui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ofxDatGui.cpp; path = ../../src/ofxDatGui.cpp; sourceTree = "<group>"; };
+		8A57D3F51B9EA0DD002ECA39 /* ofxDatGui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxDatGui.h; path = ../../src/ofxDatGui.h; sourceTree = "<group>"; };
+		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E4B69B5B0A3A1756003C02F2 /* example-OscillatingPolygonDebug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "example-OscillatingPolygonDebug.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4B69E1D0A3A1BDC003C02F2 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = SOURCE_ROOT; };
 		E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofApp.cpp; path = src/ofApp.cpp; sourceTree = SOURCE_ROOT; };
 		E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ofApp.h; path = src/ofApp.h; sourceTree = SOURCE_ROOT; };
 		E4B6FCAD0C3E899E008CF71C /* openFrameworks-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = "openFrameworks-Info.plist"; sourceTree = "<group>"; };
-		E4EB691F138AFCF100A09F29 /* CoreOF.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = CoreOF.xcconfig; path = ../../../../../libs/openFrameworksCompiled/project/osx/CoreOF.xcconfig; sourceTree = SOURCE_ROOT; };
+		E4EB691F138AFCF100A09F29 /* CoreOF.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = CoreOF.xcconfig; path = ../../../../libs/openFrameworksCompiled/project/osx/CoreOF.xcconfig; sourceTree = SOURCE_ROOT; };
 		E4EB6923138AFD0F00A09F29 /* Project.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Project.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -81,40 +80,40 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		8A4426291B98B14100BA729F /* ofxDatGui */ = {
+		8A57D3E51B9EA0B5002ECA39 /* ofxDatGui */ = {
 			isa = PBXGroup;
 			children = (
-				8A4426311B98B15800BA729F /* core */,
-				8A44262A1B98B15800BA729F /* components */,
-				8A4426371B98B15800BA729F /* ofxDatGui.cpp */,
-				8A4426381B98B15800BA729F /* ofxDatGui.h */,
+				8A57D3E61B9EA0DD002ECA39 /* components */,
+				8A57D3EE1B9EA0DD002ECA39 /* core */,
+				8A57D3F41B9EA0DD002ECA39 /* ofxDatGui.cpp */,
+				8A57D3F51B9EA0DD002ECA39 /* ofxDatGui.h */,
 			);
 			name = ofxDatGui;
 			sourceTree = "<group>";
 		};
-		8A44262A1B98B15800BA729F /* components */ = {
+		8A57D3E61B9EA0DD002ECA39 /* components */ = {
 			isa = PBXGroup;
 			children = (
-				8A44262B1B98B15800BA729F /* ofxDatGuiButton.h */,
-				8A44262C1B98B15800BA729F /* ofxDatGuiColorPicker.h */,
-				8A44262D1B98B15800BA729F /* ofxDatGuiControls.h */,
-				8A44262E1B98B15800BA729F /* ofxDatGuiGroups.h */,
-				8A44262F1B98B15800BA729F /* ofxDatGuiSlider.h */,
-				8A265A0C1B9A0267001B537D /* ofxDatGui2dPad.h */,
-				8A4426301B98B15800BA729F /* ofxDatGuiTextInput.h */,
+				8A57D3E71B9EA0DD002ECA39 /* ofxDatGui2dPad.h */,
+				8A57D3E81B9EA0DD002ECA39 /* ofxDatGuiButton.h */,
+				8A57D3E91B9EA0DD002ECA39 /* ofxDatGuiColorPicker.h */,
+				8A57D3EA1B9EA0DD002ECA39 /* ofxDatGuiControls.h */,
+				8A57D3EB1B9EA0DD002ECA39 /* ofxDatGuiGroups.h */,
+				8A57D3EC1B9EA0DD002ECA39 /* ofxDatGuiSlider.h */,
+				8A57D3ED1B9EA0DD002ECA39 /* ofxDatGuiTextInput.h */,
 			);
 			name = components;
 			path = ../../src/components;
 			sourceTree = "<group>";
 		};
-		8A4426311B98B15800BA729F /* core */ = {
+		8A57D3EE1B9EA0DD002ECA39 /* core */ = {
 			isa = PBXGroup;
 			children = (
-				8A4426321B98B15800BA729F /* ofxDatGuiComponents.h */,
-				8A4426331B98B15800BA729F /* ofxDatGuiConstants.h */,
-				8A4426341B98B15800BA729F /* ofxDatGuiEvents.h */,
-				8A4426351B98B15800BA729F /* ofxDatGuiItem.cpp */,
-				8A4426361B98B15800BA729F /* ofxDatGuiItem.h */,
+				8A57D3EF1B9EA0DD002ECA39 /* ofxDatGuiComponents.h */,
+				8A57D3F01B9EA0DD002ECA39 /* ofxDatGuiConstants.h */,
+				8A57D3F11B9EA0DD002ECA39 /* ofxDatGuiEvents.h */,
+				8A57D3F21B9EA0DD002ECA39 /* ofxDatGuiItem.cpp */,
+				8A57D3F31B9EA0DD002ECA39 /* ofxDatGuiItem.h */,
 			);
 			name = core;
 			path = ../../src/core;
@@ -123,7 +122,7 @@
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
-				8A4426291B98B14100BA729F /* ofxDatGui */,
+				8A57D3E51B9EA0B5002ECA39 /* ofxDatGui */,
 			);
 			name = addons;
 			sourceTree = "<group>";
@@ -154,7 +153,6 @@
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
 				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
-				8A44263B1B98B1CE00BA729F /* PolyMesh.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -246,7 +244,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "rsync -aved ../../../../../libs/fmodex/lib/osx/libfmodex.dylib \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/\"; install_name_tool -change ./libfmodex.dylib @executable_path/libfmodex.dylib \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\";\nmkdir -p \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Resources/\"\nrsync -aved \"$ICON_FILE\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Resources/\"\nrsync -aved ../../../../../libs/glut/lib/osx/GLUT.framework \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Frameworks/\"\n";
+			shellScript = "rsync -aved ../../../../libs/fmodex/lib/osx/libfmodex.dylib \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/\"; install_name_tool -change ./libfmodex.dylib @executable_path/libfmodex.dylib \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\";\nmkdir -p \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Resources/\"\nrsync -aved \"$ICON_FILE\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Resources/\"\nrsync -aved ../../../../libs/glut/lib/osx/GLUT.framework \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Frameworks/\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -256,8 +254,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
-				8A44263A1B98B15800BA729F /* ofxDatGui.cpp in Sources */,
-				8A4426391B98B15800BA729F /* ofxDatGuiItem.cpp in Sources */,
+				8A57D3F71B9EA0DD002ECA39 /* ofxDatGui.cpp in Sources */,
+				8A57D3F61B9EA0DD002ECA39 /* ofxDatGuiItem.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -341,7 +339,7 @@
 					"$(inherited)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../../../../libs/glut/lib/osx\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../../../libs/glut/lib/osx\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = NONE;
@@ -365,7 +363,7 @@
 					"$(inherited)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../../../../libs/glut/lib/osx\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../../../libs/glut/lib/osx\"";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = NONE;
 				ICON = "$(ICON_NAME_RELEASE)";

@@ -33,10 +33,9 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
             mMax = max;
             mVal = val;
             mStripeColor = ofxDatGuiColor::SLIDER_STRIPE;
-            input = new ofxDatGuiTextInputField(mGui, mGui->slider.inputWidth);
+            input = new ofxDatGuiTextInputField(mGui);
             input->setText(ofToString(mVal, 2));
             input->setTextInactiveColor(ofxDatGuiColor::SLIDER);
-            input->setTextIndent(ofxDatGuiGlobals::retinaEnabled ? TEXT_INDENT*2 : TEXT_INDENT);
             input->setTextInputFieldType(ofxDatGuiTextInputField::NUMERIC);
             input->onInternalEvent(this, &ofxDatGuiSlider::onInputChanged);
             calcScale();
@@ -96,7 +95,7 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
                         ofDrawRectangle(x+mGui->slider.x, y+mPadding, mGui->slider.width*mScale, mHeight-(mPadding*2));
                     }
                 // numeric input field //
-                input->draw(x + mGui->slider.inputX, y + mPadding);
+                input->draw(x + mGui->slider.inputX, y + mPadding, mGui->slider.inputWidth);
                 ofPopStyle();
             }
         }

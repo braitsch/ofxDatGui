@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-               BuildableName = "ofxDatGui-GenerativeLines.app"
-               BlueprintName = "ofxDatGui-GenerativeLines"
-               ReferencedContainer = "container:ofxDatGui-GenerativeLines.xcodeproj">
+               BuildableName = "example-GenerativeLines.app"
+               BlueprintName = "example-GenerativeLines"
+               ReferencedContainer = "container:example-GenerativeLines.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "ofxDatGui-GenerativeLines.app"
-            BlueprintName = "ofxDatGui-GenerativeLines"
-            ReferencedContainer = "container:ofxDatGui-GenerativeLines.xcodeproj">
+            BuildableName = "example-GenerativeLines.app"
+            BlueprintName = "example-GenerativeLines"
+            ReferencedContainer = "container:example-GenerativeLines.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -53,9 +53,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "ofxDatGui-GenerativeLines.app"
-            BlueprintName = "ofxDatGui-GenerativeLines"
-            ReferencedContainer = "container:ofxDatGui-GenerativeLines.xcodeproj">
+            BuildableName = "example-GenerativeLines.app"
+            BlueprintName = "example-GenerativeLines"
+            ReferencedContainer = "container:example-GenerativeLines.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "ofxDatGui-GenerativeLines.app"
-            BlueprintName = "ofxDatGui-GenerativeLines"
-            ReferencedContainer = "container:ofxDatGui-GenerativeLines.xcodeproj">
+            BuildableName = "example-GenerativeLines.app"
+            BlueprintName = "example-GenerativeLines"
+            ReferencedContainer = "container:example-GenerativeLines.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

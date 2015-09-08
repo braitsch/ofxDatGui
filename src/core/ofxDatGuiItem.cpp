@@ -31,7 +31,6 @@ ofxDatGuiItem::ofxDatGuiItem(ofxDatGuiGlobals *gui, string label)
     mVisible = true;
     mMouseOver = false;
     mMouseDown = false;
-    mWidth = mGui->width;
     mHeight = mGui->row.height;
     mPadding = mGui->row.padding;
     mStripeColor = ofColor::fromHex(0xEEEEEE);
@@ -143,7 +142,7 @@ void ofxDatGuiItem::drawBkgd(ofColor color, int alpha)
 {
     ofPushStyle();
         ofSetColor(color, mGui->alpha);
-        ofDrawRectangle(x, y, mWidth, mHeight);
+        ofDrawRectangle(x, y, mGui->width, mHeight);
     ofPopStyle();
 }
 

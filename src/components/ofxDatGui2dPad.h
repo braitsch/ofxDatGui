@@ -46,7 +46,7 @@ class ofxDatGui2dPad : public ofxDatGuiItem {
             reset();
             mHeight = 140;
             mStripeColor = ofxDatGuiColor::BUTTON_STRIPE;
-            mPad = ofRectangle(0, 0, mWidth-mPadding-mGui->input.x, mHeight-(mPadding*2));
+            mPad = ofRectangle(0, 0, mGui->width-mPadding-mGui->input.x, mHeight-(mPadding*2));
         }
     
         void reset()
@@ -60,6 +60,7 @@ class ofxDatGui2dPad : public ofxDatGuiItem {
             if (mVisible){
                 mPad.x = x + mGui->input.x;
                 mPad.y = y + mPadding;
+                mPad.width = mGui->width-mPadding-mGui->input.x;
                 pt.x = mPad.x + mPad.width * mx;
                 pt.y = mPad.y + mPad.height * my;
                 drawBkgd();
@@ -77,7 +78,7 @@ class ofxDatGui2dPad : public ofxDatGuiItem {
     
         bool hitTest(ofPoint m)
         {
-            return (m.x>=x && m.x<= x+mWidth && m.y>=y && m.y<= y+mHeight);
+            return (m.x>=x && m.x<= x+mGui->width && m.y>=y && m.y<= y+mHeight);
         }
     
         void onMouseDrag(ofPoint m)

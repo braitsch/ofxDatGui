@@ -65,7 +65,6 @@ class ofxDatGuiItem : public ofxDatGuiInteractiveObject
         int x;
         int y;
         int mId;
-        int mWidth;
         int mHeight;
         int mOriginY;
         int mPadding;

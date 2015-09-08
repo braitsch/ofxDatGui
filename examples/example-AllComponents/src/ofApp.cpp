@@ -51,10 +51,11 @@ void ofApp::setup()
     gui->onDropdownEvent(this, &ofApp::onDropdownEvent);
     gui->onColorPickerEvent(this, &ofApp::onColorPickerEvent);
     
+    gui->setOpacity(gui->getSlider("datgui opacity")->getScale());
+    
 // let's launch the app fullscreen //
     isFullscreen = true;
     ofSetFullscreen(isFullscreen);
-    gui->setOpacity(gui->getSlider("datgui opacity")->getScale());    
 }
 
 void ofApp::onSliderEvent(ofxDatGuiSliderEvent e)

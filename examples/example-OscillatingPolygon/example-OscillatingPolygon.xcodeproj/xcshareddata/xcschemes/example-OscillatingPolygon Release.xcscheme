@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-               BuildableName = "ofxDatGui-AllComponents.app"
-               BlueprintName = "ofxDatGui-AllComponents"
-               ReferencedContainer = "container:ofxDatGui-AllComponents.xcodeproj">
+               BuildableName = "example-AllComponents.app"
+               BlueprintName = "example-OscillatingPolygon"
+               ReferencedContainer = "container:example-OscillatingPolygon.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "ofxDatGui-AllComponents.app"
-            BlueprintName = "ofxDatGui-AllComponents"
-            ReferencedContainer = "container:ofxDatGui-AllComponents.xcodeproj">
+            BuildableName = "example-AllComponents.app"
+            BlueprintName = "example-OscillatingPolygon"
+            ReferencedContainer = "container:example-OscillatingPolygon.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -53,9 +53,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "ofxDatGui-AllComponents.app"
-            BlueprintName = "ofxDatGui-AllComponents"
-            ReferencedContainer = "container:ofxDatGui-AllComponents.xcodeproj">
+            BuildableName = "example-AllComponents.app"
+            BlueprintName = "example-OscillatingPolygon"
+            ReferencedContainer = "container:example-OscillatingPolygon.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "ofxDatGui-AllComponents.app"
-            BlueprintName = "ofxDatGui-AllComponents"
-            ReferencedContainer = "container:ofxDatGui-AllComponents.xcodeproj">
+            BuildableName = "example-AllComponents.app"
+            BlueprintName = "example-OscillatingPolygon"
+            ReferencedContainer = "container:example-OscillatingPolygon.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

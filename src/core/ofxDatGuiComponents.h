@@ -161,9 +161,10 @@ class ofxDatGuiGlobals{
             props dropdown;
         } icons;
         int stripeWidth;
+        int guiMinWidth;
         ofxDatGuiFont font;
         static bool retinaEnabled;
-        void init()
+        void init(int w)
         {
             width = 300;
             alpha = 255;
@@ -188,23 +189,25 @@ class ofxDatGuiGlobals{
             font.highlightPadding = 3;
             retinaEnabled = false;
             if (ofGetScreenWidth()>=2560 && ofGetScreenHeight()>=1600){
-                width=540;
+            //  guiMinWidth = 400;
+                width = w;
+            //  width = w>=guiMinWidth ? w : guiMinWidth;
                 row.height*=2;
                 row.padding*=2;
                 row.spacing*=2;
-                input.x=190;
+                input.x=width*.35;
                 slider.x=input.x;
-                slider.width=240;
+                slider.width=width*.45;
                 slider.inputX = slider.x+slider.width+row.padding;
                 slider.inputWidth = width-slider.inputX-row.padding;
                 stripeWidth*=2;
-                icons.radio.x=width-40;
+                icons.radio.x=width-(width*.05)-20;
                 icons.radio.y*=2;
                 icons.radio.size*=2;
-                icons.dropdown.x=width-39;
+                icons.dropdown.x=width-(width*.05)-20;
                 icons.dropdown.y*=2;
                 icons.dropdown.size*=2;
-                font.labelX*=2;
+                font.labelX=(width*.03)+10;
                 font.size*=2;
                 font.highlightPadding*=2;
                 retinaEnabled = true;
@@ -224,10 +227,9 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             COLORPICKER
         };
     
-        ofxDatGuiTextInputField(ofxDatGuiGlobals *gui, int width)
+        ofxDatGuiTextInputField(ofxDatGuiGlobals *gui)
         {
             mGui = gui;
-            mRect.width = width;
             mTextColor = ofxDatGuiColor::TEXT;
             mBkgdColor = ofxDatGuiColor::INPUT;
             mRect.height = mGui->row.height - (mGui->row.padding*2);
@@ -239,15 +241,18 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             mTextInactiveColor = ofxDatGuiColor::TEXT;
         }
     
-        void draw(int x, int y)
+        void draw(int x, int y, int w)
         {
             mRect.x = x;
             mRect.y = y;
+            mRect.width = w;
+        // center the text //
+            int tx = mRect.width/2 - mGui->font.getStringBoundingBox(mType==COLORPICKER ? "#"+mText : mText, 0, 0).width/2;
             ofPushStyle();
                 ofSetColor(mBkgdColor);
                 ofDrawRectangle(mRect);
                 mTextColor = mHighlightText ? mTextActiveColor : mTextInactiveColor;
-                mGui->font.drawText(mType==COLORPICKER ? "#"+mText : mText, mTextColor, x+mTextIndent, y+mRect.height/2, mHighlightText);
+                mGui->font.drawText(mType==COLORPICKER ? "#"+mText : mText, mTextColor, mRect.x+tx, mRect.y+mRect.height/2, mHighlightText);
             ofPopStyle();
         }
     
@@ -275,11 +280,6 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
         string getText()
         {
             return mText;
-        }
-    
-        void setTextIndent(int indent)
-        {
-            mTextIndent = indent;
         }
     
         void setTextActiveColor(ofColor color)
@@ -378,7 +378,6 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
     private:
         string mText;
         ofRectangle mRect;
-        int mTextIndent;
         bool mTextChanged;
         bool mHighlightText;
         int mMaxCharacters;
