@@ -34,16 +34,6 @@ class ofxDatGuiTextInput : public ofxDatGuiItem {
             input->onInternalEvent(this, &ofxDatGuiTextInput::onInputChanged);
         }
     
-        void draw()
-        {
-            if (mVisible){
-                ofxDatGuiItem::drawBkgd();
-                ofxDatGuiItem::drawLabel();
-                ofxDatGuiItem::drawStripe();
-                input->draw(x + mGui->input.x, y + mPadding, mGui->width-mPadding-mGui->input.x);
-            }
-        }
-    
         string getText()
         {
             return input->getText();
@@ -52,6 +42,14 @@ class ofxDatGuiTextInput : public ofxDatGuiItem {
         void setText(string text)
         {
             return input->setText(text);
+        }
+    
+        void draw()
+        {
+            ofxDatGuiItem::drawBkgd();
+            ofxDatGuiItem::drawLabel();
+            ofxDatGuiItem::drawStripe();
+            input->draw(x + mGui->input.x, y + mPadding, mGui->width-mPadding-mGui->input.x);
         }
     
         bool hitTest(ofPoint m)

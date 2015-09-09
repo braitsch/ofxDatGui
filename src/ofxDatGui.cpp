@@ -36,14 +36,14 @@ ofxDatGui::ofxDatGui(uint8_t anchor)
     mGui.y = 0;
     mGui.anchor = anchor;
     init();
-    if (anchor == ofxDatGuiAnchor::TOP_RIGHT) mGui.x = ofGetWidth()-mGui.width;
 }
 
 void ofxDatGui::init()
 {
-    mGui.init(540);
+    setWidth(540);
     mVisible = true;
     mDisabled = false;
+    mExpanded = true;
     mousePressed = false;
     setAutoDraw(true);
     mGuiHeader = nullptr;
@@ -63,7 +63,8 @@ void ofxDatGui::init()
 void ofxDatGui::setWidth(int width)
 {
     mGui.init(width);
-    mGui.guiWidthChanged = true;
+    mGuiChanged = true;
+    if (mGui.anchor == ofxDatGuiAnchor::TOP_RIGHT) anchorGui();
 }
 
 void ofxDatGui::setOpacity(float opacity)
@@ -213,10 +214,10 @@ ofxDatGui2dPad* ofxDatGui::add2dPad(string label, ofRectangle bounds)
     return pad;
 }
 
-ofxDatGuiButtonMatrix* ofxDatGui::addButtonMatrix(string label, int numButtons, bool showLabels)
+ofxDatGuiMatrix* ofxDatGui::addMatrix(string label, int numButtons, bool showLabels)
 {
-    ofxDatGuiButtonMatrix* matrix = new ofxDatGuiButtonMatrix(&mGui, label, numButtons, showLabels);
-    matrix->onButtonMatrixEvent(this, &ofxDatGui::onButtonMatrixEventCallback);
+    ofxDatGuiMatrix* matrix = new ofxDatGuiMatrix(&mGui, label, numButtons, showLabels);
+    matrix->onMatrixEvent(this, &ofxDatGui::onMatrixEventCallback);
     attachItem(matrix);
     return matrix;
 }
@@ -248,9 +249,11 @@ void ofxDatGui::layoutGui()
     mHeight = 0;
     for (int i=0; i<items.size(); i++) {
         items[i]->setIndex(i);
-        items[i]->setOrigin(mGui.x, mGui.y + mHeight);
+        items[i]->setOriginX(mGui.x);
+        items[i]->setOriginY(mGui.y + mHeight);
         mHeight += items[i]->getHeight() + mGui.row.spacing;
     }
+    mGuiChanged = false;
     mHeightMinimum = mHeight;
 }
 
@@ -388,9 +391,9 @@ void ofxDatGui::onColorPickerEventCallback(ofxDatGuiColorPickerEvent e)
     colorPickerEventCallback(e);
 }
 
-void ofxDatGui::onButtonMatrixEventCallback(ofxDatGuiButtonMatrixEvent e)
+void ofxDatGui::onMatrixEventCallback(ofxDatGuiMatrixEvent e)
 {
-    buttonMatrixEventCallback(e);
+    matrixEventCallback(e);
 }
 
 void ofxDatGui::onInternalEventCallback(ofxDatGuiInternalEvent e)
@@ -411,6 +414,7 @@ void ofxDatGui::adjustHeight(int index)
         items[i]->setPositionY(mHeight);
         mHeight += items[i]->getHeight() + mGui.row.spacing;
     }
+    mGuiChanged = true;
 }
 
 void ofxDatGui::moveGui(ofPoint pt)
@@ -419,11 +423,13 @@ void ofxDatGui::moveGui(ofPoint pt)
     mGui.x = pt.x;
     mGui.y = pt.y;
     for (uint8_t i=0; i<items.size(); i++){
-        items[i]->setOrigin(mGui.x, mGui.y + mHeight);
+        items[i]->setOriginX(mGui.x);
+        items[i]->setOriginY(mGui.y + mHeight);
         mHeight += items[i]->getHeight() + mGui.row.spacing;
     }
 // disable automatic repositioning on window resize //
     mGui.anchor = 0;
+    mGuiChanged = true;
 }
 
 void ofxDatGui::expandGui()
@@ -433,13 +439,16 @@ void ofxDatGui::expandGui()
         items[i]->setVisible(true);
         mHeight += items[i]->getHeight() + mGui.row.spacing;
     }
+    mExpanded = true;
     mGuiFooter->setPositionY(mHeight - mGuiFooter->getHeight() - mGui.row.spacing);
 }
 
 void ofxDatGui::collapseGui()
 {
+    cout << "collapseGui" << endl;
     for (uint8_t i=0; i<items.size()-1; i++) items[i]->setVisible(false);
     mGuiFooter->setPositionY(0);
+    mExpanded = false;
     mHeight = mGuiFooter->getHeight();
 }
 
@@ -536,6 +545,8 @@ bool ofxDatGui::isMouseOverGui()
 void ofxDatGui::update()
 {
     if (mDisabled || !mVisible) return;
+    if (mGuiChanged) layoutGui();
+    
     mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
     bool hit = isMouseOverGui();
     if (!hit && activeHover != nullptr){
@@ -560,11 +571,14 @@ void ofxDatGui::draw()
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         ofSetColor(ofxDatGuiColor::GUI_BKGD, mGui.alpha);
         ofDrawRectangle(mGui.x, mGui.y, mGui.width, mHeight - mGui.row.spacing);
-        for (int i=0; i<items.size(); i++) items[i]->draw();
-    // color pickers overlap other components when expanded so they must be drawn last //
-        for (int i=0; i<items.size(); i++) items[i]->drawColorPicker();
+        if (mExpanded == false){
+            mGuiFooter->draw();
+        }   else{
+            for (int i=0; i<items.size(); i++) items[i]->draw();
+        // color pickers overlap other components when expanded so they must be drawn last //
+            for (int i=0; i<items.size(); i++) items[i]->drawColorPicker();
+        }
     ofPopStyle();
-    mGui.guiWidthChanged = false;
 }
 
 void ofxDatGui::onDraw(ofEventArgs &e) { draw(); }
@@ -572,6 +586,12 @@ void ofxDatGui::onUpdate(ofEventArgs &e) { update(); }
 
 void ofxDatGui::onWindowResized(ofResizeEventArgs &e)
 {
-    for (uint16_t i=0; i<items.size(); i++) items[i]->onWindowResize(e.width, e.height);
+    if (mGui.anchor == ofxDatGuiAnchor::TOP_RIGHT) anchorGui();
+}
+
+void ofxDatGui::anchorGui()
+{
+    mGui.x = ofGetWidth() - mGui.width;
+    for (int i=0; i<items.size(); i++) items[i]->setOriginX(mGui.x);
 }
 

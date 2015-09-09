@@ -14,13 +14,14 @@
 * Color Pickers
 * Range Sliders
 * Dropdown Menus
+* Button Matrices
 * 2D Coordinate Pads
 * Folders to group components together
 * An optional header & footer that allow you to collapse and drag the Gui around
 
 ##Installation
 
-**ofxDatGui** is built on top of C++11 and currently requires openFrameworks 0.9.0 or later which you can easily install by [cloning or downloading the repository from Github.](https://github.com/openframeworks/openFrameworks) 
+**ofxDatGui** is built on top of C++11 and requires the new openFrameworks 0.9.0 pre-release which you can [download here](http://forum.openframeworks.cc/t/0-9-0-release-candidate-1/20434).
 
 * Once you've downloaded openFrameworks, clone or download this repository and unpack it into your openFrameworks/addons directory.
 
@@ -93,6 +94,18 @@ If this is not set it will default to halfway between the min and max values.
 	
 ![ofxDatGui](./img/ofxdatgui_dropdown.png?raw=true)
 
+**Button Matrix**
+
+	gui->addMatrix(string label, int numButtons)
+
+![ofxDatGui](./img/ofxdatgui_matrix.png?raw=true)
+
+You can display numbered labels on the buttons by passing ``true`` as the third argument.
+
+	gui->addMatrix(string label, int numButtons, bool showLabels)
+
+![ofxDatGui](./img/ofxdatgui_matrix_labels.png?raw=true)
+
 **2D Coordinate Pad**
 
 	gui->add2dPad(string label, ofRectangle bounds);
@@ -129,38 +142,63 @@ In addition some components have methods (typically getters & setters) that allo
 	
 **Text Input**
  
-	ofxDatGuiTextInput* myInput;
-	myInput->getText();
-	myInput->setText(string text);
-	
+```cpp
+ofxDatGuiTextInput* myInput;
+string myInput->getText();
+myInput->setText(string text);
+```	
 **Toggle Button**
 
-	ofxDatGuiToggle* myToggle;
-	myToggle->toggle();
-	myToggle->setEnabled(bool enable);
-	myToggle->getEnabled(); // returns true or false
-
+```cpp
+ofxDatGuiToggle* myToggle;
+myToggle->toggle();
+myToggle->setEnabled(bool enable);
+bool myToggle->getEnabled();
+```
 **Range Slider**
 
-	ofxDatGuiSlider* mySlider;
-	mySlider->getScale(); 
-	mySlider->setScale(float scale); // a value between 0 & 1 //
-	mySlider->getValue();
-	mySlider->setValue(float value); // a value between min & max //
+```cpp
+ofxDatGuiSlider* mySlider;
+float mySlider->getScale(); 
+mySlider->setScale(float scale); // a value between 0 & 1 //
+float mySlider->getValue();
+mySlider->setValue(float value); // a value between min & max //
+```
 
 **Color Picker**
 	
-	ofxDatGuiColorPicker* myColorPicker;
-	myColorPicker->getColor();
-	myColorPicker->setColor(int hexValue);
-	myColorPicker->setColor(int r, int g, int b);
-	myColorPicker->setColor(ofColor color);
+```cpp	
+ofxDatGuiColorPicker* myColorPicker;
+ofColor myColorPicker->getColor();
+myColorPicker->setColor(int hexValue);
+myColorPicker->setColor(int r, int g, int b);
+myColorPicker->setColor(ofColor color);
+```
 	
 **Dropdown Menu**
+
+```cpp	
+ofxDatGuiDropdown* myDropdown;
+myDropdown->select(childIndex);
+int myDropdown->getSelectedChildIndex();
+```
 	
-	ofxDatGuiDropdown* myDropdown;
-	myDropdown->select(childIndex);
-	myDropdown->getSelectedChildIndex(); 
+**ofxDatGuiMatrix**
+
+```cpp	
+ofxDatGuiMatrix* myMatrix;
+vector<int> myMatrix->getSelected();
+// returns a vector containing the indicies of the selected buttons //
+```
+
+**ofxDatGui2dPad**
+
+```cpp	
+ofxDatGui2dPad* my2dPad;
+my2dPad->setBounds(ofRectangle bounds);
+ofPoint my2dPad->getPosition();
+// returns the current position within the bounds rectangle you gave it //
+```	
 	
 **Note:** All indicies are zero based so the first item in your  **ofxDatGui** instance will have an index of 0, the second item will have an index of 1, the third item an index of 2 etc..
 	
@@ -232,6 +270,12 @@ All events also contain additonal properties that allow convenient access to the
 	
 	ofxDatGuiDropdownEvent e
 	int e.child // the index of the selected option (zero based)
+	
+**ofxDatGuiMatrixEvent**
+	
+	ofxDatGuiMatrixEvent e
+	int e.child // the index of the selected button (zero based)
+	bool e.enabled // enabled state of the selected button
 	
 **Note:** You can always retrieve these properties directly from the event target itself.
 

@@ -21,6 +21,7 @@ void ofApp::setup()
     gui->addSlider("POSITION X", 0, 120, 75);
     gui->addSlider("POSITION Y", -40, 240, 200);
     gui->addSlider("POSITION Z", -80, 120, -40);
+// and a slider to adjust the gui opacity /
     gui->addSlider("DATGUI OPACITY", 0, 100);
 
 // and a colorpicker! //
@@ -34,8 +35,9 @@ void ofApp::setup()
     gui->add2dPad("2D PAD");
 
 // a button matrix //
-    gui->addButtonMatrix("MATRIX", 21);
-// and a couple buttons //
+    gui->addMatrix("MATRIX", 21, true);
+
+// and a couple of simple buttons //
     gui->addButton("CLICK");
     gui->addToggle("TOGGLE", true);
 
@@ -52,6 +54,7 @@ void ofApp::setup()
     gui->on2dPadEvent(this, &ofApp::on2dPadEvent);
     gui->onDropdownEvent(this, &ofApp::onDropdownEvent);
     gui->onColorPickerEvent(this, &ofApp::onColorPickerEvent);
+    gui->onMatrixEvent(this, &ofApp::onMatrixEvent);
     
     gui->setOpacity(gui->getSlider("datgui opacity")->getScale());
     
@@ -62,34 +65,40 @@ void ofApp::setup()
 
 void ofApp::onSliderEvent(ofxDatGuiSliderEvent e)
 {
-    cout << "Target: " << e.target->getLabel() << " " << e.target->getValue() << endl;
+    cout << "onSliderEvent: " << e.target->getLabel() << " " << e.target->getValue() << endl;
     if (e.target->getLabel()=="DATGUI OPACITY") gui->setOpacity(e.scale);
 }
 
 void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
 {
-    cout << "Target: " << e.target->getLabel() << " " << e.target->getEnabled() << endl;
+    cout << "onButtonEvent: " << e.target->getLabel() << " " << e.target->getEnabled() << endl;
 }
 
 void ofApp::onTextInputEvent(ofxDatGuiTextInputEvent e)
 {
-    cout << "Target: " << e.target->getLabel() << " " << e.target->getText() << endl;
+    cout << "onTextInputEvent: " << e.target->getLabel() << " " << e.target->getText() << endl;
 }
 
 void ofApp::on2dPadEvent(ofxDatGui2dPadEvent e)
 {
-    cout << "Target: " << e.target->getLabel() << " " << e.x << ":" << e.y << endl;
+    cout << "on2dPadEvent: " << e.target->getLabel() << " " << e.x << ":" << e.y << endl;
 }
 
 void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
 {
-    cout << "Target: " << e.target->getLabel() << " Selected Child Index: " << e.target->getSelectedChildIndex() << endl;
+    cout << "onDropdownEvent: " << e.target->getLabel() << " Selected Child Index: " << e.target->getSelectedChildIndex() << endl;
 }
 
 void ofApp::onColorPickerEvent(ofxDatGuiColorPickerEvent e)
 {
-    cout << "Target: " << e.target->getLabel() << " " << e.target->getColor() << endl;
+    cout << "onColorPickerEvent: " << e.target->getLabel() << " " << e.target->getColor() << endl;
     ofSetBackgroundColor(e.color);
+}
+
+void ofApp::onMatrixEvent(ofxDatGuiMatrixEvent e)
+{
+    cout << "onMatrixEvent " << e.child << " : " << e.enabled << endl;
+    cout << "onMatrixEvent " << e.target->getLabel() << " : " << e.target->getSelected().size() << endl;
 }
 
 void ofApp::draw() { }

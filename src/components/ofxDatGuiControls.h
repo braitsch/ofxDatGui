@@ -32,13 +32,11 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
             mHeight = mGui->row.height*.8;
             mLabelWidth = mGui->font.getStringBoundingBox(mLabel, 0, 0).width;
         }
-    
+        
         void draw()
         {
-            if (mVisible){
-                ofxDatGuiButton::drawBkgd();
-                mGui->font.drawLabel(mLabel, x+mGui->width/2-mLabelWidth/2, y+mHeight/2);
-            }
+            ofxDatGuiButton::drawBkgd();
+            mGui->font.drawLabel(mLabel, x+mGui->width/2-mLabelWidth/2, y+mHeight/2);
         }
     
         void onMousePress(ofPoint m)

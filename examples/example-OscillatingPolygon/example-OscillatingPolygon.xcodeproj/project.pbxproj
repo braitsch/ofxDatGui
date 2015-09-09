@@ -44,6 +44,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8A3C3CF11BA0D306006429AC /* ofxDatGuiMatrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiMatrix.h; sourceTree = "<group>"; };
 		8A57D3E71B9EA0DD002ECA39 /* ofxDatGui2dPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGui2dPad.h; sourceTree = "<group>"; };
 		8A57D3E81B9EA0DD002ECA39 /* ofxDatGuiButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiButton.h; sourceTree = "<group>"; };
 		8A57D3E91B9EA0DD002ECA39 /* ofxDatGuiColorPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiColorPicker.h; sourceTree = "<group>"; };
@@ -94,6 +95,7 @@
 		8A57D3E61B9EA0DD002ECA39 /* components */ = {
 			isa = PBXGroup;
 			children = (
+				8A3C3CF11BA0D306006429AC /* ofxDatGuiMatrix.h */,
 				8A57D3E71B9EA0DD002ECA39 /* ofxDatGui2dPad.h */,
 				8A57D3E81B9EA0DD002ECA39 /* ofxDatGuiButton.h */,
 				8A57D3E91B9EA0DD002ECA39 /* ofxDatGuiColorPicker.h */,

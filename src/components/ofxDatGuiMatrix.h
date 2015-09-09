@@ -23,7 +23,7 @@
 #pragma once
 #include "ofxDatGuiItem.h"
 
-class ofxDatGuiMatrixButton {
+class ofxDatGuiMatrixButton : public ofxDatGuiInteractiveObject {
 
     public:
         ofxDatGuiMatrixButton(ofxDatGuiGlobals *gui, int size, int index, bool showLabels)
@@ -54,20 +54,14 @@ class ofxDatGuiMatrixButton {
         {
             if (mRect.inside(m) && !mSelected){
                 if (mouseDown){
-                    mColor = ofxDatGuiColor::INPUT;
+                    mColor = ofxDatGuiColor::MATRIX_BUTTON;
                     mLabelColor = ofxDatGuiColor::LABEL;
                 }   else{
                     mColor = ofxDatGuiColor::SLIDER;
                     mLabelColor = ofxDatGuiColor::INPUT;
                 }
             }   else{
-                if (mSelected){
-                    mColor = ofxDatGuiColor::INPUT;
-                    mLabelColor = ofxDatGuiColor::LABEL;
-                }   else{
-                    mColor = ofxDatGuiColor::LABEL;
-                    mLabelColor = ofxDatGuiColor::INPUT;
-                }
+                onMouseOut();
             }
         }
     
@@ -77,9 +71,29 @@ class ofxDatGuiMatrixButton {
             origin.y = y;
         }
     
+        bool getSelected()
+        {
+            return mSelected;
+        }
+    
+        void onMouseOut()
+        {
+            if (mSelected){
+                mColor = ofxDatGuiColor::MATRIX_BUTTON;
+                mLabelColor = ofxDatGuiColor::LABEL;
+            }   else{
+                mColor = ofxDatGuiColor::LABEL;
+                mLabelColor = ofxDatGuiColor::INPUT;
+            }
+        }
+    
         void onMouseRelease(ofPoint m)
         {
-            if (mRect.inside(m)) mSelected = !mSelected;
+            if (mRect.inside(m)) {
+                mSelected = !mSelected;
+                ofxDatGuiInternalEvent e(ofxDatGuiEventType::MATRIX_BUTTON_TOGGLED, mIndex);
+                internalEventCallback(e);
+            }
         }
     
     private:
@@ -96,23 +110,52 @@ class ofxDatGuiMatrixButton {
         ofxDatGuiGlobals* mGui;
 };
 
-class ofxDatGuiButtonMatrix : public ofxDatGuiItem {
+class ofxDatGuiMatrix : public ofxDatGuiItem {
 
     public:
     
-        ofxDatGuiButtonMatrix(ofxDatGuiGlobals *gui, string label, int numButtons, bool showLabels) : ofxDatGuiItem(gui, label)
+        ofxDatGuiMatrix(ofxDatGuiGlobals *gui, string label, int numButtons, bool showLabels) : ofxDatGuiItem(gui, label)
         {
-            mHeight = 140;
-            mButtonSize = 44;
-            mButtonPadding = 4;
+            mButtonSize = 46;
             mStripeColor = ofxDatGuiColor::BUTTON_STRIPE;
-            for(int i=0; i<numButtons; i++) btns.push_back(ofxDatGuiMatrixButton(mGui, mButtonSize, i, showLabels));
-            layoutMatrix();
+            for(int i=0; i<numButtons; i++) {
+                ofxDatGuiMatrixButton btn(mGui, mButtonSize, i, showLabels);
+                btn.onInternalEvent(this, &ofxDatGuiMatrix::onButtonSelected);
+                btns.push_back(btn);
+            }
+        }
+
+        void setOriginX(int x)
+        {
+            ofxDatGuiItem::setOriginX(x);
+            mMatrixRect.x = x+mGui->input.x;
+            mMatrixRect.y = y+mGui->row.padding;
+            mMatrixRect.width = mGui->width-mGui->row.padding-mGui->input.x;
+            int nCols = floor(mMatrixRect.width/(mButtonSize+mMinPadding));
+            int nRows = ceil(btns.size()/float(nCols));
+            float padding = (mMatrixRect.width-(mButtonSize*nCols))/(nCols-1);
+            for(int i=0; i<btns.size(); i++){
+                float bx = (mButtonSize+padding)*(i%nCols);
+                float by = (mButtonSize+padding)*(floor(i/nCols));
+                btns[i].setOrigin(bx, by+mGui->row.padding);
+            }
+            mHeight = (mGui->row.padding*2) + ((mButtonSize+padding)*(nRows-1)) + mButtonSize;
+            mMatrixRect.height = mHeight - (mGui->row.padding*2);
+        }
+    
+        bool hitTest(ofPoint m)
+        {
+            if (mMatrixRect.inside(m)){
+                for(int i=0; i<btns.size(); i++) btns[i].hitTest(m, mMouseDown);
+                return true;
+            }   else{
+                for(int i=0; i<btns.size(); i++) btns[i].onMouseOut();
+                return false;
+            }
         }
     
         void draw()
         {
-            if (mGui->guiWidthChanged) layoutMatrix();
             ofxDatGuiItem::drawBkgd();
             ofxDatGuiItem::drawLabel();
             ofxDatGuiItem::drawStripe();
@@ -123,32 +166,11 @@ class ofxDatGuiButtonMatrix : public ofxDatGuiItem {
             for(int i=0; i<btns.size(); i++) btns[i].draw(x+mGui->input.x, y);
         }
     
-        void layoutMatrix()
+        vector<int> getSelected()
         {
-            mMatrixRect.x = x+mGui->input.x;
-            mMatrixRect.y = y;
-            mMatrixRect.width = mGui->width-mGui->input.x;
-            mMatrixRect.height = mHeight;
-            int nCols = floor(mMatrixRect.width/(mButtonSize+mButtonPadding));
-            int nRows = ceil(btns.size()/float(nCols));
-            float tx = mButtonSize+((mButtonSize+mButtonPadding)*(nCols-1));
-            float dx = (mMatrixRect.width-tx)/2;
-            for(int i=0; i<btns.size(); i++){
-                float bx = dx + ((mButtonSize+mButtonPadding)*(i%nCols));
-                float by = (mButtonSize+mButtonPadding)*(floor(i/nCols));
-                btns[i].setOrigin(bx, by+mButtonPadding);
-            }
-            mHeight = (mButtonPadding*2) + ((mButtonSize+mButtonPadding)*(nRows-1)) + mButtonSize;
-        }
-    
-        bool hitTest(ofPoint m)
-        {
-            if (mMatrixRect.inside(m)){
-                for(int i=0; i<btns.size(); i++) btns[i].hitTest(m, mMouseDown);
-                return true;
-            }   else{
-                return false;
-            }
+            vector<int> selected;
+            for(int i=0; i<btns.size(); i++) if (btns[i].getSelected()) selected.push_back(i);
+            return selected;
         }
     
         void onMouseRelease(ofPoint m)
@@ -157,11 +179,17 @@ class ofxDatGuiButtonMatrix : public ofxDatGuiItem {
             for(int i=0; i<btns.size(); i++) btns[i].onMouseRelease(m);
         }
     
+        void onButtonSelected(ofxDatGuiInternalEvent e)
+        {
+            ofxDatGuiMatrixEvent ev(this, e.index, btns[e.index].getSelected());
+            matrixEventCallback(ev);
+        }
+    
     private:
     
         int mButtonSize;
-        int mButtonPadding;
         ofRectangle mMatrixRect;
+        static const int mMinPadding = 2;
         vector<ofxDatGuiMatrixButton> btns;
 
 };

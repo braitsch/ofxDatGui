@@ -55,7 +55,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofxDatGui2dPad* add2dPad(string label);
         ofxDatGui2dPad* add2dPad(string label, ofRectangle bounds);
         ofxDatGuiColorPicker* addColorPicker(string label, ofColor color = ofColor::black);
-        ofxDatGuiButtonMatrix* addButtonMatrix(string label, int numButtons, bool showLabels = false);
+        ofxDatGuiMatrix* addMatrix(string label, int numButtons, bool showLabels = false);
         ofxDatGuiFolder* addFolder(string label, ofColor color = ofxDatGuiColor::LABEL);
     
     // experimental //
@@ -72,6 +72,8 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         int mHeightMinimum;
         bool mVisible;
         bool mDisabled;
+        bool mExpanded;
+        bool mGuiChanged;
         bool mousePressed;
         ofPoint mouse;
         ofxDatGuiItem* activeHover;
@@ -85,6 +87,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         void init();
         void enableRetina();
         void layoutGui();
+        void anchorGui();
         void onDraw(ofEventArgs &e);
         void onUpdate(ofEventArgs &e);
         bool isMouseOverRow(ofxDatGuiItem* row);
@@ -108,6 +111,6 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         void onDropdownEventCallback(ofxDatGuiDropdownEvent e);
         void on2dPadEventCallback(ofxDatGui2dPadEvent e);
         void onColorPickerEventCallback(ofxDatGuiColorPickerEvent e);
-        void onButtonMatrixEventCallback(ofxDatGuiButtonMatrixEvent e);
+        void onMatrixEventCallback(ofxDatGuiMatrixEvent e);
 
 };

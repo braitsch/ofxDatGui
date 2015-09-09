@@ -78,26 +78,24 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
         {
             return mScale;
         }
-    
+
         void draw()
         {
-            if (mVisible){
-                ofPushStyle();
-                    ofxDatGuiItem::drawBkgd();
-                    ofxDatGuiItem::drawLabel();
-                    ofxDatGuiItem::drawStripe();
-                // slider bkgd //
-                    ofSetColor(ofxDatGuiColor::INPUT);
-                    ofDrawRectangle(x+mGui->slider.x, y+mPadding, mGui->slider.width, mHeight-(mPadding*2));
-                // slider fill //
-                    if (mScale > 0){
-                        ofSetColor(ofxDatGuiColor::SLIDER);
-                        ofDrawRectangle(x+mGui->slider.x, y+mPadding, mGui->slider.width*mScale, mHeight-(mPadding*2));
-                    }
-                // numeric input field //
-                input->draw(x + mGui->slider.inputX, y + mPadding, mGui->slider.inputWidth);
-                ofPopStyle();
-            }
+            ofPushStyle();
+                ofxDatGuiItem::drawBkgd();
+                ofxDatGuiItem::drawLabel();
+                ofxDatGuiItem::drawStripe();
+            // slider bkgd //
+                ofSetColor(ofxDatGuiColor::INPUT);
+                ofDrawRectangle(x+mGui->slider.x, y+mPadding, mGui->slider.width, mHeight-(mPadding*2));
+            // slider fill //
+                if (mScale > 0){
+                    ofSetColor(ofxDatGuiColor::SLIDER);
+                    ofDrawRectangle(x+mGui->slider.x, y+mPadding, mGui->slider.width*mScale, mHeight-(mPadding*2));
+                }
+            // numeric input field //
+            input->draw(x + mGui->slider.inputX, y + mPadding, mGui->slider.inputWidth);
+            ofPopStyle();
         }
     
         void onFocusLost()

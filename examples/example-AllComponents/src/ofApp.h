@@ -20,6 +20,7 @@ class ofApp : public ofBaseApp{
         void on2dPadEvent(ofxDatGui2dPadEvent e);
         void onDropdownEvent(ofxDatGuiDropdownEvent e);
         void onColorPickerEvent(ofxDatGuiColorPickerEvent e);
+        void onMatrixEvent(ofxDatGuiMatrixEvent e);
     
 };
 

@@ -47,8 +47,9 @@ class ofxDatGuiItem : public ofxDatGuiInteractiveObject
         virtual int  getHeight();
         virtual bool getIsExpanded();
         virtual void drawColorPicker();
+        virtual void setOriginX(int x);
+        virtual void setOriginY(int y);
         virtual void setPositionY(int y);
-        virtual void setOrigin(int x, int y);
 
         virtual void onFocus();    
         virtual void onFocusLost();
@@ -58,7 +59,6 @@ class ofxDatGuiItem : public ofxDatGuiInteractiveObject
         virtual void onMouseDrag(ofPoint m);
         virtual void onMouseLeave(ofPoint m);
         virtual void onMouseRelease(ofPoint m);
-        virtual void onWindowResize(int w, int h);
     
     protected:
     

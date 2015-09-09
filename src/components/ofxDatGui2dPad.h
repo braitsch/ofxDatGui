@@ -41,6 +41,17 @@ class ofxDatGui2dPad : public ofxDatGuiItem {
             mScaleOnResize = false;
         }
     
+        ofPoint getPosition()
+        {
+            return pWorld;
+        }
+    
+        void setBounds(ofRectangle bounds)
+        {
+            mBounds = bounds;
+            mScaleOnResize = false;
+        }
+    
         void init()
         {
             reset();
@@ -55,25 +66,33 @@ class ofxDatGui2dPad : public ofxDatGuiItem {
             my = 0.5f;
         }
     
+        void setOriginX(int x)
+        {
+            ofxDatGuiItem::setOriginX(x);
+            if (mScaleOnResize){
+        // scale the bounds to the resized window //
+                mBounds.width*=(ofGetWidth()/mBounds.width);
+                mBounds.height*=(ofGetHeight()/mBounds.height);
+            }
+        }
+    
         void draw()
         {
-            if (mVisible){
-                mPad.x = x + mGui->input.x;
-                mPad.y = y + mPadding;
-                mPad.width = mGui->width-mPadding-mGui->input.x;
-                pt.x = mPad.x + mPad.width * mx;
-                pt.y = mPad.y + mPad.height * my;
-                ofxDatGuiItem::drawBkgd();
-                ofxDatGuiItem::drawLabel();
-                ofxDatGuiItem::drawStripe();
-                ofSetColor(ofxDatGuiColor::INPUT);
-                ofDrawRectangle(mPad);
-                ofSetLineWidth(2);
-                ofSetColor(ofxDatGuiColor::LABEL);
-                ofDrawCircle(pt, 10);
-                ofDrawLine(mPad.x, pt.y, mPad.x+mPad.width, pt.y);
-                ofDrawLine(pt.x, mPad.y, pt.x, mPad.y+mPad.height);
-            }
+            mPad.x = x + mGui->input.x;
+            mPad.y = y + mPadding;
+            mPad.width = mGui->width-mPadding-mGui->input.x;
+            pLocal.x = mPad.x + mPad.width * mx;
+            pLocal.y = mPad.y + mPad.height * my;
+            ofxDatGuiItem::drawBkgd();
+            ofxDatGuiItem::drawLabel();
+            ofxDatGuiItem::drawStripe();
+            ofSetColor(ofxDatGuiColor::INPUT);
+            ofDrawRectangle(mPad);
+            ofSetLineWidth(2);
+            ofSetColor(ofxDatGuiColor::LABEL);
+            ofDrawCircle(pLocal, 10);
+            ofDrawLine(mPad.x, pLocal.y, mPad.x+mPad.width, pLocal.y);
+            ofDrawLine(pLocal.x, mPad.y, pLocal.x, mPad.y+mPad.height);
         }
     
         bool hitTest(ofPoint m)
@@ -86,26 +105,19 @@ class ofxDatGui2dPad : public ofxDatGuiItem {
             if (mPad.inside(m)){
                 mx = (m.x-mPad.x)/mPad.width;
                 my = (m.y-mPad.y)/mPad.height;
-                ofxDatGui2dPadEvent e(this, mBounds.x + (mBounds.width*mx), mBounds.y + (mBounds.height*my));
+                pWorld.x = mBounds.x + (mBounds.width*mx);
+                pWorld.y = mBounds.y + (mBounds.height*my);
+                ofxDatGui2dPadEvent e(this, pWorld.x, pWorld.y);
                 pad2dEventCallback(e);
             }
-        }
-    
-        void onWindowResize(int w, int h)
-        {
-            if (mScaleOnResize){
-        // scale the bounds to the resized window //
-                mBounds.width*=(w/mBounds.width);
-                mBounds.height*=(h/mBounds.height);
-            }
-            ofxDatGuiItem::onWindowResize(w, h);
         }
     
     private:
         float mx;
         float my;
         bool mScaleOnResize;
-        ofPoint pt;
+        ofPoint pLocal;
+        ofPoint pWorld;
         ofRectangle mPad;
         ofRectangle mBounds;
     

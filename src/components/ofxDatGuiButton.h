@@ -32,21 +32,11 @@ class ofxDatGuiButton : public ofxDatGuiItem {
             mStripeColor = ofxDatGuiColor::BUTTON_STRIPE;
         }
     
-        void onMouseRelease(ofPoint m)
-        {
-            ofxDatGuiItem::onMouseRelease(m);
-        // dispatch event out to main application //
-            ofxDatGuiButtonEvent e(this);
-            buttonEventCallback(e);
-        }
-    
         void draw()
         {
-            if (mVisible){
-                drawBkgd();
-                ofxDatGuiItem::drawLabel();
-                ofxDatGuiItem::drawStripe();
-            }
+            drawBkgd();
+            ofxDatGuiItem::drawLabel();
+            ofxDatGuiItem::drawStripe();
         }
     
         void drawBkgd()
@@ -64,6 +54,14 @@ class ofxDatGuiButton : public ofxDatGuiItem {
         bool hitTest(ofPoint m)
         {
             return (m.x>=x && m.x<= x+mGui->width && m.y>=y && m.y<= y+mHeight);
+        }
+    
+        void onMouseRelease(ofPoint m)
+        {
+            ofxDatGuiItem::onMouseRelease(m);
+        // dispatch event out to main application //
+            ofxDatGuiButtonEvent e(this);
+            buttonEventCallback(e);
         }
     
         virtual void toggle(){}
@@ -101,19 +99,17 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
 
         void draw()
         {
-            if (mVisible){
-                ofxDatGuiButton::drawBkgd();
-                ofxDatGuiItem::drawLabel();
-                ofxDatGuiItem::drawStripe();
-                ofPushStyle();
-                    ofSetColor(ofxDatGuiColor::LABEL);
-                    if (mEnabled == true){
-                        radioOn.draw(x+mGui->icons.radio.x, y+mGui->icons.radio.y, mGui->icons.radio.size, mGui->icons.radio.size);
-                    }   else{
-                        radioOff.draw(x+mGui->icons.radio.x, y+mGui->icons.radio.y, mGui->icons.radio.size, mGui->icons.radio.size);
-                    }
-                ofPopStyle();
-            }
+            ofxDatGuiButton::drawBkgd();
+            ofxDatGuiItem::drawLabel();
+            ofxDatGuiItem::drawStripe();
+            ofPushStyle();
+                ofSetColor(ofxDatGuiColor::LABEL);
+                if (mEnabled == true){
+                    radioOn.draw(x+mGui->icons.radio.x, y+mGui->icons.radio.y, mGui->icons.radio.size, mGui->icons.radio.size);
+                }   else{
+                    radioOff.draw(x+mGui->icons.radio.x, y+mGui->icons.radio.y, mGui->icons.radio.size, mGui->icons.radio.size);
+                }
+            ofPopStyle();
         }
     
         void onMouseRelease(ofPoint m)

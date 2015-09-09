@@ -94,15 +94,15 @@ class ofxDatGuiInteractiveObject{
             pad2dEventCallback = std::bind(listenerMethod, owner, _1);
         }
     
-    // button matrix events //
-        typedef std::function<void(ofxDatGuiButtonMatrixEvent)> onButtonMatrixEventCallback;
-        onButtonMatrixEventCallback buttonMatrixEventCallback;
+    // matrix events //
+        typedef std::function<void(ofxDatGuiMatrixEvent)> onMatrixEventCallback;
+        onMatrixEventCallback matrixEventCallback;
     
         template<typename T, typename args, class ListenerClass>
-        void onButtonMatrixEvent(T* owner, void (ListenerClass::*listenerMethod)(args))
+        void onMatrixEvent(T* owner, void (ListenerClass::*listenerMethod)(args))
         {
             using namespace std::placeholders;
-            buttonMatrixEventCallback = std::bind(listenerMethod, owner, _1);
+            matrixEventCallback = std::bind(listenerMethod, owner, _1);
         }
 
     // internal events //
@@ -174,7 +174,7 @@ class ofxDatGuiGlobals{
         int stripeWidth;
         int guiMinWidth;
         ofxDatGuiFont font;
-        bool guiWidthChanged;
+        bool guiChanged;
         static bool retinaEnabled;
         void init(int w)
         {
@@ -200,7 +200,6 @@ class ofxDatGuiGlobals{
             font.labelHeight = 0;
             font.highlightPadding = 3;
             retinaEnabled = false;
-            guiWidthChanged = true;
             if (ofGetScreenWidth()>=2560 && ofGetScreenHeight()>=1600){
             //  guiMinWidth = 400;
                 width = w;

@@ -110,28 +110,32 @@ void ofxDatGuiItem::setVisible(bool visible) { mVisible = visible; }
 bool ofxDatGuiItem::getVisible() { return mVisible; }
 void ofxDatGuiItem::setStripeColor(ofColor color) { mStripeColor = color; }
 
-void ofxDatGuiItem::setOrigin(int x, int y)
+void ofxDatGuiItem::setOriginX(int x)
 {
     this->x = x;
-    this->y = mOriginY = y;
-    int vSpacing = mGui->row.spacing;
-    for(uint8_t i=0; i<children.size(); i++) children[i]->setOrigin(this->x, this->y + (mHeight+vSpacing)*(i+1));
+    for(int i=0; i<children.size(); i++) children[i]->x = x;
 }
 
-int ofxDatGuiItem::getOriginY() { return mOriginY; }
-void ofxDatGuiItem::setPositionY(int ypos) { y = mGui->y + ypos; }
-int ofxDatGuiItem::getPositionY() { return y;} 
-
-void ofxDatGuiItem::onWindowResize(int w, int h)
+void ofxDatGuiItem::setOriginY(int y)
 {
-    if (mGui->anchor == ofxDatGuiAnchor::TOP_RIGHT){
-        mGui->x = this->x = w - mGui->width;
-        if (this->children.size() != 0){
-            for (int i=0; i<this->children.size(); i++) {
-                this->children[i]->x = mGui->x;
-            }
-        }
-    }
+    this->y = mOriginY = y;
+    int vSpacing = mGui->row.spacing;
+    for(int i=0; i<children.size(); i++) children[i]->setOriginY(this->y + (mHeight+vSpacing)*(i+1));
+}
+
+int ofxDatGuiItem::getOriginY()
+{
+    return mOriginY;
+}
+
+void ofxDatGuiItem::setPositionY(int ypos)
+{
+    y = mGui->y + ypos;
+}
+
+int ofxDatGuiItem::getPositionY()
+{
+    return y;
 }
 
 /*

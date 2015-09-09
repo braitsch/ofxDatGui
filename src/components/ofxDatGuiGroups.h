@@ -26,7 +26,7 @@
 #include "ofxDatGuiTextInput.h"
 #include "ofxDatGui2dPad.h"
 #include "ofxDatGuiColorPicker.h"
-#include "ofxDatGuiButtonMatrix.h"
+#include "ofxDatGuiMatrix.h"
 
 class ofxDatGuiGroup : public ofxDatGuiButton {
 
@@ -39,15 +39,15 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
             if (mIcon.isAllocated() == false) mIcon.load(ofxDatGuiAssetDir+"/icon-dropdown.png");
         }
     
-        void setOrigin(int x, int y)
+        void setOriginY(int y)
         {
-            ofxDatGuiItem::setOrigin(x, y);
+            ofxDatGuiItem::setOriginY(y);
             int ypos = mHeight + mGui->row.spacing;
-            for(int i=0; i<children.size(); i++) {
+            for(int i=0; i<children.size(); i++){
                 if (mIsExpanded){
-                    children[i]->setOrigin(x, y + (ypos*(i+1)));
+                    children[i]->setOriginY(y + (ypos*(i+1)));
                 }   else{
-                    children[i]->setOrigin(x, y);
+                    children[i]->setOriginY(y);
                 }
             }
         }
@@ -81,16 +81,14 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
     
         void draw()
         {
-            if (mVisible){
-                ofxDatGuiButton::drawBkgd();
-                ofxDatGuiItem::drawLabel();
-                ofxDatGuiItem::drawStripe();
-                ofPushStyle();
-                    ofSetColor(ofxDatGuiColor::LABEL);
-                    mIcon.draw(x+mGui->icons.dropdown.x, y+mGui->icons.dropdown.y, mGui->icons.dropdown.size, mGui->icons.dropdown.size);
-                    for(int i=0; i<children.size(); i++) children[i]->draw();
-                ofPopStyle();
-            }
+            ofxDatGuiButton::drawBkgd();
+            ofxDatGuiItem::drawLabel();
+            ofxDatGuiItem::drawStripe();
+            ofPushStyle();
+                ofSetColor(ofxDatGuiColor::LABEL);
+                mIcon.draw(x+mGui->icons.dropdown.x, y+mGui->icons.dropdown.y, mGui->icons.dropdown.size, mGui->icons.dropdown.size);
+            if (mIsExpanded) for(int i=0; i<children.size(); i++) children[i]->draw();
+            ofPopStyle();
         }
     
         void onMouseRelease(ofPoint m)
@@ -108,7 +106,7 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
             int ypos = mHeight + mGui->row.spacing;
             for(int i=0; i<children.size(); i++) {
                 children[i]->setVisible(true);
-                children[i]->setOrigin(x, y + (ypos*(i+1)));
+                children[i]->setOriginY(y + (ypos*(i+1)));
             }
         }
     
@@ -117,10 +115,9 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
             mIsExpanded = false;
             for(int i=0; i<children.size(); i++) {
                 children[i]->setVisible(false);
-                children[i]->setOrigin(x, y);
+                children[i]->setOriginY(y);
             }
         }
-
     
     protected:
     
@@ -142,7 +139,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
     
         void drawColorPicker()
         {
-            if (mVisible) for(int i=0; i<pickers.size(); i++) pickers[i]->drawColorPicker();
+            for(int i=0; i<pickers.size(); i++) pickers[i]->drawColorPicker();
         }
     
         void dispatchButtonEvent(ofxDatGuiButtonEvent e)
@@ -247,11 +244,9 @@ class ofxDatGuiDropdownOption : public ofxDatGuiButton {
     
         void draw()
         {
-            if (mVisible){
-                ofxDatGuiButton::drawBkgd();
-                ofxDatGuiItem::drawLabel("* "+mLabel);
-                ofxDatGuiItem::drawStripe();
-            }
+            ofxDatGuiButton::drawBkgd();
+            ofxDatGuiItem::drawLabel("* "+mLabel);
+            ofxDatGuiItem::drawStripe();
         }
 
 };

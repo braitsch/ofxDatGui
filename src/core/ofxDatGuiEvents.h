@@ -31,7 +31,7 @@ class ofxDatGuiDropdown;
 class ofxDatGuiTextInput;
 class ofxDatGui2dPad;
 class ofxDatGuiColorPicker;
-class ofxDatGuiButtonMatrix;
+class ofxDatGuiMatrix;
 
 enum ofxDatGuiEventType
 {
@@ -42,7 +42,8 @@ enum ofxDatGuiEventType
     COLOR_CHANGED,
     SLIDER_CHANGED,
     OPTION_SELECTED,
-    DROPDOWN_TOGGLED
+    DROPDOWN_TOGGLED,
+    MATRIX_BUTTON_TOGGLED
 };
 
 class ofxDatGuiInternalEvent{
@@ -123,10 +124,10 @@ class ofxDatGuiDropdownEvent{
 class ofxDatGui2dPadEvent{
 
     public:
-        ofxDatGui2dPadEvent(ofxDatGui2dPad* t, float px, float py)
+        ofxDatGui2dPadEvent(ofxDatGui2dPad* t, float xp, float yp)
         {
-            x = px;
-            y = py;
+            x = xp;
+            y = yp;
             target = t;
         }
     float x;
@@ -134,14 +135,18 @@ class ofxDatGui2dPadEvent{
     ofxDatGui2dPad* target;
 };
 
-class ofxDatGuiButtonMatrixEvent{
+class ofxDatGuiMatrixEvent{
 
     public:
-        ofxDatGuiButtonMatrixEvent(ofxDatGuiButtonMatrix* t)
+        ofxDatGuiMatrixEvent(ofxDatGuiMatrix* t, int i, bool e)
         {
+            child = i;
             target = t;
+            enabled = e;
         }
-    ofxDatGuiButtonMatrix* target;
+    int child;
+    bool enabled;
+    ofxDatGuiMatrix* target;
 };
 
 
