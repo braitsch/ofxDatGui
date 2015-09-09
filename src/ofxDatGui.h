@@ -33,8 +33,16 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofxDatGui(uint8_t position);
     
         void draw();
+        void update();
         void setWidth(int width);
+        void setVisible(bool visible);
+        void setDisabled(bool disable);
         void setOpacity(float opacity);
+        void setPosition(int x, int y);
+        void setAutoDraw(bool autodraw);
+        int getWidth();
+        int getHeight();
+        ofPoint getPosition();
     
         ofxDatGuiHeader* addHeader(string label = "");
         ofxDatGuiFooter* addFooter();
@@ -61,7 +69,8 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
     
         int mHeight;
         int mHeightMinimum;
-        bool mShowGui;
+        bool mVisible;
+        bool mDisabled;
         bool mousePressed;
         ofPoint mouse;
         ofxDatGuiItem* activeHover;

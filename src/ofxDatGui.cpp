@@ -42,24 +42,78 @@ ofxDatGui::ofxDatGui(uint8_t anchor)
 void ofxDatGui::init()
 {
     mGui.init(540);
-    mShowGui = true;
+    mVisible = true;
+    mDisabled = false;
     mousePressed = false;
+    setAutoDraw(true);
     mGuiHeader = nullptr;
     mGuiFooter = nullptr;
     activeHover = nullptr;
     activeFocus = nullptr;
-    ofAddListener(ofEvents().draw, this, &ofxDatGui::onDraw, OF_EVENT_ORDER_AFTER_APP);
-    ofAddListener(ofEvents().update, this, &ofxDatGui::onUpdate, OF_EVENT_ORDER_AFTER_APP);
     ofAddListener(ofEvents().keyPressed, this, &ofxDatGui::onKeyPressed, OF_EVENT_ORDER_BEFORE_APP);
     ofAddListener(ofEvents().mousePressed, this, &ofxDatGui::onMousePressed, OF_EVENT_ORDER_BEFORE_APP);
     ofAddListener(ofEvents().mouseReleased, this, &ofxDatGui::onMouseReleased, OF_EVENT_ORDER_BEFORE_APP);
     ofAddListener(ofEvents().windowResized, this, &ofxDatGui::onWindowResized, OF_EVENT_ORDER_BEFORE_APP);
 }
 
+/* 
+    public getters & setters
+*/
+
 void ofxDatGui::setWidth(int width)
 {
     mGui.init(width);
 }
+
+void ofxDatGui::setOpacity(float opacity)
+{
+    mGui.alpha = opacity*255;
+}
+
+void ofxDatGui::setVisible(bool visible)
+{
+    mVisible = visible;
+}
+
+void ofxDatGui::setDisabled(bool disable)
+{
+    mDisabled = disable;
+}
+
+void ofxDatGui::setPosition(int x, int y)
+{
+    moveGui(ofPoint(x, y));
+}
+
+void ofxDatGui::setAutoDraw(bool autodraw)
+{
+    if (autodraw){
+        ofAddListener(ofEvents().draw, this, &ofxDatGui::onDraw, OF_EVENT_ORDER_AFTER_APP);
+        ofAddListener(ofEvents().update, this, &ofxDatGui::onUpdate, OF_EVENT_ORDER_AFTER_APP);
+    }   else{
+        ofRemoveListener(ofEvents().draw, this, &ofxDatGui::onDraw, OF_EVENT_ORDER_AFTER_APP);
+        ofRemoveListener(ofEvents().update, this, &ofxDatGui::onUpdate, OF_EVENT_ORDER_AFTER_APP);
+    }
+}
+
+ofPoint ofxDatGui::getPosition()
+{
+    return ofPoint(mGui.x, mGui.y);
+}
+
+int ofxDatGui::getWidth()
+{
+    return mGui.width;
+}
+
+int ofxDatGui::getHeight()
+{
+    return mHeight;
+}
+
+/* 
+    add component methods
+*/
 
 ofxDatGuiHeader* ofxDatGui::addHeader(string label)
 {
@@ -84,15 +138,6 @@ ofxDatGuiFooter* ofxDatGui::addFooter()
         layoutGui();
     }
 }
-
-void ofxDatGui::setOpacity(float opacity)
-{
-    mGui.alpha = opacity*255;
-}
-
-/* 
-    add component methods
-*/
 
 ofxDatGuiTextInput* ofxDatGui::addTextInput(string label, string value)
 {
@@ -388,6 +433,7 @@ void ofxDatGui::collapseGui()
 
 void ofxDatGui::onMousePressed(ofMouseEventArgs &e)
 {
+    if (mDisabled || !mVisible) return;
     mousePressed = true;
     if (activeHover != nullptr){
         activeHover->onMousePress(mouse);
@@ -404,6 +450,7 @@ void ofxDatGui::onMousePressed(ofMouseEventArgs &e)
 
 void ofxDatGui::onMouseReleased(ofMouseEventArgs &e)
 {
+    if (mDisabled || !mVisible) return;
     mousePressed = false;
     if (activeHover != nullptr){
         activeHover->onMouseRelease(mouse);
@@ -420,6 +467,7 @@ void ofxDatGui::onMouseReleased(ofMouseEventArgs &e)
 
 void ofxDatGui::onKeyPressed(ofKeyEventArgs &e)
 {
+    if (mDisabled || !mVisible) return;
     bool disableShowAndHide = false;
     if (activeFocus != nullptr) {
         activeFocus->onKeyPressed(e.key);
@@ -431,7 +479,7 @@ void ofxDatGui::onKeyPressed(ofKeyEventArgs &e)
         ofxDatGuiTextInput* dd = dynamic_cast<ofxDatGuiTextInput*>(activeFocus);
         disableShowAndHide = (dd != NULL);
     }
-    if (e.key == 'h' && disableShowAndHide == false) mShowGui = !mShowGui;
+    if (e.key == 'h' && disableShowAndHide == false) mVisible = !mVisible;
 }
 
 bool ofxDatGui::isMouseOverRow(ofxDatGuiItem* row)
@@ -471,11 +519,11 @@ bool ofxDatGui::isMouseOverGui()
     return hit;
 }
 
-void ofxDatGui::onUpdate(ofEventArgs &e)
+void ofxDatGui::update()
 {
+    if (mDisabled || !mVisible) return;
     mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
     bool hit = isMouseOverGui();
-
     if (!hit && activeHover != nullptr){
         activeHover->onMouseLeave(mouse);
         activeHover = nullptr;
@@ -491,9 +539,9 @@ void ofxDatGui::onUpdate(ofEventArgs &e)
     trash.clear();
 }
 
-void ofxDatGui::onDraw(ofEventArgs &e)
+void ofxDatGui::draw()
 {
-    if (!mShowGui) return;
+    if (mVisible == false) return;
     ofPushStyle();
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         ofSetColor(ofxDatGuiColor::GUI_BKGD, mGui.alpha);
@@ -504,6 +552,8 @@ void ofxDatGui::onDraw(ofEventArgs &e)
     ofPopStyle();
 }
 
+void ofxDatGui::onDraw(ofEventArgs &e) { draw(); }
+void ofxDatGui::onUpdate(ofEventArgs &e) { update(); }
 
 void ofxDatGui::onWindowResized(ofResizeEventArgs &e)
 {

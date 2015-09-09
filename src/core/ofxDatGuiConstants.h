@@ -39,7 +39,7 @@ namespace ofxDatGuiColor
     
 // stripe identifiers //
     const ofColor INPUT_STRIPE      = ofColor::fromHex(0xE61D5F);
-    const ofColor BUTTON_STRIPE     = ofColor::fromHex(0xEEEEEE);
+    const ofColor BUTTON_STRIPE     = ofColor::fromHex(0xFFD00B);
     const ofColor TOGGLE_STRIPE     = ofColor::fromHex(0xFFD00B);
     const ofColor SLIDER_STRIPE     = ofColor::fromHex(0x2FA1D6);
     const ofColor DROPDOWN_STRIPE   = ofColor::fromHex(0x1ED36F);
