@@ -26,6 +26,7 @@
 #include "ofxDatGuiTextInput.h"
 #include "ofxDatGui2dPad.h"
 #include "ofxDatGuiColorPicker.h"
+#include "ofxDatGuiButtonMatrix.h"
 
 class ofxDatGuiGroup : public ofxDatGuiButton {
 

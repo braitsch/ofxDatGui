@@ -33,6 +33,8 @@ void ofApp::setup()
 // add a 2d pad //
     gui->add2dPad("2D PAD");
 
+// a button matrix //
+    gui->addButtonMatrix("MATRIX", 21);
 // and a couple buttons //
     gui->addButton("CLICK");
     gui->addToggle("TOGGLE", true);

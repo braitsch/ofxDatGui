@@ -63,7 +63,7 @@ class ofxDatGui2dPad : public ofxDatGuiItem {
                 mPad.width = mGui->width-mPadding-mGui->input.x;
                 pt.x = mPad.x + mPad.width * mx;
                 pt.y = mPad.y + mPad.height * my;
-                drawBkgd();
+                ofxDatGuiItem::drawBkgd();
                 ofxDatGuiItem::drawLabel();
                 ofxDatGuiItem::drawStripe();
                 ofSetColor(ofxDatGuiColor::INPUT);

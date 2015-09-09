@@ -63,6 +63,7 @@ void ofxDatGui::init()
 void ofxDatGui::setWidth(int width)
 {
     mGui.init(width);
+    mGui.guiWidthChanged = true;
 }
 
 void ofxDatGui::setOpacity(float opacity)
@@ -210,6 +211,14 @@ ofxDatGui2dPad* ofxDatGui::add2dPad(string label, ofRectangle bounds)
     pad->on2dPadEvent(this, &ofxDatGui::on2dPadEventCallback);
     attachItem(pad);
     return pad;
+}
+
+ofxDatGuiButtonMatrix* ofxDatGui::addButtonMatrix(string label, int numButtons, bool showLabels)
+{
+    ofxDatGuiButtonMatrix* matrix = new ofxDatGuiButtonMatrix(&mGui, label, numButtons, showLabels);
+    matrix->onButtonMatrixEvent(this, &ofxDatGui::onButtonMatrixEventCallback);
+    attachItem(matrix);
+    return matrix;
 }
 
 ofxDatGuiFolder* ofxDatGui::addFolder(string label, ofColor color)
@@ -377,6 +386,11 @@ void ofxDatGui::on2dPadEventCallback(ofxDatGui2dPadEvent e)
 void ofxDatGui::onColorPickerEventCallback(ofxDatGuiColorPickerEvent e)
 {
     colorPickerEventCallback(e);
+}
+
+void ofxDatGui::onButtonMatrixEventCallback(ofxDatGuiButtonMatrixEvent e)
+{
+    buttonMatrixEventCallback(e);
 }
 
 void ofxDatGui::onInternalEventCallback(ofxDatGuiInternalEvent e)
@@ -550,6 +564,7 @@ void ofxDatGui::draw()
     // color pickers overlap other components when expanded so they must be drawn last //
         for (int i=0; i<items.size(); i++) items[i]->drawColorPicker();
     ofPopStyle();
+    mGui.guiWidthChanged = false;
 }
 
 void ofxDatGui::onDraw(ofEventArgs &e) { draw(); }

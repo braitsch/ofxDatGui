@@ -31,6 +31,7 @@ class ofxDatGuiDropdown;
 class ofxDatGuiTextInput;
 class ofxDatGui2dPad;
 class ofxDatGuiColorPicker;
+class ofxDatGuiButtonMatrix;
 
 enum ofxDatGuiEventType
 {
@@ -131,6 +132,16 @@ class ofxDatGui2dPadEvent{
     float x;
     float y;
     ofxDatGui2dPad* target;
+};
+
+class ofxDatGuiButtonMatrixEvent{
+
+    public:
+        ofxDatGuiButtonMatrixEvent(ofxDatGuiButtonMatrix* t)
+        {
+            target = t;
+        }
+    ofxDatGuiButtonMatrix* target;
 };
 
 

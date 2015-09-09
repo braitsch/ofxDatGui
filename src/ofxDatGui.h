@@ -55,6 +55,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofxDatGui2dPad* add2dPad(string label);
         ofxDatGui2dPad* add2dPad(string label, ofRectangle bounds);
         ofxDatGuiColorPicker* addColorPicker(string label, ofColor color = ofColor::black);
+        ofxDatGuiButtonMatrix* addButtonMatrix(string label, int numButtons, bool showLabels = false);
         ofxDatGuiFolder* addFolder(string label, ofColor color = ofxDatGuiColor::LABEL);
     
     // experimental //
@@ -107,5 +108,6 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         void onDropdownEventCallback(ofxDatGuiDropdownEvent e);
         void on2dPadEventCallback(ofxDatGui2dPadEvent e);
         void onColorPickerEventCallback(ofxDatGuiColorPickerEvent e);
+        void onButtonMatrixEventCallback(ofxDatGuiButtonMatrixEvent e);
 
 };
