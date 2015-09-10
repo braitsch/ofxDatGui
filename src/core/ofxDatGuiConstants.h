@@ -52,6 +52,14 @@ enum ofxDatGuiAnchor
     TOP_RIGHT = 2
 };
 
+enum ofxDatGuiAlignment
+{
+    NONE = 0,
+    LEFT = 1,
+    CENTER = 2,
+    RIGHT = 3
+};
+
 
 
 

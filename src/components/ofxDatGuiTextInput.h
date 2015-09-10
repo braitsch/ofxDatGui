@@ -49,7 +49,7 @@ class ofxDatGuiTextInput : public ofxDatGuiItem {
             ofxDatGuiItem::drawBkgd();
             ofxDatGuiItem::drawLabel();
             ofxDatGuiItem::drawStripe();
-            input->draw(x + mGui->input.x, y + mPadding, mGui->width-mPadding-mGui->input.x);
+            input->draw(x + mGui->row.inputX, y + mPadding, mGui->width-mPadding-mGui->row.inputX);
         }
     
         bool hitTest(ofPoint m)

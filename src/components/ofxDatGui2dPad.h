@@ -57,7 +57,7 @@ class ofxDatGui2dPad : public ofxDatGuiItem {
             reset();
             mHeight = 140;
             mStripeColor = ofxDatGuiColor::BUTTON_STRIPE;
-            mPad = ofRectangle(0, 0, mGui->width-mPadding-mGui->input.x, mHeight-(mPadding*2));
+            mPad = ofRectangle(0, 0, mGui->width-mPadding-mGui->row.inputX, mHeight-(mPadding*2));
         }
     
         void reset()
@@ -78,9 +78,9 @@ class ofxDatGui2dPad : public ofxDatGuiItem {
     
         void draw()
         {
-            mPad.x = x + mGui->input.x;
+            mPad.x = x + mGui->row.inputX;
             mPad.y = y + mPadding;
-            mPad.width = mGui->width-mPadding-mGui->input.x;
+            mPad.width = mGui->width-mPadding-mGui->row.inputX;
             pLocal.x = mPad.x + mPad.width * mx;
             pLocal.y = mPad.y + mPad.height * my;
             ofxDatGuiItem::drawBkgd();

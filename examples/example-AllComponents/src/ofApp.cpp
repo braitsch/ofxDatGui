@@ -9,8 +9,8 @@ void ofApp::setup()
     gui->addTextInput("MESSAGE", "OPEN FRAMEWORKS DATGUI");
     
 // add a folder to group a few components together //
-    ofxDatGuiFolder* folder = gui->addFolder("MY WHITE FOLDER", ofColor::white);
-    folder->addTextInput("** INPUT", "");
+    ofxDatGuiFolder* folder = gui->addFolder("WHITE FOLDER", ofColor::white);
+    folder->addTextInput("** INPUT", "NESTED INPUT FIELD");
     folder->addSlider("** SLIDER", 0, 100);
     folder->addToggle("** TOGGLE");
     folder->addColorPicker("** PICKER", ofxDatGuiColor::DROPDOWN_STRIPE);
@@ -32,7 +32,7 @@ void ofApp::setup()
     gui->addDropdown(o1);
 
 // add a 2d pad //
-    gui->add2dPad("2D PAD");
+    ofxDatGui2dPad* pad = gui->add2dPad("2D PAD");
 
 // a button matrix //
     gui->addMatrix("MATRIX", 21, true);

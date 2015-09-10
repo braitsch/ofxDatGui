@@ -27,13 +27,14 @@ bool ofxDatGuiGlobals::retinaEnabled;
 ofxDatGuiItem::ofxDatGuiItem(ofxDatGuiGlobals *gui, string label)
 {
     mGui = gui;
-    mLabel = label;
+    setLabel(label);
     mVisible = true;
     mMouseOver = false;
     mMouseDown = false;
     mHeight = mGui->row.height;
     mPadding = mGui->row.padding;
-    mStripeColor = ofColor::fromHex(0xEEEEEE);
+    mLabelMarginRight = 0;
+    mLabelAlignment = ofxDatGuiAlignment::NONE;
 }
 
 ofxDatGuiItem::~ofxDatGuiItem(){ }
@@ -98,8 +99,22 @@ void ofxDatGuiFont::drawLabel(string text, int xpos, int ypos)
 
 void ofxDatGuiItem::setIndex(int index) { mId = index; }
 int ofxDatGuiItem::getHeight() { return mHeight; }
-string ofxDatGuiItem::getLabel() { return mLabel; }
-void ofxDatGuiItem::setLabel(string label) { mLabel = label; }
+
+void ofxDatGuiItem::setLabel(string label)
+{
+    mLabel = label;
+    mLabelRect = mGui->font.getStringBoundingBox(mLabel, 0, 0);
+}
+
+string ofxDatGuiItem::getLabel()
+{
+    return mLabel;
+}
+
+void ofxDatGuiItem::setLabelAlignment(ofxDatGuiAlignment align)
+{
+    mLabelAlignment = align;
+}
 
 /*
     virtual methods overridden in derived classes
@@ -113,7 +128,8 @@ void ofxDatGuiItem::setStripeColor(ofColor color) { mStripeColor = color; }
 void ofxDatGuiItem::setOriginX(int x)
 {
     this->x = x;
-    for(int i=0; i<children.size(); i++) children[i]->x = x;
+    mLabelAreaWidth = mGui->row.lWidth;
+    for(int i=0; i<children.size(); i++) children[i]->setOriginX(x);
 }
 
 void ofxDatGuiItem::setOriginY(int y)
@@ -150,10 +166,23 @@ void ofxDatGuiItem::drawBkgd(ofColor color, int alpha)
     ofPopStyle();
 }
 
+void ofxDatGuiItem::drawLabel()
+{
+    drawLabel(mLabel);
+}
+
 void ofxDatGuiItem::drawLabel(string label)
 {
-    if (label=="") label=mLabel;
-    mGui->font.drawLabel(label, x+mGui->font.labelX, y+mHeight/2);
+    int lx;
+    int align = mLabelAlignment!=ofxDatGuiAlignment::NONE ? mLabelAlignment : mGui->alignment;
+    if (align == ofxDatGuiAlignment::LEFT){
+        lx = mGui->font.labelX;
+    }   else if (align == ofxDatGuiAlignment::CENTER){
+        lx = mLabelAreaWidth/2-mLabelRect.width/2;
+    }   else if (align == ofxDatGuiAlignment::RIGHT){
+        lx = mLabelAreaWidth-mLabelRect.width-mGui->font.labelX-mLabelMarginRight;
+    }
+    mGui->font.drawLabel(label, x+lx, y+mHeight/2);
 }
 
 void ofxDatGuiItem::drawStripe()

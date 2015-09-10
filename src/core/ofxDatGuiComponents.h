@@ -149,15 +149,14 @@ class ofxDatGuiGlobals{
         int alpha;
         int anchor;
         struct {
-            int height;
-            int padding;
-            int spacing;
+            float height;
+            float lWidth; // label area //
+            float rWidth; // component area //
+            float inputX;
+            float padding;
+            float spacing;
         } row;
         struct {
-            int x;
-        } input;
-        struct {
-            int x;
             int width;
             int inputX;
             int inputWidth;
@@ -176,18 +175,27 @@ class ofxDatGuiGlobals{
         ofxDatGuiFont font;
         bool guiChanged;
         static bool retinaEnabled;
-        void init(int w)
+        ofxDatGuiAlignment alignment;
+    
+        ofxDatGuiGlobals()
+        {
+            retinaEnabled = false;
+            alignment = ofxDatGuiAlignment::LEFT;
+        }
+    
+        void setWidth(int w)
         {
             width = 300;
             alpha = 255;
             row.height = 26;
             row.padding = 2;
             row.spacing = 1;
-            input.x = 120;
-            slider.x = input.x;
-            slider.width = 110;
-            slider.inputX = slider.x+slider.width+row.padding;
-            slider.inputWidth = width-slider.inputX-row.padding;
+            row.lWidth=width*.35;
+            row.inputX=row.lWidth;
+            row.rWidth=width-row.inputX;
+            slider.width=row.rWidth*.7;
+            slider.inputX=row.inputX+slider.width+row.padding;
+            slider.inputWidth=row.rWidth-slider.width-row.padding;
             stripeWidth = 2;
             icons.radio.x = width-20;
             icons.radio.y = 8;
@@ -199,7 +207,6 @@ class ofxDatGuiGlobals{
             font.labelX = 12;
             font.labelHeight = 0;
             font.highlightPadding = 3;
-            retinaEnabled = false;
             if (ofGetScreenWidth()>=2560 && ofGetScreenHeight()>=1600){
             //  guiMinWidth = 400;
                 width = w;
@@ -207,11 +214,12 @@ class ofxDatGuiGlobals{
                 row.height*=2;
                 row.padding*=2;
                 row.spacing*=2;
-                input.x=width*.35;
-                slider.x=input.x;
-                slider.width=width*.45;
-                slider.inputX = slider.x+slider.width+row.padding;
-                slider.inputWidth = width-slider.inputX-row.padding;
+                row.lWidth=width*.35;
+                row.inputX=row.lWidth;
+                row.rWidth=width-row.inputX;
+                slider.width=row.rWidth*.7;
+                slider.inputX=row.inputX+slider.width+row.padding;
+                slider.inputWidth=row.rWidth-slider.width-row.padding;
                 stripeWidth*=2;
                 icons.radio.x=width-(width*.05)-20;
                 icons.radio.y*=2;

@@ -65,10 +65,15 @@ class ofxDatGuiMatrixButton : public ofxDatGuiInteractiveObject {
             }
         }
     
-        void setOrigin(int x, int y)
+        void setOrigin(float x, float y)
         {
             origin.x = x;
             origin.y = y;
+        }
+    
+        void setSelected(bool selected)
+        {
+            mSelected = selected;
         }
     
         bool getSelected()
@@ -114,7 +119,7 @@ class ofxDatGuiMatrix : public ofxDatGuiItem {
 
     public:
     
-        ofxDatGuiMatrix(ofxDatGuiGlobals *gui, string label, int numButtons, bool showLabels) : ofxDatGuiItem(gui, label)
+        ofxDatGuiMatrix(ofxDatGuiGlobals *gui, string label, int numButtons, bool showLabels=false) : ofxDatGuiItem(gui, label)
         {
             mButtonSize = 46;
             mStripeColor = ofxDatGuiColor::BUTTON_STRIPE;
@@ -128,9 +133,9 @@ class ofxDatGuiMatrix : public ofxDatGuiItem {
         void setOriginX(int x)
         {
             ofxDatGuiItem::setOriginX(x);
-            mMatrixRect.x = x+mGui->input.x;
+            mMatrixRect.x = x+mGui->row.inputX;
             mMatrixRect.y = y+mGui->row.padding;
-            mMatrixRect.width = mGui->width-mGui->row.padding-mGui->input.x;
+            mMatrixRect.width = mGui->width-mGui->row.padding-mGui->row.inputX;
             int nCols = floor(mMatrixRect.width/(mButtonSize+mMinPadding));
             int nRows = ceil(btns.size()/float(nCols));
             float padding = (mMatrixRect.width-(mButtonSize*nCols))/(nCols-1);
@@ -163,7 +168,18 @@ class ofxDatGuiMatrix : public ofxDatGuiItem {
                 ofSetColor(ofxDatGuiColor::INPUT);
                 ofDrawRectangle(mMatrixRect);
             ofPopStyle();
-            for(int i=0; i<btns.size(); i++) btns[i].draw(x+mGui->input.x, y);
+            for(int i=0; i<btns.size(); i++) btns[i].draw(x+mGui->row.inputX, y);
+        }
+    
+        void clear()
+        {
+            for (int i=0; i<btns.size(); i++) btns[i].setSelected(false);
+        }
+    
+        void setSelected(vector<int> v)
+        {
+            clear();
+            for (int i=0; i<v.size(); i++) btns[v[i]].setSelected(true);
         }
     
         vector<int> getSelected()

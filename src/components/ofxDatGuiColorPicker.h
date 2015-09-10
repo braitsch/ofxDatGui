@@ -95,7 +95,7 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
         {
             ofxDatGuiTextInput::draw();
             if (mShowPicker) {
-                pickerRect.x = this->x + mGui->input.x;
+                pickerRect.x = this->x + mGui->row.inputX;
                 pickerRect.y = this->y + mPadding + input->getHeight();
                 pickerRect.width = input->getWidth();
                 rainbowRect.x = pickerRect.x+pickerRect.width-rainbowWidth-mPadding;

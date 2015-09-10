@@ -87,11 +87,11 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
                 ofxDatGuiItem::drawStripe();
             // slider bkgd //
                 ofSetColor(ofxDatGuiColor::INPUT);
-                ofDrawRectangle(x+mGui->slider.x, y+mPadding, mGui->slider.width, mHeight-(mPadding*2));
+                ofDrawRectangle(x+mGui->row.inputX, y+mPadding, mGui->slider.width, mHeight-(mPadding*2));
             // slider fill //
                 if (mScale > 0){
                     ofSetColor(ofxDatGuiColor::SLIDER);
-                    ofDrawRectangle(x+mGui->slider.x, y+mPadding, mGui->slider.width*mScale, mHeight-(mPadding*2));
+                    ofDrawRectangle(x+mGui->row.inputX, y+mPadding, mGui->slider.width*mScale, mHeight-(mPadding*2));
                 }
             // numeric input field //
             input->draw(x + mGui->slider.inputX, y + mPadding, mGui->slider.inputWidth);
@@ -117,7 +117,7 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
         void onMouseDrag(ofPoint m)
         {
             if (mInputActive == false){
-                float s = (m.x-x-mGui->slider.x)/mGui->slider.width;
+                float s = (m.x-x-mGui->row.inputX)/mGui->slider.width;
                 if (s > .99) s = 1;
                 if (s < .01) s = 0;
         // don't dispatch an event if scale hasn't changed //
@@ -143,7 +143,7 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
     
         bool hitTest(ofPoint m)
         {
-            if (m.x>=x+mGui->slider.x && m.x<= x+mGui->slider.x+mGui->slider.width && m.y>=y+mPadding && m.y<= y+mHeight-mPadding){
+            if (m.x>=x+mGui->row.inputX && m.x<= x+mGui->row.inputX+mGui->slider.width && m.y>=y+mPadding && m.y<= y+mHeight-mPadding){
                 return true;
             }   else if (input->hitTest(m)){
                 return true;

@@ -40,6 +40,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         void setOpacity(float opacity);
         void setPosition(int x, int y);
         void setAutoDraw(bool autodraw);
+        void setAlignment(ofxDatGuiAlignment align);
         int getWidth();
         int getHeight();
         ofPoint getPosition();
@@ -65,6 +66,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofxDatGuiDropdown* getDropdown(string key);
         ofxDatGuiTextInput* getTextInput(string key);
         ofxDatGuiColorPicker* getColorPicker(string key);
+        ofxDatGuiMatrix* getMatrix(string key);
     
     private:
     

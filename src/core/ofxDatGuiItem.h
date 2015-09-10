@@ -38,6 +38,8 @@ class ofxDatGuiItem : public ofxDatGuiInteractiveObject
         void    setIndex(int index);
         void    setLabel(string label);
         void    setStripeColor(ofColor color);
+        void    setLabelAlignment(ofxDatGuiAlignment align);
+    
         void    setVisible(bool visible);
         bool    getVisible();
     
@@ -73,11 +75,16 @@ class ofxDatGuiItem : public ofxDatGuiInteractiveObject
         bool mMouseDown;
         string mLabel;
         ofColor mStripeColor;
+        ofRectangle mLabelRect;
+        int mLabelAreaWidth;
+        int mLabelMarginRight;
         ofxDatGuiGlobals* mGui;
+        ofxDatGuiAlignment mLabelAlignment;
     
-        void drawBkgd(ofColor color = ofxDatGuiColor::ROW_BKGD, int alpha=255);
-        void drawLabel(string label="");
+        void drawLabel();
+        void drawLabel(string label);
         void drawStripe();
+        void drawBkgd(ofColor color=ofxDatGuiColor::ROW_BKGD, int alpha=255);
     
 };
 

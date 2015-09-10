@@ -32,6 +32,12 @@ class ofxDatGuiButton : public ofxDatGuiItem {
             mStripeColor = ofxDatGuiColor::BUTTON_STRIPE;
         }
     
+        void setOriginX(int x)
+        {
+            ofxDatGuiItem::setOriginX(x);
+            mLabelAreaWidth = mGui->width;
+        }
+    
         void draw()
         {
             drawBkgd();
@@ -80,6 +86,12 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
             mStripeColor = ofxDatGuiColor::TOGGLE_STRIPE;
             if (!radioOn.isAllocated()) radioOn.load(ofxDatGuiAssetDir+"/icon-radio-on.png");
             if (!radioOff.isAllocated()) radioOff.load(ofxDatGuiAssetDir+"/icon-radio-off.png");
+        }
+    
+        void setOriginX(int x)
+        {
+            ofxDatGuiButton::setOriginX(x);
+            mLabelMarginRight = mGui->width-mGui->icons.radio.x;
         }
     
         void toggle()

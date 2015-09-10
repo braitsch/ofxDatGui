@@ -36,6 +36,7 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
         {
             mIsExpanded = false;
             mChildrenHeight = 0;
+            mLabelMarginRight = mGui->width-mGui->icons.radio.x;
             if (mIcon.isAllocated() == false) mIcon.load(ofxDatGuiAssetDir+"/icon-dropdown.png");
         }
     
@@ -239,6 +240,7 @@ class ofxDatGuiDropdownOption : public ofxDatGuiButton {
     
         ofxDatGuiDropdownOption(ofxDatGuiGlobals *gui, string label) : ofxDatGuiButton(gui, label)
         {
+            mLabelRect = mGui->font.getStringBoundingBox("* "+mLabel, 0, 0);
             mStripeColor = ofxDatGuiColor::DROPDOWN_STRIPE;
         }
     

@@ -62,7 +62,7 @@ void ofxDatGui::init()
 
 void ofxDatGui::setWidth(int width)
 {
-    mGui.init(width);
+    mGui.setWidth(width);
     mGuiChanged = true;
     if (mGui.anchor == ofxDatGuiAnchor::TOP_RIGHT) anchorGui();
 }
@@ -96,6 +96,11 @@ void ofxDatGui::setAutoDraw(bool autodraw)
         ofRemoveListener(ofEvents().draw, this, &ofxDatGui::onDraw, OF_EVENT_ORDER_AFTER_APP);
         ofRemoveListener(ofEvents().update, this, &ofxDatGui::onUpdate, OF_EVENT_ORDER_AFTER_APP);
     }
+}
+
+void ofxDatGui::setAlignment(ofxDatGuiAlignment align)
+{
+    mGui.alignment = align;
 }
 
 ofPoint ofxDatGui::getPosition()
@@ -340,6 +345,19 @@ ofxDatGuiColorPicker* ofxDatGui::getColorPicker(string key)
     }
 }
 
+ofxDatGuiMatrix* ofxDatGui::getMatrix(string key)
+{
+    ofxDatGuiItem* item = getComponent(key);
+    if (item != nullptr){
+        return static_cast<ofxDatGuiMatrix*>(item);
+    }   else{
+        ofxDatGuiMatrix* matrix = new ofxDatGuiMatrix(&mGui, "X", 0);
+        cout << "ERROR! MATRIX: "<< key <<" NOT FOUND!" << endl;
+        trash.push_back(matrix);
+        return matrix;
+    }
+}
+
 ofxDatGuiItem* ofxDatGui::getComponent(string key)
 {
     ofxDatGuiItem* item = nullptr;
@@ -445,7 +463,6 @@ void ofxDatGui::expandGui()
 
 void ofxDatGui::collapseGui()
 {
-    cout << "collapseGui" << endl;
     for (uint8_t i=0; i<items.size()-1; i++) items[i]->setVisible(false);
     mGuiFooter->setPositionY(0);
     mExpanded = false;
