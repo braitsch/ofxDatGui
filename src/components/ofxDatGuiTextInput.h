@@ -26,10 +26,10 @@
 class ofxDatGuiTextInput : public ofxDatGuiItem {
 
     public:
-        ofxDatGuiTextInput(ofxDatGuiGlobals *gui, string label, string text = "") : ofxDatGuiItem(gui, label)
+        ofxDatGuiTextInput(string label, string text = "", ofxDatGuiFont* font=nullptr) : ofxDatGuiItem(label, font)
         {
             mStripeColor = ofxDatGuiColor::INPUT_STRIPE;
-            input = new ofxDatGuiTextInputField(mGui);
+            input = new ofxDatGuiTextInputField(mRow.height-(mRow.padding*2), mFont);
             input->setText(text);
             input->onInternalEvent(this, &ofxDatGuiTextInput::onInputChanged);
         }
@@ -49,7 +49,7 @@ class ofxDatGuiTextInput : public ofxDatGuiItem {
             ofxDatGuiItem::drawBkgd();
             ofxDatGuiItem::drawLabel();
             ofxDatGuiItem::drawStripe();
-            input->draw(x + mGui->row.inputX, y + mPadding, mGui->width-mPadding-mGui->row.inputX);
+            input->draw(x + mRow.inputX, y + mRow.padding, mRow.width-mRow.padding-mRow.inputX);
         }
     
         bool hitTest(ofPoint m)

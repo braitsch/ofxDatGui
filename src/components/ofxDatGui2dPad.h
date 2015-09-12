@@ -27,14 +27,14 @@ class ofxDatGui2dPad : public ofxDatGuiItem {
 
     public:
     
-        ofxDatGui2dPad(ofxDatGuiGlobals *gui, string label) : ofxDatGuiItem(gui, label)
+        ofxDatGui2dPad(string label, ofxDatGuiFont* font=nullptr) : ofxDatGuiItem(label, font)
         {
             init();
             mScaleOnResize = true;
             mBounds = ofRectangle(0, 0, ofGetWidth(), ofGetHeight());
         }
     
-        ofxDatGui2dPad(ofxDatGuiGlobals *gui, string label, ofRectangle bounds) : ofxDatGuiItem(gui, label)
+        ofxDatGui2dPad(string label, ofRectangle bounds, ofxDatGuiFont* font=nullptr) : ofxDatGuiItem(label, font)
         {
             init();
             mBounds = bounds;
@@ -55,9 +55,9 @@ class ofxDatGui2dPad : public ofxDatGuiItem {
         void init()
         {
             reset();
-            mHeight = 140;
+            mRow.height = 140;
             mStripeColor = ofxDatGuiColor::BUTTON_STRIPE;
-            mPad = ofRectangle(0, 0, mGui->width-mPadding-mGui->row.inputX, mHeight-(mPadding*2));
+            mPad = ofRectangle(0, 0, mRow.width-mRow.padding-mRow.inputX, mRow.height-(mRow.padding*2));
         }
     
         void reset()
@@ -78,9 +78,9 @@ class ofxDatGui2dPad : public ofxDatGuiItem {
     
         void draw()
         {
-            mPad.x = x + mGui->row.inputX;
-            mPad.y = y + mPadding;
-            mPad.width = mGui->width-mPadding-mGui->row.inputX;
+            mPad.x = x + mRow.inputX;
+            mPad.y = y + mRow.padding;
+            mPad.width = mRow.width-mRow.padding-mRow.inputX;
             pLocal.x = mPad.x + mPad.width * mx;
             pLocal.y = mPad.y + mPad.height * my;
             ofxDatGuiItem::drawBkgd();
@@ -97,7 +97,7 @@ class ofxDatGui2dPad : public ofxDatGuiItem {
     
         bool hitTest(ofPoint m)
         {
-            return (m.x>=x && m.x<= x+mGui->width && m.y>=y && m.y<= y+mHeight);
+            return (m.x>=x && m.x<= x+mRow.width && m.y>=y && m.y<= y+mRow.height);
         }
     
         void onMouseDrag(ofPoint m)

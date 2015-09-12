@@ -27,13 +27,13 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
 
     public:
     
-        ofxDatGuiSlider(ofxDatGuiGlobals *gui, string label, float min, float max, float val) : ofxDatGuiItem(gui, label)
+        ofxDatGuiSlider(string label, float min, float max, float val, ofxDatGuiFont* font=nullptr) : ofxDatGuiItem(label, font)
         {
             mMin = min;
             mMax = max;
             mVal = val;
             mStripeColor = ofxDatGuiColor::SLIDER_STRIPE;
-            input = new ofxDatGuiTextInputField(mGui);
+            input = new ofxDatGuiTextInputField(mRow.height-(mRow.padding*2), mFont);
             input->setText(ofToString(mVal, 2));
             input->setTextInactiveColor(ofxDatGuiColor::SLIDER);
             input->setTextInputFieldType(ofxDatGuiTextInputField::NUMERIC);
@@ -87,14 +87,14 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
                 ofxDatGuiItem::drawStripe();
             // slider bkgd //
                 ofSetColor(ofxDatGuiColor::INPUT);
-                ofDrawRectangle(x+mGui->row.inputX, y+mPadding, mGui->slider.width, mHeight-(mPadding*2));
+                ofDrawRectangle(x+mRow.inputX, y+mRow.padding, mSlider.width, mRow.height-(mRow.padding*2));
             // slider fill //
                 if (mScale > 0){
                     ofSetColor(ofxDatGuiColor::SLIDER);
-                    ofDrawRectangle(x+mGui->row.inputX, y+mPadding, mGui->slider.width*mScale, mHeight-(mPadding*2));
+                    ofDrawRectangle(x+mRow.inputX, y+mRow.padding, mSlider.width*mScale, mRow.height-(mRow.padding*2));
                 }
             // numeric input field //
-            input->draw(x + mGui->slider.inputX, y + mPadding, mGui->slider.inputWidth);
+            input->draw(x + mSlider.inputX, y + mRow.padding, mSlider.inputWidth);
             ofPopStyle();
         }
     
@@ -117,7 +117,7 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
         void onMouseDrag(ofPoint m)
         {
             if (mInputActive == false){
-                float s = (m.x-x-mGui->row.inputX)/mGui->slider.width;
+                float s = (m.x-x-mRow.inputX)/mSlider.width;
                 if (s > .99) s = 1;
                 if (s < .01) s = 0;
         // don't dispatch an event if scale hasn't changed //
@@ -143,7 +143,7 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
     
         bool hitTest(ofPoint m)
         {
-            if (m.x>=x+mGui->row.inputX && m.x<= x+mGui->row.inputX+mGui->slider.width && m.y>=y+mPadding && m.y<= y+mHeight-mPadding){
+            if (m.x>=x+mRow.inputX && m.x<= x+mRow.inputX+mSlider.width && m.y>=y+mRow.padding && m.y<= y+mRow.height-mRow.padding){
                 return true;
             }   else if (input->hitTest(m)){
                 return true;

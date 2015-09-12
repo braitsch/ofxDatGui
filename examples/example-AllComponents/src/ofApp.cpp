@@ -21,9 +21,10 @@ void ofApp::setup()
     gui->addSlider("POSITION X", 0, 120, 75);
     gui->addSlider("POSITION Y", -40, 240, 200);
     gui->addSlider("POSITION Z", -80, 120, -40);
-// and a slider to adjust the gui opacity /
+    
+// and a slider to adjust the gui opacity //
     gui->addSlider("DATGUI OPACITY", 0, 100);
-
+    
 // and a colorpicker! //
     gui->addColorPicker("COLOR PICKER", ofxDatGuiColor::TOGGLE_STRIPE);
     
@@ -46,7 +47,7 @@ void ofApp::setup()
 
 // adding the optional footer allows you to collapse/expand the gui //
     gui->addFooter();
-
+    
 // finally register a few callbacks to listen for specific component events //
     gui->onButtonEvent(this, &ofApp::onButtonEvent);
     gui->onSliderEvent(this, &ofApp::onSliderEvent);
@@ -55,7 +56,7 @@ void ofApp::setup()
     gui->onDropdownEvent(this, &ofApp::onDropdownEvent);
     gui->onColorPickerEvent(this, &ofApp::onColorPickerEvent);
     gui->onMatrixEvent(this, &ofApp::onMatrixEvent);
-    
+
     gui->setOpacity(gui->getSlider("datgui opacity")->getScale());
     
 // let's launch the app fullscreen //

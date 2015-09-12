@@ -121,12 +121,23 @@ class ofxDatGuiInteractiveObject{
 class ofxDatGuiFont{
 
     public:
+        ofxDatGuiFont(bool retinaEnabled)
+        {
+            size = 6;
+            highlightPadding = 3;
+            mRetinaEnabled = retinaEnabled;
+            if (mRetinaEnabled){
+                size*=2;
+                highlightPadding*=2;
+                tFont.load(ofxDatGuiAssetDir+"/font-verdana.ttf", size);
+            }
+            labelHeight = getStringBoundingBox("ABCDEFG123456", 0, 0).height;
+        }
         int size;
         int labelX;
         int labelHeight;
         int highlightPadding;
 
-        void init(string file);
         void drawLabel(string text, int xpos, int ypos);
         void drawText(string text, ofColor color, int xpos, int ypos, bool highlight = false);
         ofRectangle getStringBoundingBox(string str, int x, int y);
@@ -134,106 +145,7 @@ class ofxDatGuiFont{
     private:
         ofBitmapFont bFont;
         ofTrueTypeFont tFont;
-};
-
-class ofxDatGuiGlobals{
-
-/*
-    ofxDatGuiGlobals is a singleton created by ofxDatGui that contains all properties specific to this instance.
-    These properties will eventually be saved & loaded from an external file.
-*/
-    public:
-        int x;
-        int y;
-        int width;
-        int alpha;
-        int anchor;
-        struct {
-            float height;
-            float lWidth; // label area //
-            float rWidth; // component area //
-            float inputX;
-            float padding;
-            float spacing;
-        } row;
-        struct {
-            int width;
-            int inputX;
-            int inputWidth;
-        } slider;
-        struct {
-            struct props{
-                int x;
-                int y;
-                int size;
-            };
-            props radio;
-            props dropdown;
-        } icons;
-        int stripeWidth;
-        int guiMinWidth;
-        ofxDatGuiFont font;
-        bool guiChanged;
-        static bool retinaEnabled;
-        ofxDatGuiAlignment alignment;
-    
-        ofxDatGuiGlobals()
-        {
-            retinaEnabled = false;
-            alignment = ofxDatGuiAlignment::LEFT;
-        }
-    
-        void setWidth(int w)
-        {
-            width = 300;
-            alpha = 255;
-            row.height = 26;
-            row.padding = 2;
-            row.spacing = 1;
-            row.lWidth=width*.35;
-            row.inputX=row.lWidth;
-            row.rWidth=width-row.inputX;
-            slider.width=row.rWidth*.7;
-            slider.inputX=row.inputX+slider.width+row.padding;
-            slider.inputWidth=row.rWidth-slider.width-row.padding;
-            stripeWidth = 2;
-            icons.radio.x = width-20;
-            icons.radio.y = 8;
-            icons.radio.size = 10;
-            icons.dropdown.x = width-20;
-            icons.dropdown.y = 9;
-            icons.dropdown.size = 10;
-            font.size = 6;
-            font.labelX = 12;
-            font.labelHeight = 0;
-            font.highlightPadding = 3;
-            if (ofGetScreenWidth()>=2560 && ofGetScreenHeight()>=1600){
-            //  guiMinWidth = 400;
-                width = w;
-            //  width = w>=guiMinWidth ? w : guiMinWidth;
-                row.height*=2;
-                row.padding*=2;
-                row.spacing*=2;
-                row.lWidth=width*.35;
-                row.inputX=row.lWidth;
-                row.rWidth=width-row.inputX;
-                slider.width=row.rWidth*.7;
-                slider.inputX=row.inputX+slider.width+row.padding;
-                slider.inputWidth=row.rWidth-slider.width-row.padding;
-                stripeWidth*=2;
-                icons.radio.x=width-(width*.05)-20;
-                icons.radio.y*=2;
-                icons.radio.size*=2;
-                icons.dropdown.x=width-(width*.05)-20;
-                icons.dropdown.y*=2;
-                icons.dropdown.size*=2;
-                font.labelX=(width*.03)+10;
-                font.size*=2;
-                font.highlightPadding*=2;
-                retinaEnabled = true;
-            }
-            font.init(ofxDatGuiAssetDir+"/font-verdana.ttf");
-        }
+        bool mRetinaEnabled;
 };
 
 class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
@@ -247,12 +159,12 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             COLORPICKER
         };
     
-        ofxDatGuiTextInputField(ofxDatGuiGlobals *gui)
+        ofxDatGuiTextInputField(float height, ofxDatGuiFont* font)
         {
-            mGui = gui;
+            mFont = font;
             mTextColor = ofxDatGuiColor::TEXT;
             mBkgdColor = ofxDatGuiColor::INPUT;
-            mRect.height = mGui->row.height - (mGui->row.padding*2);
+            mRect.height = height;
             mTextChanged = false;
             mHighlightText = false;
             mMaxCharacters = 99;
@@ -267,12 +179,12 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             mRect.y = y;
             mRect.width = w;
         // center the text //
-            int tx = mRect.width/2 - mGui->font.getStringBoundingBox(mType==COLORPICKER ? "#"+mText : mText, 0, 0).width/2;
+            int tx = mRect.width/2 - mFont->getStringBoundingBox(mType==COLORPICKER ? "#"+mText : mText, 0, 0).width/2;
             ofPushStyle();
                 ofSetColor(mBkgdColor);
                 ofDrawRectangle(mRect);
                 mTextColor = mHighlightText ? mTextActiveColor : mTextInactiveColor;
-                mGui->font.drawText(mType==COLORPICKER ? "#"+mText : mText, mTextColor, mRect.x+tx, mRect.y+mRect.height/2, mHighlightText);
+                mFont->drawText(mType==COLORPICKER ? "#"+mText : mText, mTextColor, mRect.x+tx, mRect.y+mRect.height/2, mHighlightText);
             ofPopStyle();
         }
     
@@ -406,7 +318,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
         ofColor mHighLightColor;
         ofColor mTextActiveColor;
         ofColor mTextInactiveColor;
-        ofxDatGuiGlobals* mGui;
+        ofxDatGuiFont* mFont;
         ofxDatGuiTextInputFieldType mType;
 };
 

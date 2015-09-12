@@ -30,7 +30,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
     public:
     
         ofxDatGui(int x, int y);
-        ofxDatGui(uint8_t position);
+        ofxDatGui(ofxDatGuiAnchor anchor);
     
         void draw();
         void update();
@@ -70,28 +70,39 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
     
     private:
     
+        int mAlpha;
+        int mWidth;
         int mHeight;
         int mHeightMinimum;
+        int mRowSpacing;
         bool mVisible;
         bool mDisabled;
         bool mExpanded;
-        bool mGuiChanged;
+        bool mAlphaChanged;
+        bool mWidthChanged;
+        bool mAlignmentChanged;
+        ofxDatGuiAlignment mAlignment;
+    
         bool mousePressed;
         ofPoint mouse;
+        ofPoint mPosition;
+        ofxDatGuiFont* mFont;
+        ofxDatGuiAnchor mAnchor;
         ofxDatGuiItem* activeHover;
         ofxDatGuiItem* activeFocus;
-        ofxDatGuiGlobals mGui;
         ofxDatGuiHeader* mGuiHeader;
         ofxDatGuiFooter* mGuiFooter;
         vector<ofxDatGuiItem*> items;
         vector<ofxDatGuiItem*> trash;
     
         void init();
-        void enableRetina();
         void layoutGui();
         void anchorGui();
         void onDraw(ofEventArgs &e);
         void onUpdate(ofEventArgs &e);
+        void setGuiAlpha();
+        void setGuiWidth();
+        void setGuiAlignment();
         bool isMouseOverRow(ofxDatGuiItem* row);
         bool isMouseOverGui();
         void onKeyPressed(ofKeyEventArgs &e);

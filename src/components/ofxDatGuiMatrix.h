@@ -26,16 +26,16 @@
 class ofxDatGuiMatrixButton : public ofxDatGuiInteractiveObject {
 
     public:
-        ofxDatGuiMatrixButton(ofxDatGuiGlobals *gui, int size, int index, bool showLabels)
+        ofxDatGuiMatrixButton(int size, int index, bool showLabels, ofxDatGuiFont* font)
         {
-            mGui = gui;
+            mFont = font;
             mIndex = index;
             mSelected = false;
             mRect = ofRectangle(0, 0, size, size);
             mColor = ofxDatGuiColor::LABEL;
             mLabelColor = ofxDatGuiColor::INPUT;
             mShowLabels = showLabels;
-            mFontRect = mGui->font.getStringBoundingBox(ofToString(mIndex+1), 0, 0);
+            mFontRect = mFont->getStringBoundingBox(ofToString(mIndex+1), 0, 0);
         }
     
         void draw(int x, int y)
@@ -46,7 +46,7 @@ class ofxDatGuiMatrixButton : public ofxDatGuiInteractiveObject {
                 ofFill();
                 ofSetColor(mColor);
                 ofDrawRectangle(mRect);
-                if (mShowLabels) mGui->font.drawText(ofToString(mIndex+1), mLabelColor, mRect.x+mRect.width/2-mFontRect.width/2, mRect.y+mRect.height/2);
+                if (mShowLabels) mFont->drawText(ofToString(mIndex+1), mLabelColor, mRect.x+mRect.width/2-mFontRect.width/2, mRect.y+mRect.height/2);
             ofPopStyle();
         }
     
@@ -112,19 +112,20 @@ class ofxDatGuiMatrixButton : public ofxDatGuiInteractiveObject {
         bool mSelected;
         bool mShowLabels;
         ofRectangle mFontRect;
-        ofxDatGuiGlobals* mGui;
+        ofxDatGuiFont* mFont;
+
 };
 
 class ofxDatGuiMatrix : public ofxDatGuiItem {
 
     public:
     
-        ofxDatGuiMatrix(ofxDatGuiGlobals *gui, string label, int numButtons, bool showLabels=false) : ofxDatGuiItem(gui, label)
+        ofxDatGuiMatrix(string label, int numButtons, bool showLabels=false, ofxDatGuiFont* font=nullptr) : ofxDatGuiItem(label, font)
         {
             mButtonSize = 46;
             mStripeColor = ofxDatGuiColor::BUTTON_STRIPE;
             for(int i=0; i<numButtons; i++) {
-                ofxDatGuiMatrixButton btn(mGui, mButtonSize, i, showLabels);
+                ofxDatGuiMatrixButton btn(mButtonSize, i, showLabels, mFont);
                 btn.onInternalEvent(this, &ofxDatGuiMatrix::onButtonSelected);
                 btns.push_back(btn);
             }
@@ -133,19 +134,19 @@ class ofxDatGuiMatrix : public ofxDatGuiItem {
         void setOriginX(int x)
         {
             ofxDatGuiItem::setOriginX(x);
-            mMatrixRect.x = x+mGui->row.inputX;
-            mMatrixRect.y = y+mGui->row.padding;
-            mMatrixRect.width = mGui->width-mGui->row.padding-mGui->row.inputX;
+            mMatrixRect.x = x + mRow.inputX;
+            mMatrixRect.y = y + mRow.padding;
+            mMatrixRect.width = mRow.width - mRow.padding - mRow.inputX;
             int nCols = floor(mMatrixRect.width/(mButtonSize+mMinPadding));
             int nRows = ceil(btns.size()/float(nCols));
             float padding = (mMatrixRect.width-(mButtonSize*nCols))/(nCols-1);
             for(int i=0; i<btns.size(); i++){
                 float bx = (mButtonSize+padding)*(i%nCols);
                 float by = (mButtonSize+padding)*(floor(i/nCols));
-                btns[i].setOrigin(bx, by+mGui->row.padding);
+                btns[i].setOrigin(bx, by + mRow.padding);
             }
-            mHeight = (mGui->row.padding*2) + ((mButtonSize+padding)*(nRows-1)) + mButtonSize;
-            mMatrixRect.height = mHeight - (mGui->row.padding*2);
+            mRow.height = (mRow.padding*2) + ((mButtonSize+padding)*(nRows-1)) + mButtonSize;
+            mMatrixRect.height = mRow.height - (mRow.padding*2);
         }
     
         bool hitTest(ofPoint m)
@@ -168,7 +169,7 @@ class ofxDatGuiMatrix : public ofxDatGuiItem {
                 ofSetColor(ofxDatGuiColor::INPUT);
                 ofDrawRectangle(mMatrixRect);
             ofPopStyle();
-            for(int i=0; i<btns.size(); i++) btns[i].draw(x+mGui->row.inputX, y);
+            for(int i=0; i<btns.size(); i++) btns[i].draw(x+mRow.inputX, y);
         }
     
         void clear()

@@ -27,7 +27,7 @@ class ofxDatGuiButton : public ofxDatGuiItem {
 
     public:
     
-        ofxDatGuiButton(ofxDatGuiGlobals *gui, string label) : ofxDatGuiItem(gui, label)
+        ofxDatGuiButton(string label, ofxDatGuiFont* font=nullptr) : ofxDatGuiItem(label, font)
         {
             mStripeColor = ofxDatGuiColor::BUTTON_STRIPE;
         }
@@ -35,7 +35,7 @@ class ofxDatGuiButton : public ofxDatGuiItem {
         void setOriginX(int x)
         {
             ofxDatGuiItem::setOriginX(x);
-            mLabelAreaWidth = mGui->width;
+            mLabelAreaWidth = mRow.width;
         }
     
         void draw()
@@ -49,17 +49,17 @@ class ofxDatGuiButton : public ofxDatGuiItem {
         {
         // anything that extends ofxDatGuiButton has the same rollover effect //
             if (mMouseDown){
-                ofxDatGuiItem::drawBkgd(ofxDatGuiColor::BUTTON_DOWN);
+                ofxDatGuiItem::drawBkgd(ofxDatGuiColor::BUTTON_DOWN, 255);
             }   else if (mMouseOver){
-                ofxDatGuiItem::drawBkgd(ofxDatGuiColor::BUTTON_OVER);
+                ofxDatGuiItem::drawBkgd(ofxDatGuiColor::BUTTON_OVER, 255);
             }   else{
-                ofxDatGuiItem::drawBkgd(ofxDatGuiColor::ROW_BKGD, mGui->alpha);
+                ofxDatGuiItem::drawBkgd(ofxDatGuiColor::ROW_BKGD);
             }
         }
     
         bool hitTest(ofPoint m)
         {
-            return (m.x>=x && m.x<= x+mGui->width && m.y>=y && m.y<= y+mHeight);
+            return (m.x>=x && m.x<= x+mRow.width && m.y>=y && m.y<= y+mRow.height);
         }
     
         void onMouseRelease(ofPoint m)
@@ -80,7 +80,7 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
     
     public:
     
-        ofxDatGuiToggle(ofxDatGuiGlobals *gui, string label, bool enabled) : ofxDatGuiButton(gui, label)
+        ofxDatGuiToggle(string label, bool enabled, ofxDatGuiFont* font=nullptr) : ofxDatGuiButton(label, font)
         {
             mEnabled = enabled;
             mStripeColor = ofxDatGuiColor::TOGGLE_STRIPE;
@@ -91,7 +91,7 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
         void setOriginX(int x)
         {
             ofxDatGuiButton::setOriginX(x);
-            mLabelMarginRight = mGui->width-mGui->icons.radio.x;
+            mLabelMarginRight = mRow.width-mIcon.x;
         }
     
         void toggle()
@@ -117,9 +117,9 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
             ofPushStyle();
                 ofSetColor(ofxDatGuiColor::LABEL);
                 if (mEnabled == true){
-                    radioOn.draw(x+mGui->icons.radio.x, y+mGui->icons.radio.y, mGui->icons.radio.size, mGui->icons.radio.size);
+                    radioOn.draw(x+mIcon.x, y+mIcon.y, mIcon.size, mIcon.size);
                 }   else{
-                    radioOff.draw(x+mGui->icons.radio.x, y+mGui->icons.radio.y, mGui->icons.radio.size, mGui->icons.radio.size);
+                    radioOff.draw(x+mIcon.x, y+mIcon.y, mIcon.size, mIcon.size);
                 }
             ofPopStyle();
         }

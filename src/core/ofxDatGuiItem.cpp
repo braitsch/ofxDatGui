@@ -22,19 +22,35 @@
 
 #include "ofxDatGuiItem.h"
 
-bool ofxDatGuiGlobals::retinaEnabled;
-
-ofxDatGuiItem::ofxDatGuiItem(ofxDatGuiGlobals *gui, string label)
+ofxDatGuiItem::ofxDatGuiItem(string label, ofxDatGuiFont* font)
 {
-    mGui = gui;
-    setLabel(label);
+    mAlpha = 255;
     mVisible = true;
     mMouseOver = false;
     mMouseDown = false;
-    mHeight = mGui->row.height;
-    mPadding = mGui->row.padding;
     mLabelMarginRight = 0;
-    mLabelAlignment = ofxDatGuiAlignment::NONE;
+    mLabelAlignment = ofxDatGuiAlignment::LEFT;
+    mRetinaEnabled = (ofGetScreenWidth()>=2560 && ofGetScreenHeight()>=1600);
+    mIcon.y = 8;
+    mIcon.size = 10;
+    mRow.height = 26;
+    mRow.padding = 2;
+    mRow.spacing = 1;
+    mStripeWidth = 2;
+    if (mRetinaEnabled){
+        mIcon.y *=2;
+        mIcon.size *=2;
+        mRow.height *=2;
+        mRow.padding*=2;
+        mRow.spacing*=2;
+        mStripeWidth*=2;
+    }
+    if (font!=nullptr) {
+        mFont = font;
+    }   else{
+        mFont = new ofxDatGuiFont(mRetinaEnabled);
+    }
+    setLabel(label);
 }
 
 ofxDatGuiItem::~ofxDatGuiItem(){ }
@@ -42,12 +58,6 @@ ofxDatGuiItem::~ofxDatGuiItem(){ }
 /*
     ofxDatGuiFont
 */
-
-void ofxDatGuiFont::init(string file)
-{
-    tFont.load(file, size);
-    labelHeight = getStringBoundingBox("ABCDEFG123456", 0, 0).height;
-}
 
 ofRectangle ofxDatGuiFont::getStringBoundingBox(string str, int x, int y)
 {
@@ -74,7 +84,7 @@ void ofxDatGuiFont::drawText(string text, ofColor color, int xpos, int ypos, boo
         if (tFont.isLoaded()){
             tFont.drawString(text, xpos, ypos+labelHeight/2);
         }   else{
-            if (ofxDatGuiGlobals::retinaEnabled) ypos-=2;
+            if (mRetinaEnabled) ypos-=2;
             ofDrawBitmapString(text, xpos, ypos+labelHeight/2);
         }
     ofPopStyle();
@@ -87,7 +97,7 @@ void ofxDatGuiFont::drawLabel(string text, int xpos, int ypos)
         if (tFont.isLoaded()){
             tFont.drawString(text, xpos, ypos+labelHeight/2);
         }   else{
-            if (!ofxDatGuiGlobals::retinaEnabled) ypos-=2;
+            if (!mRetinaEnabled) ypos-=2;
             ofDrawBitmapString(text, xpos, ypos+labelHeight/2);
         }
     ofPopStyle();
@@ -98,12 +108,36 @@ void ofxDatGuiFont::drawLabel(string text, int xpos, int ypos)
 */
 
 void ofxDatGuiItem::setIndex(int index) { mId = index; }
-int ofxDatGuiItem::getHeight() { return mHeight; }
+
+void ofxDatGuiItem::setAlpha(int alpha)
+{
+    mAlpha = alpha;
+    for (int i=0; i<children.size(); i++) children[i]->setAlpha(alpha);
+}
+
+void ofxDatGuiItem::setWidth(int w)
+{
+    mRow.width = w;
+    mRow.lWidth=mRow.width*.35;
+    mRow.inputX=mRow.lWidth;
+    mRow.rWidth=mRow.width-mRow.inputX;
+    mFont->labelX=(mRow.width*.03)+10;
+    mIcon.x=mRow.width-(mRow.width*.05)-20;
+    mSlider.width=mRow.rWidth*.7;
+    mSlider.inputX=mRow.inputX+mSlider.width+mRow.padding;
+    mSlider.inputWidth=mRow.rWidth-mSlider.width-mRow.padding;
+    for (int i=0; i<children.size(); i++) children[i]->setWidth(w);
+}
+
+int ofxDatGuiItem::getHeight()
+{
+    return mRow.height;
+}
 
 void ofxDatGuiItem::setLabel(string label)
 {
     mLabel = label;
-    mLabelRect = mGui->font.getStringBoundingBox(mLabel, 0, 0);
+    mLabelRect = mFont->getStringBoundingBox(mLabel, 0, 0);
 }
 
 string ofxDatGuiItem::getLabel()
@@ -111,9 +145,10 @@ string ofxDatGuiItem::getLabel()
     return mLabel;
 }
 
-void ofxDatGuiItem::setLabelAlignment(ofxDatGuiAlignment align)
+void ofxDatGuiItem::setAlignment(ofxDatGuiAlignment align)
 {
     mLabelAlignment = align;
+    for (int i=0; i<children.size(); i++) children[i]->setAlignment(align);
 }
 
 /*
@@ -128,15 +163,14 @@ void ofxDatGuiItem::setStripeColor(ofColor color) { mStripeColor = color; }
 void ofxDatGuiItem::setOriginX(int x)
 {
     this->x = x;
-    mLabelAreaWidth = mGui->row.lWidth;
+    mLabelAreaWidth = mRow.lWidth;
     for(int i=0; i<children.size(); i++) children[i]->setOriginX(x);
 }
 
 void ofxDatGuiItem::setOriginY(int y)
 {
     this->y = mOriginY = y;
-    int vSpacing = mGui->row.spacing;
-    for(int i=0; i<children.size(); i++) children[i]->setOriginY(this->y + (mHeight+vSpacing)*(i+1));
+    for(int i=0; i<children.size(); i++) children[i]->setOriginY(this->y + (mRow.height+mRow.spacing)*(i+1));
 }
 
 int ofxDatGuiItem::getOriginY()
@@ -146,7 +180,7 @@ int ofxDatGuiItem::getOriginY()
 
 void ofxDatGuiItem::setPositionY(int ypos)
 {
-    y = mGui->y + ypos;
+    this->y = ypos;
 }
 
 int ofxDatGuiItem::getPositionY()
@@ -158,11 +192,16 @@ int ofxDatGuiItem::getPositionY()
     draw methods
 */
 
+void ofxDatGuiItem::update()
+{
+// TODO call this when the component is created outside of a gui //
+}
+
 void ofxDatGuiItem::drawBkgd(ofColor color, int alpha)
 {
     ofPushStyle();
-        ofSetColor(color, mGui->alpha);
-        ofDrawRectangle(x, y, mGui->width, mHeight);
+        ofSetColor(color, alpha!=-1 ? alpha  : mAlpha);
+        ofDrawRectangle(x, y, mRow.width, mRow.height);
     ofPopStyle();
 }
 
@@ -174,22 +213,21 @@ void ofxDatGuiItem::drawLabel()
 void ofxDatGuiItem::drawLabel(string label)
 {
     int lx;
-    int align = mLabelAlignment!=ofxDatGuiAlignment::NONE ? mLabelAlignment : mGui->alignment;
-    if (align == ofxDatGuiAlignment::LEFT){
-        lx = mGui->font.labelX;
-    }   else if (align == ofxDatGuiAlignment::CENTER){
+    if (mLabelAlignment == ofxDatGuiAlignment::LEFT){
+        lx = mFont->labelX;
+    }   else if (mLabelAlignment == ofxDatGuiAlignment::CENTER){
         lx = mLabelAreaWidth/2-mLabelRect.width/2;
-    }   else if (align == ofxDatGuiAlignment::RIGHT){
-        lx = mLabelAreaWidth-mLabelRect.width-mGui->font.labelX-mLabelMarginRight;
+    }   else if (mLabelAlignment == ofxDatGuiAlignment::RIGHT){
+        lx = mLabelAreaWidth-mLabelRect.width-mFont->labelX-mLabelMarginRight;
     }
-    mGui->font.drawLabel(label, x+lx, y+mHeight/2);
+    mFont->drawLabel(label, x+lx, y+(mRow.height/2));
 }
 
 void ofxDatGuiItem::drawStripe()
 {
     ofPushStyle();
         ofSetColor(mStripeColor);
-        ofDrawRectangle(x, y, mGui->stripeWidth, mHeight);
+        ofDrawRectangle(x, y, mStripeWidth, mRow.height);
     ofPopStyle();
 }
 

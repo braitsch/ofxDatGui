@@ -27,7 +27,7 @@ class ofxDatGuiItem : public ofxDatGuiInteractiveObject
 {
     public:
     
-        ofxDatGuiItem(ofxDatGuiGlobals *gui, string label);
+        ofxDatGuiItem(string label, ofxDatGuiFont* font=nullptr);
         virtual ~ofxDatGuiItem();
     
         vector<ofxDatGuiItem*> children;
@@ -38,20 +38,23 @@ class ofxDatGuiItem : public ofxDatGuiInteractiveObject
         void    setIndex(int index);
         void    setLabel(string label);
         void    setStripeColor(ofColor color);
-        void    setLabelAlignment(ofxDatGuiAlignment align);
     
         void    setVisible(bool visible);
+        void    setAlpha(int alpha);
         bool    getVisible();
     
         virtual void draw() = 0;
+        virtual void update();
         virtual bool hitTest(ofPoint m) = 0;
 
         virtual int  getHeight();
         virtual bool getIsExpanded();
         virtual void drawColorPicker();
+        virtual void setWidth(int w);
         virtual void setOriginX(int x);
         virtual void setOriginY(int y);
         virtual void setPositionY(int y);
+        virtual void setAlignment(ofxDatGuiAlignment align);
 
         virtual void onFocus();    
         virtual void onFocusLost();
@@ -67,24 +70,47 @@ class ofxDatGuiItem : public ofxDatGuiInteractiveObject
         int x;
         int y;
         int mId;
-        int mHeight;
+        int mAlpha;
         int mOriginY;
-        int mPadding;
         bool mVisible;
         bool mMouseOver;
         bool mMouseDown;
+        bool mRetinaEnabled;
         string mLabel;
+        int mStripeWidth;
         ofColor mStripeColor;
         ofRectangle mLabelRect;
         int mLabelAreaWidth;
         int mLabelMarginRight;
-        ofxDatGuiGlobals* mGui;
+        ofxDatGuiFont* mFont;
         ofxDatGuiAlignment mLabelAlignment;
+    
+        struct {
+            float width;
+            float height;
+            float lWidth; // label area //
+            float rWidth; // component area //
+            float inputX;
+            float padding;
+            float spacing;
+        } mRow;
+    
+        struct {
+            int width;
+            int inputX;
+            int inputWidth;
+        } mSlider;
+    
+        struct {
+            int x;
+            int y;
+            int size;
+        } mIcon;
     
         void drawLabel();
         void drawLabel(string label);
         void drawStripe();
-        void drawBkgd(ofColor color=ofxDatGuiColor::ROW_BKGD, int alpha=255);
+        void drawBkgd(ofColor color=ofxDatGuiColor::ROW_BKGD, int alpha=-1);
     
 };
 

@@ -48,13 +48,13 @@ namespace ofxDatGuiColor
 
 enum ofxDatGuiAnchor
 {
+    NO_ANCHOR = 0,
     TOP_LEFT = 1,
     TOP_RIGHT = 2
 };
 
 enum ofxDatGuiAlignment
 {
-    NONE = 0,
     LEFT = 1,
     CENTER = 2,
     RIGHT = 3

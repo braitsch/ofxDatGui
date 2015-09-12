@@ -27,9 +27,9 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
 
     public:
 
-        ofxDatGuiHeader(ofxDatGuiGlobals *gui, string label) : ofxDatGuiButton(gui, label)
+        ofxDatGuiHeader(string label, ofxDatGuiFont* font) : ofxDatGuiButton(label, font)
         {
-            mHeight = mGui->row.height*.8;
+            mRow.height = mRow.height*.8;
             mLabelAlignment = ofxDatGuiAlignment::CENTER;
         }
         
@@ -49,6 +49,8 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
             dragOffset = m;
         }
     
+        void setAlignment(ofxDatGuiAlignment align) {}
+    
         ofPoint dragOffset;
     
     private:
@@ -60,10 +62,10 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
 
     public:
     
-        ofxDatGuiFooter(ofxDatGuiGlobals *gui) : ofxDatGuiButton(gui, "COLLAPSE CONTROLS")
+        ofxDatGuiFooter(ofxDatGuiFont* font) : ofxDatGuiButton("COLLAPSE CONTROLS", font)
         {
             mIsExpanded = true;
-            mHeight = mGui->row.height*.8;
+            mRow.height = mRow.height*.8;
             mLabelAlignment = ofxDatGuiAlignment::CENTER;
         }
     
@@ -92,6 +94,8 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
                 setLabel("COLLAPSE CONTROLS");
             }
         }
+    
+        void setAlignment(ofxDatGuiAlignment align) {}
     
     private:
         bool mIsExpanded;
