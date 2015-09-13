@@ -41,6 +41,7 @@ ofxDatGui::ofxDatGui(ofxDatGuiAnchor anchor)
 void ofxDatGui::init()
 {
     setWidth(540);
+    setOpacity(255);
     mRowSpacing = 1;
     mVisible = true;
     mDisabled = false;

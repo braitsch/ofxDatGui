@@ -55,7 +55,7 @@ class ofxDatGui2dPad : public ofxDatGuiItem {
         void init()
         {
             reset();
-            mRow.height = 140;
+            mRow.height = 164;
             mStripeColor = ofxDatGuiColor::BUTTON_STRIPE;
             mPad = ofRectangle(0, 0, mRow.width-mRow.padding-mRow.inputX, mRow.height-(mRow.padding*2));
         }

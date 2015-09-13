@@ -122,7 +122,7 @@ class ofxDatGuiMatrix : public ofxDatGuiItem {
     
         ofxDatGuiMatrix(string label, int numButtons, bool showLabels=false, ofxDatGuiFont* font=nullptr) : ofxDatGuiItem(label, font)
         {
-            mButtonSize = 46;
+            mButtonSize = 47;
             mStripeColor = ofxDatGuiColor::BUTTON_STRIPE;
             for(int i=0; i<numButtons; i++) {
                 ofxDatGuiMatrixButton btn(mButtonSize, i, showLabels, mFont);
