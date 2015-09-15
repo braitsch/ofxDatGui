@@ -38,6 +38,12 @@ class ofxDatGuiMatrixButton : public ofxDatGuiInteractiveObject {
             mFontRect = mFont->getStringBoundingBox(ofToString(mIndex+1), 0, 0);
         }
     
+        void setOrigin(float x, float y)
+        {
+            origin.x = x;
+            origin.y = y;
+        }
+    
         void draw(int x, int y)
         {
             mRect.x = x+origin.x;
@@ -63,12 +69,6 @@ class ofxDatGuiMatrixButton : public ofxDatGuiInteractiveObject {
             }   else{
                 onMouseOut();
             }
-        }
-    
-        void setOrigin(float x, float y)
-        {
-            origin.x = x;
-            origin.y = y;
         }
     
         void setSelected(bool selected)
@@ -123,17 +123,27 @@ class ofxDatGuiMatrix : public ofxDatGuiItem {
         ofxDatGuiMatrix(string label, int numButtons, bool showLabels=false, ofxDatGuiFont* font=nullptr) : ofxDatGuiItem(label, font)
         {
             mButtonSize = 47;
-            mStripeColor = ofxDatGuiColor::BUTTON_STRIPE;
+            mStripeColor = ofxDatGuiColor::MATRIX_STRIPE;
             for(int i=0; i<numButtons; i++) {
                 ofxDatGuiMatrixButton btn(mButtonSize, i, showLabels, mFont);
                 btn.onInternalEvent(this, &ofxDatGuiMatrix::onButtonSelected);
                 btns.push_back(btn);
             }
+        // set the default width & position of the matrix //
+            setOrigin(0, 0);
+            setWidth(mRow.width);
         }
 
-        void setOriginX(int x)
+        void setOrigin(int x, int y)
         {
-            ofxDatGuiItem::setOriginX(x);
+            ofxDatGuiItem::setOrigin(x, y);
+            mMatrixRect.x = x + mRow.inputX;
+            mMatrixRect.y = y + mRow.padding;
+        }
+    
+        void setWidth(int w)
+        {
+            ofxDatGuiItem::setWidth(w);
             mMatrixRect.x = x + mRow.inputX;
             mMatrixRect.y = y + mRow.padding;
             mMatrixRect.width = mRow.width - mRow.padding - mRow.inputX;

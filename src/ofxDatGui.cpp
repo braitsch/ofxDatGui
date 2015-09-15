@@ -41,7 +41,7 @@ ofxDatGui::ofxDatGui(ofxDatGuiAnchor anchor)
 void ofxDatGui::init()
 {
     setWidth(540);
-    setOpacity(255);
+    setOpacity(1.0f);
     mRowSpacing = 1;
     mVisible = true;
     mDisabled = false;
@@ -75,7 +75,7 @@ void ofxDatGui::setWidth(int width)
 
 void ofxDatGui::setOpacity(float opacity)
 {
-    mAlpha = opacity*255;
+    mAlpha = opacity;
     mAlphaChanged = true;
 }
 
@@ -261,8 +261,7 @@ void ofxDatGui::layoutGui()
     mHeight = 0;
     for (int i=0; i<items.size(); i++) {
         items[i]->setIndex(i);
-        items[i]->setOriginX(mPosition.x);
-        items[i]->setOriginY(mPosition.y + mHeight);
+        items[i]->setOrigin(mPosition.x, mPosition.y + mHeight);
         mHeight += items[i]->getHeight() + mRowSpacing;
     }
     mHeightMinimum = mHeight;
@@ -447,8 +446,7 @@ void ofxDatGui::moveGui(ofPoint pt)
     mPosition.x = pt.x;
     mPosition.y = pt.y;
     for (uint8_t i=0; i<items.size(); i++){
-        items[i]->setOriginX(mPosition.x);
-        items[i]->setOriginY(mPosition.y + mHeight);
+        items[i]->setOrigin(mPosition.x, mPosition.y + mHeight);
         mHeight += items[i]->getHeight() + mRowSpacing;
     }
 // disable automatic repositioning on window resize //
@@ -591,7 +589,7 @@ void ofxDatGui::update()
 
 void ofxDatGui::setGuiAlpha()
 {
-    for (int i=0; i<items.size(); i++) items[i]->setAlpha(mAlpha);
+    for (int i=0; i<items.size(); i++) items[i]->setOpacity(mAlpha);
     mAlphaChanged = false;
 }
 
@@ -613,7 +611,7 @@ void ofxDatGui::draw()
     if (mVisible == false) return;
     ofPushStyle();
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-        ofSetColor(ofxDatGuiColor::GUI_BKGD, mAlpha);
+        ofSetColor(ofxDatGuiColor::GUI_BKGD, mAlpha * 255);
         ofDrawRectangle(mPosition.x, mPosition.y, mWidth, mHeight - mRowSpacing);
         if (mExpanded == false){
             mGuiFooter->draw();
@@ -636,6 +634,6 @@ void ofxDatGui::onWindowResized(ofResizeEventArgs &e)
 void ofxDatGui::anchorGui()
 {
     mPosition.x = ofGetWidth() - mWidth;
-    for (int i=0; i<items.size(); i++) items[i]->setOriginX(mPosition.x);
+    for (int i=0; i<items.size(); i++) items[i]->setOrigin(mPosition.x, mPosition.y);
 }
 

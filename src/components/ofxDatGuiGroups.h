@@ -45,15 +45,15 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
             mLabelMarginRight = mRow.width-mIcon.x;
         }
     
-        void setOriginY(int y)
+        void setOrigin(int x, int y)
         {
-            ofxDatGuiItem::setOriginY(y);
+            ofxDatGuiItem::setOrigin(x, y);
             int ypos = mRow.height + mRow.spacing;
             for(int i=0; i<children.size(); i++){
                 if (mIsExpanded){
-                    children[i]->setOriginY(y + (ypos*(i+1)));
+                    children[i]->setOrigin(x, y + (ypos*(i+1)));
                 }   else{
-                    children[i]->setOriginY(y);
+                    children[i]->setOrigin(x, y);
                 }
             }
         }
@@ -87,13 +87,26 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
     
         void draw()
         {
-            ofxDatGuiButton::drawBkgd();
-            ofxDatGuiItem::drawLabel();
-            ofxDatGuiItem::drawStripe();
             ofPushStyle();
+                ofxDatGuiButton::drawBkgd();
+                ofxDatGuiItem::drawLabel();
+                ofxDatGuiItem::drawStripe();
                 ofSetColor(ofxDatGuiColor::LABEL);
                 mImage.draw(x+mIcon.x, y+mIcon.y, mIcon.size, mIcon.size);
-            if (mIsExpanded) for(int i=0; i<children.size(); i++) children[i]->draw();
+            if (mIsExpanded) {
+//                ofSetColor(ofxDatGuiColor::GUI_BKGD, mAlpha);
+//                int ypos = y + mRow.height;
+//                ofDrawRectangle(x, ypos, mRow.width, mRow.padding);
+                for(int i=0; i<children.size(); i++) {
+                    children[i]->draw();
+//                    if (i == children.size()-1) break;
+//                    ypos+=mRow.height + mRow.spacing;
+//                    ofPushStyle();
+//                        ofSetColor(ofxDatGuiColor::GUI_BKGD, mAlpha);
+//                        ofDrawRectangle(x, ypos, mRow.width, mRow.padding);
+//                    ofPopStyle();
+                }
+            }
             ofPopStyle();
         }
     
@@ -102,8 +115,10 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
     // open & close the group when its header is clicked //
             ofxDatGuiItem::onMouseRelease(m);
             mIsExpanded ? collapse() : expand();
-            ofxDatGuiInternalEvent e(ofxDatGuiEventType::DROPDOWN_TOGGLED, mId);
-            internalEventCallback(e);
+            if (internalEventCallback!=nullptr){
+                ofxDatGuiInternalEvent e(ofxDatGuiEventType::DROPDOWN_TOGGLED, mId);
+                internalEventCallback(e);
+            }
         }
     
         void expand()
@@ -112,7 +127,8 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
             int ypos = mRow.height + mRow.spacing;
             for(int i=0; i<children.size(); i++) {
                 children[i]->setVisible(true);
-                children[i]->setOriginY(y + (ypos*(i+1)));
+                children[i]->setOrigin(x, y + ypos);
+                ypos+=mRow.height + mRow.spacing;
             }
         }
     
@@ -121,7 +137,7 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
             mIsExpanded = false;
             for(int i=0; i<children.size(); i++) {
                 children[i]->setVisible(false);
-                children[i]->setOriginY(y);
+                children[i]->setOrigin(x, y);
             }
         }
     

@@ -173,11 +173,19 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             mTextInactiveColor = ofxDatGuiColor::TEXT;
         }
     
-        void draw(int x, int y, int w)
+        void setWidth(int w)
+        {
+            mRect.width = w;
+        }
+    
+        void setOrigin(int x, int y)
         {
             mRect.x = x;
             mRect.y = y;
-            mRect.width = w;
+        }
+    
+        void draw()
+        {        
         // center the text //
             int tx = mRect.width/2 - mFont->getStringBoundingBox(mType==COLORPICKER ? "#"+mText : mText, 0, 0).width/2;
             ofPushStyle();
@@ -200,6 +208,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
     
         bool hitTest(ofPoint m)
         {
+//            cout << mRect << endl;
             return (m.x>=mRect.x && m.x<=mRect.x+mRect.width && m.y>=mRect.y && m.y<=mRect.y+mRect.height);
         }
     

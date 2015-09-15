@@ -26,6 +26,7 @@ ofxDatGuiItem::ofxDatGuiItem(string label, ofxDatGuiFont* font)
 {
     mAlpha = 255;
     mVisible = true;
+    mFocused = false;
     mMouseOver = false;
     mMouseDown = false;
     mLabelMarginRight = 0;
@@ -33,11 +34,13 @@ ofxDatGuiItem::ofxDatGuiItem(string label, ofxDatGuiFont* font)
     mRetinaEnabled = (ofGetScreenWidth()>=2560 && ofGetScreenHeight()>=1600);
     mIcon.y = 8;
     mIcon.size = 10;
+    mRow.width = 320;
     mRow.height = 26;
     mRow.padding = 2;
     mRow.spacing = 1;
     mStripeWidth = 2;
     if (mRetinaEnabled){
+        mRow.width = 540;
         mIcon.y *=2;
         mIcon.size *=2;
         mRow.height *=2;
@@ -51,6 +54,8 @@ ofxDatGuiItem::ofxDatGuiItem(string label, ofxDatGuiFont* font)
         mFont = new ofxDatGuiFont(mRetinaEnabled);
     }
     setLabel(label);
+    setOrigin(0, 0);
+    setWidth(mRow.width);
 }
 
 ofxDatGuiItem::~ofxDatGuiItem(){ }
@@ -107,12 +112,15 @@ void ofxDatGuiFont::drawLabel(string text, int xpos, int ypos)
     instance methods
 */
 
-void ofxDatGuiItem::setIndex(int index) { mId = index; }
-
-void ofxDatGuiItem::setAlpha(int alpha)
+void ofxDatGuiItem::setIndex(int index)
 {
-    mAlpha = alpha;
-    for (int i=0; i<children.size(); i++) children[i]->setAlpha(alpha);
+    mId = index;
+}
+
+void ofxDatGuiItem::setOpacity(float opacity)
+{
+    mAlpha = opacity*255;
+    for (int i=0; i<children.size(); i++) children[i]->setOpacity(opacity);
 }
 
 void ofxDatGuiItem::setWidth(int w)
@@ -127,6 +135,11 @@ void ofxDatGuiItem::setWidth(int w)
     mSlider.inputX=mRow.inputX+mSlider.width+mRow.padding;
     mSlider.inputWidth=mRow.rWidth-mSlider.width-mRow.padding;
     for (int i=0; i<children.size(); i++) children[i]->setWidth(w);
+}
+
+int ofxDatGuiItem::getWidth()
+{
+    return mRow.width;
 }
 
 int ofxDatGuiItem::getHeight()
@@ -160,17 +173,12 @@ void ofxDatGuiItem::setVisible(bool visible) { mVisible = visible; }
 bool ofxDatGuiItem::getVisible() { return mVisible; }
 void ofxDatGuiItem::setStripeColor(ofColor color) { mStripeColor = color; }
 
-void ofxDatGuiItem::setOriginX(int x)
+void ofxDatGuiItem::setOrigin(int x, int y)
 {
     this->x = x;
-    mLabelAreaWidth = mRow.lWidth;
-    for(int i=0; i<children.size(); i++) children[i]->setOriginX(x);
-}
-
-void ofxDatGuiItem::setOriginY(int y)
-{
     this->y = mOriginY = y;
-    for(int i=0; i<children.size(); i++) children[i]->setOriginY(this->y + (mRow.height+mRow.spacing)*(i+1));
+    mLabelAreaWidth = mRow.lWidth;
+    for(int i=0; i<children.size(); i++) children[i]->setOrigin(x, this->y + (mRow.height+mRow.spacing)*(i+1));
 }
 
 int ofxDatGuiItem::getOriginY()
@@ -194,7 +202,42 @@ int ofxDatGuiItem::getPositionY()
 
 void ofxDatGuiItem::update()
 {
-// TODO call this when the component is created outside of a gui //
+    bool mp = ofGetMousePressed();
+    ofPoint mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
+    if (hitTest(mouse)){
+        if (!mMouseOver){
+            onMouseEnter(mouse);
+        }   else {
+            if (!mMouseDown && mp){
+                onMousePress(mouse);
+                if (!mFocused) {
+                    onFocus();
+                    ofAddListener(ofEvents().keyPressed, this, &ofxDatGuiItem::onKeyPressed);
+                }
+            } else if (mMouseDown){
+                onMouseDrag(mouse);
+                if (!mp) onMouseRelease(mouse);
+            }
+        }
+    }   else{
+        if (mMouseOver){
+            onMouseLeave(mouse);
+        }
+        if (mp && mFocused) {
+            ofRemoveListener(ofEvents().keyPressed, this, &ofxDatGuiItem::onKeyPressed);
+            onFocusLost();
+        }
+    }
+    for(int i=0; i<children.size(); i++) children[i]->update();
+}
+
+void ofxDatGuiItem::onKeyPressed(ofKeyEventArgs &e)
+{
+    onKeyPressed(e.key);
+    if ((e.key == OF_KEY_RETURN || e.key == OF_KEY_TAB)){
+        onFocusLost();
+        ofRemoveListener(ofEvents().keyPressed, this, &ofxDatGuiItem::onKeyPressed);
+    }
 }
 
 void ofxDatGuiItem::drawBkgd(ofColor color, int alpha)
@@ -258,8 +301,16 @@ void ofxDatGuiItem::onMouseRelease(ofPoint m)
     mMouseDown = false;
 }
 
-void ofxDatGuiItem::onFocus() {}
-void ofxDatGuiItem::onFocusLost() { }
+void ofxDatGuiItem::onFocus()
+{
+    mFocused = true;
+}
+
+void ofxDatGuiItem::onFocusLost()
+{
+    mFocused = false;
+}
+
 void ofxDatGuiItem::onKeyPressed(int key) { }
 void ofxDatGuiItem::onMouseDrag(ofPoint m) { }
 

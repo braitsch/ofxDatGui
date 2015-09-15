@@ -32,9 +32,9 @@ class ofxDatGuiButton : public ofxDatGuiItem {
             mStripeColor = ofxDatGuiColor::BUTTON_STRIPE;
         }
     
-        void setOriginX(int x)
+        void setOrigin(int x, int y)
         {
-            ofxDatGuiItem::setOriginX(x);
+            ofxDatGuiItem::setOrigin(x, y);
             mLabelAreaWidth = mRow.width;
         }
     
@@ -88,9 +88,9 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
             if (!radioOff.isAllocated()) radioOff.load(ofxDatGuiAssetDir+"/icon-radio-off.png");
         }
     
-        void setOriginX(int x)
+        void setOrigin(int x, int y)
         {
-            ofxDatGuiButton::setOriginX(x);
+            ofxDatGuiItem::setOrigin(x, y);
             mLabelMarginRight = mRow.width-mIcon.x;
         }
     

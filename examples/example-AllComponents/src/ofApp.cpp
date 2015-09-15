@@ -2,118 +2,118 @@
 
 void ofApp::setup()
 {
-// instantiate and position the gui //
-    gui = new ofxDatGui( ofxDatGuiAnchor::TOP_RIGHT );
-    
-// add some components //
-    gui->addTextInput("MESSAGE", "OPEN FRAMEWORKS DATGUI");
-    
-// add a folder to group a few components together //
-    ofxDatGuiFolder* folder = gui->addFolder("WHITE FOLDER", ofColor::white);
-    folder->addTextInput("** INPUT", "NESTED INPUT FIELD");
-    folder->addSlider("** SLIDER", 0, 100);
-    folder->addToggle("** TOGGLE");
-    folder->addColorPicker("** PICKER", ofxDatGuiColor::DROPDOWN_STRIPE);
-// let's have it open by default. note: call this only after you're done adding items //
-    folder->expand();
-    
-// add a couple range sliders //
-    gui->addSlider("POSITION X", 0, 120, 75);
-    gui->addSlider("POSITION Y", -40, 240, 200);
-    gui->addSlider("POSITION Z", -80, 120, -40);
-    
-// and a slider to adjust the gui opacity //
-    gui->addSlider("DATGUI OPACITY", 0, 100);
-    
-// and a colorpicker! //
-    gui->addColorPicker("COLOR PICKER", ofxDatGuiColor::TOGGLE_STRIPE);
-    
-// add a dropdown menu //
-    vector<string> o1 = {"OPTION - 1", "OPTION - 2", "OPTION - 3", "OPTION - 4"};
-    gui->addDropdown(o1);
+    int x = 140;
+    int y = 100;
+    int p = 40;
+    ofSetWindowPosition(0, 0);
 
-// add a 2d pad //
-    ofxDatGui2dPad* pad = gui->add2dPad("2D PAD");
+    ofxDatGuiItem* component;
 
-// a button matrix //
-    gui->addMatrix("MATRIX", 21, true);
-
-// and a couple of simple buttons //
-    gui->addButton("CLICK");
-    gui->addToggle("TOGGLE", true);
-
-// adding the optional header allows you to drag the gui around //
-    gui->addHeader(":: DRAG ME TO REPOSITION ::");
-
-// adding the optional footer allows you to collapse/expand the gui //
-    gui->addFooter();
+    component = new ofxDatGuiButton("BUTTON");
+    component->setOrigin(x, y);
+    component->onButtonEvent(this, &ofApp::onButtonEvent);
+    components.push_back(component);
     
-// finally register a few callbacks to listen for specific component events //
-    gui->onButtonEvent(this, &ofApp::onButtonEvent);
-    gui->onSliderEvent(this, &ofApp::onSliderEvent);
-    gui->onTextInputEvent(this, &ofApp::onTextInputEvent);
-    gui->on2dPadEvent(this, &ofApp::on2dPadEvent);
-    gui->onDropdownEvent(this, &ofApp::onDropdownEvent);
-    gui->onColorPickerEvent(this, &ofApp::onColorPickerEvent);
-    gui->onMatrixEvent(this, &ofApp::onMatrixEvent);
-
-    gui->setOpacity(gui->getSlider("datgui opacity")->getScale());
+    y += component->getHeight() + p;
+    component = new ofxDatGuiToggle("TOGGLE", false);
+    component->setOrigin(x, y);
+    component->onButtonEvent(this, &ofApp::onButtonEvent);
+    components.push_back(component);
     
-// let's launch the app fullscreen //
-    isFullscreen = true;
-    ofSetFullscreen(isFullscreen);
+    y += component->getHeight() + p;
+    component = new ofxDatGuiMatrix("MATRIX", 21, true);
+    component->setOrigin(x, y);
+    component->onMatrixEvent(this, &ofApp::onMatrixEvent);
+    components.push_back(component);
+    
+    y += component->getHeight() + p;
+    component = new ofxDatGuiTextInput("TEXT INPUT", "# OPEN FRAMEWORKS #");
+    component->setOrigin(x, y);
+    component->onTextInputEvent(this, &ofApp::onTextInputEvent);
+    components.push_back(component);
+    
+    y += component->getHeight() + p;
+    component = new ofxDatGuiColorPicker("COLOR PICKER", ofxDatGuiColor::BUTTON_STRIPE);
+    component->setOrigin(x, y);
+    component->onColorPickerEvent(this, &ofApp::onColorPickerEvent);
+    components.push_back(component);
+    
+    y = 100;
+    x += component->getWidth() + p+60;
+    
+    component = new ofxDatGuiSlider("SLIDER", 0, 100, 50);
+    component->setOrigin(x, y);
+    component->onSliderEvent(this, &ofApp::onSliderEvent);
+    components.push_back(component);
+    
+    y += component->getHeight() + p;
+    component = new ofxDatGui2dPad("2D PAD");
+    component->setOrigin(x, y);
+    component->on2dPadEvent(this, &ofApp::on2dPadEvent);
+    components.push_back(component);
+
+    y += component->getHeight() + p;
+    ofxDatGuiDropdown* dropdown;
+    vector<string> options = {"ONE", "TWO", "THREE", "FOUR"};
+    dropdown = new ofxDatGuiDropdown("DROPDOWN MENU", options);
+    dropdown->setOrigin(x, y);
+    dropdown->expand();
+    dropdown->onDropdownEvent(this, &ofApp::onDropdownEvent);
+    components.push_back(dropdown);
+    
+    bkgd.load("bkgd-pattern.png");
+//  for(int i=0; i<components.size(); i++) components[i]->setOpacity(.25);
+}
+
+void ofApp::update()
+{
+    for(int i=0; i<components.size(); i++) components[i]->update();
+}
+
+void ofApp::draw()
+{
+// pattern the background //
+    for(int i=0; i < ofGetHeight(); i += 400) for(int j = 0; j < ofGetWidth(); j += 400) bkgd.draw(j, i, 400, 400);
+    for(int i=0; i<components.size(); i++) components[i]->draw();
+}
+
+/*
+    event listeners
+*/
+
+void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
+{
+    cout << "onButtonEvent: " << e.target->getLabel() << "::" << e.enabled << endl;
 }
 
 void ofApp::onSliderEvent(ofxDatGuiSliderEvent e)
 {
-    cout << "onSliderEvent: " << e.target->getLabel() << " " << e.target->getValue() << endl;
-    if (e.target->getLabel()=="DATGUI OPACITY") gui->setOpacity(e.scale);
-}
-
-void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
-{
-    cout << "onButtonEvent: " << e.target->getLabel() << " " << e.target->getEnabled() << endl;
-}
-
-void ofApp::onTextInputEvent(ofxDatGuiTextInputEvent e)
-{
-    cout << "onTextInputEvent: " << e.target->getLabel() << " " << e.target->getText() << endl;
-}
-
-void ofApp::on2dPadEvent(ofxDatGui2dPadEvent e)
-{
-    cout << "on2dPadEvent: " << e.target->getLabel() << " " << e.x << ":" << e.y << endl;
+    cout << "onSliderEvent: " << e.value << "::" << e.scale << endl;
 }
 
 void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
 {
-    cout << "onDropdownEvent: " << e.target->getLabel() << " Selected Child Index: " << e.target->getSelectedChildIndex() << endl;
-}
-
-void ofApp::onColorPickerEvent(ofxDatGuiColorPickerEvent e)
-{
-    cout << "onColorPickerEvent: " << e.target->getLabel() << " " << e.target->getColor() << endl;
-    ofSetBackgroundColor(e.color);
+    cout << "onDropdownEvent: " << e.child << endl;
 }
 
 void ofApp::onMatrixEvent(ofxDatGuiMatrixEvent e)
 {
-    cout << "onMatrixEvent " << e.child << " : " << e.enabled << endl;
-    cout << "onMatrixEvent " << e.target->getLabel() << " : " << e.target->getSelected().size() << endl;
+    cout << "onMatrixEvent: " << e.child << "::" << e.enabled << endl;
 }
 
-void ofApp::draw() { }
-void ofApp::update() { }
-
-void ofApp::keyPressed(int key)
+void ofApp::onColorPickerEvent(ofxDatGuiColorPickerEvent e)
 {
-    if (key == 'f') {
-        isFullscreen =!isFullscreen;
-        ofSetFullscreen(isFullscreen);
-        if (!isFullscreen) {
-            ofSetWindowShape(1920, 1080);
-            ofSetWindowPosition((ofGetScreenWidth()/2)-(1920/2), 0);
-        }
-    }
+    cout << "onColorPickerEvent: " << e.color << endl;
 }
+
+void ofApp::on2dPadEvent(ofxDatGui2dPadEvent e)
+{
+    cout << "on2dPadEvent: " << e.x << "::" << e.y << endl;
+}
+
+void ofApp::onTextInputEvent(ofxDatGuiTextInputEvent e)
+{
+    cout << "onButtonEvent: " << e.text << endl;
+}
+
 

@@ -56,7 +56,7 @@ class ofxDatGui2dPad : public ofxDatGuiItem {
         {
             reset();
             mRow.height = 164;
-            mStripeColor = ofxDatGuiColor::BUTTON_STRIPE;
+            mStripeColor = ofxDatGuiColor::PAD2D_STRIPE;
             mPad = ofRectangle(0, 0, mRow.width-mRow.padding-mRow.inputX, mRow.height-(mRow.padding*2));
         }
     
@@ -66,9 +66,9 @@ class ofxDatGui2dPad : public ofxDatGuiItem {
             my = 0.5f;
         }
     
-        void setOriginX(int x)
+        void setOrigin(int x, int y)
         {
-            ofxDatGuiItem::setOriginX(x);
+            ofxDatGuiItem::setOrigin(x, y);
             if (mScaleOnResize){
         // scale the bounds to the resized window //
                 mBounds.width*=(ofGetWidth()/mBounds.width);

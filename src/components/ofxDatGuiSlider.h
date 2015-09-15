@@ -39,6 +39,9 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
             input->setTextInputFieldType(ofxDatGuiTextInputField::NUMERIC);
             input->onInternalEvent(this, &ofxDatGuiSlider::onInputChanged);
             calcScale();
+        // set width & position of the text input field //
+            setOrigin(0, 0);
+            setWidth(mRetinaEnabled ? 540 : 320);
         }
     
         ~ofxDatGuiSlider()
@@ -78,6 +81,19 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
         {
             return mScale;
         }
+    
+        void setWidth(int w)
+        {
+            ofxDatGuiItem::setWidth(w);
+            input->setWidth(mSlider.inputWidth);
+            input->setOrigin(x + mSlider.inputX, y + mRow.padding);
+        }
+    
+        void setOrigin(int x, int y)
+        {
+            ofxDatGuiItem::setOrigin(x, y);
+            input->setOrigin(x + mSlider.inputX, y + mRow.padding);
+        }
 
         void draw()
         {
@@ -94,17 +110,19 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
                     ofDrawRectangle(x+mRow.inputX, y+mRow.padding, mSlider.width*mScale, mRow.height-(mRow.padding*2));
                 }
             // numeric input field //
-            input->draw(x + mSlider.inputX, y + mRow.padding, mSlider.inputWidth);
+                input->draw();
             ofPopStyle();
         }
     
         void onFocusLost()
         {
+            ofxDatGuiItem::onFocusLost();
             if (mInputActive) input->onFocusLost();
         }
     
         void onMousePress(ofPoint m)
         {
+            ofxDatGuiItem::onMousePress(m);
             if (input->hitTest(m)){
                 input->onFocus();
                 mInputActive = true;
@@ -160,7 +178,6 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
         bool mChanged;
         bool mInputActive;
         ofxDatGuiTextInputField* input;
-        int static const TEXT_INDENT = 12;
     
         void calcScale()
         {

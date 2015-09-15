@@ -32,6 +32,9 @@ class ofxDatGuiTextInput : public ofxDatGuiItem {
             input = new ofxDatGuiTextInputField(mRow.height-(mRow.padding*2), mFont);
             input->setText(text);
             input->onInternalEvent(this, &ofxDatGuiTextInput::onInputChanged);
+        // set width & position of the text input field //
+            setOrigin(0, 0);
+            setWidth(mRetinaEnabled ? 540 : 320);
         }
     
         string getText()
@@ -44,12 +47,25 @@ class ofxDatGuiTextInput : public ofxDatGuiItem {
             return input->setText(text);
         }
     
+        void setWidth(int w)
+        {
+            ofxDatGuiItem::setWidth(w);
+            input->setOrigin(x + mRow.inputX, y + mRow.padding);
+            input->setWidth(mRow.width-mRow.padding-mRow.inputX);
+        }
+    
+        void setOrigin(int x, int y)
+        {
+            ofxDatGuiItem::setOrigin(x, y);
+            input->setOrigin(x + mRow.inputX, y + mRow.padding);
+        }
+    
         void draw()
         {
             ofxDatGuiItem::drawBkgd();
             ofxDatGuiItem::drawLabel();
             ofxDatGuiItem::drawStripe();
-            input->draw(x + mRow.inputX, y + mRow.padding, mRow.width-mRow.padding-mRow.inputX);
+            input->draw();
         }
     
         bool hitTest(ofPoint m)
@@ -60,11 +76,13 @@ class ofxDatGuiTextInput : public ofxDatGuiItem {
         void onFocus()
         {
             input->onFocus();
+            ofxDatGuiItem::onFocus();
         }
     
         void onFocusLost()
         {
             input->onFocusLost();
+            ofxDatGuiItem::onFocusLost();
         }
     
         void onKeyPressed(int key)
@@ -85,9 +103,6 @@ class ofxDatGuiTextInput : public ofxDatGuiItem {
         }
     
         ofxDatGuiTextInputField* input;
-
-    private:
-        static int const TEXT_INDENT = 8;
     
 };
 

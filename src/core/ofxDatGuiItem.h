@@ -40,19 +40,19 @@ class ofxDatGuiItem : public ofxDatGuiInteractiveObject
         void    setStripeColor(ofColor color);
     
         void    setVisible(bool visible);
-        void    setAlpha(int alpha);
+        void    setOpacity(float opacity);
         bool    getVisible();
     
         virtual void draw() = 0;
         virtual void update();
         virtual bool hitTest(ofPoint m) = 0;
 
+        virtual int  getWidth();
         virtual int  getHeight();
         virtual bool getIsExpanded();
         virtual void drawColorPicker();
         virtual void setWidth(int w);
-        virtual void setOriginX(int x);
-        virtual void setOriginY(int y);
+        virtual void setOrigin(int x, int y);
         virtual void setPositionY(int y);
         virtual void setAlignment(ofxDatGuiAlignment align);
 
@@ -64,6 +64,7 @@ class ofxDatGuiItem : public ofxDatGuiInteractiveObject
         virtual void onMouseDrag(ofPoint m);
         virtual void onMouseLeave(ofPoint m);
         virtual void onMouseRelease(ofPoint m);
+        void onKeyPressed(ofKeyEventArgs &e);
     
     protected:
     
@@ -72,6 +73,7 @@ class ofxDatGuiItem : public ofxDatGuiInteractiveObject
         int mId;
         int mAlpha;
         int mOriginY;
+        bool mFocused;
         bool mVisible;
         bool mMouseOver;
         bool mMouseDown;

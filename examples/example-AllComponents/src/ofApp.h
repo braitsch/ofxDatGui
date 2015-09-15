@@ -7,20 +7,18 @@ class ofApp : public ofBaseApp{
 
 	public:
 		void setup();
+		void update();
 		void draw();
-        void update();
+ 
+        ofImage bkgd;
+        vector<ofxDatGuiItem*> components;
     
-        ofxDatGui* gui;
-        bool isFullscreen;
-
-        void keyPressed(int key);
-        void onButtonEvent(ofxDatGuiButtonEvent e);
+		void onButtonEvent(ofxDatGuiButtonEvent e);
         void onSliderEvent(ofxDatGuiSliderEvent e);
-        void onTextInputEvent(ofxDatGuiTextInputEvent e);
-        void on2dPadEvent(ofxDatGui2dPadEvent e);
         void onDropdownEvent(ofxDatGuiDropdownEvent e);
-        void onColorPickerEvent(ofxDatGuiColorPickerEvent e);
         void onMatrixEvent(ofxDatGuiMatrixEvent e);
-
+        void onColorPickerEvent(ofxDatGuiColorPickerEvent e);
+        void on2dPadEvent(ofxDatGui2dPadEvent e);
+        void onTextInputEvent(ofxDatGuiTextInputEvent e);
+    
 };
-

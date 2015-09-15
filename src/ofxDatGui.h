@@ -70,11 +70,11 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
     
     private:
     
-        int mAlpha;
         int mWidth;
         int mHeight;
         int mHeightMinimum;
         int mRowSpacing;
+        float mAlpha;
         bool mVisible;
         bool mDisabled;
         bool mExpanded;
