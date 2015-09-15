@@ -1,9 +1,8 @@
 ##ofxDatGui
 
-**ofxDatGui** is a **simple to use**, lightweight, high-resolution graphical user interface for [openFrameworks](http://openframeworks.cc/) inspired by the popular JavaScript  [datgui](http://workshop.chromeexperiments.com/examples/gui/) interface.  
+**ofxDatGui** is a **simple to use**, lightweight, high-resolution graphical user interface for [openFrameworks](http://openframeworks.cc/) inspired by the popular JavaScript [datgui](http://workshop.chromeexperiments.com/examples/gui/) interface.  
 
-![ofxDatGui](./readme-img/ofxdatgui_03.png?raw=true)
-
+[![ofxDatGui](./readme-img/ofxdatgui_03.png?raw=true)](https://www.youtube.com/watch?v=IrmABSyabng)
 
 ##Features
 
@@ -15,6 +14,7 @@
 * Range Sliders
 * Dropdown Menus
 * Button Matrices
+* Framerate Monitor
 * 2D Coordinate Pads
 * Folders to group components together
 * An optional header & footer that allow you to collapse and drag the Gui around
@@ -52,7 +52,7 @@ This generates a Basic Button with the label "Click!"
 
 ## Interactive Components
  
-**ofxDatGui** currently offers the following components:
+**ofxDatGui** currently offers the following interactive components:
   
 **Text Input**
  
@@ -156,7 +156,7 @@ folder->addToggle("** Toggle", false);
 
 ![ofxDatGui](./readme-img/ofxdatgui_folder.png?raw=true)
 	
-You can also expand and collapse folders programmatically.
+Folders and dropdown menus can be expanded and collapsed programmatically.
 
 	folder->expand();
 	folder->collapse();
@@ -247,7 +247,7 @@ If you're lazy and don't feel like storing your components in variables you can 
 	ofxDatGuiButton* gui->getButton("My Button"); // button label
 	ofxDatGuiSlider* gui->getSlider("My Slider"); // slider label
 	
-If you have multiple components with the same label nested in separate folders you can specify the folder to search.
+If you have multiple components with the same label nested in separate folders just specify the folder to search.
 
 	ofxDatGuiButton* gui->getButton("Folder 1", "Reset Button");
 	ofxDatGuiButton* gui->getButton("Folder 2", "Reset Button");

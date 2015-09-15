@@ -49,6 +49,7 @@ class ofxDatGui2dPad : public ofxDatGuiItem {
         void setBounds(ofRectangle bounds)
         {
             mBounds = bounds;
+            reset();
             mScaleOnResize = false;
         }
     
@@ -64,6 +65,8 @@ class ofxDatGui2dPad : public ofxDatGuiItem {
         {
             mx = 0.5f;
             my = 0.5f;
+            pWorld.x = mBounds.x + (mBounds.width*mx);
+            pWorld.y = mBounds.y + (mBounds.height*my);
         }
     
         void setOrigin(int x, int y)

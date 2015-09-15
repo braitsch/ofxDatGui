@@ -47,8 +47,8 @@
 		1AF96D2E091AABBD2E42BA2E /* ofxDatGuiItem.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiItem.h; path = ../src/core/ofxDatGuiItem.h; sourceTree = SOURCE_ROOT; };
 		26490D7CC31EF7D6ED5F925A /* ofxDatGui.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxDatGui.cpp; path = ../src/ofxDatGui.cpp; sourceTree = SOURCE_ROOT; };
 		744031A3E8F8DAF9FE6F3EA8 /* ofxDatGuiGroups.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiGroups.h; path = ../src/components/ofxDatGuiGroups.h; sourceTree = SOURCE_ROOT; };
-		8AFCDE7F1BA8BEE20046E0DB /* ofxDatGuiFPS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxDatGuiFPS.h; path = ../src/components/ofxDatGuiFPS.h; sourceTree = "<group>"; };
-		8AFCDE801BA8BEE20046E0DB /* ofxDatGuiLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxDatGuiLabel.h; path = ../src/components/ofxDatGuiLabel.h; sourceTree = "<group>"; };
+		8AFCDE821BA8BF4D0046E0DB /* ofxDatGuiFPS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxDatGuiFPS.h; path = ../src/components/ofxDatGuiFPS.h; sourceTree = "<group>"; };
+		8AFCDE831BA8BF4D0046E0DB /* ofxDatGuiLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxDatGuiLabel.h; path = ../src/components/ofxDatGuiLabel.h; sourceTree = "<group>"; };
 		902724601B82C6AD81BBCD71 /* ofxDatGui2dPad.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGui2dPad.h; path = ../src/components/ofxDatGui2dPad.h; sourceTree = SOURCE_ROOT; };
 		9705D66270ED89ECA6E6FECE /* ofxDatGui.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGui.h; path = ../src/ofxDatGui.h; sourceTree = SOURCE_ROOT; };
 		9B5051062C6A871714E6F5F4 /* ofxDatGuiConstants.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiConstants.h; path = ../src/core/ofxDatGuiConstants.h; sourceTree = SOURCE_ROOT; };
@@ -59,7 +59,7 @@
 		D0D6A66BEBA820EA1D396889 /* ofxDatGuiSlider.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiSlider.h; path = ../src/components/ofxDatGuiSlider.h; sourceTree = SOURCE_ROOT; };
 		E100ED9DCB412957A879CD5A /* ofxDatGuiControls.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiControls.h; path = ../src/components/ofxDatGuiControls.h; sourceTree = SOURCE_ROOT; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
-		E4B69B5B0A3A1756003C02F2 /* example-AllComponentsDebug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "example-AllComponentsDebug.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E4B69B5B0A3A1756003C02F2 /* example-ButtonsDebug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "example-ButtonsDebug.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4B69E1D0A3A1BDC003C02F2 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = SOURCE_ROOT; };
 		E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofApp.cpp; path = src/ofApp.cpp; sourceTree = SOURCE_ROOT; };
 		E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ofApp.h; path = src/ofApp.h; sourceTree = SOURCE_ROOT; };
@@ -98,10 +98,10 @@
 		947FCD1248D8B0A16B53C1AA /* components */ = {
 			isa = PBXGroup;
 			children = (
-				8AFCDE801BA8BEE20046E0DB /* ofxDatGuiLabel.h */,
+				8AFCDE831BA8BF4D0046E0DB /* ofxDatGuiLabel.h */,
 				902724601B82C6AD81BBCD71 /* ofxDatGui2dPad.h */,
 				FDA86F4C2F1F1964D35391C6 /* ofxDatGuiButton.h */,
-				8AFCDE7F1BA8BEE20046E0DB /* ofxDatGuiFPS.h */,
+				8AFCDE821BA8BF4D0046E0DB /* ofxDatGuiFPS.h */,
 				C84ED7FCC017328C6F58283D /* ofxDatGuiColorPicker.h */,
 				E100ED9DCB412957A879CD5A /* ofxDatGuiControls.h */,
 				744031A3E8F8DAF9FE6F3EA8 /* ofxDatGuiGroups.h */,
@@ -144,7 +144,7 @@
 				E4B69E1C0A3A1BDC003C02F2 /* src */,
 				E4EEC9E9138DF44700A80321 /* openFrameworks */,
 				BB4B014C10F69532006C3DED /* addons */,
-				E4B69B5B0A3A1756003C02F2 /* example-AllComponentsDebug.app */,
+				E4B69B5B0A3A1756003C02F2 /* example-ButtonsDebug.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -181,9 +181,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		E4B69B5A0A3A1756003C02F2 /* example-AllComponents */ = {
+		E4B69B5A0A3A1756003C02F2 /* example-Buttons */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E4B69B5F0A3A1757003C02F2 /* Build configuration list for PBXNativeTarget "example-AllComponents" */;
+			buildConfigurationList = E4B69B5F0A3A1757003C02F2 /* Build configuration list for PBXNativeTarget "example-Buttons" */;
 			buildPhases = (
 				E4B69B580A3A1756003C02F2 /* Sources */,
 				E4B69B590A3A1756003C02F2 /* Frameworks */,
@@ -195,9 +195,9 @@
 			dependencies = (
 				E4EEB9AC138B136A00A80321 /* PBXTargetDependency */,
 			);
-			name = "example-AllComponents";
+			name = "example-Buttons";
 			productName = myOFApp;
-			productReference = E4B69B5B0A3A1756003C02F2 /* example-AllComponentsDebug.app */;
+			productReference = E4B69B5B0A3A1756003C02F2 /* example-ButtonsDebug.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -208,7 +208,7 @@
 			attributes = {
 				LastUpgradeCheck = 0600;
 			};
-			buildConfigurationList = E4B69B4D0A3A1720003C02F2 /* Build configuration list for PBXProject "example-AllComponents" */;
+			buildConfigurationList = E4B69B4D0A3A1720003C02F2 /* Build configuration list for PBXProject "example-Buttons" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -229,7 +229,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				E4B69B5A0A3A1756003C02F2 /* example-AllComponents */,
+				E4B69B5A0A3A1756003C02F2 /* example-Buttons */,
 			);
 		};
 /* End PBXProject section */
@@ -381,7 +381,7 @@
 				INFOPLIST_FILE = "openFrameworks-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				PRODUCT_NAME = "example-AllComponentsDebug";
+				PRODUCT_NAME = "example-ButtonsDebug";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -411,7 +411,7 @@
 				INFOPLIST_FILE = "openFrameworks-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				PRODUCT_NAME = "example-AllComponents";
+				PRODUCT_NAME = "example-Buttons";
 				WRAPPER_EXTENSION = app;
 				baseConfigurationReference = E4EB6923138AFD0F00A09F29;
 			};
@@ -420,7 +420,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E4B69B4D0A3A1720003C02F2 /* Build configuration list for PBXProject "example-AllComponents" */ = {
+		E4B69B4D0A3A1720003C02F2 /* Build configuration list for PBXProject "example-Buttons" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E4B69B4E0A3A1720003C02F2 /* Debug */,
@@ -429,7 +429,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E4B69B5F0A3A1757003C02F2 /* Build configuration list for PBXNativeTarget "example-AllComponents" */ = {
+		E4B69B5F0A3A1757003C02F2 /* Build configuration list for PBXNativeTarget "example-Buttons" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E4B69B600A3A1757003C02F2 /* Debug */,

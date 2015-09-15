@@ -186,9 +186,14 @@ void ofxDatGuiItem::setOrigin(int x, int y)
     for(int i=0; i<children.size(); i++) children[i]->setOrigin(x, this->y + (mRow.height+mRow.spacing)*(i+1));
 }
 
-int ofxDatGuiItem::getOriginY()
+int ofxDatGuiItem::getX()
 {
-    return mOriginY;
+    return this->x;
+}
+
+int ofxDatGuiItem::getY()
+{
+    return this->y;
 }
 
 void ofxDatGuiItem::setPositionY(int ypos)

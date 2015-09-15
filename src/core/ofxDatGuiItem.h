@@ -32,8 +32,9 @@ class ofxDatGuiItem : public ofxDatGuiInteractiveObject
     
         vector<ofxDatGuiItem*> children;
     
+        int     getX();
+        int     getY();
         string  getLabel();
-        int     getOriginY();
         int     getPositionY();
         void    setIndex(int index);
         void    setLabel(string label);

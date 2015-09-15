@@ -1,5 +1,10 @@
 #include "ofApp.h"
 
+/*
+    All components instantiated outside of a gui
+    https://github.com/braitsch/ofxDatGui @braitsch
+*/
+
 void ofApp::setup()
 {
     int x = 140;
@@ -40,7 +45,12 @@ void ofApp::setup()
     
     y = 100;
     x += component->getWidth() + p+60;
+
+    component = new ofxDatGuiFPS();
+    component->setOrigin(x, y);
+    components.push_back(component);
     
+    y += component->getHeight() + p;
     component = new ofxDatGuiSlider("SLIDER", 0, 100, 50);
     component->setOrigin(x, y);
     component->onSliderEvent(this, &ofApp::onSliderEvent);
