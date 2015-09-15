@@ -21,7 +21,6 @@
 */
 
 #pragma once
-#include <locale>
 #include "ofxDatGuiTextInput.h"
 
 class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
@@ -149,9 +148,13 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
                     vbo.setColorData(&gColors[0], 4, GL_DYNAMIC_DRAW );
                 }   else if (gradientRect.inside(m) && mMouseDown){
                     mColor = gColor;
-                // dispatch a color changed event out to our application //
-                    ofxDatGuiColorPickerEvent e(this, mColor);
-                    colorPickerEventCallback(e);
+                // dispatch event out to main application //
+                    if (colorPickerEventCallback != nullptr) {
+                        ofxDatGuiColorPickerEvent e(this, mColor);
+                        colorPickerEventCallback(e);
+                    }   else{
+                        ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+                    }
                     setTextFieldInputColor();
                 }
                 return true;
@@ -185,9 +188,13 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
             gColors[1] = mColor;
             vbo.setColorData(&gColors[0], 4, GL_DYNAMIC_DRAW );
             
-        // dispatch change event out to the main application //
-            ofxDatGuiColorPickerEvent evt(this, mColor);
-            colorPickerEventCallback(evt);
+        // dispatch event out to main application //
+            if (colorPickerEventCallback != nullptr) {
+                ofxDatGuiColorPickerEvent evt(this, mColor);
+                colorPickerEventCallback(evt);
+            }   else{
+                ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+            }
         }
     
     private:

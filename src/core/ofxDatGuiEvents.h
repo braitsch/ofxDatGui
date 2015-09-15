@@ -21,8 +21,6 @@
 */
 
 #pragma once
-#include <string>
-#include <iostream>
 #include "ofColor.h"
 
 class ofxDatGuiButton;

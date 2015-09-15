@@ -63,6 +63,15 @@ enum ofxDatGuiAlignment
     RIGHT = 3
 };
 
+inline void ofxDatGuiLog(string msg = "")
+{
+    cout << msg << endl;
+}
+
+namespace ofxDatGuiMsg
+{
+    const string EVENT_HANDLER_NULL = "[WARNING] : Event Handler Not Set";
+}
 
 
 

@@ -21,9 +21,11 @@
 */
 
 #pragma once
+#include "ofxDatGuiLabel.h"
 #include "ofxDatGuiButton.h"
 #include "ofxDatGuiSlider.h"
 #include "ofxDatGuiTextInput.h"
+#include "ofxDatGuiFPS.h"
 #include "ofxDatGui2dPad.h"
 #include "ofxDatGuiColorPicker.h"
 #include "ofxDatGuiMatrix.h"
@@ -166,22 +168,38 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
     
         void dispatchButtonEvent(ofxDatGuiButtonEvent e)
         {
-            buttonEventCallback(e);
+            if (buttonEventCallback != nullptr) {
+                buttonEventCallback(e);
+            }   else{
+                ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+            }
         }
     
         void dispatchSliderEvent(ofxDatGuiSliderEvent e)
         {
-            sliderEventCallback(e);
+            if (sliderEventCallback != nullptr) {
+                sliderEventCallback(e);
+            }   else{
+                ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+            }
         }
     
         void dispatchTextInputEvent(ofxDatGuiTextInputEvent e)
         {
-            textInputEventCallback(e);
+            if (textInputEventCallback != nullptr) {
+                textInputEventCallback(e);
+            }   else{
+                ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+            }
         }
     
         void dispatchColorPickerEvent(ofxDatGuiColorPickerEvent e)
         {
-            colorPickerEventCallback(e);
+            if (colorPickerEventCallback != nullptr) {
+                colorPickerEventCallback(e);
+            }   else{
+                ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+            }
         }
 
         ofxDatGuiButton* addButton(string label)
@@ -309,9 +327,12 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
             for(int i=0; i<children.size(); i++) if (e.target == children[i]) mOption = i;
             mLabel = children[mOption]->getLabel();
             collapse();
-        // dispatch an event to tell the main application an option was selected //
-            ofxDatGuiDropdownEvent e1(this, mId, mOption);
-            dropdownEventCallback(e1);
+            if (dropdownEventCallback != nullptr) {
+                ofxDatGuiDropdownEvent e1(this, mId, mOption);
+                dropdownEventCallback(e1);
+            }   else{
+                ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+            }
         }
     
     private:

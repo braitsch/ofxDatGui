@@ -208,8 +208,12 @@ class ofxDatGuiMatrix : public ofxDatGuiItem {
     
         void onButtonSelected(ofxDatGuiInternalEvent e)
         {
-            ofxDatGuiMatrixEvent ev(this, e.index, btns[e.index].getSelected());
-            matrixEventCallback(ev);
+            if (matrixEventCallback != nullptr) {
+                ofxDatGuiMatrixEvent ev(this, e.index, btns[e.index].getSelected());
+                matrixEventCallback(ev);
+            }   else{
+                ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+            }
         }
     
     private:

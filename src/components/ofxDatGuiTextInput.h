@@ -98,8 +98,13 @@ class ofxDatGuiTextInput : public ofxDatGuiItem {
     
         virtual void onInputChanged(ofxDatGuiInternalEvent e)
         {
-            ofxDatGuiTextInputEvent ev(this, input->getText());
-            textInputEventCallback(ev);
+        // dispatch event out to main application //
+            if (textInputEventCallback != nullptr) {
+                ofxDatGuiTextInputEvent ev(this, input->getText());
+                textInputEventCallback(ev);
+            }   else{
+                ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+            }
         }
     
         ofxDatGuiTextInputField* input;

@@ -66,8 +66,12 @@ class ofxDatGuiButton : public ofxDatGuiItem {
         {
             ofxDatGuiItem::onMouseRelease(m);
         // dispatch event out to main application //
-            ofxDatGuiButtonEvent e(this);
-            buttonEventCallback(e);
+            if (buttonEventCallback != nullptr) {
+                ofxDatGuiButtonEvent e(this);
+                buttonEventCallback(e);
+            }   else{
+                ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+            }
         }
     
         virtual void toggle(){}
@@ -129,8 +133,12 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
             ofxDatGuiItem::onMouseRelease(m);
             mEnabled = !mEnabled;
         // dispatch event out to main application //
-            ofxDatGuiButtonEvent e(this, mEnabled);
-            buttonEventCallback(e);
+            if (buttonEventCallback != nullptr) {
+                ofxDatGuiButtonEvent e(this, mEnabled);
+                buttonEventCallback(e);
+            }   else{
+                ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+            }
         }
     
     private:

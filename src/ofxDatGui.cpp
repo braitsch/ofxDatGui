@@ -44,7 +44,7 @@ void ofxDatGui::init()
     setOpacity(1.0f);
     mRowSpacing = 1;
     mVisible = true;
-    mDisabled = false;
+    mEnabled = true;
     mExpanded = true;
     mousePressed = false;
     setAutoDraw(true);
@@ -73,6 +73,13 @@ void ofxDatGui::setWidth(int width)
     if (mAnchor == ofxDatGuiAnchor::TOP_RIGHT) anchorGui();
 }
 
+void ofxDatGui::setOrigin(int x, int y)
+{
+    mPosition.x = x;
+    mPosition.y = y;
+    mAnchor = ofxDatGuiAnchor::NO_ANCHOR;
+}
+
 void ofxDatGui::setOpacity(float opacity)
 {
     mAlpha = opacity;
@@ -84,14 +91,9 @@ void ofxDatGui::setVisible(bool visible)
     mVisible = visible;
 }
 
-void ofxDatGui::setDisabled(bool disable)
+void ofxDatGui::setEnabled(bool enabled)
 {
-    mDisabled = disable;
-}
-
-void ofxDatGui::setPosition(int x, int y)
-{
-    moveGui(ofPoint(x, y));
+    mEnabled = enabled;
 }
 
 void ofxDatGui::setAutoDraw(bool autodraw)
@@ -111,11 +113,6 @@ void ofxDatGui::setAlignment(ofxDatGuiAlignment align)
     mAlignmentChanged = true;
 }
 
-ofPoint ofxDatGui::getPosition()
-{
-    return ofPoint(mPosition.x, mPosition.y);
-}
-
 int ofxDatGui::getWidth()
 {
     return mWidth;
@@ -124,6 +121,11 @@ int ofxDatGui::getWidth()
 int ofxDatGui::getHeight()
 {
     return mHeight;
+}
+
+ofPoint ofxDatGui::getPosition()
+{
+    return ofPoint(mPosition.x, mPosition.y);
 }
 
 /* 
@@ -154,12 +156,11 @@ ofxDatGuiFooter* ofxDatGui::addFooter()
     }
 }
 
-ofxDatGuiTextInput* ofxDatGui::addTextInput(string label, string value)
+ofxDatGuiLabel* ofxDatGui::addLabel(string label)
 {
-    ofxDatGuiTextInput* input = new ofxDatGuiTextInput(label, value, mFont);
-    input->onTextInputEvent(this, &ofxDatGui::onTextInputEventCallback);
-    attachItem(input);
-    return input;
+    ofxDatGuiLabel* lbl = new ofxDatGuiLabel(label, mFont);
+    attachItem(lbl);
+    return lbl;
 }
 
 ofxDatGuiButton* ofxDatGui::addButton(string label)
@@ -193,6 +194,14 @@ ofxDatGuiSlider* ofxDatGui::addSlider(string label, float min, float max, float 
     return slider;
 }
 
+ofxDatGuiTextInput* ofxDatGui::addTextInput(string label, string value)
+{
+    ofxDatGuiTextInput* input = new ofxDatGuiTextInput(label, value, mFont);
+    input->onTextInputEvent(this, &ofxDatGui::onTextInputEventCallback);
+    attachItem(input);
+    return input;
+}
+
 ofxDatGuiColorPicker* ofxDatGui::addColorPicker(string label, ofColor color)
 {
     ofxDatGuiColorPicker* picker = new ofxDatGuiColorPicker(label, color, mFont);
@@ -208,6 +217,20 @@ ofxDatGuiDropdown* ofxDatGui::addDropdown(vector<string> options)
     dropdown->onInternalEvent(this, &ofxDatGui::onInternalEventCallback);
     attachItem(dropdown);
     return dropdown;
+}
+
+ofxDatGuiFPS* ofxDatGui::addFPS()
+{
+    ofxDatGuiFPS* fps = new ofxDatGuiFPS();
+    attachItem(fps);
+    return fps;
+}
+
+ofxDatGuiBreak* ofxDatGui::addBreak(int height)
+{
+    ofxDatGuiBreak* brk = new ofxDatGuiBreak(height, mFont);
+    attachItem(brk);
+    return brk;
 }
 
 ofxDatGui2dPad* ofxDatGui::add2dPad(string label)
@@ -385,38 +408,66 @@ ofxDatGuiItem* ofxDatGui::getComponent(string key)
 
 void ofxDatGui::onButtonEventCallback(ofxDatGuiButtonEvent e)
 {
-    buttonEventCallback(e);
+    if (buttonEventCallback != nullptr) {
+        buttonEventCallback(e);
+    }   else{
+        ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+    }
 }
 
 void ofxDatGui::onSliderEventCallback(ofxDatGuiSliderEvent e)
 {
-    sliderEventCallback(e);
+    if (sliderEventCallback != nullptr) {
+        sliderEventCallback(e);
+    }   else{
+        ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+    }
 }
 
 void ofxDatGui::onTextInputEventCallback(ofxDatGuiTextInputEvent e)
 {
-    textInputEventCallback(e);
+    if (textInputEventCallback != nullptr) {
+        textInputEventCallback(e);
+    }   else{
+        ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+    }
 }
 
 void ofxDatGui::onDropdownEventCallback(ofxDatGuiDropdownEvent e)
 {
     adjustHeight(e.parent);
-    dropdownEventCallback(e);
+    if (dropdownEventCallback != nullptr) {
+        dropdownEventCallback(e);
+    }   else{
+        ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+    }
 }
 
 void ofxDatGui::on2dPadEventCallback(ofxDatGui2dPadEvent e)
 {
-    pad2dEventCallback(e);
+    if (pad2dEventCallback != nullptr) {
+        pad2dEventCallback(e);
+    }   else{
+        ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+    }
 }
 
 void ofxDatGui::onColorPickerEventCallback(ofxDatGuiColorPickerEvent e)
 {
-    colorPickerEventCallback(e);
+    if (colorPickerEventCallback != nullptr) {
+        colorPickerEventCallback(e);
+    }   else{
+        ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+    }
 }
 
 void ofxDatGui::onMatrixEventCallback(ofxDatGuiMatrixEvent e)
 {
-    matrixEventCallback(e);
+    if (matrixEventCallback != nullptr) {
+        matrixEventCallback(e);
+    }   else{
+        ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+    }
 }
 
 void ofxDatGui::onInternalEventCallback(ofxDatGuiInternalEvent e)
@@ -449,9 +500,6 @@ void ofxDatGui::moveGui(ofPoint pt)
         items[i]->setOrigin(mPosition.x, mPosition.y + mHeight);
         mHeight += items[i]->getHeight() + mRowSpacing;
     }
-// disable automatic repositioning on window resize //
-    mAnchor = ofxDatGuiAnchor::NO_ANCHOR;
-    mWidthChanged = true;
 }
 
 void ofxDatGui::expandGui()
@@ -477,7 +525,7 @@ void ofxDatGui::collapseGui()
 
 void ofxDatGui::onMousePressed(ofMouseEventArgs &e)
 {
-    if (mDisabled || !mVisible) return;
+    if (!mEnabled || !mVisible) return;
     mousePressed = true;
     if (activeHover != nullptr){
         activeHover->onMousePress(mouse);
@@ -494,7 +542,7 @@ void ofxDatGui::onMousePressed(ofMouseEventArgs &e)
 
 void ofxDatGui::onMouseReleased(ofMouseEventArgs &e)
 {
-    if (mDisabled || !mVisible) return;
+    if (!mEnabled || !mVisible) return;
     mousePressed = false;
     if (activeHover != nullptr){
         activeHover->onMouseRelease(mouse);
@@ -511,7 +559,7 @@ void ofxDatGui::onMouseReleased(ofMouseEventArgs &e)
 
 void ofxDatGui::onKeyPressed(ofKeyEventArgs &e)
 {
-    if (mDisabled || !mVisible) return;
+    if (!mEnabled || !mVisible) return;
     bool disableShowAndHide = false;
     if (activeFocus != nullptr) {
         activeFocus->onKeyPressed(e.key);
@@ -565,7 +613,7 @@ bool ofxDatGui::isMouseOverGui()
 
 void ofxDatGui::update()
 {
-    if (mDisabled || !mVisible) return;
+    if (!mEnabled || !mVisible) return;
     if (mAlphaChanged) setGuiAlpha();
     if (mWidthChanged) setGuiWidth();
     if (mAlignmentChanged) setGuiAlignment();
@@ -579,7 +627,11 @@ void ofxDatGui::update()
         if (mousePressed) {
             activeHover->onMouseDrag(mouse);
         // allow the panel to be repositioned //
-            if (mGuiHeader != nullptr && activeHover == mGuiHeader) moveGui(mouse-mGuiHeader->dragOffset);
+            if (mGuiHeader != nullptr && activeHover == mGuiHeader) {
+                moveGui(mouse-mGuiHeader->dragOffset);
+        // disable anchor when gui is dragged //
+                mAnchor = ofxDatGuiAnchor::NO_ANCHOR;
+            }
         }
     }
 // empty the trash //
@@ -633,7 +685,8 @@ void ofxDatGui::onWindowResized(ofResizeEventArgs &e)
 
 void ofxDatGui::anchorGui()
 {
+    mPosition.y = 0;
     mPosition.x = ofGetWidth() - mWidth;
-    for (int i=0; i<items.size(); i++) items[i]->setOrigin(mPosition.x, mPosition.y);
+    moveGui(mPosition);
 }
 

@@ -107,8 +107,13 @@ class ofxDatGui2dPad : public ofxDatGuiItem {
                 my = (m.y-mPad.y)/mPad.height;
                 pWorld.x = mBounds.x + (mBounds.width*mx);
                 pWorld.y = mBounds.y + (mBounds.height*my);
-                ofxDatGui2dPadEvent e(this, pWorld.x, pWorld.y);
-                pad2dEventCallback(e);
+            // dispatch event out to main application //
+                if (pad2dEventCallback != nullptr) {
+                    ofxDatGui2dPadEvent e(this, pWorld.x, pWorld.y);
+                    pad2dEventCallback(e);
+                }   else{
+                    ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+                }
             }
         }
     

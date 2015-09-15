@@ -8,6 +8,9 @@ void ofApp::setup()
 // add some components //
     gui->addTextInput("MESSAGE", "OPEN FRAMEWORKS DATGUI");
     
+    gui->addFPS();
+    gui->addBreak();
+    
 // add a folder to group a few components together //
     ofxDatGuiFolder* folder = gui->addFolder("WHITE FOLDER", ofColor::white);
     folder->addTextInput("** INPUT", "NESTED INPUT FIELD");
@@ -16,6 +19,8 @@ void ofApp::setup()
     folder->addColorPicker("** PICKER", ofxDatGuiColor::DROPDOWN_STRIPE);
 // let's have it open by default. note: call this only after you're done adding items //
     folder->expand();
+
+    gui->addBreak();
     
 // add a couple range sliders //
     gui->addSlider("POSITION X", 0, 120, 75);
@@ -36,7 +41,7 @@ void ofApp::setup()
     ofxDatGui2dPad* pad = gui->add2dPad("2D PAD");
 
 // a button matrix //
-    gui->addMatrix("MATRIX", 21, true);
+    gui->addMatrix("MATRIX", 21, false);
 
 // and a couple of simple buttons //
     gui->addButton("CLICK");

@@ -22,6 +22,11 @@
 
 #include "ofxDatGuiItem.h"
 
+//void ofxDatGuiLog()
+//{
+//    cout << "ok" << endl;
+//}
+
 ofxDatGuiItem::ofxDatGuiItem(string label, ofxDatGuiFont* font)
 {
     mAlpha = 255;

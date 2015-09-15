@@ -30,29 +30,34 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
     public:
     
         ofxDatGui(int x, int y);
-        ofxDatGui(ofxDatGuiAnchor anchor);
+        ofxDatGui(ofxDatGuiAnchor anchor = ofxDatGuiAnchor::TOP_LEFT);
     
         void draw();
         void update();
+    
         void setWidth(int width);
+        void setOrigin(int x, int y);
         void setVisible(bool visible);
-        void setDisabled(bool disable);
+        void setEnabled(bool enabled);
         void setOpacity(float opacity);
-        void setPosition(int x, int y);
         void setAutoDraw(bool autodraw);
         void setAlignment(ofxDatGuiAlignment align);
+    
         int getWidth();
         int getHeight();
         ofPoint getPosition();
     
         ofxDatGuiHeader* addHeader(string label = "");
         ofxDatGuiFooter* addFooter();
-        ofxDatGuiTextInput* addTextInput(string label, string value = "");
+        ofxDatGuiLabel* addLabel(string label);
         ofxDatGuiButton* addButton(string label);
         ofxDatGuiToggle* addToggle(string label, bool state);
         ofxDatGuiSlider* addSlider(string label, float min, float max);
         ofxDatGuiSlider* addSlider(string label, float min, float max, float val);
+        ofxDatGuiTextInput* addTextInput(string label, string value = "");
         ofxDatGuiDropdown* addDropdown(vector<string> options);
+        ofxDatGuiFPS* addFPS();
+        ofxDatGuiBreak* addBreak(int height = 0);
         ofxDatGui2dPad* add2dPad(string label);
         ofxDatGui2dPad* add2dPad(string label, ofRectangle bounds);
         ofxDatGuiColorPicker* addColorPicker(string label, ofColor color = ofColor::black);
@@ -76,7 +81,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         int mRowSpacing;
         float mAlpha;
         bool mVisible;
-        bool mDisabled;
+        bool mEnabled;
         bool mExpanded;
         bool mAlphaChanged;
         bool mWidthChanged;
@@ -98,23 +103,24 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         void init();
         void layoutGui();
         void anchorGui();
-        void onDraw(ofEventArgs &e);
-        void onUpdate(ofEventArgs &e);
+        void expandGui();
+        void collapseGui();
+        void moveGui(ofPoint pt);
+        void attachItem(ofxDatGuiItem* item);
+        void adjustHeight(int index);
         void setGuiAlpha();
         void setGuiWidth();
         void setGuiAlignment();
+    
+        void onDraw(ofEventArgs &e);
+        void onUpdate(ofEventArgs &e);
+        
         bool isMouseOverRow(ofxDatGuiItem* row);
         bool isMouseOverGui();
         void onKeyPressed(ofKeyEventArgs &e);
         void onMousePressed(ofMouseEventArgs &e);
         void onMouseReleased(ofMouseEventArgs &e);
         void onWindowResized(ofResizeEventArgs &e);
-
-        void moveGui(ofPoint pt);
-        void expandGui();
-        void collapseGui();
-        void attachItem(ofxDatGuiItem* item);
-        void adjustHeight(int index);
     
         ofxDatGuiItem* getComponent(string key);
         void onInternalEventCallback(ofxDatGuiInternalEvent e);

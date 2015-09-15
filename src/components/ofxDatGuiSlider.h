@@ -150,8 +150,12 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
         void dispatchSliderChangedEvent()
         {
         // dispatch event out to main application //
-            ofxDatGuiSliderEvent e(this, mVal, mScale);
-            sliderEventCallback(e);
+            if (sliderEventCallback != nullptr) {
+                ofxDatGuiSliderEvent e(this, mVal, mScale);
+                sliderEventCallback(e);
+            }   else{
+                ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+            }
         }
     
         void onKeyPressed(int key)

@@ -23,17 +23,20 @@
 
 **ofxDatGui** is built on top of C++11 and requires the new openFrameworks 0.9.0 pre-release which you can [download here](http://forum.openframeworks.cc/t/0-9-0-release-candidate-1/20434).
 
-* Once you've downloaded openFrameworks, clone or download this repository and unpack it into your openFrameworks/addons directory.
+* Once you've downloaded [openFrameworks](http://forum.openframeworks.cc/t/0-9-0-release-candidate-1/20434), clone or download this repository into your openFrameworks/addons directory.
 
 * Create a new project using the project generator and include **ofxDatGui** by selecting the ```addons``` button in the generator.
 
-* Copy the ```ofxdatgui_assets``` directory in the root of this repository to your newly created project's bin/data directory.
+* Copy the ```ofxdatgui_assets``` directory in the root of this repository to your project's bin/data directory. This directory contains the fonts & icons used by **ofxDatGui**.
 
 * Add **ofxDatGui** to your project by adding  ```#include "ofxDatGui.h"``` to the top of your ```ofApp.h``` file and you're ready to go!
 
 ##Getting Started
 
-To create an **ofxDatGui** simply pass in the X and Y coordinates where you would like it to live or use one of the convenient pre-defined anchors.
+There are two ways to work with **ofxDatGui**. You can either instantiate each component on its own or consolidate them into a gui panel that you can drag around. The individual component examples included in this repository demonstrate how to use each on its own.
+
+
+To create an **ofxDatGui** panel that groups components together simply pass in the X and Y coordinates where you would like it to live or use one of the convenient pre-defined anchors.
 
 	ofxDatGui* gui = new ofxDatGui( 100, 100 );
 	ofxDatGui* gui = new ofxDatGui( ofxDatGuiAnchor::TOP_LEFT );
@@ -47,7 +50,7 @@ This generates a Basic Button with the label "Click!"
 
 ![ofxDatGui](./readme-img/ofxdatgui_click.png?raw=true)
 
-## Components
+## Interactive Components
  
 **ofxDatGui** currently offers the following components:
   
@@ -65,7 +68,7 @@ This generates a Basic Button with the label "Click!"
 	
 **Toggle Button**
 
-	gui->addToggle(string label, bool enabled = false);
+	gui->addToggle(string label, bool enabled = true);
 
 
 ![ofxDatGui](./readme-img/ofxdatgui_toggle.png?raw=true)
@@ -76,7 +79,7 @@ This generates a Basic Button with the label "Click!"
 
 ![ofxDatGui](./readme-img/ofxdatgui_slider.png?raw=true)
 	
-Optionally you can set the starting value of the slider.  
+You can also set the starting value of the slider.  
 If this is not set it will default to halfway between the min and max values.
 
 	gui->addSlider(string label, float min, float max, float value);
@@ -114,16 +117,49 @@ You can display numbered labels on the buttons by passing ``true`` as the third 
 
 The bounds parameter is optional and will default to the window dimensions if omitted.
 
+##Utility Components
+
+**ofxDatGui** also provides a few non-interactive utility components to assist with layout and application health monitoring.
+
+**Label**
+  
+ 	gui->addLabel(string label);
+
+![ofxDatGui](./readme-img/ofxdatgui_label.png?raw=true)
+
+**FPS Monitor**
+	
+	gui->addFPS(float refreshFrequency = 1.0f);
+
+![ofxDatGui](./readme-img/ofxdatgui_fps.gif?raw=true)
+
+**Break**
+
+	gui->addLabel("Above");
+	gui->addBreak(float height = 10.0f);
+	gui->addLabel("Stuck in the Middle");
+	gui->addBreak(float height = 10.0f);
+	gui->addLabel("Below");
+
+![ofxDatGui](./readme-img/ofxdatgui_break.png?raw=true)
+	
 ##Component Groups (Folders)
 
 You can also group related components into folders. When constructing a folder pass in a label to name the folder and an optional color to help visually group its contents.
 
-	ofxDatGuiFolder* folder = gui->addFolder("My White Folder", ofColor::white);
-	folder->addTextInput("** Input", "A Nested Text Input");
-	folder->addSlider("** Slider", 0, 100);
-	folder->addToggle("** Toggle", false);
+```cpp
+ofxDatGuiFolder* folder = gui->addFolder("My White Folder", ofColor::white);
+folder->addTextInput("** Input", "A Nested Text Input");
+folder->addSlider("** Slider", 0, 100);
+folder->addToggle("** Toggle", false);
+```
 
 ![ofxDatGui](./readme-img/ofxdatgui_folder.png?raw=true)
+	
+You can also expand and collapse folders programmatically.
+
+	folder->expand();
+	folder->collapse();
 	
 ## Manipulation
 
@@ -181,6 +217,8 @@ myColorPicker->setColor(ofColor color);
 ofxDatGuiDropdown* myDropdown;
 myDropdown->select(childIndex);
 int myDropdown->getSelectedChildIndex();
+myDropdown->expand();
+myDropdown->collapse();
 ```
 	
 **ofxDatGuiMatrix**
@@ -201,6 +239,18 @@ ofPoint my2dPad->getPosition();
 ```	
 	
 **Note:** All indicies are zero based so the first item in your  **ofxDatGui** instance will have an index of 0, the second item will have an index of 1, the third item an index of 2 etc..
+	
+## Component Retrieval
+
+If you're lazy and don't feel like storing your components in variables you can easily retrieve them by their non-case sensitive label.
+
+	ofxDatGuiButton* gui->getButton("My Button"); // button label
+	ofxDatGuiSlider* gui->getSlider("My Slider"); // slider label
+	
+If you have multiple components with the same label nested in separate folders you can specify the folder to search.
+
+	ofxDatGuiButton* gui->getButton("Folder 1", "Reset Button");
+	ofxDatGuiButton* gui->getButton("Folder 2", "Reset Button");
 	
 ## Events
 
@@ -277,7 +327,7 @@ All events also contain additonal properties that allow convenient access to the
 	int e.child // the index of the selected button (zero based)
 	bool e.enabled // enabled state of the selected button
 	
-**Note:** You can always retrieve these properties directly from the event target itself.
+**Note:** You can also retrieve these properties directly from the event target itself.
 
 	ofxDatGuiSliderEvent e
 	float value = e.target->getValue();
@@ -286,7 +336,7 @@ All events also contain additonal properties that allow convenient access to the
 		
 ##Headers & Footers
 
-**ofxDatGui** also provides an optional header and footer that allow you to title your gui, drag it around and conveniently collapse and expand it.
+**ofxDatGui** also provides an optional header and footer that allows you to title your gui, drag it around and conveniently collapse and expand it. The ```GuiComponents``` example for offers a nice demonstration of their use.
 
 	gui->addHeader(":: Drag Me To Reposition ::");
 	
@@ -295,14 +345,41 @@ All events also contain additonal properties that allow convenient access to the
 	gui->addFooter();
  
 ![ofxDatGui](./readme-img/ofxdatgui_footer.png?raw=true)
- 
-##Customization 
 
-Eventually custom themes will be supported however for now you can adjust the transparency of the gui via: 
+##Automatic Rendering
+
+**ofxDatGui** automatically updates draws itself on top of your application so there is no need to call ```update``` or ```draw``` on it. However you can easily disable this if you like via:
+
+	gui->setAutoDraw(bool enabled);
  
-	gui->setOpacity(float opacity); // between 0 & 1 // 
+##Label Alignment
+
+You can easily set the label alignment for each component or on **ofxDatGui** itself via:
+
+	gui->setAlignment(ofxDatGuiAlignment alignment);
+
+Valid values are:
  
-You can also show & hide **ofxDatGui** by pressing the ``h`` key.
+ 	ofxDatGuiAlignment::LEFT
+ 	ofxDatGuiAlignment::CENTER
+ 	ofxDatGuiAlignment::RIGHT
+ 
+##Customization
+
+Aditionally all components provide the following instance methods.
+
+ 	gui->setWidth(int width);
+ 	gui->setOrigin(int x, int y);
+	gui->setOpacity(float opacity); // between 0 & 1 //
+	gui->setVisible(bool visible);
+	gui->setEnabled(bool enabled);
+	gui->setStripeColor(ofColor color);
+	gui->setAlignment(ofxDatGuiAlignment alignment);
+
+##Save & Load Settings
+
+	Coming Soon
+
 
 ##Additonal Notes
 
