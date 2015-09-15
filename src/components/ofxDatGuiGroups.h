@@ -118,7 +118,7 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
             ofxDatGuiItem::onMouseRelease(m);
             mIsExpanded ? collapse() : expand();
             if (internalEventCallback!=nullptr){
-                ofxDatGuiInternalEvent e(ofxDatGuiEventType::DROPDOWN_TOGGLED, mId);
+                ofxDatGuiInternalEvent e(ofxDatGuiEventType::DROPDOWN_TOGGLED, mIndex);
                 internalEventCallback(e);
             }
         }
@@ -296,6 +296,7 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
     
         ofxDatGuiDropdown(string label, vector<string> options, ofxDatGuiFont* font=nullptr) : ofxDatGuiGroup(label, font)
         {
+            mOption = 0;
             mStripeColor = ofxDatGuiColor::DROPDOWN_STRIPE;
             for(uint8_t i=0; i<options.size(); i++){
                 ofxDatGuiDropdownOption* opt = new ofxDatGuiDropdownOption(options[i], mFont);
@@ -316,10 +317,20 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
                 mLabel = children[cIndex]->getLabel();
             }
         }
-    
-        int getSelectedChildIndex()
+
+        int size()
         {
-            return mOption;
+            return children.size();
+        }
+    
+        ofxDatGuiDropdownOption* getChildAt(int index)
+        {
+            return static_cast<ofxDatGuiDropdownOption*>(children[index]);
+        }
+    
+        ofxDatGuiDropdownOption* getSelected()
+        {
+            return static_cast<ofxDatGuiDropdownOption*>(children[mOption]);
         }
     
         void onOptionSelected(ofxDatGuiButtonEvent e)
@@ -328,7 +339,7 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
             mLabel = children[mOption]->getLabel();
             collapse();
             if (dropdownEventCallback != nullptr) {
-                ofxDatGuiDropdownEvent e1(this, mId, mOption);
+                ofxDatGuiDropdownEvent e1(this, mIndex, mOption);
                 dropdownEventCallback(e1);
             }   else{
                 ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);

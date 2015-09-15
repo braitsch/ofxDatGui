@@ -84,7 +84,7 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
         {
             ofxDatGuiItem::onMouseRelease(m);
         // dispatch event out to main application //
-            ofxDatGuiInternalEvent e(ofxDatGuiEventType::GUI_TOGGLED, mId);
+            ofxDatGuiInternalEvent e(ofxDatGuiEventType::GUI_TOGGLED, mIndex);
             internalEventCallback(e);
             if (mIsExpanded){
                 mIsExpanded = false;

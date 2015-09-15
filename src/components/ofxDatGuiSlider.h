@@ -44,6 +44,8 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
             setWidth(mRetinaEnabled ? 540 : 320);
         }
     
+        ofxDatGuiSlider(string label, float min, float max) : ofxDatGuiSlider(label, min, max, (max+min)/2) {}
+    
         ~ofxDatGuiSlider()
         {
             delete input;
@@ -71,7 +73,7 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
         {
             mScale = scale;
             if (mScale < 0 || mScale > 1){
-                ofLogError() << "row #" << mId << " : scale must be between 0 & 1" << " [setting to 50%]";
+                ofLogError() << "row #" << mIndex << " : scale must be between 0 & 1" << " [setting to 50%]";
                 mScale = 0.5f;
             }
             mVal = ((mMax-mMin) * mScale) + mMin;
@@ -186,13 +188,13 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
         void calcScale()
         {
             if (mMax <= mMin || mMin >= mMax){
-                ofLogError() << "row #" << mId << " : invalid min & max values" << " [setting to 50%]";
+                ofLogError() << "row #" << mIndex << " : invalid min & max values" << " [setting to 50%]";
                 mMin = 0;
                 mMax = 100;
                 mScale = 0.5f;
                 mVal = (mMax+mMin) * mScale;
             }   else if (mVal > mMax || mVal < mMin){
-                ofLogWarning() << "row #" << mId << " : "<< mVal << " is out of range" << " [setting to 50%]";
+                ofLogWarning() << "row #" << mIndex << " : "<< mVal << " is out of range" << " [setting to 50%]";
                 mScale = 0.5f;
                 mVal = (mMax+mMin) * mScale;
             }   else{

@@ -22,11 +22,6 @@
 
 #include "ofxDatGuiItem.h"
 
-//void ofxDatGuiLog()
-//{
-//    cout << "ok" << endl;
-//}
-
 ofxDatGuiItem::ofxDatGuiItem(string label, ofxDatGuiFont* font)
 {
     mAlpha = 255;
@@ -35,6 +30,7 @@ ofxDatGuiItem::ofxDatGuiItem(string label, ofxDatGuiFont* font)
     mMouseOver = false;
     mMouseDown = false;
     mLabelMarginRight = 0;
+    mAnchor = ofxDatGuiAnchor::NO_ANCHOR;
     mLabelAlignment = ofxDatGuiAlignment::LEFT;
     mRetinaEnabled = (ofGetScreenWidth()>=2560 && ofGetScreenHeight()>=1600);
     mIcon.y = 8;
@@ -119,7 +115,12 @@ void ofxDatGuiFont::drawLabel(string text, int xpos, int ypos)
 
 void ofxDatGuiItem::setIndex(int index)
 {
-    mId = index;
+    mIndex = index;
+}
+
+int ofxDatGuiItem::getIndex()
+{
+    mIndex;
 }
 
 void ofxDatGuiItem::setOpacity(float opacity)
@@ -138,7 +139,7 @@ void ofxDatGuiItem::setWidth(int w)
     mIcon.x=mRow.width-(mRow.width*.05)-20;
     mSlider.width=mRow.rWidth*.7;
     mSlider.inputX=mRow.inputX+mSlider.width+mRow.padding;
-    mSlider.inputWidth=mRow.rWidth-mSlider.width-mRow.padding;
+    mSlider.inputWidth=mRow.rWidth-mSlider.width-(mRow.padding*2);
     for (int i=0; i<children.size(); i++) children[i]->setWidth(w);
 }
 
@@ -184,6 +185,16 @@ void ofxDatGuiItem::setOrigin(int x, int y)
     this->y = mOriginY = y;
     mLabelAreaWidth = mRow.lWidth;
     for(int i=0; i<children.size(); i++) children[i]->setOrigin(x, this->y + (mRow.height+mRow.spacing)*(i+1));
+}
+
+void ofxDatGuiItem::setAnchor(ofxDatGuiAnchor anchor)
+{
+    mAnchor = anchor;
+    if (mAnchor == ofxDatGuiAnchor::TOP_LEFT){
+        setOrigin(0, 0);
+    }   else if (mAnchor == ofxDatGuiAnchor::TOP_RIGHT){
+        setOrigin(ofGetWidth()-mRow.width, 0);
+    }
 }
 
 int ofxDatGuiItem::getX()
@@ -237,6 +248,10 @@ void ofxDatGuiItem::update()
             ofRemoveListener(ofEvents().keyPressed, this, &ofxDatGuiItem::onKeyPressed);
             onFocusLost();
         }
+    }
+// if we're anchored, check if the window was resized //
+    if (mAnchor != ofxDatGuiAnchor::NO_ANCHOR){
+        if (ofGetWidth() != mWindow.width) setAnchor(mAnchor);
     }
     for(int i=0; i<children.size(); i++) children[i]->update();
 }

@@ -215,8 +215,10 @@ myColorPicker->setColor(ofColor color);
 
 ```cpp	
 ofxDatGuiDropdown* myDropdown;
-myDropdown->select(childIndex);
-int myDropdown->getSelectedChildIndex();
+int myDropdown->size();
+myDropdown->select(int index);
+ofxDatGuiDropdownOption* getChildAt(int index);
+ofxDatGuiDropdownOption* myDropdown->getSelected();
 myDropdown->expand();
 myDropdown->collapse();
 ```

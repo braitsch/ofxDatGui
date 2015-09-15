@@ -37,9 +37,11 @@ class ofxDatGuiItem : public ofxDatGuiInteractiveObject
         string  getLabel();
         int     getPositionY();
         void    setIndex(int index);
+        int     getIndex();
         void    setLabel(string label);
         void    setStripeColor(ofColor color);
-    
+        void    setAnchor(ofxDatGuiAnchor anchor);
+
         void    setVisible(bool visible);
         void    setOpacity(float opacity);
         bool    getVisible();
@@ -71,7 +73,7 @@ class ofxDatGuiItem : public ofxDatGuiInteractiveObject
     
         int x;
         int y;
-        int mId;
+        int mIndex;
         int mAlpha;
         int mOriginY;
         bool mFocused;
@@ -86,6 +88,7 @@ class ofxDatGuiItem : public ofxDatGuiInteractiveObject
         int mLabelAreaWidth;
         int mLabelMarginRight;
         ofxDatGuiFont* mFont;
+        ofxDatGuiAnchor mAnchor;
         ofxDatGuiAlignment mLabelAlignment;
     
         struct {
@@ -109,6 +112,11 @@ class ofxDatGuiItem : public ofxDatGuiInteractiveObject
             int y;
             int size;
         } mIcon;
+    
+        struct {
+            int width;
+            int height;
+        } mWindow;
     
         void drawLabel();
         void drawLabel(string label);
