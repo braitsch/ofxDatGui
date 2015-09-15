@@ -2,7 +2,7 @@
 
 **ofxDatGui** is a **simple to use**, lightweight, high-resolution graphical user interface for [openFrameworks](http://openframeworks.cc/) inspired by the popular JavaScript  [datgui](http://workshop.chromeexperiments.com/examples/gui/) interface.  
 
-![ofxDatGui](./img/ofxdatgui_03.png?raw=true)
+![ofxDatGui](./readme-img/ofxdatgui_03.png?raw=true)
 
 
 ##Features
@@ -45,7 +45,7 @@ Adding components to **ofxDatGui** is as simple as:
 	
 This generates a Basic Button with the label "Click!"
 
-![ofxDatGui](./img/ofxdatgui_click.png?raw=true)
+![ofxDatGui](./readme-img/ofxdatgui_click.png?raw=true)
 
 ## Components
  
@@ -55,26 +55,26 @@ This generates a Basic Button with the label "Click!"
  
 	gui->addTextInput(string label, string value = "");
 	
-![ofxDatGui](./img/ofxdatgui_input.png?raw=true)
+![ofxDatGui](./readme-img/ofxdatgui_input.png?raw=true)
   
 **Basic Button**
 	 	
 	gui->addButton(string label);
 	
-![ofxDatGui](./img/ofxdatgui_click.png?raw=true)	
+![ofxDatGui](./readme-img/ofxdatgui_click.png?raw=true)	
 	
 **Toggle Button**
 
 	gui->addToggle(string label, bool enabled = false);
 
 
-![ofxDatGui](./img/ofxdatgui_toggle.png?raw=true)
+![ofxDatGui](./readme-img/ofxdatgui_toggle.png?raw=true)
 
 **Range Slider**
 
 	gui->addSlider(string label, float min, float max);
 
-![ofxDatGui](./img/ofxdatgui_slider.png?raw=true)
+![ofxDatGui](./readme-img/ofxdatgui_slider.png?raw=true)
 	
 Optionally you can set the starting value of the slider.  
 If this is not set it will default to halfway between the min and max values.
@@ -85,32 +85,32 @@ If this is not set it will default to halfway between the min and max values.
 	
 	gui->addColorPicker(string label, ofColor color = ofColor::black);
 
-![ofxDatGui](./img/ofxdatgui_color.png?raw=true)
+![ofxDatGui](./readme-img/ofxdatgui_color.png?raw=true)
 	
 **Dropdown Menu**
 	
 	vector<string> options = {"ONE", "TWO", "THREE", "FOUR"};
 	gui->addDropdown(options);
 	
-![ofxDatGui](./img/ofxdatgui_dropdown.png?raw=true)
+![ofxDatGui](./readme-img/ofxdatgui_dropdown.png?raw=true)
 
 **Button Matrix**
 
 	gui->addMatrix(string label, int numButtons)
 
-![ofxDatGui](./img/ofxdatgui_matrix.png?raw=true)
+![ofxDatGui](./readme-img/ofxdatgui_matrix.png?raw=true)
 
 You can display numbered labels on the buttons by passing ``true`` as the third argument.
 
 	gui->addMatrix(string label, int numButtons, bool showLabels)
 
-![ofxDatGui](./img/ofxdatgui_matrix_labels.png?raw=true)
+![ofxDatGui](./readme-img/ofxdatgui_matrix_labels.png?raw=true)
 
 **2D Coordinate Pad**
 
 	gui->add2dPad(string label, ofRectangle bounds);
 
-![ofxDatGui](./img/ofxdatgui_2dpad.png?raw=true)
+![ofxDatGui](./readme-img/ofxdatgui_2dpad.png?raw=true)
 
 The bounds parameter is optional and will default to the window dimensions if omitted.
 
@@ -123,7 +123,7 @@ You can also group related components into folders. When constructing a folder p
 	folder->addSlider("** Slider", 0, 100);
 	folder->addToggle("** Toggle", false);
 
-![ofxDatGui](./img/ofxdatgui_folder.png?raw=true)
+![ofxDatGui](./readme-img/ofxdatgui_folder.png?raw=true)
 	
 ## Manipulation
 
@@ -290,11 +290,11 @@ All events also contain additonal properties that allow convenient access to the
 
 	gui->addHeader(":: Drag Me To Reposition ::");
 	
-![ofxDatGui](./img/ofxdatgui_header.png?raw=true)
+![ofxDatGui](./readme-img/ofxdatgui_header.png?raw=true)
 	
 	gui->addFooter();
  
-![ofxDatGui](./img/ofxdatgui_footer.png?raw=true)
+![ofxDatGui](./readme-img/ofxdatgui_footer.png?raw=true)
  
 ##Customization 
 
