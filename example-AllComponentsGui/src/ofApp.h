@@ -12,6 +12,7 @@ class ofApp : public ofBaseApp{
     
         ofxDatGui* gui;
         bool isFullscreen;
+        void toggleFullscreen();
 
         void keyPressed(int key);
         void onButtonEvent(ofxDatGuiButtonEvent e);

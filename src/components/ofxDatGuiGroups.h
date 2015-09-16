@@ -43,13 +43,13 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
     
         void setWidth(int w)
         {
-            ofxDatGuiItem::setWidth(w);
+            ofxDatGuiComponent::setWidth(w);
             mLabelMarginRight = mRow.width-mIcon.x;
         }
     
         void setOrigin(int x, int y)
         {
-            ofxDatGuiItem::setOrigin(x, y);
+            ofxDatGuiComponent::setOrigin(x, y);
             int ypos = mRow.height + mRow.spacing;
             for(int i=0; i<children.size(); i++){
                 if (mIsExpanded){
@@ -62,7 +62,7 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
     
         void setPositionY(int y)
         {
-            ofxDatGuiItem::setPositionY(y);
+            ofxDatGuiComponent::setPositionY(y);
             int ypos = mRow.height + mRow.spacing;
             for(int i=0; i<children.size(); i++) {
                 if (mIsExpanded){
@@ -91,8 +91,8 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
         {
             ofPushStyle();
                 ofxDatGuiButton::drawBkgd();
-                ofxDatGuiItem::drawLabel();
-                ofxDatGuiItem::drawStripe();
+                ofxDatGuiComponent::drawLabel();
+                ofxDatGuiComponent::drawStripe();
                 ofSetColor(ofxDatGuiColor::LABEL);
                 mImage.draw(x+mIcon.x, y+mIcon.y, mIcon.size, mIcon.size);
             if (mIsExpanded) {
@@ -116,7 +116,7 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
         void onMouseRelease(ofPoint m)
         {
     // open & close the group when its header is clicked //
-            ofxDatGuiItem::onMouseRelease(m);
+            ofxDatGuiComponent::onMouseRelease(m);
             mIsExpanded ? collapse() : expand();
             if (internalEventCallback!=nullptr){
                 ofxDatGuiInternalEvent e(ofxDatGuiEventType::DROPDOWN_TOGGLED, mIndex);
@@ -325,7 +325,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
             return matrix;
         }
     
-        void attachItem(ofxDatGuiItem* item)
+        void attachItem(ofxDatGuiComponent* item)
         {
             item->setVisible(false);
             item->setIndex(children.size());
@@ -354,8 +354,8 @@ class ofxDatGuiDropdownOption : public ofxDatGuiButton {
         void draw()
         {
             ofxDatGuiButton::drawBkgd();
-            ofxDatGuiItem::drawLabel("* "+mLabel);
-            ofxDatGuiItem::drawStripe();
+            ofxDatGuiComponent::drawLabel("* "+mLabel);
+            ofxDatGuiComponent::drawStripe();
         }
 
 };

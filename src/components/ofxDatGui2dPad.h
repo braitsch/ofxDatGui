@@ -21,20 +21,20 @@
 */
 
 #pragma once
-#include "ofxDatGuiItem.h"
+#include "ofxDatGuiComponent.h"
 
-class ofxDatGui2dPad : public ofxDatGuiItem {
+class ofxDatGui2dPad : public ofxDatGuiComponent {
 
     public:
     
-        ofxDatGui2dPad(string label, ofxDatGuiFont* font=nullptr) : ofxDatGuiItem(label, font)
+        ofxDatGui2dPad(string label, ofxDatGuiFont* font=nullptr) : ofxDatGuiComponent(label, font)
         {
             init();
             mScaleOnResize = true;
             mBounds = ofRectangle(0, 0, ofGetWidth(), ofGetHeight());
         }
     
-        ofxDatGui2dPad(string label, ofRectangle bounds, ofxDatGuiFont* font=nullptr) : ofxDatGuiItem(label, font)
+        ofxDatGui2dPad(string label, ofRectangle bounds, ofxDatGuiFont* font=nullptr) : ofxDatGuiComponent(label, font)
         {
             init();
             mBounds = bounds;
@@ -71,7 +71,7 @@ class ofxDatGui2dPad : public ofxDatGuiItem {
     
         void setOrigin(int x, int y)
         {
-            ofxDatGuiItem::setOrigin(x, y);
+            ofxDatGuiComponent::setOrigin(x, y);
             if (mScaleOnResize){
         // scale the bounds to the resized window //
                 mBounds.width*=(ofGetWidth()/mBounds.width);
@@ -86,9 +86,9 @@ class ofxDatGui2dPad : public ofxDatGuiItem {
             mPad.width = mRow.width-mRow.padding-mRow.inputX;
             pLocal.x = mPad.x + mPad.width * mx;
             pLocal.y = mPad.y + mPad.height * my;
-            ofxDatGuiItem::drawBkgd();
-            ofxDatGuiItem::drawLabel();
-            ofxDatGuiItem::drawStripe();
+            ofxDatGuiComponent::drawBkgd();
+            ofxDatGuiComponent::drawLabel();
+            ofxDatGuiComponent::drawStripe();
             ofSetColor(ofxDatGuiColor::INPUT);
             ofDrawRectangle(mPad);
             ofSetLineWidth(2);

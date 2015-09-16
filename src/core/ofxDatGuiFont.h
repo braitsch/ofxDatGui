@@ -21,55 +21,36 @@
 */
 
 #pragma once
-#include "ofxDatGuiComponent.h"
+#include "ofxDatGuiConstants.h"
 
-class ofxDatGuiBreak : public ofxDatGuiComponent{
+class ofxDatGuiFont{
 
     public:
-    
-        ofxDatGuiBreak(int height = 0, ofxDatGuiFont* font=nullptr) : ofxDatGuiComponent("", font)
+        ofxDatGuiFont(bool retinaEnabled)
         {
-            if (height <= 0){
-                mRow.height *= .1;
-            }   else{
-                mRow.height = height;
+            size = 6;
+            highlightPadding = 3;
+            mRetinaEnabled = retinaEnabled;
+            if (mRetinaEnabled){
+                size*=2;
+                highlightPadding*=2;
+                tFont.load(ofxDatGuiAssetDir+"/font-verdana.ttf", size);
             }
+            labelHeight = getStringBoundingBox("ABCDEFG123456", 0, 0).height;
         }
-    
-        void draw()
-        {
-            ofxDatGuiComponent::drawBkgd();
-        }
-    
-        bool hitTest(ofPoint m)
-        {
-            return false;
-        }
+        int size;
+        int labelX;
+        int labelHeight;
+        int highlightPadding;
 
+        void drawLabel(string text, int xpos, int ypos);
+        void drawText(string text, ofColor color, int xpos, int ypos, bool highlight = false);
+        ofRectangle getStringBoundingBox(string str, int x, int y);
+    
+    private:
+        ofBitmapFont bFont;
+        ofTrueTypeFont tFont;
+        bool mRetinaEnabled;
 };
 
-class ofxDatGuiLabel : public ofxDatGuiComponent{
 
-    public:
-        
-        ofxDatGuiLabel(string label, ofxDatGuiFont* font=nullptr) : ofxDatGuiComponent(label, font)
-        {
-            mStripeColor = ofxDatGuiColor::BUTTON_STRIPE;
-        }
-    
-        void draw()
-        {
-            ofxDatGuiComponent::drawBkgd();
-            ofxDatGuiComponent::drawLabel();
-            ofxDatGuiComponent::drawStripe();
-        }
-    
-        bool hitTest(ofPoint m)
-        {
-            return false;
-        }
-    
-    protected:
-
-
-};

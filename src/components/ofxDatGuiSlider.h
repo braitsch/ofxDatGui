@@ -21,13 +21,14 @@
 */
 
 #pragma once
-#include "ofxDatGuiItem.h"
+#include "ofxDatGuiComponent.h"
+#include "ofxDatGuiTextInputField.h"
 
-class ofxDatGuiSlider : public ofxDatGuiItem {
+class ofxDatGuiSlider : public ofxDatGuiComponent {
 
     public:
     
-        ofxDatGuiSlider(string label, float min, float max, float val, ofxDatGuiFont* font=nullptr) : ofxDatGuiItem(label, font)
+        ofxDatGuiSlider(string label, float min, float max, float val, ofxDatGuiFont* font=nullptr) : ofxDatGuiComponent(label, font)
         {
             mMin = min;
             mMax = max;
@@ -86,23 +87,23 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
     
         void setWidth(int w)
         {
-            ofxDatGuiItem::setWidth(w);
+            ofxDatGuiComponent::setWidth(w);
             input->setWidth(mSlider.inputWidth);
             input->setOrigin(x + mSlider.inputX, y + mRow.padding);
         }
     
         void setOrigin(int x, int y)
         {
-            ofxDatGuiItem::setOrigin(x, y);
+            ofxDatGuiComponent::setOrigin(x, y);
             input->setOrigin(x + mSlider.inputX, y + mRow.padding);
         }
 
         void draw()
         {
             ofPushStyle();
-                ofxDatGuiItem::drawBkgd();
-                ofxDatGuiItem::drawLabel();
-                ofxDatGuiItem::drawStripe();
+                ofxDatGuiComponent::drawBkgd();
+                ofxDatGuiComponent::drawLabel();
+                ofxDatGuiComponent::drawStripe();
             // slider bkgd //
                 ofSetColor(ofxDatGuiColor::INPUT);
                 ofDrawRectangle(x+mRow.inputX, y+mRow.padding, mSlider.width, mRow.height-(mRow.padding*2));
@@ -118,13 +119,13 @@ class ofxDatGuiSlider : public ofxDatGuiItem {
     
         void onFocusLost()
         {
-            ofxDatGuiItem::onFocusLost();
+            ofxDatGuiComponent::onFocusLost();
             if (mInputActive) input->onFocusLost();
         }
     
         void onMousePress(ofPoint m)
         {
-            ofxDatGuiItem::onMousePress(m);
+            ofxDatGuiComponent::onMousePress(m);
             if (input->hitTest(m)){
                 input->onFocus();
                 mInputActive = true;

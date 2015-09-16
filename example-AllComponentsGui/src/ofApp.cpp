@@ -11,7 +11,7 @@ void ofApp::setup()
     gui = new ofxDatGui( ofxDatGuiAnchor::TOP_RIGHT );
     
 // add some components //
-    gui->addTextInput("MESSAGE", "OPEN FRAMEWORKS DATGUI");
+    gui->addTextInput("MESSAGE", "# OPEN FRAMEWORKS #");
     
     gui->addFRM();
     gui->addBreak();
@@ -38,9 +38,11 @@ void ofApp::setup()
 // and a colorpicker! //
     gui->addColorPicker("COLOR PICKER", ofxDatGuiColor::TOGGLE_STRIPE);
     
+    gui->addBreak();
 // add a dropdown menu //
     vector<string> o1 = {"OPTION - 1", "OPTION - 2", "OPTION - 3", "OPTION - 4"};
     gui->addDropdown(o1);
+    gui->addBreak();
 
 // add a 2d pad //
     ofxDatGui2dPad* pad = gui->add2dPad("2D PAD");
@@ -50,7 +52,7 @@ void ofApp::setup()
 
 // and a couple of simple buttons //
     gui->addButton("CLICK");
-    gui->addToggle("TOGGLE", true);
+    gui->addToggle("TOGGLE FULLSCREEN", true);
 
 // adding the optional header allows you to drag the gui around //
     gui->addHeader(":: DRAG ME TO REPOSITION ::");
@@ -67,11 +69,10 @@ void ofApp::setup()
     gui->onColorPickerEvent(this, &ofApp::onColorPickerEvent);
     gui->onMatrixEvent(this, &ofApp::onMatrixEvent);
 
- //   gui->setOpacity(gui->getSlider("datgui opacity")->getScale());
+    gui->setOpacity(gui->getSlider("datgui opacity")->getScale());
 
 // let's launch the app fullscreen //
-    isFullscreen = true;
-    ofSetFullscreen(isFullscreen);
+    toggleFullscreen();
 }
 
 void ofApp::onSliderEvent(ofxDatGuiSliderEvent e)
@@ -82,6 +83,7 @@ void ofApp::onSliderEvent(ofxDatGuiSliderEvent e)
 
 void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
 {
+    if (e.target->getLabel()=="TOGGLE FULLSCREEN") toggleFullscreen();
     cout << "onButtonEvent: " << e.target->getLabel() << " " << e.target->getEnabled() << endl;
 }
 
@@ -117,13 +119,16 @@ void ofApp::update() { }
 
 void ofApp::keyPressed(int key)
 {
-    if (key == 'f') {
-        isFullscreen =!isFullscreen;
-        ofSetFullscreen(isFullscreen);
-        if (!isFullscreen) {
-            ofSetWindowShape(1920, 1080);
-            ofSetWindowPosition((ofGetScreenWidth()/2)-(1920/2), 0);
-        }
+    if (key == 'f') toggleFullscreen();
+}
+
+void ofApp::toggleFullscreen()
+{
+    isFullscreen =!isFullscreen;
+    ofSetFullscreen(isFullscreen);
+    if (!isFullscreen) {
+        ofSetWindowShape(1920, 1400);
+        ofSetWindowPosition((ofGetScreenWidth()/2)-(1920/2), 0);
     }
 }
 

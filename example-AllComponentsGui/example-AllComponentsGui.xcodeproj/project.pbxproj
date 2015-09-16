@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3212A34CED54CFC2360CCE7D /* ofxDatGuiItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E873174077604F6E960CB054 /* ofxDatGuiItem.cpp */; };
+		3212A34CED54CFC2360CCE7D /* ofxDatGuiComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E873174077604F6E960CB054 /* ofxDatGuiComponent.cpp */; };
 		C9466C434D1CF8AB968D298D /* ofxDatGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26490D7CC31EF7D6ED5F925A /* ofxDatGui.cpp */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
 		E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4B69E1D0A3A1BDC003C02F2 /* main.cpp */; };
@@ -44,17 +44,19 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1AF96D2E091AABBD2E42BA2E /* ofxDatGuiItem.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiItem.h; path = ../src/core/ofxDatGuiItem.h; sourceTree = SOURCE_ROOT; };
+		1AF96D2E091AABBD2E42BA2E /* ofxDatGuiComponent.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiComponent.h; path = ../src/core/ofxDatGuiComponent.h; sourceTree = SOURCE_ROOT; };
 		26490D7CC31EF7D6ED5F925A /* ofxDatGui.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxDatGui.cpp; path = ../src/ofxDatGui.cpp; sourceTree = SOURCE_ROOT; };
 		744031A3E8F8DAF9FE6F3EA8 /* ofxDatGuiGroups.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiGroups.h; path = ../src/components/ofxDatGuiGroups.h; sourceTree = SOURCE_ROOT; };
 		8A48E3591BA7D88000DDD079 /* ofxDatGuiLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxDatGuiLabel.h; path = ../src/components/ofxDatGuiLabel.h; sourceTree = "<group>"; };
+		8A7C43B31BA9B6280093F4A1 /* ofxDatGuiTextInputField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxDatGuiTextInputField.h; path = ../src/components/ofxDatGuiTextInputField.h; sourceTree = "<group>"; };
+		8A7C43B41BA9B6F60093F4A1 /* ofxDatGuiFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxDatGuiFont.h; path = ../src/core/ofxDatGuiFont.h; sourceTree = "<group>"; };
 		8AEA57BA1BA8E3F7001E105D /* ofxDatGuiFRM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxDatGuiFRM.h; path = ../src/components/ofxDatGuiFRM.h; sourceTree = "<group>"; };
 		902724601B82C6AD81BBCD71 /* ofxDatGui2dPad.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGui2dPad.h; path = ../src/components/ofxDatGui2dPad.h; sourceTree = SOURCE_ROOT; };
 		9705D66270ED89ECA6E6FECE /* ofxDatGui.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGui.h; path = ../src/ofxDatGui.h; sourceTree = SOURCE_ROOT; };
 		9B5051062C6A871714E6F5F4 /* ofxDatGuiConstants.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiConstants.h; path = ../src/core/ofxDatGuiConstants.h; sourceTree = SOURCE_ROOT; };
 		C085A33340AB0C1DB647AC2F /* ofxDatGuiTextInput.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiTextInput.h; path = ../src/components/ofxDatGuiTextInput.h; sourceTree = SOURCE_ROOT; };
 		C84ED7FCC017328C6F58283D /* ofxDatGuiColorPicker.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiColorPicker.h; path = ../src/components/ofxDatGuiColorPicker.h; sourceTree = SOURCE_ROOT; };
-		CB96E1B7413A0F91DBF86300 /* ofxDatGuiComponents.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiComponents.h; path = ../src/core/ofxDatGuiComponents.h; sourceTree = SOURCE_ROOT; };
+		CB96E1B7413A0F91DBF86300 /* ofxDatGuiIntObject.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiIntObject.h; path = ../src/core/ofxDatGuiIntObject.h; sourceTree = SOURCE_ROOT; };
 		CDF7278CB636137FE7BF91A5 /* ofxDatGuiMatrix.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiMatrix.h; path = ../src/components/ofxDatGuiMatrix.h; sourceTree = SOURCE_ROOT; };
 		D0D6A66BEBA820EA1D396889 /* ofxDatGuiSlider.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiSlider.h; path = ../src/components/ofxDatGuiSlider.h; sourceTree = SOURCE_ROOT; };
 		E100ED9DCB412957A879CD5A /* ofxDatGuiControls.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiControls.h; path = ../src/components/ofxDatGuiControls.h; sourceTree = SOURCE_ROOT; };
@@ -66,7 +68,7 @@
 		E4B6FCAD0C3E899E008CF71C /* openFrameworks-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = "openFrameworks-Info.plist"; sourceTree = "<group>"; };
 		E4EB691F138AFCF100A09F29 /* CoreOF.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = CoreOF.xcconfig; path = ../../../libs/openFrameworksCompiled/project/osx/CoreOF.xcconfig; sourceTree = SOURCE_ROOT; };
 		E4EB6923138AFD0F00A09F29 /* Project.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Project.xcconfig; sourceTree = "<group>"; };
-		E873174077604F6E960CB054 /* ofxDatGuiItem.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxDatGuiItem.cpp; path = ../src/core/ofxDatGuiItem.cpp; sourceTree = SOURCE_ROOT; };
+		E873174077604F6E960CB054 /* ofxDatGuiComponent.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxDatGuiComponent.cpp; path = ../src/core/ofxDatGuiComponent.cpp; sourceTree = SOURCE_ROOT; };
 		F59384ED57A7C6A7A8B0351D /* ofxDatGuiEvents.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiEvents.h; path = ../src/core/ofxDatGuiEvents.h; sourceTree = SOURCE_ROOT; };
 		FDA86F4C2F1F1964D35391C6 /* ofxDatGuiButton.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiButton.h; path = ../src/components/ofxDatGuiButton.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -86,11 +88,12 @@
 		8870759BC9CAEA1E4E9EA3A8 /* core */ = {
 			isa = PBXGroup;
 			children = (
-				CB96E1B7413A0F91DBF86300 /* ofxDatGuiComponents.h */,
 				9B5051062C6A871714E6F5F4 /* ofxDatGuiConstants.h */,
+				8A7C43B41BA9B6F60093F4A1 /* ofxDatGuiFont.h */,
 				F59384ED57A7C6A7A8B0351D /* ofxDatGuiEvents.h */,
-				E873174077604F6E960CB054 /* ofxDatGuiItem.cpp */,
-				1AF96D2E091AABBD2E42BA2E /* ofxDatGuiItem.h */,
+				CB96E1B7413A0F91DBF86300 /* ofxDatGuiIntObject.h */,
+				1AF96D2E091AABBD2E42BA2E /* ofxDatGuiComponent.h */,
+				E873174077604F6E960CB054 /* ofxDatGuiComponent.cpp */,
 			);
 			name = core;
 			sourceTree = "<group>";
@@ -108,6 +111,7 @@
 				CDF7278CB636137FE7BF91A5 /* ofxDatGuiMatrix.h */,
 				D0D6A66BEBA820EA1D396889 /* ofxDatGuiSlider.h */,
 				C085A33340AB0C1DB647AC2F /* ofxDatGuiTextInput.h */,
+				8A7C43B31BA9B6280093F4A1 /* ofxDatGuiTextInputField.h */,
 			);
 			name = components;
 			sourceTree = "<group>";
@@ -172,8 +176,8 @@
 			children = (
 				947FCD1248D8B0A16B53C1AA /* components */,
 				8870759BC9CAEA1E4E9EA3A8 /* core */,
-				26490D7CC31EF7D6ED5F925A /* ofxDatGui.cpp */,
 				9705D66270ED89ECA6E6FECE /* ofxDatGui.h */,
+				26490D7CC31EF7D6ED5F925A /* ofxDatGui.cpp */,
 			);
 			name = src;
 			sourceTree = "<group>";
@@ -267,7 +271,7 @@
 			files = (
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
-				3212A34CED54CFC2360CCE7D /* ofxDatGuiItem.cpp in Sources */,
+				3212A34CED54CFC2360CCE7D /* ofxDatGuiComponent.cpp in Sources */,
 				C9466C434D1CF8AB968D298D /* ofxDatGui.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

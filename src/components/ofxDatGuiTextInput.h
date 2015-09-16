@@ -21,12 +21,13 @@
 */
 
 #pragma once
-#include "ofxDatGuiItem.h"
+#include "ofxDatGuiComponent.h"
+#include "ofxDatGuiTextInputField.h"
 
-class ofxDatGuiTextInput : public ofxDatGuiItem {
+class ofxDatGuiTextInput : public ofxDatGuiComponent {
 
     public:
-        ofxDatGuiTextInput(string label, string text = "", ofxDatGuiFont* font=nullptr) : ofxDatGuiItem(label, font)
+        ofxDatGuiTextInput(string label, string text = "", ofxDatGuiFont* font=nullptr) : ofxDatGuiComponent(label, font)
         {
             mStripeColor = ofxDatGuiColor::INPUT_STRIPE;
             input = new ofxDatGuiTextInputField(mRow.height-(mRow.padding*2), mFont);
@@ -49,22 +50,22 @@ class ofxDatGuiTextInput : public ofxDatGuiItem {
     
         void setWidth(int w)
         {
-            ofxDatGuiItem::setWidth(w);
+            ofxDatGuiComponent::setWidth(w);
             input->setOrigin(x + mRow.inputX, y + mRow.padding);
             input->setWidth(mRow.width-mRow.padding-mRow.inputX);
         }
     
         void setOrigin(int x, int y)
         {
-            ofxDatGuiItem::setOrigin(x, y);
+            ofxDatGuiComponent::setOrigin(x, y);
             input->setOrigin(x + mRow.inputX, y + mRow.padding);
         }
     
         void draw()
         {
-            ofxDatGuiItem::drawBkgd();
-            ofxDatGuiItem::drawLabel();
-            ofxDatGuiItem::drawStripe();
+            ofxDatGuiComponent::drawBkgd();
+            ofxDatGuiComponent::drawLabel();
+            ofxDatGuiComponent::drawStripe();
             input->draw();
         }
     
@@ -76,13 +77,13 @@ class ofxDatGuiTextInput : public ofxDatGuiItem {
         void onFocus()
         {
             input->onFocus();
-            ofxDatGuiItem::onFocus();
+            ofxDatGuiComponent::onFocus();
         }
     
         void onFocusLost()
         {
             input->onFocusLost();
-            ofxDatGuiItem::onFocusLost();
+            ofxDatGuiComponent::onFocusLost();
         }
     
         void onKeyPressed(int key)

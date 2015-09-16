@@ -82,7 +82,7 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
     
         void onMouseRelease(ofPoint m)
         {
-            ofxDatGuiItem::onMouseRelease(m);
+            ofxDatGuiComponent::onMouseRelease(m);
         // dispatch event out to main application //
             ofxDatGuiInternalEvent e(ofxDatGuiEventType::GUI_TOGGLED, mIndex);
             internalEventCallback(e);

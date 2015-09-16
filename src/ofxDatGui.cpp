@@ -171,9 +171,9 @@ ofxDatGuiButton* ofxDatGui::addButton(string label)
     return button;
 }
 
-ofxDatGuiToggle* ofxDatGui::addToggle(string label, bool state)
+ofxDatGuiToggle* ofxDatGui::addToggle(string label, bool enabled)
 {
-    ofxDatGuiToggle* button = new ofxDatGuiToggle(label, state, mFont);
+    ofxDatGuiToggle* button = new ofxDatGuiToggle(label, enabled, mFont);
     button->onButtonEvent(this, &ofxDatGui::onButtonEventCallback);
     attachItem(button);
     return button;
@@ -269,7 +269,7 @@ ofxDatGuiFolder* ofxDatGui::addFolder(string label, ofColor color)
     return folder;
 }
 
-void ofxDatGui::attachItem(ofxDatGuiItem* item)
+void ofxDatGui::attachItem(ofxDatGuiComponent* item)
 {
     if (mGuiFooter != nullptr){
         items.insert(items.end()-1, item);
@@ -296,7 +296,7 @@ void ofxDatGui::layoutGui()
 
 ofxDatGuiButton* ofxDatGui::getButton(string key)
 {
-    ofxDatGuiItem* item = getComponent(key);
+    ofxDatGuiComponent* item = getComponent(key);
     if (item != nullptr){
         return static_cast<ofxDatGuiButton*>(item);
     }   else{
@@ -309,7 +309,7 @@ ofxDatGuiButton* ofxDatGui::getButton(string key)
 
 ofxDatGuiSlider* ofxDatGui::getSlider(string key)
 {
-    ofxDatGuiItem* item = getComponent(key);
+    ofxDatGuiComponent* item = getComponent(key);
     if (item != nullptr){
         return static_cast<ofxDatGuiSlider*>(item);
     }   else{
@@ -322,7 +322,7 @@ ofxDatGuiSlider* ofxDatGui::getSlider(string key)
 
 ofxDatGuiTextInput* ofxDatGui::getTextInput(string key)
 {
-    ofxDatGuiItem* item = getComponent(key);
+    ofxDatGuiComponent* item = getComponent(key);
     if (item != nullptr){
         return static_cast<ofxDatGuiTextInput*>(item);
     }   else{
@@ -335,7 +335,7 @@ ofxDatGuiTextInput* ofxDatGui::getTextInput(string key)
 
 ofxDatGuiDropdown* ofxDatGui::getDropdown(string key)
 {
-    ofxDatGuiItem* item = getComponent(key);
+    ofxDatGuiComponent* item = getComponent(key);
     if (item != nullptr){
         return static_cast<ofxDatGuiDropdown*>(item);
     }   else{
@@ -349,7 +349,7 @@ ofxDatGuiDropdown* ofxDatGui::getDropdown(string key)
 
 ofxDatGui2dPad* ofxDatGui::get2dPad(string key)
 {
-    ofxDatGuiItem* item = getComponent(key);
+    ofxDatGuiComponent* item = getComponent(key);
     if (item != nullptr){
         return static_cast<ofxDatGui2dPad*>(item);
     }   else{
@@ -362,7 +362,7 @@ ofxDatGui2dPad* ofxDatGui::get2dPad(string key)
 
 ofxDatGuiColorPicker* ofxDatGui::getColorPicker(string key)
 {
-    ofxDatGuiItem* item = getComponent(key);
+    ofxDatGuiComponent* item = getComponent(key);
     if (item != nullptr){
         return static_cast<ofxDatGuiColorPicker*>(item);
     }   else{
@@ -375,7 +375,7 @@ ofxDatGuiColorPicker* ofxDatGui::getColorPicker(string key)
 
 ofxDatGuiMatrix* ofxDatGui::getMatrix(string key)
 {
-    ofxDatGuiItem* item = getComponent(key);
+    ofxDatGuiComponent* item = getComponent(key);
     if (item != nullptr){
         return static_cast<ofxDatGuiMatrix*>(item);
     }   else{
@@ -386,13 +386,13 @@ ofxDatGuiMatrix* ofxDatGui::getMatrix(string key)
     }
 }
 
-ofxDatGuiItem* ofxDatGui::getComponent(string key)
+ofxDatGuiComponent* ofxDatGui::getComponent(string key)
 {
-    ofxDatGuiItem* item = nullptr;
+    ofxDatGuiComponent* item = nullptr;
     for (int i=0; i<items.size(); i++)
     {
     // first search against labels, then keys, ids, etc...
-        ofxDatGuiItem* o = items[i];
+        ofxDatGuiComponent* o = items[i];
         if (ofToLower(o->getLabel()) == ofToLower(key)) return items[i];
         for (int j=0; j<o->children.size(); j++)
         {
@@ -482,7 +482,7 @@ void ofxDatGui::onInternalEventCallback(ofxDatGuiInternalEvent e)
 
 void ofxDatGui::adjustHeight(int index)
 {
-    ofxDatGuiItem* target = items[index];
+    ofxDatGuiComponent* target = items[index];
     mHeight = target->getPositionY() - mPosition.y + target->getHeight() + mRowSpacing;
     for (uint8_t i=index+1; i<items.size(); i++){
         items[i]->setPositionY(mPosition.y + mHeight);
@@ -574,7 +574,7 @@ void ofxDatGui::onKeyPressed(ofKeyEventArgs &e)
     if (e.key == 'h' && disableShowAndHide == false) mVisible = !mVisible;
 }
 
-bool ofxDatGui::isMouseOverRow(ofxDatGuiItem* row)
+bool ofxDatGui::isMouseOverRow(ofxDatGuiComponent* row)
 {
     bool hit = false;
     if (row->getVisible() && row->hitTest(mouse)){

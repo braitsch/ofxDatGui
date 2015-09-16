@@ -12,7 +12,7 @@ void ofApp::setup()
     int p = 40;
     ofSetWindowPosition(0, 0);
 
-    ofxDatGuiItem* component;
+    ofxDatGuiComponent* component;
 
     component = new ofxDatGuiButton("BUTTON");
     component->setOrigin(x, y);

@@ -21,39 +21,39 @@
 */
 
 #pragma once
-#include "ofxDatGuiItem.h"
+#include "ofxDatGuiComponent.h"
 
-class ofxDatGuiButton : public ofxDatGuiItem {
+class ofxDatGuiButton : public ofxDatGuiComponent {
 
     public:
     
-        ofxDatGuiButton(string label, ofxDatGuiFont* font=nullptr) : ofxDatGuiItem(label, font)
+        ofxDatGuiButton(string label, ofxDatGuiFont* font=nullptr) : ofxDatGuiComponent(label, font)
         {
             mStripeColor = ofxDatGuiColor::BUTTON_STRIPE;
         }
     
         void setOrigin(int x, int y)
         {
-            ofxDatGuiItem::setOrigin(x, y);
+            ofxDatGuiComponent::setOrigin(x, y);
             mLabelAreaWidth = mRow.width;
         }
     
         void draw()
         {
             drawBkgd();
-            ofxDatGuiItem::drawLabel();
-            ofxDatGuiItem::drawStripe();
+            ofxDatGuiComponent::drawLabel();
+            ofxDatGuiComponent::drawStripe();
         }
     
         void drawBkgd()
         {
         // anything that extends ofxDatGuiButton has the same rollover effect //
             if (mMouseDown){
-                ofxDatGuiItem::drawBkgd(ofxDatGuiColor::BUTTON_DOWN, 255);
+                ofxDatGuiComponent::drawBkgd(ofxDatGuiColor::BUTTON_DOWN, 255);
             }   else if (mMouseOver){
-                ofxDatGuiItem::drawBkgd(ofxDatGuiColor::BUTTON_OVER, 255);
+                ofxDatGuiComponent::drawBkgd(ofxDatGuiColor::BUTTON_OVER, 255);
             }   else{
-                ofxDatGuiItem::drawBkgd(ofxDatGuiColor::ROW_BKGD);
+                ofxDatGuiComponent::drawBkgd(ofxDatGuiColor::ROW_BKGD);
             }
         }
     
@@ -64,7 +64,7 @@ class ofxDatGuiButton : public ofxDatGuiItem {
     
         void onMouseRelease(ofPoint m)
         {
-            ofxDatGuiItem::onMouseRelease(m);
+            ofxDatGuiComponent::onMouseRelease(m);
         // dispatch event out to main application //
             if (buttonEventCallback != nullptr) {
                 ofxDatGuiButtonEvent e(this);
@@ -94,7 +94,7 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
     
         void setOrigin(int x, int y)
         {
-            ofxDatGuiItem::setOrigin(x, y);
+            ofxDatGuiComponent::setOrigin(x, y);
             mLabelMarginRight = mRow.width-mIcon.x;
         }
     
@@ -116,8 +116,8 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
         void draw()
         {
             ofxDatGuiButton::drawBkgd();
-            ofxDatGuiItem::drawLabel();
-            ofxDatGuiItem::drawStripe();
+            ofxDatGuiComponent::drawLabel();
+            ofxDatGuiComponent::drawStripe();
             ofPushStyle();
                 ofSetColor(ofxDatGuiColor::LABEL);
                 if (mEnabled == true){
@@ -130,7 +130,7 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
     
         void onMouseRelease(ofPoint m)
         {
-            ofxDatGuiItem::onMouseRelease(m);
+            ofxDatGuiComponent::onMouseRelease(m);
             mEnabled = !mEnabled;
         // dispatch event out to main application //
             if (buttonEventCallback != nullptr) {

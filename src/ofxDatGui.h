@@ -51,7 +51,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofxDatGuiFooter* addFooter();
         ofxDatGuiLabel* addLabel(string label);
         ofxDatGuiButton* addButton(string label);
-        ofxDatGuiToggle* addToggle(string label, bool state);
+        ofxDatGuiToggle* addToggle(string label, bool state = false);
         ofxDatGuiSlider* addSlider(string label, float min, float max);
         ofxDatGuiSlider* addSlider(string label, float min, float max, float val);
         ofxDatGuiTextInput* addTextInput(string label, string value = "");
@@ -93,12 +93,12 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofPoint mPosition;
         ofxDatGuiFont* mFont;
         ofxDatGuiAnchor mAnchor;
-        ofxDatGuiItem* activeHover;
-        ofxDatGuiItem* activeFocus;
+        ofxDatGuiComponent* activeHover;
+        ofxDatGuiComponent* activeFocus;
         ofxDatGuiHeader* mGuiHeader;
         ofxDatGuiFooter* mGuiFooter;
-        vector<ofxDatGuiItem*> items;
-        vector<ofxDatGuiItem*> trash;
+        vector<ofxDatGuiComponent*> items;
+        vector<ofxDatGuiComponent*> trash;
     
         void init();
         void layoutGui();
@@ -106,7 +106,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         void expandGui();
         void collapseGui();
         void moveGui(ofPoint pt);
-        void attachItem(ofxDatGuiItem* item);
+        void attachItem(ofxDatGuiComponent* item);
         void adjustHeight(int index);
         void setGuiAlpha();
         void setGuiWidth();
@@ -115,14 +115,14 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         void onDraw(ofEventArgs &e);
         void onUpdate(ofEventArgs &e);
         
-        bool isMouseOverRow(ofxDatGuiItem* row);
+        bool isMouseOverRow(ofxDatGuiComponent* row);
         bool isMouseOverGui();
         void onKeyPressed(ofKeyEventArgs &e);
         void onMousePressed(ofMouseEventArgs &e);
         void onMouseReleased(ofMouseEventArgs &e);
         void onWindowResized(ofResizeEventArgs &e);
     
-        ofxDatGuiItem* getComponent(string key);
+        ofxDatGuiComponent* getComponent(string key);
         void onInternalEventCallback(ofxDatGuiInternalEvent e);
         void onButtonEventCallback(ofxDatGuiButtonEvent e);
         void onSliderEventCallback(ofxDatGuiSliderEvent e);

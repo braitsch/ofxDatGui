@@ -356,7 +356,7 @@ All events also contain additonal properties that allow convenient access to the
 
 ##Automatic Rendering
 
-**ofxDatGui** automatically updates draws itself on top of your application so there is no need to call ```update``` or ```draw``` on it. However you can easily disable this if you like via:
+**ofxDatGui** automatically updates and draws itself on top of your application so there is no need to call ```update``` or ```draw``` on it. However you can easily disable this if you like via:
 
 	gui->setAutoDraw(bool enabled);
  

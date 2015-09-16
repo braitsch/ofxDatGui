@@ -21,16 +21,16 @@
 */
 
 #pragma once
-#include "ofxDatGuiComponents.h"
+#include "ofxDatGuiIntObject.h"
 
-class ofxDatGuiItem : public ofxDatGuiInteractiveObject
+class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
 {
     public:
     
-        ofxDatGuiItem(string label, ofxDatGuiFont* font=nullptr);
-        virtual ~ofxDatGuiItem();
+        ofxDatGuiComponent(string label, ofxDatGuiFont* font=nullptr);
+        virtual ~ofxDatGuiComponent();
     
-        vector<ofxDatGuiItem*> children;
+        vector<ofxDatGuiComponent*> children;
     
         int     getX();
         int     getY();

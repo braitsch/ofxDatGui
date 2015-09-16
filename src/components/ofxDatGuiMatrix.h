@@ -21,7 +21,7 @@
 */
 
 #pragma once
-#include "ofxDatGuiItem.h"
+#include "ofxDatGuiComponent.h"
 
 class ofxDatGuiMatrixButton : public ofxDatGuiInteractiveObject {
 
@@ -116,11 +116,11 @@ class ofxDatGuiMatrixButton : public ofxDatGuiInteractiveObject {
 
 };
 
-class ofxDatGuiMatrix : public ofxDatGuiItem {
+class ofxDatGuiMatrix : public ofxDatGuiComponent {
 
     public:
     
-        ofxDatGuiMatrix(string label, int numButtons, bool showLabels=false, ofxDatGuiFont* font=nullptr) : ofxDatGuiItem(label, font)
+        ofxDatGuiMatrix(string label, int numButtons, bool showLabels=false, ofxDatGuiFont* font=nullptr) : ofxDatGuiComponent(label, font)
         {
             mButtonSize = 47;
             mStripeColor = ofxDatGuiColor::MATRIX_STRIPE;
@@ -136,14 +136,14 @@ class ofxDatGuiMatrix : public ofxDatGuiItem {
 
         void setOrigin(int x, int y)
         {
-            ofxDatGuiItem::setOrigin(x, y);
+            ofxDatGuiComponent::setOrigin(x, y);
             mMatrixRect.x = x + mRow.inputX;
             mMatrixRect.y = y + mRow.padding;
         }
     
         void setWidth(int w)
         {
-            ofxDatGuiItem::setWidth(w);
+            ofxDatGuiComponent::setWidth(w);
             mMatrixRect.x = x + mRow.inputX;
             mMatrixRect.y = y + mRow.padding;
             mMatrixRect.width = mRow.width - mRow.padding - mRow.inputX;
@@ -172,9 +172,9 @@ class ofxDatGuiMatrix : public ofxDatGuiItem {
     
         void draw()
         {
-            ofxDatGuiItem::drawBkgd();
-            ofxDatGuiItem::drawLabel();
-            ofxDatGuiItem::drawStripe();
+            ofxDatGuiComponent::drawBkgd();
+            ofxDatGuiComponent::drawLabel();
+            ofxDatGuiComponent::drawStripe();
             ofPushStyle();
                 ofSetColor(ofxDatGuiColor::INPUT);
                 ofDrawRectangle(mMatrixRect);
@@ -207,7 +207,7 @@ class ofxDatGuiMatrix : public ofxDatGuiItem {
     
         void onMouseRelease(ofPoint m)
         {
-            ofxDatGuiItem::onMouseRelease(m);
+            ofxDatGuiComponent::onMouseRelease(m);
             for(int i=0; i<btns.size(); i++) btns[i].onMouseRelease(m);
         }
     

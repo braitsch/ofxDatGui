@@ -20,9 +20,9 @@
     SOFTWARE.
 */
 
-#include "ofxDatGuiItem.h"
+#include "ofxDatGuiComponent.h"
 
-ofxDatGuiItem::ofxDatGuiItem(string label, ofxDatGuiFont* font)
+ofxDatGuiComponent::ofxDatGuiComponent(string label, ofxDatGuiFont* font)
 {
     mAlpha = 255;
     mVisible = true;
@@ -59,7 +59,7 @@ ofxDatGuiItem::ofxDatGuiItem(string label, ofxDatGuiFont* font)
     setWidth(mRow.width);
 }
 
-ofxDatGuiItem::~ofxDatGuiItem(){ }
+ofxDatGuiComponent::~ofxDatGuiComponent(){ }
 
 /*
     ofxDatGuiFont
@@ -113,23 +113,23 @@ void ofxDatGuiFont::drawLabel(string text, int xpos, int ypos)
     instance methods
 */
 
-void ofxDatGuiItem::setIndex(int index)
+void ofxDatGuiComponent::setIndex(int index)
 {
     mIndex = index;
 }
 
-int ofxDatGuiItem::getIndex()
+int ofxDatGuiComponent::getIndex()
 {
     mIndex;
 }
 
-void ofxDatGuiItem::setOpacity(float opacity)
+void ofxDatGuiComponent::setOpacity(float opacity)
 {
     mAlpha = opacity*255;
     for (int i=0; i<children.size(); i++) children[i]->setOpacity(opacity);
 }
 
-void ofxDatGuiItem::setWidth(int w)
+void ofxDatGuiComponent::setWidth(int w)
 {
     mRow.width = w;
     mRow.lWidth=mRow.width*.35;
@@ -143,28 +143,28 @@ void ofxDatGuiItem::setWidth(int w)
     for (int i=0; i<children.size(); i++) children[i]->setWidth(w);
 }
 
-int ofxDatGuiItem::getWidth()
+int ofxDatGuiComponent::getWidth()
 {
     return mRow.width;
 }
 
-int ofxDatGuiItem::getHeight()
+int ofxDatGuiComponent::getHeight()
 {
     return mRow.height;
 }
 
-void ofxDatGuiItem::setLabel(string label)
+void ofxDatGuiComponent::setLabel(string label)
 {
     mLabel = label;
     mLabelRect = mFont->getStringBoundingBox(mLabel, 0, 0);
 }
 
-string ofxDatGuiItem::getLabel()
+string ofxDatGuiComponent::getLabel()
 {
     return mLabel;
 }
 
-void ofxDatGuiItem::setAlignment(ofxDatGuiAlignment align)
+void ofxDatGuiComponent::setAlignment(ofxDatGuiAlignment align)
 {
     mLabelAlignment = align;
     for (int i=0; i<children.size(); i++) children[i]->setAlignment(align);
@@ -174,12 +174,12 @@ void ofxDatGuiItem::setAlignment(ofxDatGuiAlignment align)
     virtual methods overridden in derived classes
 */
 
-bool ofxDatGuiItem::getIsExpanded(){}
-void ofxDatGuiItem::setVisible(bool visible) { mVisible = visible; }
-bool ofxDatGuiItem::getVisible() { return mVisible; }
-void ofxDatGuiItem::setStripeColor(ofColor color) { mStripeColor = color; }
+bool ofxDatGuiComponent::getIsExpanded(){}
+void ofxDatGuiComponent::setVisible(bool visible) { mVisible = visible; }
+bool ofxDatGuiComponent::getVisible() { return mVisible; }
+void ofxDatGuiComponent::setStripeColor(ofColor color) { mStripeColor = color; }
 
-void ofxDatGuiItem::setOrigin(int x, int y)
+void ofxDatGuiComponent::setOrigin(int x, int y)
 {
     this->x = x;
     this->y = mOriginY = y;
@@ -187,7 +187,7 @@ void ofxDatGuiItem::setOrigin(int x, int y)
     for(int i=0; i<children.size(); i++) children[i]->setOrigin(x, this->y + (mRow.height+mRow.spacing)*(i+1));
 }
 
-void ofxDatGuiItem::setAnchor(ofxDatGuiAnchor anchor)
+void ofxDatGuiComponent::setAnchor(ofxDatGuiAnchor anchor)
 {
     mAnchor = anchor;
     if (mAnchor == ofxDatGuiAnchor::TOP_LEFT){
@@ -197,22 +197,22 @@ void ofxDatGuiItem::setAnchor(ofxDatGuiAnchor anchor)
     }
 }
 
-int ofxDatGuiItem::getX()
+int ofxDatGuiComponent::getX()
 {
     return this->x;
 }
 
-int ofxDatGuiItem::getY()
+int ofxDatGuiComponent::getY()
 {
     return this->y;
 }
 
-void ofxDatGuiItem::setPositionY(int ypos)
+void ofxDatGuiComponent::setPositionY(int ypos)
 {
     this->y = ypos;
 }
 
-int ofxDatGuiItem::getPositionY()
+int ofxDatGuiComponent::getPositionY()
 {
     return y;
 }
@@ -221,7 +221,7 @@ int ofxDatGuiItem::getPositionY()
     draw methods
 */
 
-void ofxDatGuiItem::update()
+void ofxDatGuiComponent::update()
 {
     bool mp = ofGetMousePressed();
     ofPoint mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
@@ -233,7 +233,7 @@ void ofxDatGuiItem::update()
                 onMousePress(mouse);
                 if (!mFocused) {
                     onFocus();
-                    ofAddListener(ofEvents().keyPressed, this, &ofxDatGuiItem::onKeyPressed);
+                    ofAddListener(ofEvents().keyPressed, this, &ofxDatGuiComponent::onKeyPressed);
                 }
             } else if (mMouseDown){
                 onMouseDrag(mouse);
@@ -245,7 +245,7 @@ void ofxDatGuiItem::update()
             onMouseLeave(mouse);
         }
         if (mp && mFocused) {
-            ofRemoveListener(ofEvents().keyPressed, this, &ofxDatGuiItem::onKeyPressed);
+            ofRemoveListener(ofEvents().keyPressed, this, &ofxDatGuiComponent::onKeyPressed);
             onFocusLost();
         }
     }
@@ -258,16 +258,16 @@ void ofxDatGuiItem::update()
     if (getIsExpanded()) for(int i=0; i<children.size(); i++) children[i]->update();
 }
 
-void ofxDatGuiItem::onKeyPressed(ofKeyEventArgs &e)
+void ofxDatGuiComponent::onKeyPressed(ofKeyEventArgs &e)
 {
     onKeyPressed(e.key);
     if ((e.key == OF_KEY_RETURN || e.key == OF_KEY_TAB)){
         onFocusLost();
-        ofRemoveListener(ofEvents().keyPressed, this, &ofxDatGuiItem::onKeyPressed);
+        ofRemoveListener(ofEvents().keyPressed, this, &ofxDatGuiComponent::onKeyPressed);
     }
 }
 
-void ofxDatGuiItem::drawBkgd(ofColor color, int alpha)
+void ofxDatGuiComponent::drawBkgd(ofColor color, int alpha)
 {
     ofPushStyle();
         ofFill();
@@ -276,12 +276,12 @@ void ofxDatGuiItem::drawBkgd(ofColor color, int alpha)
     ofPopStyle();
 }
 
-void ofxDatGuiItem::drawLabel()
+void ofxDatGuiComponent::drawLabel()
 {
     drawLabel(mLabel);
 }
 
-void ofxDatGuiItem::drawLabel(string label)
+void ofxDatGuiComponent::drawLabel(string label)
 {
     int lx;
     if (mLabelAlignment == ofxDatGuiAlignment::LEFT){
@@ -294,7 +294,7 @@ void ofxDatGuiItem::drawLabel(string label)
     mFont->drawLabel(label, x+lx, y+(mRow.height/2));
 }
 
-void ofxDatGuiItem::drawStripe()
+void ofxDatGuiComponent::drawStripe()
 {
     ofPushStyle();
         ofSetColor(mStripeColor);
@@ -302,45 +302,45 @@ void ofxDatGuiItem::drawStripe()
     ofPopStyle();
 }
 
-void ofxDatGuiItem::drawColorPicker() { }
+void ofxDatGuiComponent::drawColorPicker() { }
 
 /*
     events
 */
 
-void ofxDatGuiItem::onMouseEnter(ofPoint m)
+void ofxDatGuiComponent::onMouseEnter(ofPoint m)
 {
      mMouseOver = true;
 }
 
-void ofxDatGuiItem::onMouseLeave(ofPoint m)
+void ofxDatGuiComponent::onMouseLeave(ofPoint m)
 {
      mMouseOver = false;
      mMouseDown = false;
 }
 
-void ofxDatGuiItem::onMousePress(ofPoint m)
+void ofxDatGuiComponent::onMousePress(ofPoint m)
 {
     mMouseDown = true;
 }
 
-void ofxDatGuiItem::onMouseRelease(ofPoint m)
+void ofxDatGuiComponent::onMouseRelease(ofPoint m)
 {
     mMouseDown = false;
 }
 
-void ofxDatGuiItem::onFocus()
+void ofxDatGuiComponent::onFocus()
 {
     mFocused = true;
 }
 
-void ofxDatGuiItem::onFocusLost()
+void ofxDatGuiComponent::onFocusLost()
 {
     mFocused = false;
 }
 
-void ofxDatGuiItem::onKeyPressed(int key) { }
-void ofxDatGuiItem::onMouseDrag(ofPoint m) { }
+void ofxDatGuiComponent::onKeyPressed(int key) { }
+void ofxDatGuiComponent::onMouseDrag(ofPoint m) { }
 
 
 

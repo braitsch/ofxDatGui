@@ -11,7 +11,7 @@ class ofApp : public ofBaseApp{
 		void draw();
  
         ofImage bkgd;
-        vector<ofxDatGuiItem*> components;
+        vector<ofxDatGuiComponent*> components;
     
 		void onButtonEvent(ofxDatGuiButtonEvent e);
         void onSliderEvent(ofxDatGuiSliderEvent e);
