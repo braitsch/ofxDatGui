@@ -675,21 +675,19 @@ void ofxDatGui::update()
     if (mAlphaChanged) setGuiAlpha();
     if (mWidthChanged) setGuiWidth();
     if (mAlignmentChanged) setGuiAlignment();
-    
     mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
     bool hit = isMouseOverGui();
     if (!hit && activeHover != nullptr){
         activeHover->onMouseLeave(mouse);
         activeHover = nullptr;
-    }   else if (hit){
-        if (mousePressed) {
-            activeHover->onMouseDrag(mouse);
-        // allow the panel to be repositioned //
-            if (mGuiHeader != nullptr && activeHover == mGuiHeader) {
-                moveGui(mouse-mGuiHeader->dragOffset);
-        // disable anchor when gui is dragged //
-                mAnchor = ofxDatGuiAnchor::NO_ANCHOR;
-            }
+    }
+    if (mousePressed && activeFocus != nullptr){
+        activeFocus->onMouseDrag(mouse);
+    // allow the panel to be repositioned //
+        if (mGuiHeader != nullptr && activeFocus == mGuiHeader) {
+            moveGui(mouse-mGuiHeader->dragOffset);
+    // disable anchor when gui is dragged //
+            mAnchor = ofxDatGuiAnchor::NO_ANCHOR;
         }
     }
 // empty the trash //

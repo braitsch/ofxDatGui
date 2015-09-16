@@ -83,7 +83,6 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
     
         bool hitTest(ofPoint m)
         {
-//            cout << mRect << endl;
             return (m.x>=mRect.x && m.x<=mRect.x+mRect.width && m.y>=mRect.y && m.y<=mRect.y+mRect.height);
         }
     

@@ -244,9 +244,6 @@ void ofxDatGuiComponent::update()
                     onFocus();
                     ofAddListener(ofEvents().keyPressed, this, &ofxDatGuiComponent::onKeyPressed);
                 }
-            } else if (mMouseDown){
-                onMouseDrag(mouse);
-                if (!mp) onMouseRelease(mouse);
             }
         }
     }   else{
@@ -258,10 +255,15 @@ void ofxDatGuiComponent::update()
             onFocusLost();
         }
     }
-// if we're anchored, check if the window was resized //
-    if (mAnchor != ofxDatGuiAnchor::NO_ANCHOR){
-        if (ofGetWidth() != mWindow.width) setAnchor(mAnchor);
+    if (mMouseDown) {
+        if (mp){
+            onMouseDrag(mouse);
+        }   else{
+            onMouseRelease(mouse);
+        }
     }
+// if we're anchored, check if the window was resized //
+    if (mAnchor != ofxDatGuiAnchor::NO_ANCHOR) if (ofGetWidth() != mWindow.width) setAnchor(mAnchor);
 // don't iterate over children unless they're visible //
 // TODO need to stop iterating over children once hitTest returns true //
     if (getIsExpanded()) for(int i=0; i<children.size(); i++) children[i]->update();
@@ -324,8 +326,7 @@ void ofxDatGuiComponent::onMouseEnter(ofPoint m)
 
 void ofxDatGuiComponent::onMouseLeave(ofPoint m)
 {
-     mMouseOver = false;
-     mMouseDown = false;
+    mMouseOver = false;
 }
 
 void ofxDatGuiComponent::onMousePress(ofPoint m)
