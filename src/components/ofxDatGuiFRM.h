@@ -23,11 +23,11 @@
 #pragma once
 #include "ofxDatGuiTextInput.h"
 
-class ofxDatGuiFPS : public ofxDatGuiTextInput {
+class ofxDatGuiFRM : public ofxDatGuiTextInput {
 
     public:
     
-        ofxDatGuiFPS(float refresh = 1.0f, ofxDatGuiFont* font=nullptr) : ofxDatGuiTextInput("FPS", "XX", font)
+        ofxDatGuiFRM(float refresh = 1.0f, ofxDatGuiFont* font=nullptr) : ofxDatGuiTextInput("FRAMERATE", "XX", font)
         {
             mRefresh = refresh;
             mTime = ofGetElapsedTimef();

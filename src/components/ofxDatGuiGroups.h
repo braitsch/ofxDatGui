@@ -25,7 +25,7 @@
 #include "ofxDatGuiButton.h"
 #include "ofxDatGuiSlider.h"
 #include "ofxDatGuiTextInput.h"
-#include "ofxDatGuiFPS.h"
+#include "ofxDatGuiFRM.h"
 #include "ofxDatGui2dPad.h"
 #include "ofxDatGuiColorPicker.h"
 #include "ofxDatGuiMatrix.h"
@@ -108,6 +108,7 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
 //                        ofDrawRectangle(x, ypos, mRow.width, mRow.padding);
 //                    ofPopStyle();
                 }
+                for(int i=0; i<children.size(); i++) children[i]->drawColorPicker();
             }
             ofPopStyle();
         }
@@ -126,11 +127,17 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
         void expand()
         {
             mIsExpanded = true;
-            int ypos = mRow.height + mRow.spacing;
-            for(int i=0; i<children.size(); i++) {
+//            int ypos = mRow.height + mRow.spacing;
+//            for(int i=0; i<children.size(); i++) {
+//                children[i]->setVisible(true);
+//                children[i]->setOrigin(x, y + ypos);
+//                ypos+=mRow.height + mRow.spacing;
+//            }
+            int mHeight = mRow.height + mRow.spacing;
+            for (int i=0; i<children.size(); i++) {
                 children[i]->setVisible(true);
-                children[i]->setOrigin(x, y + ypos);
-                ypos+=mRow.height + mRow.spacing;
+                children[i]->setOrigin(x, y + mHeight);
+                mHeight += children[i]->getHeight() + mRow.spacing;
             }
         }
     
@@ -201,6 +208,36 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
                 ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
             }
         }
+    
+        void dispatch2dPadEvent(ofxDatGui2dPadEvent e)
+        {
+            if (pad2dEventCallback != nullptr) {
+                pad2dEventCallback(e);
+            }   else{
+                ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+            }
+        }
+    
+        void dispatchMatrixEvent(ofxDatGuiMatrixEvent e)
+        {
+            if (matrixEventCallback != nullptr) {
+                matrixEventCallback(e);
+            }   else{
+                ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+            }
+        }
+
+    /*
+        component add methods
+    */
+
+        ofxDatGuiLabel* addLabel(string label)
+        {
+            ofxDatGuiLabel* lbl = new ofxDatGuiLabel(label, mFont);
+            lbl->setStripeColor(mStripeColor);
+            attachItem(lbl);
+            return lbl;
+        }
 
         ofxDatGuiButton* addButton(string label)
         {
@@ -253,6 +290,39 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
             attachItem(picker.get());
             pickers.push_back(picker);
             return picker.get();
+        }
+    
+        ofxDatGuiFRM* addFRM(float refresh = 1.0f)
+        {
+            ofxDatGuiFRM* monitor = new ofxDatGuiFRM(refresh, mFont);
+            monitor->setStripeColor(mStripeColor);
+            attachItem(monitor);
+            return monitor;
+        }
+
+        ofxDatGuiBreak* addBreak(int height = 0)
+        {
+            ofxDatGuiBreak* brk = new ofxDatGuiBreak(height, mFont);
+            attachItem(brk);
+            return brk;
+        }
+    
+        ofxDatGui2dPad* add2dPad(string label)
+        {
+            ofxDatGui2dPad* pad = new ofxDatGui2dPad(label, mFont);
+            pad->setStripeColor(mStripeColor);
+            pad->on2dPadEvent(this, &ofxDatGuiFolder::dispatch2dPadEvent);
+            attachItem(pad);
+            return pad;
+        }
+
+        ofxDatGuiMatrix* addMatrix(string label, int numButtons, bool showLabels = false)
+        {
+            ofxDatGuiMatrix* matrix = new ofxDatGuiMatrix(label, numButtons, showLabels, mFont);
+            matrix->setStripeColor(mStripeColor);
+            matrix->onMatrixEvent(this, &ofxDatGuiFolder::dispatchMatrixEvent);
+            attachItem(matrix);
+            return matrix;
         }
     
         void attachItem(ofxDatGuiItem* item)

@@ -47,7 +47,7 @@
 		1AF96D2E091AABBD2E42BA2E /* ofxDatGuiItem.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiItem.h; path = ../src/core/ofxDatGuiItem.h; sourceTree = SOURCE_ROOT; };
 		26490D7CC31EF7D6ED5F925A /* ofxDatGui.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxDatGui.cpp; path = ../src/ofxDatGui.cpp; sourceTree = SOURCE_ROOT; };
 		744031A3E8F8DAF9FE6F3EA8 /* ofxDatGuiGroups.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiGroups.h; path = ../src/components/ofxDatGuiGroups.h; sourceTree = SOURCE_ROOT; };
-		8AFCDE821BA8BF4D0046E0DB /* ofxDatGuiFPS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxDatGuiFPS.h; path = ../src/components/ofxDatGuiFPS.h; sourceTree = "<group>"; };
+		8AEA57C41BA8E496001E105D /* ofxDatGuiFRM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxDatGuiFRM.h; path = ../src/components/ofxDatGuiFRM.h; sourceTree = "<group>"; };
 		8AFCDE831BA8BF4D0046E0DB /* ofxDatGuiLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxDatGuiLabel.h; path = ../src/components/ofxDatGuiLabel.h; sourceTree = "<group>"; };
 		902724601B82C6AD81BBCD71 /* ofxDatGui2dPad.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGui2dPad.h; path = ../src/components/ofxDatGui2dPad.h; sourceTree = SOURCE_ROOT; };
 		9705D66270ED89ECA6E6FECE /* ofxDatGui.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGui.h; path = ../src/ofxDatGui.h; sourceTree = SOURCE_ROOT; };
@@ -101,7 +101,7 @@
 				8AFCDE831BA8BF4D0046E0DB /* ofxDatGuiLabel.h */,
 				902724601B82C6AD81BBCD71 /* ofxDatGui2dPad.h */,
 				FDA86F4C2F1F1964D35391C6 /* ofxDatGuiButton.h */,
-				8AFCDE821BA8BF4D0046E0DB /* ofxDatGuiFPS.h */,
+				8AEA57C41BA8E496001E105D /* ofxDatGuiFRM.h */,
 				C84ED7FCC017328C6F58283D /* ofxDatGuiColorPicker.h */,
 				E100ED9DCB412957A879CD5A /* ofxDatGuiControls.h */,
 				744031A3E8F8DAF9FE6F3EA8 /* ofxDatGuiGroups.h */,

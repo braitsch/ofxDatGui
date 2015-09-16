@@ -200,6 +200,11 @@ class ofxDatGuiMatrix : public ofxDatGuiItem {
             return selected;
         }
     
+        ofxDatGuiMatrixButton* getChildAt(int index)
+        {
+            return &btns[index];
+        }
+    
         void onMouseRelease(ofPoint m)
         {
             ofxDatGuiItem::onMouseRelease(m);

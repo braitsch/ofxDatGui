@@ -127,9 +127,9 @@ The bounds parameter is optional and will default to the window dimensions if om
 
 ![ofxDatGui](./readme-img/ofxdatgui_label.png?raw=true)
 
-**FPS Monitor**
+**Framerate Monitor**
 	
-	gui->addFPS(float refreshFrequency = 1.0f);
+	gui->addFRM(float refreshFrequency = 1.0f);
 
 ![ofxDatGui](./readme-img/ofxdatgui_fps.gif?raw=true)
 
@@ -155,6 +155,10 @@ folder->addToggle("** Toggle", false);
 ```
 
 ![ofxDatGui](./readme-img/ofxdatgui_folder.png?raw=true)
+	
+All components can be nested into folders with the exception of other folders and dropdowns.
+
+---
 	
 Folders and dropdown menus can be expanded and collapsed programmatically.
 
@@ -227,8 +231,10 @@ myDropdown->collapse();
 
 ```cpp	
 ofxDatGuiMatrix* myMatrix;
+ofxDatGuiMatrixButton* myMatrix->getChildAt(int index);
 vector<int> myMatrix->getSelected();
 // returns a vector containing the indicies of the selected buttons //
+myMatrix->clear(); // deselects all buttons in the matrix //
 ```
 
 **ofxDatGui2dPad**

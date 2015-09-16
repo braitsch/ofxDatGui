@@ -63,9 +63,11 @@ enum ofxDatGuiAlignment
     RIGHT = 3
 };
 
+static bool ofxDatGuiQuietLogs = false;
+
 inline void ofxDatGuiLog(string msg = "")
 {
-    cout << msg << endl;
+    if (!ofxDatGuiQuietLogs) cout << msg << endl;
 }
 
 namespace ofxDatGuiMsg

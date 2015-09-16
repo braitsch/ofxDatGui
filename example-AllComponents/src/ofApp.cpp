@@ -46,7 +46,7 @@ void ofApp::setup()
     y = 100;
     x += component->getWidth() + p+60;
 
-    component = new ofxDatGuiFPS();
+    component = new ofxDatGuiFRM();
     component->setOrigin(x, y);
     components.push_back(component);
     

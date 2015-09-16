@@ -219,11 +219,11 @@ ofxDatGuiDropdown* ofxDatGui::addDropdown(vector<string> options)
     return dropdown;
 }
 
-ofxDatGuiFPS* ofxDatGui::addFPS()
+ofxDatGuiFRM* ofxDatGui::addFRM()
 {
-    ofxDatGuiFPS* fps = new ofxDatGuiFPS();
-    attachItem(fps);
-    return fps;
+    ofxDatGuiFRM* monitor = new ofxDatGuiFRM();
+    attachItem(monitor);
+    return monitor;
 }
 
 ofxDatGuiBreak* ofxDatGui::addBreak(int height)

@@ -9,7 +9,7 @@
 void ofApp::setup()
 {
 // create a color picker (passing in a color is optional) //
-    picker = new ofxDatGuiColorPicker("Color Picker", ofColor::fromHex(0xCECECE));
+    picker = new ofxDatGuiColorPicker("COLOR PICKER", ofColor::fromHex(0xCECECE));
     
 // and register a callback to listen for change events //
     picker->onColorPickerEvent(this, &ofApp::onColorPickerEvent);

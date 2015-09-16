@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-               BuildableName = "example-2dPads.app"
-               BlueprintName = "example-FPS"
-               ReferencedContainer = "container:example-FPS.xcodeproj">
+               BuildableName = "example-Matrix.app"
+               BlueprintName = "example-Matrices"
+               ReferencedContainer = "container:example-Matrices.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "example-2dPads.app"
-            BlueprintName = "example-FPS"
-            ReferencedContainer = "container:example-FPS.xcodeproj">
+            BuildableName = "example-Matrix.app"
+            BlueprintName = "example-Matrices"
+            ReferencedContainer = "container:example-Matrices.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -53,9 +53,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "example-2dPads.app"
-            BlueprintName = "example-FPS"
-            ReferencedContainer = "container:example-FPS.xcodeproj">
+            BuildableName = "example-Matrix.app"
+            BlueprintName = "example-Matrices"
+            ReferencedContainer = "container:example-Matrices.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "example-2dPads.app"
-            BlueprintName = "example-FPS"
-            ReferencedContainer = "container:example-FPS.xcodeproj">
+            BuildableName = "example-Matrix.app"
+            BlueprintName = "example-Matrices"
+            ReferencedContainer = "container:example-Matrices.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

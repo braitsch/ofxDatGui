@@ -13,7 +13,7 @@ void ofApp::setup()
 // add some components //
     gui->addTextInput("MESSAGE", "OPEN FRAMEWORKS DATGUI");
     
-    gui->addFPS();
+    gui->addFRM();
     gui->addBreak();
     
 // add a folder to group a few components together //
@@ -67,7 +67,7 @@ void ofApp::setup()
     gui->onColorPickerEvent(this, &ofApp::onColorPickerEvent);
     gui->onMatrixEvent(this, &ofApp::onMatrixEvent);
 
-    gui->setOpacity(gui->getSlider("datgui opacity")->getScale());
+ //   gui->setOpacity(gui->getSlider("datgui opacity")->getScale());
 
 // let's launch the app fullscreen //
     isFullscreen = true;
@@ -97,7 +97,7 @@ void ofApp::on2dPadEvent(ofxDatGui2dPadEvent e)
 
 void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
 {
-    cout << "onDropdownEvent: " << e.target->getLabel() << " Selected Child Index: " << e.target->getSelectedChildIndex() << endl;
+    cout << "onDropdownEvent: " << e.target->getLabel() << " Selected Child Index: " << e.target->getSelected() << endl;
 }
 
 void ofApp::onColorPickerEvent(ofxDatGuiColorPickerEvent e)

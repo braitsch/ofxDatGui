@@ -8,7 +8,7 @@
 
 void ofApp::setup()
 {
-    input = new ofxDatGuiTextInput("Text Input", "Type Something Here");
+    input = new ofxDatGuiTextInput("TEXT INPUT", "Type Something Here");
     input->onTextInputEvent(this, &ofApp::onTextInputEvent);
     input->setOrigin(100, 100);
     input->setWidth(800);

@@ -253,7 +253,9 @@ void ofxDatGuiItem::update()
     if (mAnchor != ofxDatGuiAnchor::NO_ANCHOR){
         if (ofGetWidth() != mWindow.width) setAnchor(mAnchor);
     }
-    for(int i=0; i<children.size(); i++) children[i]->update();
+// don't iterate over children unless they're visible //
+// TODO need to stop iterating over children once hitTest returns true //
+    if (getIsExpanded()) for(int i=0; i<children.size(); i++) children[i]->update();
 }
 
 void ofxDatGuiItem::onKeyPressed(ofKeyEventArgs &e)
@@ -268,6 +270,7 @@ void ofxDatGuiItem::onKeyPressed(ofKeyEventArgs &e)
 void ofxDatGuiItem::drawBkgd(ofColor color, int alpha)
 {
     ofPushStyle();
+        ofFill();
         ofSetColor(color, alpha!=-1 ? alpha  : mAlpha);
         ofDrawRectangle(x, y, mRow.width, mRow.height);
     ofPopStyle();

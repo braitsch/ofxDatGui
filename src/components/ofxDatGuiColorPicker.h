@@ -121,7 +121,7 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
     
         void drawColorPicker()
         {
-            if (mVisible && mShowPicker){
+            if (mShowPicker){
                 ofPushStyle();
                     ofSetColor(ofxDatGuiColor::LABEL);
                     ofDrawRectangle(pickerRect);
