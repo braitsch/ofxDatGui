@@ -178,14 +178,15 @@ class ofxDatGuiMatrix : public ofxDatGuiComponent {
     
         void draw()
         {
-            ofxDatGuiComponent::drawBkgd();
-            ofxDatGuiComponent::drawLabel();
-            ofxDatGuiComponent::drawStripe();
+            if (!mVisible) return;
             ofPushStyle();
+                ofxDatGuiComponent::drawBkgd();
+                ofxDatGuiComponent::drawLabel();
+                ofxDatGuiComponent::drawStripe();
                 ofSetColor(ofxDatGuiColor::INPUT);
                 ofDrawRectangle(mMatrixRect);
+                for(int i=0; i<btns.size(); i++) btns[i].draw(x+mRow.inputX, y);
             ofPopStyle();
-            for(int i=0; i<btns.size(); i++) btns[i].draw(x+mRow.inputX, y);
         }
     
         void clear()

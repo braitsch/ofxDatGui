@@ -87,21 +87,24 @@ class ofxDatGui2dPad : public ofxDatGuiComponent {
     
         void draw()
         {
-            mPad.x = x + mRow.inputX;
-            mPad.y = y + mRow.padding;
-            mPad.width = mRow.width-mRow.padding-mRow.inputX;
-            pLocal.x = mPad.x + mPad.width * mx;
-            pLocal.y = mPad.y + mPad.height * my;
-            ofxDatGuiComponent::drawBkgd();
-            ofxDatGuiComponent::drawLabel();
-            ofxDatGuiComponent::drawStripe();
-            ofSetColor(ofxDatGuiColor::INPUT);
-            ofDrawRectangle(mPad);
-            ofSetLineWidth(2);
-            ofSetColor(ofxDatGuiColor::LABEL);
-            ofDrawCircle(pLocal, 10);
-            ofDrawLine(mPad.x, pLocal.y, mPad.x+mPad.width, pLocal.y);
-            ofDrawLine(pLocal.x, mPad.y, pLocal.x, mPad.y+mPad.height);
+            if (!mVisible) return;
+            ofPushStyle();
+                mPad.x = x + mRow.inputX;
+                mPad.y = y + mRow.padding;
+                mPad.width = mRow.width-mRow.padding-mRow.inputX;
+                pLocal.x = mPad.x + mPad.width * mx;
+                pLocal.y = mPad.y + mPad.height * my;
+                ofxDatGuiComponent::drawBkgd();
+                ofxDatGuiComponent::drawLabel();
+                ofxDatGuiComponent::drawStripe();
+                ofSetColor(ofxDatGuiColor::INPUT);
+                ofDrawRectangle(mPad);
+                ofSetLineWidth(2);
+                ofSetColor(ofxDatGuiColor::LABEL);
+                ofDrawCircle(pLocal, 10);
+                ofDrawLine(mPad.x, pLocal.y, mPad.x+mPad.width, pLocal.y);
+                ofDrawLine(pLocal.x, mPad.y, pLocal.x, mPad.y+mPad.height);
+            ofPopStyle();
         }
     
         bool hitTest(ofPoint m)

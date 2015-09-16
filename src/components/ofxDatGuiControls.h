@@ -35,8 +35,11 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
     
         void draw()
         {
-            ofxDatGuiButton::drawBkgd();
-            ofxDatGuiButton::drawLabel();
+            if (!mVisible) return;
+            ofPushStyle();
+                ofxDatGuiButton::drawBkgd();
+                ofxDatGuiButton::drawLabel();
+            ofPopStyle();
         }
     
         void onMousePress(ofPoint m)
@@ -76,8 +79,11 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
     
         void draw()
         {
-            ofxDatGuiButton::drawBkgd();
-            ofxDatGuiButton::drawLabel();
+            if (!mVisible) return;
+            ofPushStyle();
+                ofxDatGuiButton::drawBkgd();
+                ofxDatGuiButton::drawLabel();
+            ofPopStyle();
         }
     
         void onMouseRelease(ofPoint m)
@@ -95,6 +101,7 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
             }
         }
     
+    // force footer label to always be centered //
         void setAlignment(ofxDatGuiAlignment align) {}
     
     private:

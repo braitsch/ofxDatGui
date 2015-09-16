@@ -38,7 +38,10 @@ class ofxDatGuiBreak : public ofxDatGuiComponent{
     
         void draw()
         {
-            ofxDatGuiComponent::drawBkgd();
+            if (!mVisible) return;
+            ofPushStyle();
+                ofxDatGuiComponent::drawBkgd();
+            ofPopStyle();
         }
     
         bool hitTest(ofPoint m)

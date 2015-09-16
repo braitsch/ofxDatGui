@@ -89,6 +89,7 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
     
         void draw()
         {
+            if (!mVisible) return;
             ofPushStyle();
                 ofxDatGuiButton::drawBkgd();
                 ofxDatGuiComponent::drawLabel();
@@ -129,13 +130,11 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
             mIsExpanded = true;
 //            int ypos = mRow.height + mRow.spacing;
 //            for(int i=0; i<children.size(); i++) {
-//                children[i]->setVisible(true);
 //                children[i]->setOrigin(x, y + ypos);
 //                ypos+=mRow.height + mRow.spacing;
 //            }
             int mHeight = mRow.height + mRow.spacing;
             for (int i=0; i<children.size(); i++) {
-                children[i]->setVisible(true);
                 children[i]->setOrigin(x, y + mHeight);
                 mHeight += children[i]->getHeight() + mRow.spacing;
             }
@@ -145,7 +144,6 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
         {
             mIsExpanded = false;
             for(int i=0; i<children.size(); i++) {
-                children[i]->setVisible(false);
                 children[i]->setOrigin(x, y);
             }
         }
@@ -333,7 +331,6 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
     
         void attachItem(ofxDatGuiComponent* item)
         {
-            item->setVisible(false);
             item->setIndex(children.size());
             children.push_back(item);
         // recalculate the group's height //
@@ -379,7 +376,7 @@ class ofxDatGuiDropdownOption : public ofxDatGuiButton {
 class ofxDatGuiDropdown : public ofxDatGuiGroup {
 
     public:
-    //const vector<string>& options = vector<string>()
+
         ofxDatGuiDropdown(string label, const vector<string>& options = vector<string>(), ofxDatGuiFont* font=nullptr) : ofxDatGuiGroup(label, font)
         {
             mOption = 0;
@@ -388,7 +385,6 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
             for(uint8_t i=0; i<options.size(); i++){
                 ofxDatGuiDropdownOption* opt = new ofxDatGuiDropdownOption(options[i], mFont);
                 opt->setIndex(children.size());
-                opt->setVisible(false);
                 opt->onButtonEvent(this, &ofxDatGuiDropdown::onOptionSelected);
                 children.push_back(opt);
             }

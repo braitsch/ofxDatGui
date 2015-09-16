@@ -671,10 +671,11 @@ bool ofxDatGui::isMouseOverGui()
 
 void ofxDatGui::update()
 {
-    if (!mEnabled || !mVisible) return;
     if (mAlphaChanged) setGuiAlpha();
     if (mWidthChanged) setGuiWidth();
     if (mAlignmentChanged) setGuiAlignment();
+    if (!mEnabled || !mVisible) return;
+    
     mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
     bool hit = isMouseOverGui();
     if (!hit && activeHover != nullptr){

@@ -378,13 +378,13 @@ Valid values are:
 
 Aditionally all components provide the following instance methods.
 
- 	gui->setWidth(int width);
- 	gui->setOrigin(int x, int y);
-	gui->setOpacity(float opacity); // between 0 & 1 //
-	gui->setVisible(bool visible);
-	gui->setEnabled(bool enabled);
-	gui->setStripeColor(ofColor color);
-	gui->setAlignment(ofxDatGuiAlignment alignment);
+ 	setWidth(int width);
+ 	setOrigin(int x, int y);
+	setOpacity(float opacity); // a value between 0 & 1 //
+	setVisible(bool visible);
+	setEnabled(bool enabled);
+	setStripeColor(ofColor color);
+	setAlignment(ofxDatGuiAlignment alignment);
 
 ##Logging
 

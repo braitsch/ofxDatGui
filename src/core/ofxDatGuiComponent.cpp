@@ -26,6 +26,7 @@ ofxDatGuiComponent::ofxDatGuiComponent(string label, ofxDatGuiFont* font)
 {
     mAlpha = 255;
     mVisible = true;
+    mEnabled = true;
     mFocused = false;
     mMouseOver = false;
     mMouseDown = false;
@@ -179,14 +180,30 @@ void ofxDatGuiComponent::setAlignment(ofxDatGuiAlignment align)
     for (int i=0; i<children.size(); i++) children[i]->setAlignment(align);
 }
 
-/*
-    virtual methods overridden in derived classes
-*/
+void ofxDatGuiComponent::setVisible(bool visible)
+{
+    mVisible = visible;
+}
 
-bool ofxDatGuiComponent::getIsExpanded(){}
-void ofxDatGuiComponent::setVisible(bool visible) { mVisible = visible; }
-bool ofxDatGuiComponent::getVisible() { return mVisible; }
-void ofxDatGuiComponent::setStripeColor(ofColor color) { mStripeColor = color; }
+bool ofxDatGuiComponent::getVisible()
+{
+    return mVisible;
+}
+
+void ofxDatGuiComponent::setEnabled(bool enabled)
+{
+    mEnabled = enabled;
+}
+
+bool ofxDatGuiComponent::getEnabled()
+{
+    return mEnabled;
+}
+
+void ofxDatGuiComponent::setStripeColor(ofColor color)
+{
+    mStripeColor = color;
+}
 
 void ofxDatGuiComponent::setOrigin(int x, int y)
 {
@@ -226,12 +243,15 @@ int ofxDatGuiComponent::getPositionY()
     return y;
 }
 
+bool ofxDatGuiComponent::getIsExpanded(){}
+
 /*
     draw methods
 */
 
 void ofxDatGuiComponent::update()
 {
+    if (!mEnabled) return;
     bool mp = ofGetMousePressed();
     ofPoint mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
     if (hitTest(mouse)){

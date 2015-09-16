@@ -105,6 +105,7 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
 
         void draw()
         {
+            if (!mVisible) return;
             ofPushStyle();
                 ofxDatGuiComponent::drawBkgd();
                 ofxDatGuiComponent::drawLabel();

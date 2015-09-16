@@ -46,9 +46,12 @@ class ofxDatGuiButton : public ofxDatGuiComponent {
     
         void draw()
         {
-            drawBkgd();
-            ofxDatGuiComponent::drawLabel();
-            ofxDatGuiComponent::drawStripe();
+            if (!mVisible) return;
+            ofPushStyle();
+                drawBkgd();
+                ofxDatGuiComponent::drawLabel();
+                ofxDatGuiComponent::drawStripe();
+            ofPopStyle();
         }
     
         void drawBkgd()

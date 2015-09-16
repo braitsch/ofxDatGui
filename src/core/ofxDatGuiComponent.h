@@ -43,6 +43,8 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         void    setAnchor(ofxDatGuiAnchor anchor);
         ofxDatGuiType getType();
 
+        void    setEnabled(bool visible);
+        bool    getEnabled();
         void    setVisible(bool visible);
         bool    getVisible();
         void    setOpacity(float opacity);
@@ -79,6 +81,7 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         int mOriginY;
         bool mFocused;
         bool mVisible;
+        bool mEnabled;
         bool mMouseOver;
         bool mMouseDown;
         bool mRetinaEnabled;

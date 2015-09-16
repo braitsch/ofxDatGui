@@ -100,29 +100,30 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
     
         void draw()
         {
-            ofxDatGuiTextInput::draw();
-            if (mShowPicker) {
-                pickerRect.x = this->x + mRow.inputX;
-                pickerRect.y = this->y + mRow.padding + input->getHeight();
-                pickerRect.width = input->getWidth();
-                rainbowRect.x = pickerRect.x+pickerRect.width-rainbowWidth-mRow.padding;
-                rainbowRect.y = pickerRect.y+mRow.padding;
-                gradientRect.x = pickerRect.x + mRow.padding;
-                gradientRect.y = pickerRect.y + mRow.padding;
-                gradientRect.width = pickerRect.width-rainbowRect.width-(mRow.padding*3);
-                gPoints[0] = ofVec2f(gradientRect.x, gradientRect.y);
-                gPoints[1] = ofVec2f(gradientRect.x+ gradientRect.width, gradientRect.y);
-                gPoints[2] = ofVec2f(gradientRect.x+ gradientRect.width, gradientRect.y+gradientRect.height);
-                gPoints[3] = ofVec2f(gradientRect.x, gradientRect.y+gradientRect.height);
-                vbo.setVertexData(&gPoints[0], 4, GL_DYNAMIC_DRAW );
-                ofPushStyle();
+            if (!mVisible) return;
+            ofPushStyle();
+                ofxDatGuiTextInput::draw();
+                if (mShowPicker) {
+                    pickerRect.x = this->x + mRow.inputX;
+                    pickerRect.y = this->y + mRow.padding + input->getHeight();
+                    pickerRect.width = input->getWidth();
+                    rainbowRect.x = pickerRect.x+pickerRect.width-rainbowWidth-mRow.padding;
+                    rainbowRect.y = pickerRect.y+mRow.padding;
+                    gradientRect.x = pickerRect.x + mRow.padding;
+                    gradientRect.y = pickerRect.y + mRow.padding;
+                    gradientRect.width = pickerRect.width-rainbowRect.width-(mRow.padding*3);
+                    gPoints[0] = ofVec2f(gradientRect.x, gradientRect.y);
+                    gPoints[1] = ofVec2f(gradientRect.x+ gradientRect.width, gradientRect.y);
+                    gPoints[2] = ofVec2f(gradientRect.x+ gradientRect.width, gradientRect.y+gradientRect.height);
+                    gPoints[3] = ofVec2f(gradientRect.x, gradientRect.y+gradientRect.height);
+                    vbo.setVertexData(&gPoints[0], 4, GL_DYNAMIC_DRAW );
                     ofSetColor(ofxDatGuiColor::LABEL);
                     ofDrawRectangle(pickerRect);
                     ofSetColor(ofColor::white);
                     rainbow.draw(rainbowRect);
                     vbo.draw( GL_QUADS, 0, 4 );
-                ofPopStyle();
-            }
+                }
+            ofPopStyle();
         }
     
         void drawColorPicker()
