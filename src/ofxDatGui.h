@@ -55,7 +55,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofxDatGuiSlider* addSlider(string label, float min, float max);
         ofxDatGuiSlider* addSlider(string label, float min, float max, float val);
         ofxDatGuiTextInput* addTextInput(string label, string value = "");
-        ofxDatGuiDropdown* addDropdown(vector<string> options);
+        ofxDatGuiDropdown* addDropdown(string label, vector<string> options);
         ofxDatGuiFRM* addFRM();
         ofxDatGuiBreak* addBreak(int height = 0);
         ofxDatGui2dPad* add2dPad(string label);
@@ -64,14 +64,16 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofxDatGuiMatrix* addMatrix(string label, int numButtons, bool showLabels = false);
         ofxDatGuiFolder* addFolder(string label, ofColor color = ofxDatGuiColor::LABEL);
     
-    // experimental //
-        ofxDatGuiButton* getButton(string key);
-        ofxDatGuiSlider* getSlider(string key);
-        ofxDatGui2dPad* get2dPad(string key);
-        ofxDatGuiDropdown* getDropdown(string key);
-        ofxDatGuiTextInput* getTextInput(string key);
-        ofxDatGuiColorPicker* getColorPicker(string key);
-        ofxDatGuiMatrix* getMatrix(string key);
+        ofxDatGuiHeader* getHeader();
+        ofxDatGuiFooter* getFooter();
+        ofxDatGuiButton* getButton(string label, string folder = "");
+        ofxDatGuiSlider* getSlider(string label, string folder = "");
+        ofxDatGui2dPad* get2dPad(string label, string folder = "");
+        ofxDatGuiTextInput* getTextInput(string label, string folder = "");
+        ofxDatGuiColorPicker* getColorPicker(string label, string folder = "");
+        ofxDatGuiMatrix* getMatrix(string label, string folder = "");
+        ofxDatGuiFolder* getFolder(string label);
+        ofxDatGuiDropdown* getDropdown(string label);
     
     private:
     
@@ -123,6 +125,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         void onWindowResized(ofResizeEventArgs &e);
     
         ofxDatGuiComponent* getComponent(string key);
+        ofxDatGuiComponent* getComponent(ofxDatGuiType type, string label);
         void onInternalEventCallback(ofxDatGuiInternalEvent e);
         void onButtonEventCallback(ofxDatGuiButtonEvent e);
         void onSliderEventCallback(ofxDatGuiSliderEvent e);

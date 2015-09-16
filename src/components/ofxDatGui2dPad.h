@@ -41,6 +41,11 @@ class ofxDatGui2dPad : public ofxDatGuiComponent {
             mScaleOnResize = false;
         }
     
+        static ofxDatGui2dPad* getInstance()
+        {
+            return new ofxDatGui2dPad("X");
+        }
+    
         ofPoint getPosition()
         {
             return pWorld;
@@ -57,6 +62,7 @@ class ofxDatGui2dPad : public ofxDatGuiComponent {
         {
             reset();
             mRow.height = 164;
+            mType = ofxDatGuiType::PAD2D;
             mStripeColor = ofxDatGuiColor::PAD2D_STRIPE;
             mPad = ofRectangle(0, 0, mRow.width-mRow.padding-mRow.inputX, mRow.height-(mRow.padding*2));
         }

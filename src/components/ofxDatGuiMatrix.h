@@ -123,6 +123,7 @@ class ofxDatGuiMatrix : public ofxDatGuiComponent {
         ofxDatGuiMatrix(string label, int numButtons, bool showLabels=false, ofxDatGuiFont* font=nullptr) : ofxDatGuiComponent(label, font)
         {
             mButtonSize = 47;
+            mType = ofxDatGuiType::MATRIX;
             mStripeColor = ofxDatGuiColor::MATRIX_STRIPE;
             for(int i=0; i<numButtons; i++) {
                 ofxDatGuiMatrixButton btn(mButtonSize, i, showLabels, mFont);
@@ -132,6 +133,11 @@ class ofxDatGuiMatrix : public ofxDatGuiComponent {
         // set the default width & position of the matrix //
             setOrigin(0, 0);
             setWidth(mRow.width);
+        }
+    
+        static ofxDatGuiMatrix* getInstance()
+        {
+            return new ofxDatGuiMatrix("X", 0);
         }
 
         void setOrigin(int x, int y)

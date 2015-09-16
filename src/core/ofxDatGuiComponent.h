@@ -41,10 +41,11 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         void    setLabel(string label);
         void    setStripeColor(ofColor color);
         void    setAnchor(ofxDatGuiAnchor anchor);
+        ofxDatGuiType getType();
 
         void    setVisible(bool visible);
-        void    setOpacity(float opacity);
         bool    getVisible();
+        void    setOpacity(float opacity);
     
         virtual void draw() = 0;
         virtual void update();
@@ -88,6 +89,7 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         int mLabelAreaWidth;
         int mLabelMarginRight;
         ofxDatGuiFont* mFont;
+        ofxDatGuiType mType;
         ofxDatGuiAnchor mAnchor;
         ofxDatGuiAlignment mLabelAlignment;
     

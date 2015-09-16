@@ -176,8 +176,8 @@
 			children = (
 				947FCD1248D8B0A16B53C1AA /* components */,
 				8870759BC9CAEA1E4E9EA3A8 /* core */,
-				9705D66270ED89ECA6E6FECE /* ofxDatGui.h */,
 				26490D7CC31EF7D6ED5F925A /* ofxDatGui.cpp */,
+				9705D66270ED89ECA6E6FECE /* ofxDatGui.h */,
 			);
 			name = src;
 			sourceTree = "<group>";

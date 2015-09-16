@@ -257,8 +257,10 @@ If you're lazy and don't feel like storing your components in variables you can 
 	
 If you have multiple components with the same label nested in separate folders just specify the folder to search.
 
-	ofxDatGuiButton* gui->getButton("Folder 1", "Reset Button");
-	ofxDatGuiButton* gui->getButton("Folder 2", "Reset Button");
+	ofxDatGuiButton* gui->getButton("Reset Button", "Folder 1");
+	ofxDatGuiButton* gui->getButton("Reset Button", "Folder 2");
+	
+Otherwise the function will return the first component whose name & type match the query.
 	
 ## Events
 
@@ -383,6 +385,17 @@ Aditionally all components provide the following instance methods.
 	gui->setEnabled(bool enabled);
 	gui->setStripeColor(ofColor color);
 	gui->setAlignment(ofxDatGuiAlignment alignment);
+
+##Logging
+
+**ofxDatGui** will softly warn you if you forget to attach an event listener to a component you've created or if you attempt to perform an action on a component that does not exist.
+
+	[ERROR] :: Component Not Found : GHOST BUTTON
+	[WARNING] :: Event Handler Not Set : MY BUTTON
+
+However you can easily suppress these warnings via:
+
+	ofxDatGuiQuietLog = true;
 
 ##Save & Load Settings
 

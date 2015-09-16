@@ -162,10 +162,16 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
 
     public:
     
-        ofxDatGuiFolder(string label, ofColor color, ofxDatGuiFont* font=nullptr) : ofxDatGuiGroup(label, font)
+        ofxDatGuiFolder(string label, ofColor color=ofxDatGuiColor::LABEL, ofxDatGuiFont* font=nullptr) : ofxDatGuiGroup(label, font)
         {
     // all items within a folder share the same stripe color //
             mStripeColor = color;
+            mType = ofxDatGuiType::FOLDER;
+        }
+    
+        static ofxDatGuiFolder* getInstance()
+        {
+            return new ofxDatGuiFolder("X");
         }
     
         void drawColorPicker()
@@ -334,6 +340,16 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
             mChildrenHeight = 0;
             for(int i=0; i<children.size(); i++) mChildrenHeight += children[i]->getHeight() + mRow.spacing;
         }
+    
+        ofxDatGuiComponent* getComponent(ofxDatGuiType type, string label)
+        {
+            for (int i=0; i<children.size(); i++) {
+                if (children[i]->getType() == type){
+                    if (ofToLower(children[i]->getLabel()) == ofToLower(label)) return children[i];
+                }
+            }
+            return NULL;
+        }
 
     private:
     
@@ -363,19 +379,25 @@ class ofxDatGuiDropdownOption : public ofxDatGuiButton {
 class ofxDatGuiDropdown : public ofxDatGuiGroup {
 
     public:
-    
-        ofxDatGuiDropdown(string label, vector<string> options, ofxDatGuiFont* font=nullptr) : ofxDatGuiGroup(label, font)
+    //const vector<string>& options = vector<string>()
+        ofxDatGuiDropdown(string label, const vector<string>& options = vector<string>(), ofxDatGuiFont* font=nullptr) : ofxDatGuiGroup(label, font)
         {
             mOption = 0;
+            mType = ofxDatGuiType::DROPDOWN;
             mStripeColor = ofxDatGuiColor::DROPDOWN_STRIPE;
             for(uint8_t i=0; i<options.size(); i++){
                 ofxDatGuiDropdownOption* opt = new ofxDatGuiDropdownOption(options[i], mFont);
                 opt->setIndex(children.size());
-                opt->onButtonEvent(this, &ofxDatGuiDropdown::onOptionSelected);
                 opt->setVisible(false);
+                opt->onButtonEvent(this, &ofxDatGuiDropdown::onOptionSelected);
                 children.push_back(opt);
             }
             mChildrenHeight = children.size() * (mRow.height+mRow.spacing);
+        }
+    
+        static ofxDatGuiDropdown* getInstance()
+        {
+            return new ofxDatGuiDropdown("X");
         }
     
         void select(int cIndex)

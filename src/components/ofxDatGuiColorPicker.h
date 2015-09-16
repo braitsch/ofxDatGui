@@ -30,6 +30,7 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
         ofxDatGuiColorPicker(string label, ofColor color=ofColor::black, ofxDatGuiFont* font=nullptr) : ofxDatGuiTextInput(label, "XXXXXX", font)
         {
             mColor = color;
+            mType = ofxDatGuiType::COLOR_PICKER;
             mStripeColor = ofxDatGuiColor::TOGGLE_STRIPE;
             
         // center the text input field //
@@ -55,6 +56,11 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
             gColors.push_back(ofColor::black);
             gColors.push_back(ofColor::black);
             vbo.setColorData(&gColors[0], 4, GL_DYNAMIC_DRAW );
+        }
+    
+        static ofxDatGuiColorPicker* getInstance()
+        {
+            return new ofxDatGuiColorPicker("X");
         }
     
         void setColor(ofColor color)

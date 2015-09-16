@@ -29,6 +29,7 @@ class ofxDatGuiTextInput : public ofxDatGuiComponent {
     public:
         ofxDatGuiTextInput(string label, string text = "", ofxDatGuiFont* font=nullptr) : ofxDatGuiComponent(label, font)
         {
+            mType = ofxDatGuiType::TEXT_INPUT;
             mStripeColor = ofxDatGuiColor::INPUT_STRIPE;
             input = new ofxDatGuiTextInputField(mRow.height-(mRow.padding*2), mFont);
             input->setText(text);
@@ -36,6 +37,16 @@ class ofxDatGuiTextInput : public ofxDatGuiComponent {
         // set width & position of the text input field //
             setOrigin(0, 0);
             setWidth(mRetinaEnabled ? 540 : 320);
+        }
+    
+        ~ofxDatGuiTextInput()
+        {
+            delete input;
+        }
+    
+        static ofxDatGuiTextInput* getInstance()
+        {
+            return new ofxDatGuiTextInput("X");
         }
     
         string getText()

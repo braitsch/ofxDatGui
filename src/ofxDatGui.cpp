@@ -210,9 +210,9 @@ ofxDatGuiColorPicker* ofxDatGui::addColorPicker(string label, ofColor color)
     return picker;
 }
 
-ofxDatGuiDropdown* ofxDatGui::addDropdown(vector<string> options)
+ofxDatGuiDropdown* ofxDatGui::addDropdown(string label, vector<string> options)
 {
-    ofxDatGuiDropdown* dropdown = new ofxDatGuiDropdown("SELECT OPTION", options, mFont);
+    ofxDatGuiDropdown* dropdown = new ofxDatGuiDropdown(label, options, mFont);
     dropdown->onDropdownEvent(this, &ofxDatGui::onDropdownEventCallback);
     dropdown->onInternalEvent(this, &ofxDatGui::onInternalEventCallback);
     attachItem(dropdown);
@@ -262,6 +262,8 @@ ofxDatGuiFolder* ofxDatGui::addFolder(string label, ofColor color)
     ofxDatGuiFolder* folder = new ofxDatGuiFolder(label, color, mFont);
     folder->onButtonEvent(this, &ofxDatGui::onButtonEventCallback);
     folder->onSliderEvent(this, &ofxDatGui::onSliderEventCallback);
+    folder->on2dPadEvent(this, &ofxDatGui::on2dPadEventCallback);
+    folder->onMatrixEvent(this, &ofxDatGui::onMatrixEventCallback);
     folder->onTextInputEvent(this, &ofxDatGui::onTextInputEventCallback);
     folder->onColorPickerEvent(this, &ofxDatGui::onColorPickerEventCallback);
     folder->onInternalEvent(this, &ofxDatGui::onInternalEventCallback);
@@ -291,115 +293,171 @@ void ofxDatGui::layoutGui()
 }
 
 /*
-    experimental component retrieval methods
+    component retrieval methods
 */
 
-ofxDatGuiButton* ofxDatGui::getButton(string key)
+ofxDatGuiButton* ofxDatGui::getButton(string bl, string fl)
 {
-    ofxDatGuiComponent* item = getComponent(key);
-    if (item != nullptr){
-        return static_cast<ofxDatGuiButton*>(item);
+    ofxDatGuiButton* o = nullptr;
+    if (fl != ""){
+        ofxDatGuiFolder* f = static_cast<ofxDatGuiFolder*>(getComponent(ofxDatGuiType::FOLDER, fl));
+        if (f) o = static_cast<ofxDatGuiButton*>(f->getComponent(ofxDatGuiType::BUTTON, bl));
     }   else{
-        ofxDatGuiButton* button = new ofxDatGuiButton("X", mFont);
-        cout << "ERROR! BUTTON: "<< key <<" NOT FOUND!" << endl;
-        trash.push_back(button);
-        return button;
+        o = static_cast<ofxDatGuiButton*>(getComponent(ofxDatGuiType::BUTTON, bl));
     }
+    if (o==nullptr){
+        o = ofxDatGuiButton::getInstance();
+        ofxDatGuiLog(ofxDatGuiMsg::COMPONENT_NOT_FOUND, fl!="" ? fl+"-"+bl : bl);
+        trash.push_back(o);
+    }
+    return o;
 }
 
-ofxDatGuiSlider* ofxDatGui::getSlider(string key)
+ofxDatGuiSlider* ofxDatGui::getSlider(string sl, string fl)
 {
-    ofxDatGuiComponent* item = getComponent(key);
-    if (item != nullptr){
-        return static_cast<ofxDatGuiSlider*>(item);
+    ofxDatGuiSlider* o = nullptr;
+    if (fl != ""){
+        ofxDatGuiFolder* f = static_cast<ofxDatGuiFolder*>(getComponent(ofxDatGuiType::FOLDER, fl));
+        if (f) o = static_cast<ofxDatGuiSlider*>(f->getComponent(ofxDatGuiType::SLIDER, sl));
     }   else{
-        ofxDatGuiSlider* slider = new ofxDatGuiSlider("X", 0, 100, 50);
-        cout << "ERROR! SLIDER: "<< key <<" NOT FOUND!" << endl;
-        trash.push_back(slider);
-        return slider;
+        o = static_cast<ofxDatGuiSlider*>(getComponent(ofxDatGuiType::SLIDER, sl));
     }
+    if (o==nullptr){
+        o = ofxDatGuiSlider::getInstance();
+        ofxDatGuiLog(ofxDatGuiMsg::COMPONENT_NOT_FOUND, fl!="" ? fl+"-"+sl : sl);
+        trash.push_back(o);
+    }
+    return o;
 }
 
-ofxDatGuiTextInput* ofxDatGui::getTextInput(string key)
+ofxDatGuiTextInput* ofxDatGui::getTextInput(string tl, string fl)
 {
-    ofxDatGuiComponent* item = getComponent(key);
-    if (item != nullptr){
-        return static_cast<ofxDatGuiTextInput*>(item);
+    ofxDatGuiTextInput* o = nullptr;
+    if (fl != ""){
+        ofxDatGuiFolder* f = static_cast<ofxDatGuiFolder*>(getComponent(ofxDatGuiType::FOLDER, fl));
+        if (f) o = static_cast<ofxDatGuiTextInput*>(f->getComponent(ofxDatGuiType::TEXT_INPUT, tl));
     }   else{
-        ofxDatGuiTextInput* input = new ofxDatGuiTextInput("X", "");
-        cout << "ERROR! TEXT INPUT: "<< key <<" NOT FOUND!" << endl;
-        trash.push_back(input);
-        return input;
+        o = static_cast<ofxDatGuiTextInput*>(getComponent(ofxDatGuiType::TEXT_INPUT, tl));
     }
+    if (o==nullptr){
+        o = ofxDatGuiTextInput::getInstance();
+        ofxDatGuiLog(ofxDatGuiMsg::COMPONENT_NOT_FOUND, fl!="" ? fl+"-"+tl : tl);
+        trash.push_back(o);
+    }
+    return o;
 }
 
-ofxDatGuiDropdown* ofxDatGui::getDropdown(string key)
+ofxDatGui2dPad* ofxDatGui::get2dPad(string pl, string fl)
 {
-    ofxDatGuiComponent* item = getComponent(key);
-    if (item != nullptr){
-        return static_cast<ofxDatGuiDropdown*>(item);
+    ofxDatGui2dPad* o = nullptr;
+    if (fl != ""){
+        ofxDatGuiFolder* f = static_cast<ofxDatGuiFolder*>(getComponent(ofxDatGuiType::FOLDER, fl));
+        if (f) o = static_cast<ofxDatGui2dPad*>(f->getComponent(ofxDatGuiType::PAD2D, pl));
     }   else{
-        vector<string> opts = {" ", " "};
-        ofxDatGuiDropdown* dd = new ofxDatGuiDropdown("", opts);
-        cout << "ERROR! DROPDOWN: "<< key <<" NOT FOUND!" << endl;
-        trash.push_back(dd);
-        return dd;
+        o = static_cast<ofxDatGui2dPad*>(getComponent(ofxDatGuiType::PAD2D, pl));
     }
+    if (o==nullptr){
+        o = ofxDatGui2dPad::getInstance();
+        ofxDatGuiLog(ofxDatGuiMsg::COMPONENT_NOT_FOUND, fl!="" ? fl+"-"+pl : pl);
+        trash.push_back(o);
+    }
+    return o;
 }
 
-ofxDatGui2dPad* ofxDatGui::get2dPad(string key)
+ofxDatGuiColorPicker* ofxDatGui::getColorPicker(string cl, string fl)
 {
-    ofxDatGuiComponent* item = getComponent(key);
-    if (item != nullptr){
-        return static_cast<ofxDatGui2dPad*>(item);
+    ofxDatGuiColorPicker* o = nullptr;
+    if (fl != ""){
+        ofxDatGuiFolder* f = static_cast<ofxDatGuiFolder*>(getComponent(ofxDatGuiType::FOLDER, fl));
+        if (f) o = static_cast<ofxDatGuiColorPicker*>(f->getComponent(ofxDatGuiType::COLOR_PICKER, cl));
     }   else{
-        ofxDatGui2dPad* pad = new ofxDatGui2dPad("X");
-        cout << "ERROR! 2DPAD: "<< key <<" NOT FOUND!" << endl;
-        trash.push_back(pad);
-        return pad;
+        o = static_cast<ofxDatGuiColorPicker*>(getComponent(ofxDatGuiType::COLOR_PICKER, cl));
     }
+    if (o==nullptr){
+        o = ofxDatGuiColorPicker::getInstance();
+        ofxDatGuiLog(ofxDatGuiMsg::COMPONENT_NOT_FOUND, fl!="" ? fl+"-"+cl : cl);
+        trash.push_back(o);
+    }
+    return o;
 }
 
-ofxDatGuiColorPicker* ofxDatGui::getColorPicker(string key)
+ofxDatGuiMatrix* ofxDatGui::getMatrix(string ml, string fl)
 {
-    ofxDatGuiComponent* item = getComponent(key);
-    if (item != nullptr){
-        return static_cast<ofxDatGuiColorPicker*>(item);
+    ofxDatGuiMatrix* o = nullptr;
+    if (fl != ""){
+        ofxDatGuiFolder* f = static_cast<ofxDatGuiFolder*>(getComponent(ofxDatGuiType::FOLDER, fl));
+        if (f) o = static_cast<ofxDatGuiMatrix*>(f->getComponent(ofxDatGuiType::MATRIX, ml));
     }   else{
-        ofxDatGuiColorPicker* picker = new ofxDatGuiColorPicker("X");
-        cout << "ERROR! COLOPICKER: "<< key <<" NOT FOUND!" << endl;
-        trash.push_back(picker);
-        return picker;
+        o = static_cast<ofxDatGuiMatrix*>(getComponent(ofxDatGuiType::MATRIX, ml));
     }
+    if (o==nullptr){
+        o = ofxDatGuiMatrix::getInstance();
+        ofxDatGuiLog(ofxDatGuiMsg::COMPONENT_NOT_FOUND, fl!="" ? fl+"-"+ml : ml);
+        trash.push_back(o);
+    }
+    return o;
 }
 
-ofxDatGuiMatrix* ofxDatGui::getMatrix(string key)
+ofxDatGuiDropdown* ofxDatGui::getDropdown(string dl)
 {
-    ofxDatGuiComponent* item = getComponent(key);
-    if (item != nullptr){
-        return static_cast<ofxDatGuiMatrix*>(item);
-    }   else{
-        ofxDatGuiMatrix* matrix = new ofxDatGuiMatrix("X", 0);
-        cout << "ERROR! MATRIX: "<< key <<" NOT FOUND!" << endl;
-        trash.push_back(matrix);
-        return matrix;
+    ofxDatGuiDropdown* o = static_cast<ofxDatGuiDropdown*>(getComponent(ofxDatGuiType::DROPDOWN, dl));
+    if (o==NULL){
+        o = ofxDatGuiDropdown::getInstance();
+        ofxDatGuiLog(ofxDatGuiMsg::COMPONENT_NOT_FOUND, dl);
+        trash.push_back(o);
     }
+    return o;
 }
 
-ofxDatGuiComponent* ofxDatGui::getComponent(string key)
+ofxDatGuiFolder* ofxDatGui::getFolder(string fl)
 {
-    ofxDatGuiComponent* item = nullptr;
-    for (int i=0; i<items.size(); i++)
-    {
-    // first search against labels, then keys, ids, etc...
-        ofxDatGuiComponent* o = items[i];
-        if (ofToLower(o->getLabel()) == ofToLower(key)) return items[i];
-        for (int j=0; j<o->children.size(); j++)
-        {
-            if (ofToLower(o->children[j]->getLabel()) == ofToLower(key)) return o->children[j];
+    ofxDatGuiFolder* o = static_cast<ofxDatGuiFolder*>(getComponent(ofxDatGuiType::FOLDER, fl));
+    if (o==NULL){
+        o = ofxDatGuiFolder::getInstance();
+        ofxDatGuiLog(ofxDatGuiMsg::COMPONENT_NOT_FOUND, fl);
+        trash.push_back(o);
+    }
+    return o;
+}
+
+ofxDatGuiHeader* ofxDatGui::getHeader()
+{
+    ofxDatGuiHeader* o;
+    if (mGuiHeader != nullptr){
+        o = mGuiHeader;
+    }   else{
+        o = new ofxDatGuiHeader("X");
+        ofxDatGuiLog(ofxDatGuiMsg::COMPONENT_NOT_FOUND, "HEADER");
+        trash.push_back(o);
+    }
+    return o;
+}
+
+ofxDatGuiFooter* ofxDatGui::getFooter()
+{
+    ofxDatGuiFooter* o;
+    if (mGuiFooter != nullptr){
+        o = mGuiFooter;
+    }   else{
+        o = new ofxDatGuiFooter();
+        ofxDatGuiLog(ofxDatGuiMsg::COMPONENT_NOT_FOUND, "FOOTER");
+        trash.push_back(o);
+    }
+    return o;
+}
+
+ofxDatGuiComponent* ofxDatGui::getComponent(ofxDatGuiType type, string label)
+{
+    for (int i=0; i<items.size(); i++) {
+        if (items[i]->getType() == type){
+            if (ofToLower(items[i]->getLabel()) == ofToLower(label)) return items[i];
+        }
+    // iterate over component's children and return the first match we find //
+        for (int j=0; j<items[i]->children.size(); j++) {
+            if (ofToLower(items[i]->children[j]->getLabel()) == ofToLower(label)) return items[i]->children[j];
         }
     }
-    return item;
+    return NULL;
 }
 
 /*

@@ -59,7 +59,11 @@ ofxDatGuiComponent::ofxDatGuiComponent(string label, ofxDatGuiFont* font)
     setWidth(mRow.width);
 }
 
-ofxDatGuiComponent::~ofxDatGuiComponent(){ }
+ofxDatGuiComponent::~ofxDatGuiComponent()
+{
+    delete mFont;
+    cout << "ofxDatGuiComponent deleted" << endl;
+}
 
 /*
     ofxDatGuiFont
@@ -120,7 +124,12 @@ void ofxDatGuiComponent::setIndex(int index)
 
 int ofxDatGuiComponent::getIndex()
 {
-    mIndex;
+    return mIndex;
+}
+
+ofxDatGuiType ofxDatGuiComponent::getType()
+{
+    return mType;
 }
 
 void ofxDatGuiComponent::setOpacity(float opacity)

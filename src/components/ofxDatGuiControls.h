@@ -27,12 +27,12 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
 
     public:
 
-        ofxDatGuiHeader(string label, ofxDatGuiFont* font) : ofxDatGuiButton(label, font)
+        ofxDatGuiHeader(string label, ofxDatGuiFont* font=nullptr) : ofxDatGuiButton(label, font)
         {
             mRow.height = mRow.height*.8;
             mLabelAlignment = ofxDatGuiAlignment::CENTER;
         }
-        
+    
         void draw()
         {
             ofxDatGuiButton::drawBkgd();
@@ -62,7 +62,7 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
 
     public:
     
-        ofxDatGuiFooter(ofxDatGuiFont* font) : ofxDatGuiButton("COLLAPSE CONTROLS", font)
+        ofxDatGuiFooter(ofxDatGuiFont* font=nullptr) : ofxDatGuiButton("COLLAPSE CONTROLS", font)
         {
             mIsExpanded = true;
             mRow.height = mRow.height*.8;

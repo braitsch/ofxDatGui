@@ -63,16 +63,38 @@ enum ofxDatGuiAlignment
     RIGHT = 3
 };
 
+enum ofxDatGuiType
+{
+    LABEL = 0,
+    BUTTON,
+    TOGGLE,
+    PAD2D,
+    HEADER,
+    FOOTER,
+    DROPDOWN,
+    MATRIX,
+    SLIDER,
+    FOLDER,
+    TEXT_INPUT,
+    FRAME_RATE,
+    COLOR_PICKER,
+};
+
 static bool ofxDatGuiQuietLogs = false;
 
-inline void ofxDatGuiLog(string msg = "")
+inline void ofxDatGuiLog(string m1, string m2="")
 {
-    if (!ofxDatGuiQuietLogs) cout << msg << endl;
+    if (!ofxDatGuiQuietLogs) {
+        cout << m1;
+        if (m2!="") cout << " : " << m2;
+        cout << endl;
+    }
 }
 
 namespace ofxDatGuiMsg
 {
-    const string EVENT_HANDLER_NULL = "[WARNING] : Event Handler Not Set";
+    const string EVENT_HANDLER_NULL = "[WARNING] :: Event Handler Not Set";
+    const string COMPONENT_NOT_FOUND = "[ERROR] :: Component Not Found";
 }
 
 

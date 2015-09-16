@@ -26,7 +26,6 @@ void ofApp::setup()
     folder->expand();
 
     gui->addBreak();
-    
 // add a couple range sliders //
     gui->addSlider("POSITION X", 0, 120, 75);
     gui->addSlider("POSITION Y", -40, 240, 200);
@@ -40,8 +39,8 @@ void ofApp::setup()
     
     gui->addBreak();
 // add a dropdown menu //
-    vector<string> o1 = {"OPTION - 1", "OPTION - 2", "OPTION - 3", "OPTION - 4"};
-    gui->addDropdown(o1);
+    vector<string> opts = {"OPTION - 1", "OPTION - 2", "OPTION - 3", "OPTION - 4"};
+    gui->addDropdown("SELECT OPTION", opts);
     gui->addBreak();
 
 // add a 2d pad //
@@ -131,4 +130,3 @@ void ofApp::toggleFullscreen()
         ofSetWindowPosition((ofGetScreenWidth()/2)-(1920/2), 0);
     }
 }
-

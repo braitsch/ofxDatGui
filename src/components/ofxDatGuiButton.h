@@ -29,7 +29,13 @@ class ofxDatGuiButton : public ofxDatGuiComponent {
     
         ofxDatGuiButton(string label, ofxDatGuiFont* font=nullptr) : ofxDatGuiComponent(label, font)
         {
+            mType = ofxDatGuiType::BUTTON;
             mStripeColor = ofxDatGuiColor::BUTTON_STRIPE;
+        }
+    
+        static ofxDatGuiButton* getInstance()
+        {
+            return new ofxDatGuiButton("X");
         }
     
         void setOrigin(int x, int y)

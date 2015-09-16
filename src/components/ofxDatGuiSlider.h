@@ -33,6 +33,7 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
             mMin = min;
             mMax = max;
             mVal = val;
+            mType = ofxDatGuiType::SLIDER;
             mStripeColor = ofxDatGuiColor::SLIDER_STRIPE;
             input = new ofxDatGuiTextInputField(mRow.height-(mRow.padding*2), mFont);
             input->setText(ofToString(mVal, 2));
@@ -50,7 +51,11 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
         ~ofxDatGuiSlider()
         {
             delete input;
-            cout << "bye bye" << endl;
+        }
+    
+        static ofxDatGuiSlider* getInstance()
+        {
+            return new ofxDatGuiSlider("X", 0, 100);
         }
     
         void onInputChanged(ofxDatGuiInternalEvent e)
