@@ -97,17 +97,16 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
                 ofSetColor(ofxDatGuiColor::LABEL);
                 mImage.draw(x+mIcon.x, y+mIcon.y, mIcon.size, mIcon.size);
             if (mIsExpanded) {
-//                ofSetColor(ofxDatGuiColor::GUI_BKGD, mAlpha);
-//                int ypos = y + mRow.height;
-//                ofDrawRectangle(x, ypos, mRow.width, mRow.padding);
+                int mHeight = mRow.height;
+                ofSetColor(ofxDatGuiColor::GUI_BKGD, mAlpha);
+                ofDrawRectangle(x, y+mHeight, mRow.width, mRow.spacing);
                 for(int i=0; i<children.size(); i++) {
+                    mHeight += mRow.spacing;
                     children[i]->draw();
-//                    if (i == children.size()-1) break;
-//                    ypos+=mRow.height + mRow.spacing;
-//                    ofPushStyle();
-//                        ofSetColor(ofxDatGuiColor::GUI_BKGD, mAlpha);
-//                        ofDrawRectangle(x, ypos, mRow.width, mRow.padding);
-//                    ofPopStyle();
+                    mHeight += children[i]->getHeight();
+                    if (i == children.size()-1) break;
+                    ofSetColor(ofxDatGuiColor::GUI_BKGD, mAlpha);
+                    ofDrawRectangle(x, y+mHeight, mRow.width, mRow.spacing);
                 }
                 for(int i=0; i<children.size(); i++) children[i]->drawColorPicker();
             }
@@ -128,11 +127,6 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
         void expand()
         {
             mIsExpanded = true;
-//            int ypos = mRow.height + mRow.spacing;
-//            for(int i=0; i<children.size(); i++) {
-//                children[i]->setOrigin(x, y + ypos);
-//                ypos+=mRow.height + mRow.spacing;
-//            }
             int mHeight = mRow.height + mRow.spacing;
             for (int i=0; i<children.size(); i++) {
                 children[i]->setOrigin(x, y + mHeight);
