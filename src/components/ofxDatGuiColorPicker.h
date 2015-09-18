@@ -160,7 +160,7 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
                         ofxDatGuiColorPickerEvent e(this, mColor);
                         colorPickerEventCallback(e);
                     }   else{
-                        ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+                        ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
                     }
                     setTextFieldInputColor();
                 }
@@ -200,7 +200,7 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
                 ofxDatGuiColorPickerEvent evt(this, mColor);
                 colorPickerEventCallback(evt);
             }   else{
-                ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+                ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
             }
         }
     

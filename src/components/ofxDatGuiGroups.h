@@ -176,7 +176,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
             if (buttonEventCallback != nullptr) {
                 buttonEventCallback(e);
             }   else{
-                ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+                ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
             }
         }
     
@@ -185,7 +185,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
             if (sliderEventCallback != nullptr) {
                 sliderEventCallback(e);
             }   else{
-                ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+                ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
             }
         }
     
@@ -194,7 +194,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
             if (textInputEventCallback != nullptr) {
                 textInputEventCallback(e);
             }   else{
-                ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+                ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
             }
         }
     
@@ -203,7 +203,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
             if (colorPickerEventCallback != nullptr) {
                 colorPickerEventCallback(e);
             }   else{
-                ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+                ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
             }
         }
     
@@ -212,7 +212,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
             if (pad2dEventCallback != nullptr) {
                 pad2dEventCallback(e);
             }   else{
-                ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+                ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
             }
         }
     
@@ -221,7 +221,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
             if (matrixEventCallback != nullptr) {
                 matrixEventCallback(e);
             }   else{
-                ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+                ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
             }
         }
 
@@ -431,7 +431,7 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
                 ofxDatGuiDropdownEvent e1(this, mIndex, mOption);
                 dropdownEventCallback(e1);
             }   else{
-                ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+                ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
             }
         }
     

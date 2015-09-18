@@ -224,7 +224,7 @@ class ofxDatGuiMatrix : public ofxDatGuiComponent {
                 ofxDatGuiMatrixEvent ev(this, e.index, btns[e.index].getSelected());
                 matrixEventCallback(ev);
             }   else{
-                ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+                ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
             }
         }
     

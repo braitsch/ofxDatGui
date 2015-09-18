@@ -25,6 +25,24 @@
 #include "ofxDatGuiFont.h"
 #include "ofxDatGuiConstants.h"
 
+class ofxDatGuiLog {
+
+    public:
+        static void write(string m1, string m2="")
+        {
+            if (!mQuiet) {
+                cout << m1;
+                if (m2!="") cout << " : " << m2;
+                cout << endl;
+            }
+        }
+        static void quiet()
+        {
+            mQuiet = true;
+        }
+        static bool mQuiet;
+};
+
 class ofxDatGuiInteractiveObject{
 
     public:

@@ -79,7 +79,7 @@ class ofxDatGuiButton : public ofxDatGuiComponent {
                 ofxDatGuiButtonEvent e(this);
                 buttonEventCallback(e);
             }   else{
-                ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+                ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
             }
         }
     
@@ -146,7 +146,7 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
                 ofxDatGuiButtonEvent e(this, mEnabled);
                 buttonEventCallback(e);
             }   else{
-                ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+                ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
             }
         }
     

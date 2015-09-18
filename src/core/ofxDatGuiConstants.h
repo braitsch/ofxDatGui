@@ -80,17 +80,6 @@ enum ofxDatGuiType
     COLOR_PICKER,
 };
 
-static bool ofxDatGuiQuietLogs = false;
-
-inline void ofxDatGuiLog(string m1, string m2="")
-{
-    if (!ofxDatGuiQuietLogs) {
-        cout << m1;
-        if (m2!="") cout << " : " << m2;
-        cout << endl;
-    }
-}
-
 namespace ofxDatGuiMsg
 {
     const string EVENT_HANDLER_NULL = "[WARNING] :: Event Handler Not Set";

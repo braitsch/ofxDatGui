@@ -118,7 +118,7 @@ class ofxDatGuiTextInput : public ofxDatGuiComponent {
                 ofxDatGuiTextInputEvent ev(this, input->getText());
                 textInputEventCallback(ev);
             }   else{
-                ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+                ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
             }
         }
     

@@ -36,7 +36,6 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
             mType = ofxDatGuiType::SLIDER;
             mStripeColor = ofxDatGuiColor::SLIDER_STRIPE;
             input = new ofxDatGuiTextInputField(mRow.height-(mRow.padding*2), mFont);
-            input->setText(ofToString(mVal, 2));
             input->setTextInactiveColor(ofxDatGuiColor::SLIDER);
             input->setTextInputFieldType(ofxDatGuiTextInputField::NUMERIC);
             input->onInternalEvent(this, &ofxDatGuiSlider::onInputChanged);
@@ -103,9 +102,57 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
             input->setOrigin(x + mSlider.inputX, y + mRow.padding);
         }
 
+    /*
+        data binding - experiemental feature
+    */
+
+        void bind(int *val, int min, int max)
+        {
+            mMin = min;
+            mMax = max;
+            mBoundi = val;
+            mBoundf = nullptr;
+        }
+    
+        void bind(float *val, float min, float max)
+        {
+            mMin = min;
+            mMax = max;
+            mBoundf = val;
+            mBoundi = nullptr;
+        }
+
+        inline void getBoundf()
+        {
+            if (*mBoundf != pVal) {
+                setValue(*mBoundf);
+                pVal = *mBoundf;
+            }
+        }
+    
+        inline void getBoundi()
+        {
+            if (*mBoundi != pVal) {
+                setValue(*mBoundi);
+                pVal = *mBoundi;
+            }
+        }
+    
+    /*
+        data binding - experiemental feature
+    */
+
         void draw()
         {
             if (!mVisible) return;
+
+        // experimental - check for bound variables //
+            if (mBoundf != nullptr) {
+                getBoundf();
+            }   else if (mBoundi != nullptr){
+                getBoundi();
+            }
+            
             ofPushStyle();
                 ofxDatGuiComponent::drawBkgd();
                 ofxDatGuiComponent::drawLabel();
@@ -158,12 +205,19 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
     
         void dispatchSliderChangedEvent()
         {
+         // experimental - check for bound variables //
+            if (mBoundf != nullptr) {
+                *mBoundf = mVal;
+            } else if (mBoundi != nullptr) {
+                *mBoundi = mVal;
+            }
+            
         // dispatch event out to main application //
             if (sliderEventCallback != nullptr) {
                 ofxDatGuiSliderEvent e(this, mVal, mScale);
                 sliderEventCallback(e);
             }   else{
-                ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+                ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
             }
         }
     
@@ -184,13 +238,17 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
         }
     
     private:
-        float mMin;
-        float mMax;
-        float mVal;
-        float mScale;
-        bool mChanged;
-        bool mInputActive;
+        float   mMin;
+        float   mMax;
+        float   mVal;
+        float   mScale;
+        bool    mChanged;
+        bool    mInputActive;
         ofxDatGuiTextInputField* input;
+    
+        float   pVal;
+        int*    mBoundi = nullptr;
+        float*  mBoundf = nullptr;
     
         void calcScale()
         {

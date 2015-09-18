@@ -22,6 +22,8 @@
 
 #include "ofxDatGuiComponent.h"
 
+bool ofxDatGuiLog::mQuiet = false;
+
 ofxDatGuiComponent::ofxDatGuiComponent(string label, ofxDatGuiFont* font)
 {
     mAlpha = 255;

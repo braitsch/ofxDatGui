@@ -307,7 +307,7 @@ ofxDatGuiButton* ofxDatGui::getButton(string bl, string fl)
     }
     if (o==nullptr){
         o = ofxDatGuiButton::getInstance();
-        ofxDatGuiLog(ofxDatGuiMsg::COMPONENT_NOT_FOUND, fl!="" ? fl+"-"+bl : bl);
+        ofxDatGuiLog::write(ofxDatGuiMsg::COMPONENT_NOT_FOUND, fl!="" ? fl+"-"+bl : bl);
         trash.push_back(o);
     }
     return o;
@@ -324,7 +324,7 @@ ofxDatGuiSlider* ofxDatGui::getSlider(string sl, string fl)
     }
     if (o==nullptr){
         o = ofxDatGuiSlider::getInstance();
-        ofxDatGuiLog(ofxDatGuiMsg::COMPONENT_NOT_FOUND, fl!="" ? fl+"-"+sl : sl);
+        ofxDatGuiLog::write(ofxDatGuiMsg::COMPONENT_NOT_FOUND, fl!="" ? fl+"-"+sl : sl);
         trash.push_back(o);
     }
     return o;
@@ -341,7 +341,7 @@ ofxDatGuiTextInput* ofxDatGui::getTextInput(string tl, string fl)
     }
     if (o==nullptr){
         o = ofxDatGuiTextInput::getInstance();
-        ofxDatGuiLog(ofxDatGuiMsg::COMPONENT_NOT_FOUND, fl!="" ? fl+"-"+tl : tl);
+        ofxDatGuiLog::write(ofxDatGuiMsg::COMPONENT_NOT_FOUND, fl!="" ? fl+"-"+tl : tl);
         trash.push_back(o);
     }
     return o;
@@ -358,7 +358,7 @@ ofxDatGui2dPad* ofxDatGui::get2dPad(string pl, string fl)
     }
     if (o==nullptr){
         o = ofxDatGui2dPad::getInstance();
-        ofxDatGuiLog(ofxDatGuiMsg::COMPONENT_NOT_FOUND, fl!="" ? fl+"-"+pl : pl);
+        ofxDatGuiLog::write(ofxDatGuiMsg::COMPONENT_NOT_FOUND, fl!="" ? fl+"-"+pl : pl);
         trash.push_back(o);
     }
     return o;
@@ -375,7 +375,7 @@ ofxDatGuiColorPicker* ofxDatGui::getColorPicker(string cl, string fl)
     }
     if (o==nullptr){
         o = ofxDatGuiColorPicker::getInstance();
-        ofxDatGuiLog(ofxDatGuiMsg::COMPONENT_NOT_FOUND, fl!="" ? fl+"-"+cl : cl);
+        ofxDatGuiLog::write(ofxDatGuiMsg::COMPONENT_NOT_FOUND, fl!="" ? fl+"-"+cl : cl);
         trash.push_back(o);
     }
     return o;
@@ -392,7 +392,7 @@ ofxDatGuiMatrix* ofxDatGui::getMatrix(string ml, string fl)
     }
     if (o==nullptr){
         o = ofxDatGuiMatrix::getInstance();
-        ofxDatGuiLog(ofxDatGuiMsg::COMPONENT_NOT_FOUND, fl!="" ? fl+"-"+ml : ml);
+        ofxDatGuiLog::write(ofxDatGuiMsg::COMPONENT_NOT_FOUND, fl!="" ? fl+"-"+ml : ml);
         trash.push_back(o);
     }
     return o;
@@ -403,7 +403,7 @@ ofxDatGuiDropdown* ofxDatGui::getDropdown(string dl)
     ofxDatGuiDropdown* o = static_cast<ofxDatGuiDropdown*>(getComponent(ofxDatGuiType::DROPDOWN, dl));
     if (o==NULL){
         o = ofxDatGuiDropdown::getInstance();
-        ofxDatGuiLog(ofxDatGuiMsg::COMPONENT_NOT_FOUND, dl);
+        ofxDatGuiLog::write(ofxDatGuiMsg::COMPONENT_NOT_FOUND, dl);
         trash.push_back(o);
     }
     return o;
@@ -414,7 +414,7 @@ ofxDatGuiFolder* ofxDatGui::getFolder(string fl)
     ofxDatGuiFolder* o = static_cast<ofxDatGuiFolder*>(getComponent(ofxDatGuiType::FOLDER, fl));
     if (o==NULL){
         o = ofxDatGuiFolder::getInstance();
-        ofxDatGuiLog(ofxDatGuiMsg::COMPONENT_NOT_FOUND, fl);
+        ofxDatGuiLog::write(ofxDatGuiMsg::COMPONENT_NOT_FOUND, fl);
         trash.push_back(o);
     }
     return o;
@@ -427,7 +427,7 @@ ofxDatGuiHeader* ofxDatGui::getHeader()
         o = mGuiHeader;
     }   else{
         o = new ofxDatGuiHeader("X");
-        ofxDatGuiLog(ofxDatGuiMsg::COMPONENT_NOT_FOUND, "HEADER");
+        ofxDatGuiLog::write(ofxDatGuiMsg::COMPONENT_NOT_FOUND, "HEADER");
         trash.push_back(o);
     }
     return o;
@@ -440,7 +440,7 @@ ofxDatGuiFooter* ofxDatGui::getFooter()
         o = mGuiFooter;
     }   else{
         o = new ofxDatGuiFooter();
-        ofxDatGuiLog(ofxDatGuiMsg::COMPONENT_NOT_FOUND, "FOOTER");
+        ofxDatGuiLog::write(ofxDatGuiMsg::COMPONENT_NOT_FOUND, "FOOTER");
         trash.push_back(o);
     }
     return o;
@@ -469,7 +469,7 @@ void ofxDatGui::onButtonEventCallback(ofxDatGuiButtonEvent e)
     if (buttonEventCallback != nullptr) {
         buttonEventCallback(e);
     }   else{
-        ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+        ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
     }
 }
 
@@ -478,7 +478,7 @@ void ofxDatGui::onSliderEventCallback(ofxDatGuiSliderEvent e)
     if (sliderEventCallback != nullptr) {
         sliderEventCallback(e);
     }   else{
-        ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+        ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
     }
 }
 
@@ -487,7 +487,7 @@ void ofxDatGui::onTextInputEventCallback(ofxDatGuiTextInputEvent e)
     if (textInputEventCallback != nullptr) {
         textInputEventCallback(e);
     }   else{
-        ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+        ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
     }
 }
 
@@ -497,7 +497,7 @@ void ofxDatGui::onDropdownEventCallback(ofxDatGuiDropdownEvent e)
     if (dropdownEventCallback != nullptr) {
         dropdownEventCallback(e);
     }   else{
-        ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+        ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
     }
 }
 
@@ -506,7 +506,7 @@ void ofxDatGui::on2dPadEventCallback(ofxDatGui2dPadEvent e)
     if (pad2dEventCallback != nullptr) {
         pad2dEventCallback(e);
     }   else{
-        ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+        ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
     }
 }
 
@@ -515,7 +515,7 @@ void ofxDatGui::onColorPickerEventCallback(ofxDatGuiColorPickerEvent e)
     if (colorPickerEventCallback != nullptr) {
         colorPickerEventCallback(e);
     }   else{
-        ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+        ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
     }
 }
 
@@ -524,7 +524,7 @@ void ofxDatGui::onMatrixEventCallback(ofxDatGuiMatrixEvent e)
     if (matrixEventCallback != nullptr) {
         matrixEventCallback(e);
     }   else{
-        ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+        ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
     }
 }
 

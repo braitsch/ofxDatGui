@@ -124,7 +124,7 @@ class ofxDatGui2dPad : public ofxDatGuiComponent {
                     ofxDatGui2dPadEvent e(this, pWorld.x, pWorld.y);
                     pad2dEventCallback(e);
                 }   else{
-                    ofxDatGuiLog(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+                    ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
                 }
             }
         }
