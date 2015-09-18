@@ -34,11 +34,11 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
     
         int     getX();
         int     getY();
-        string  getLabel();
         int     getPositionY();
         void    setIndex(int index);
         int     getIndex();
         void    setLabel(string label);
+        string  getLabel();
         void    setStripeColor(ofColor color);
         void    setAnchor(ofxDatGuiAnchor anchor);
         ofxDatGuiType getType();
@@ -55,6 +55,7 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
 
         virtual int  getWidth();
         virtual int  getHeight();
+        virtual bool is(string name);
         virtual bool getIsExpanded();
         virtual void drawColorPicker();
         virtual void setWidth(int w);

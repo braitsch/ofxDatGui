@@ -450,11 +450,11 @@ ofxDatGuiComponent* ofxDatGui::getComponent(ofxDatGuiType type, string label)
 {
     for (int i=0; i<items.size(); i++) {
         if (items[i]->getType() == type){
-            if (ofToLower(items[i]->getLabel()) == ofToLower(label)) return items[i];
+            if (items[i]->is(label)) return items[i];
         }
     // iterate over component's children and return the first match we find //
         for (int j=0; j<items[i]->children.size(); j++) {
-            if (ofToLower(items[i]->children[j]->getLabel()) == ofToLower(label)) return items[i]->children[j];
+            if (items[i]->children[j]->is(label)) return items[i]->children[j];
         }
     }
     return NULL;
@@ -629,7 +629,7 @@ void ofxDatGui::onKeyPressed(ofKeyEventArgs &e)
         ofxDatGuiTextInput* dd = dynamic_cast<ofxDatGuiTextInput*>(activeFocus);
         disableShowAndHide = (dd != NULL);
     }
-    if (e.key == 'h' && disableShowAndHide == false) mVisible = !mVisible;
+//    if (e.key == 'h' && disableShowAndHide == false) mVisible = !mVisible;
 }
 
 bool ofxDatGui::isMouseOverRow(ofxDatGuiComponent* row)

@@ -174,6 +174,11 @@ string ofxDatGuiComponent::getLabel()
     return mLabel;
 }
 
+bool ofxDatGuiComponent::is(string name)
+{
+    return ofToLower(mLabel) == ofToLower(name);
+}
+
 void ofxDatGuiComponent::setAlignment(ofxDatGuiAlignment align)
 {
     mLabelAlignment = align;

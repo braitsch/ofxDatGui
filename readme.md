@@ -296,6 +296,24 @@ If you saved the pointer returned by ``gui->add*`` in a variable you can compare
 		// 	button 2 was clicked, do something else //
 		}
 	}
+	
+However a more convenient way of determining which component dispatched the event is by using the built in ``is`` operator.
+
+	gui->addButton("Button 1");
+	gui->addButton("Button 2");
+		
+	void onButtonEvent(ofxDatGuiButtonEvent e)
+	{
+		if (e.target->is("button 1")){
+			cout << "Button 1 was clicked" << endl;
+		} else if (e.target->is("button 2")){
+		// 	button 2 was clicked, do something else //
+		}
+	}
+	
+This performs a case insensitive comparion against the component's name which by default is the same as its label.
+
+****
 
 All events also contain additonal properties that allow convenient access to the state of the component that dispatched the event.
 

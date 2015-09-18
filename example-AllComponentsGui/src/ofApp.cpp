@@ -77,12 +77,12 @@ void ofApp::setup()
 void ofApp::onSliderEvent(ofxDatGuiSliderEvent e)
 {
     cout << "onSliderEvent: " << e.target->getLabel() << " " << e.target->getValue() << endl;
-    if (e.target->getLabel()=="DATGUI OPACITY") gui->setOpacity(e.scale);
+    if (e.target->is("datgui opacity")) gui->setOpacity(e.scale);
 }
 
 void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
 {
-    if (e.target->getLabel()=="TOGGLE FULLSCREEN") toggleFullscreen();
+    if (e.target->is("toggle fullscreen")) toggleFullscreen();
     cout << "onButtonEvent: " << e.target->getLabel() << " " << e.target->getEnabled() << endl;
 }
 

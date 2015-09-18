@@ -336,7 +336,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
         {
             for (int i=0; i<children.size(); i++) {
                 if (children[i]->getType() == type){
-                    if (ofToLower(children[i]->getLabel()) == ofToLower(label)) return children[i];
+                    if (children[i]->is(label)) return children[i];
                 }
             }
             return NULL;
@@ -374,6 +374,7 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
         ofxDatGuiDropdown(string label, const vector<string>& options = vector<string>(), ofxDatGuiFont* font=nullptr) : ofxDatGuiGroup(label, font)
         {
             mOption = 0;
+            mName = mLabel;
             mType = ofxDatGuiType::DROPDOWN;
             mStripeColor = ofxDatGuiColor::DROPDOWN_STRIPE;
             for(uint8_t i=0; i<options.size(); i++){
@@ -405,6 +406,12 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
             return children.size();
         }
     
+        bool is(string name)
+        {
+    // dropdown components have a name prop since their labels change //
+            return ofToLower(mName) == ofToLower(name);
+        }
+    
         ofxDatGuiDropdownOption* getChildAt(int index)
         {
             return static_cast<ofxDatGuiDropdownOption*>(children[index]);
@@ -430,6 +437,7 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
     
     private:
         int mOption;
+        string mName;
     
 };
 
