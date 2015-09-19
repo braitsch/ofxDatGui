@@ -34,34 +34,34 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
     
         int     getX();
         int     getY();
-        int     getPositionY();
         void    setIndex(int index);
         int     getIndex();
+        void    setName(string name);
+        string  getName();
         void    setLabel(string label);
         string  getLabel();
+        bool    is(string name);
         void    setStripeColor(ofColor color);
         void    setAnchor(ofxDatGuiAnchor anchor);
-        ofxDatGuiType getType();
-
         void    setEnabled(bool visible);
         bool    getEnabled();
         void    setVisible(bool visible);
         bool    getVisible();
         void    setOpacity(float opacity);
+        ofxDatGuiType getType();
     
         virtual void draw() = 0;
         virtual void update();
         virtual bool hitTest(ofPoint m) = 0;
 
-        virtual int  getWidth();
-        virtual int  getHeight();
-        virtual bool is(string name);
-        virtual bool getIsExpanded();
-        virtual void drawColorPicker();
+        virtual void setY(int y);
         virtual void setWidth(int w);
         virtual void setOrigin(int x, int y);
-        virtual void setPositionY(int y);
         virtual void setAlignment(ofxDatGuiAlignment align);
+        virtual int  getWidth();
+        virtual int  getHeight();
+        virtual bool getIsExpanded();
+        virtual void drawColorPicker();
 
         virtual void onFocus();    
         virtual void onFocusLost();
@@ -79,21 +79,20 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         int y;
         int mIndex;
         int mAlpha;
-        int mOriginY;
+        string mName;
+        string mLabel;
         bool mFocused;
         bool mVisible;
         bool mEnabled;
         bool mMouseOver;
         bool mMouseDown;
         bool mRetinaEnabled;
-        string mLabel;
-        int mStripeWidth;
         ofColor mStripeColor;
         ofRectangle mLabelRect;
         int mLabelAreaWidth;
         int mLabelMarginRight;
-        ofxDatGuiFont* mFont;
         ofxDatGuiType mType;
+        ofxDatGuiFont* mFont;
         ofxDatGuiAnchor mAnchor;
         ofxDatGuiAlignment mLabelAlignment;
     
@@ -105,6 +104,7 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
             float inputX;
             float padding;
             float spacing;
+            float stripeWidth;
         } mRow;
     
         struct {

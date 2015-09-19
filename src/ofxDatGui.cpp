@@ -541,9 +541,9 @@ void ofxDatGui::onInternalEventCallback(ofxDatGuiInternalEvent e)
 void ofxDatGui::adjustHeight(int index)
 {
     ofxDatGuiComponent* target = items[index];
-    mHeight = target->getPositionY() - mPosition.y + target->getHeight() + mRowSpacing;
+    mHeight = target->getY() - mPosition.y + target->getHeight() + mRowSpacing;
     for (uint8_t i=index+1; i<items.size(); i++){
-        items[i]->setPositionY(mPosition.y + mHeight);
+        items[i]->setY(mPosition.y + mHeight);
         mHeight += items[i]->getHeight() + mRowSpacing;
     }
     mWidthChanged = true;
@@ -568,13 +568,13 @@ void ofxDatGui::expandGui()
         mHeight += items[i]->getHeight() + mRowSpacing;
     }
     mExpanded = true;
-    mGuiFooter->setPositionY(mPosition.y + mHeight - mGuiFooter->getHeight() - mRowSpacing);
+    mGuiFooter->setY(mPosition.y + mHeight - mGuiFooter->getHeight() - mRowSpacing);
 }
 
 void ofxDatGui::collapseGui()
 {
     for (uint8_t i=0; i<items.size()-1; i++) items[i]->setVisible(false);
-    mGuiFooter->setPositionY(mPosition.y);
+    mGuiFooter->setY(mPosition.y);
     mExpanded = false;
     mHeight = mGuiFooter->getHeight();
 }

@@ -26,6 +26,7 @@
 class ofxDatGuiFont{
 
     public:
+    
         ofxDatGuiFont(bool retinaEnabled)
         {
             size = 6;
@@ -38,14 +39,55 @@ class ofxDatGuiFont{
             }
             labelHeight = getStringBoundingBox("ABCDEFG123456", 0, 0).height;
         }
+
+        void drawLabel(string text, int xpos, int ypos)
+        {
+            ofPushStyle();
+                ofSetColor(ofxDatGuiColor::LABEL);
+                if (tFont.isLoaded()){
+                    tFont.drawString(text, xpos, ypos+labelHeight/2);
+                }   else{
+                    if (!mRetinaEnabled) ypos-=2;
+                    ofDrawBitmapString(text, xpos, ypos+labelHeight/2);
+                }
+            ofPopStyle();
+        }
+    
+        void drawText(string text, ofColor color, int xpos, int ypos, bool highlight = false)
+        {
+            ofPushStyle();
+                if (highlight){
+                    ofRectangle hRect = getStringBoundingBox(text, xpos, ypos+labelHeight/2);
+                    hRect.x -= highlightPadding;
+                    hRect.width += highlightPadding*2;
+                    hRect.y -= highlightPadding;
+                    hRect.height += highlightPadding*2;
+                    ofSetColor(ofxDatGuiColor::TEXT_HIGHLIGHT);
+                    ofDrawRectangle(hRect);
+                }
+                ofSetColor(color);
+                if (tFont.isLoaded()){
+                    tFont.drawString(text, xpos, ypos+labelHeight/2);
+                }   else{
+                    if (mRetinaEnabled) ypos-=2;
+                    ofDrawBitmapString(text, xpos, ypos+labelHeight/2);
+                }
+            ofPopStyle();
+        }
+    
+        ofRectangle getStringBoundingBox(string str, int x, int y)
+        {
+            if (tFont.isLoaded()){
+                return tFont.getStringBoundingBox(str, x, y);
+            }   else{
+                return bFont.getBoundingBox(str, x, y);
+            }
+        }
+    
         int size;
         int labelX;
         int labelHeight;
         int highlightPadding;
-
-        void drawLabel(string text, int xpos, int ypos);
-        void drawText(string text, ofColor color, int xpos, int ypos, bool highlight = false);
-        ofRectangle getStringBoundingBox(string str, int x, int y);
     
     private:
         ofBitmapFont bFont;

@@ -60,15 +60,15 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
             }
         }
     
-        void setPositionY(int y)
+        void setY(int y)
         {
-            ofxDatGuiComponent::setPositionY(y);
+            ofxDatGuiComponent::setY(y);
             int ypos = mRow.height + mRow.spacing;
             for(int i=0; i<children.size(); i++) {
                 if (mIsExpanded){
-                    children[i]->setPositionY(y + (ypos*(i+1)));
+                    children[i]->setY(y + (ypos*(i+1)));
                 }   else{
-                    children[i]->setPositionY(y);
+                    children[i]->setY(y);
                 }
             }
         }
@@ -374,7 +374,6 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
         ofxDatGuiDropdown(string label, const vector<string>& options = vector<string>(), ofxDatGuiFont* font=nullptr) : ofxDatGuiGroup(label, font)
         {
             mOption = 0;
-            mName = mLabel;
             mType = ofxDatGuiType::DROPDOWN;
             mStripeColor = ofxDatGuiColor::DROPDOWN_STRIPE;
             for(uint8_t i=0; i<options.size(); i++){
@@ -406,12 +405,6 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
             return children.size();
         }
     
-        bool is(string name)
-        {
-    // dropdown components have a name prop since their labels change //
-            return ofToLower(mName) == ofToLower(name);
-        }
-    
         ofxDatGuiDropdownOption* getChildAt(int index)
         {
             return static_cast<ofxDatGuiDropdownOption*>(children[index]);
@@ -437,7 +430,6 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
     
     private:
         int mOption;
-        string mName;
     
 };
 

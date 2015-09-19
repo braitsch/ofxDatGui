@@ -42,7 +42,7 @@ ofxDatGuiComponent::ofxDatGuiComponent(string label, ofxDatGuiFont* font)
     mRow.height = 26;
     mRow.padding = 2;
     mRow.spacing = 1;
-    mStripeWidth = 2;
+    mRow.stripeWidth = 2;
     if (mRetinaEnabled){
         mRow.width = 540;
         mIcon.y *=2;
@@ -50,13 +50,14 @@ ofxDatGuiComponent::ofxDatGuiComponent(string label, ofxDatGuiFont* font)
         mRow.height *=2;
         mRow.padding*=2;
         mRow.spacing*=2;
-        mStripeWidth*=2;
+        mRow.stripeWidth*=2;
     }
     if (font!=nullptr) {
         mFont = font;
     }   else{
         mFont = new ofxDatGuiFont(mRetinaEnabled);
     }
+    setName(label);
     setLabel(label);
     setOrigin(0, 0);
     setWidth(mRow.width);
@@ -69,56 +70,9 @@ ofxDatGuiComponent::~ofxDatGuiComponent()
 }
 
 /*
-    ofxDatGuiFont
+    instance getters & setters
 */
 
-ofRectangle ofxDatGuiFont::getStringBoundingBox(string str, int x, int y)
-{
-    if (tFont.isLoaded()){
-        return tFont.getStringBoundingBox(str, x, y);
-    }   else{
-        return bFont.getBoundingBox(str, x, y);
-    }
-}
-
-void ofxDatGuiFont::drawText(string text, ofColor color, int xpos, int ypos, bool highlight)
-{
-    ofPushStyle();
-        if (highlight){
-            ofRectangle hRect = getStringBoundingBox(text, xpos, ypos+labelHeight/2);
-            hRect.x -= highlightPadding;
-            hRect.width += highlightPadding*2;
-            hRect.y -= highlightPadding;
-            hRect.height += highlightPadding*2;
-            ofSetColor(ofxDatGuiColor::TEXT_HIGHLIGHT);
-            ofDrawRectangle(hRect);
-        }
-        ofSetColor(color);
-        if (tFont.isLoaded()){
-            tFont.drawString(text, xpos, ypos+labelHeight/2);
-        }   else{
-            if (mRetinaEnabled) ypos-=2;
-            ofDrawBitmapString(text, xpos, ypos+labelHeight/2);
-        }
-    ofPopStyle();
-}
-
-void ofxDatGuiFont::drawLabel(string text, int xpos, int ypos)
-{
-    ofPushStyle();
-        ofSetColor(ofxDatGuiColor::LABEL);
-        if (tFont.isLoaded()){
-            tFont.drawString(text, xpos, ypos+labelHeight/2);
-        }   else{
-            if (!mRetinaEnabled) ypos-=2;
-            ofDrawBitmapString(text, xpos, ypos+labelHeight/2);
-        }
-    ofPopStyle();
-}
-
-/*
-    instance methods
-*/
 
 void ofxDatGuiComponent::setIndex(int index)
 {
@@ -130,15 +84,46 @@ int ofxDatGuiComponent::getIndex()
     return mIndex;
 }
 
+void ofxDatGuiComponent::setLabel(string label)
+{
+    mLabel = label;
+    mLabelRect = mFont->getStringBoundingBox(mLabel, 0, 0);
+}
+
+string ofxDatGuiComponent::getLabel()
+{
+    return mLabel;
+}
+
+void ofxDatGuiComponent::setName(string name)
+{
+    mName = name;
+}
+
+string ofxDatGuiComponent::getName()
+{
+    return mName;
+}
+
+bool ofxDatGuiComponent::is(string name)
+{
+// convenience method to perform a case insensitive lookup //
+    return ofToLower(mName) == ofToLower(name);
+}
+
 ofxDatGuiType ofxDatGuiComponent::getType()
 {
     return mType;
 }
 
-void ofxDatGuiComponent::setOpacity(float opacity)
+int ofxDatGuiComponent::getWidth()
 {
-    mAlpha = opacity*255;
-    for (int i=0; i<children.size(); i++) children[i]->setOpacity(opacity);
+    return mRow.width;
+}
+
+int ofxDatGuiComponent::getHeight()
+{
+    return mRow.height;
 }
 
 void ofxDatGuiComponent::setWidth(int w)
@@ -155,38 +140,6 @@ void ofxDatGuiComponent::setWidth(int w)
     for (int i=0; i<children.size(); i++) children[i]->setWidth(w);
 }
 
-int ofxDatGuiComponent::getWidth()
-{
-    return mRow.width;
-}
-
-int ofxDatGuiComponent::getHeight()
-{
-    return mRow.height;
-}
-
-void ofxDatGuiComponent::setLabel(string label)
-{
-    mLabel = label;
-    mLabelRect = mFont->getStringBoundingBox(mLabel, 0, 0);
-}
-
-string ofxDatGuiComponent::getLabel()
-{
-    return mLabel;
-}
-
-bool ofxDatGuiComponent::is(string name)
-{
-    return ofToLower(mLabel) == ofToLower(name);
-}
-
-void ofxDatGuiComponent::setAlignment(ofxDatGuiAlignment align)
-{
-    mLabelAlignment = align;
-    for (int i=0; i<children.size(); i++) children[i]->setAlignment(align);
-}
-
 void ofxDatGuiComponent::setVisible(bool visible)
 {
     mVisible = visible;
@@ -195,6 +148,12 @@ void ofxDatGuiComponent::setVisible(bool visible)
 bool ofxDatGuiComponent::getVisible()
 {
     return mVisible;
+}
+
+void ofxDatGuiComponent::setOpacity(float opacity)
+{
+    mAlpha = opacity*255;
+    for (int i=0; i<children.size(); i++) children[i]->setOpacity(opacity);
 }
 
 void ofxDatGuiComponent::setEnabled(bool enabled)
@@ -207,15 +166,25 @@ bool ofxDatGuiComponent::getEnabled()
     return mEnabled;
 }
 
-void ofxDatGuiComponent::setStripeColor(ofColor color)
+int ofxDatGuiComponent::getX()
 {
-    mStripeColor = color;
+    return this->x;
+}
+
+int ofxDatGuiComponent::getY()
+{
+    return this->y;
+}
+
+void ofxDatGuiComponent::setY(int y)
+{
+    this->y = y;
 }
 
 void ofxDatGuiComponent::setOrigin(int x, int y)
 {
     this->x = x;
-    this->y = mOriginY = y;
+    this->y = y;
     mLabelAreaWidth = mRow.lWidth;
     for(int i=0; i<children.size(); i++) children[i]->setOrigin(x, this->y + (mRow.height+mRow.spacing)*(i+1));
 }
@@ -230,24 +199,15 @@ void ofxDatGuiComponent::setAnchor(ofxDatGuiAnchor anchor)
     }
 }
 
-int ofxDatGuiComponent::getX()
+void ofxDatGuiComponent::setAlignment(ofxDatGuiAlignment align)
 {
-    return this->x;
+    mLabelAlignment = align;
+    for (int i=0; i<children.size(); i++) children[i]->setAlignment(align);
 }
 
-int ofxDatGuiComponent::getY()
+void ofxDatGuiComponent::setStripeColor(ofColor color)
 {
-    return this->y;
-}
-
-void ofxDatGuiComponent::setPositionY(int ypos)
-{
-    this->y = ypos;
-}
-
-int ofxDatGuiComponent::getPositionY()
-{
-    return y;
+    mStripeColor = color;
 }
 
 bool ofxDatGuiComponent::getIsExpanded(){}
@@ -296,15 +256,6 @@ void ofxDatGuiComponent::update()
     if (getIsExpanded()) for(int i=0; i<children.size(); i++) children[i]->update();
 }
 
-void ofxDatGuiComponent::onKeyPressed(ofKeyEventArgs &e)
-{
-    onKeyPressed(e.key);
-    if ((e.key == OF_KEY_RETURN || e.key == OF_KEY_TAB)){
-        onFocusLost();
-        ofRemoveListener(ofEvents().keyPressed, this, &ofxDatGuiComponent::onKeyPressed);
-    }
-}
-
 void ofxDatGuiComponent::drawBkgd(ofColor color, int alpha)
 {
     ofPushStyle();
@@ -336,7 +287,7 @@ void ofxDatGuiComponent::drawStripe()
 {
     ofPushStyle();
         ofSetColor(mStripeColor);
-        ofDrawRectangle(x, y, mStripeWidth, mRow.height);
+        ofDrawRectangle(x, y, mRow.stripeWidth, mRow.height);
     ofPopStyle();
 }
 
@@ -379,5 +330,13 @@ void ofxDatGuiComponent::onFocusLost()
 void ofxDatGuiComponent::onKeyPressed(int key) { }
 void ofxDatGuiComponent::onMouseDrag(ofPoint m) { }
 
+void ofxDatGuiComponent::onKeyPressed(ofKeyEventArgs &e)
+{
+    onKeyPressed(e.key);
+    if ((e.key == OF_KEY_RETURN || e.key == OF_KEY_TAB)){
+        onFocusLost();
+        ofRemoveListener(ofEvents().keyPressed, this, &ofxDatGuiComponent::onKeyPressed);
+    }
+}
 
 

@@ -250,12 +250,22 @@ ofPoint my2dPad->getPosition();
 	
 ## Component Retrieval
 
-If you're lazy and don't feel like storing your components in variables you can easily retrieve them by their non-case sensitive label.
+If you're lazy and don't feel like storing your components in variables you can easily retrieve them by name which by default is the same as whatever you set its label to.
 
-	ofxDatGuiButton* gui->getButton("My Button"); // button label
-	ofxDatGuiSlider* gui->getSlider("My Slider"); // slider label
+	ofxDatGuiButton* gui->getButton("My Button"); // button name
+	ofxDatGuiSlider* gui->getSlider("My Slider"); // slider name
 	
-If you have multiple components with the same label nested in separate folders just specify the folder to search.
+Note: ``gui->getComponent`` performs a case-insensitive lookup against the component's name so the following works fine as well.
+
+	ofxDatGuiButton* gui->getButton("my bUTTon"); // button name
+	ofxDatGuiSlider* gui->getSlider("mY sLiDEr"); // slider name
+	
+To change a component's label or name simply:
+
+	gui->getButton("My Button")->setName("b1");
+	gui->getButton("b1")->setLabel("Your Button");
+	
+If you have multiple components with the same name nested in separate folders just specify the folder to search.
 
 	ofxDatGuiButton* gui->getButton("Reset Button", "Folder 1");
 	ofxDatGuiButton* gui->getButton("Reset Button", "Folder 2");
@@ -311,7 +321,7 @@ However a more convenient way of determining which component dispatched the even
 		}
 	}
 	
-This performs a case insensitive comparion against the component's name which by default is the same as its label.
+This performs a case-insensitive search against the component's name which by default is the same as its label.
 
 ****
 
@@ -411,9 +421,9 @@ Aditionally all components provide the following instance methods.
 	[ERROR] :: Component Not Found : GHOST BUTTON
 	[WARNING] :: Event Handler Not Set : MY BUTTON
 
-However you can easily suppress these warnings via:
+However you can easily suppress these warnings by calling:
 
-	ofxDatGuiQuietLog = true;
+	ofxDatGuiLog::quiet();
 
 ##Save & Load Settings
 
