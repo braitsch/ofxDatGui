@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Openframeworks DatGui by braitsch</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Openframeworks DatGui</h1>
+      <h2 class="project-tagline">A port of the popular JavaScript UI to OpenFrameworks</h2>
+      <a href="https://github.com/braitsch/ofxDatGui" class="btn">View on GitHub</a>
+      <a href="https://github.com/braitsch/ofxDatGui/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/braitsch/ofxDatGui/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h2>
+<a id="ofxdatgui" class="anchor" href="#ofxdatgui" aria-hidden="true"><span class="octicon octicon-link"></span></a>ofxDatGui</h2>
+
+<p><strong>ofxDatGui</strong> is a <strong>simple to use</strong>, fully customizable, high-resolution graphical user interface for <a href="http://openframeworks.cc/">openFrameworks</a> inspired by the popular JavaScript <a href="http://workshop.chromeexperiments.com/examples/gui/">datgui</a> interface.  </p>
+
+<p><img src="https://raw.githubusercontent.com/braitsch/ofxDatGui/master/readme-img/ofxdatgui_03.png" alt="ofxDatGui"></p>
+
+<h2>
+<a id="features" class="anchor" href="#features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Features</h2>
+
+<p><strong>ofxDatGui</strong> offers the following features &amp; components:</p>
+
+<ul>
+<li>Click &amp; Toggle (On/Off) Buttons</li>
+<li>Text Input Fields</li>
+<li>Color Pickers</li>
+<li>Range Sliders</li>
+<li>Dropdown Menus</li>
+<li>Button Matrices</li>
+<li>Coordinate Pads</li>
+<li>Variable Binding</li>
+<li>Framerate Monitor</li>
+<li>Completely Customizable</li>
+<li>Folders to group components together</li>
+<li>An optional header &amp; footer that allow you to title the gui, collapse and drag it around</li>
+</ul>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p><strong>ofxDatGui</strong> is built on top of C++11 and requires the new openFrameworks 0.9.0 pre-release which you can <a href="http://forum.openframeworks.cc/t/0-9-0-release-candidate-1/20434">download here</a>.</p>
+
+<ul>
+<li><p>Once you've downloaded <a href="http://forum.openframeworks.cc/t/0-9-0-release-candidate-1/20434">openFrameworks</a>, clone or download this repository into your openFrameworks/addons directory.</p></li>
+<li><p>Create a new project using the project generator and include <strong>ofxDatGui</strong> by selecting the <code>addons</code> button in the generator.</p></li>
+<li><p>Copy the <code>ofxdatgui_assets</code> directory in the root of this repository to your project's bin/data directory. This directory contains the fonts &amp; icons used by <strong>ofxDatGui</strong>.</p></li>
+<li><p>Add <strong>ofxDatGui</strong> to your project by adding  <code>#include "ofxDatGui.h"</code> to the top of your <code>ofApp.h</code> file and you're ready to go!</p></li>
+</ul>
+
+<h2>
+<a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting Started</h2>
+
+<p>There are two ways to work with <strong>ofxDatGui</strong>. You can either instantiate each component on its own or consolidate them into a gui panel that you can drag around. The individual component examples included in this repository demonstrate how to use each on its own.</p>
+
+<p>To create an <strong>ofxDatGui</strong> panel that groups components together simply pass in the X and Y coordinates where you would like it to live or use one of the convenient pre-defined anchors.</p>
+
+<pre><code>ofxDatGui* gui = new ofxDatGui( 100, 100 );
+ofxDatGui* gui = new ofxDatGui( ofxDatGuiAnchor::TOP_LEFT );
+ofxDatGui* gui = new ofxDatGui( ofxDatGuiAnchor::TOP_RIGHT );
+</code></pre>
+
+<p>Adding components to <strong>ofxDatGui</strong> is as simple as:</p>
+
+<pre><code>gui-&gt;addButton("Click!");
+</code></pre>
+
+<p>This generates a Basic Button with the label "Click!"</p>
+
+<p><img src="https://raw.githubusercontent.com/braitsch/ofxDatGui/master/readme-img/ofxdatgui_click.png" alt="ofxDatGui"></p>
+
+<h2>
+<a id="interactive-components" class="anchor" href="#interactive-components" aria-hidden="true"><span class="octicon octicon-link"></span></a>Interactive Components</h2>
+
+<p><strong>ofxDatGui</strong> currently offers the following interactive components:</p>
+
+<p><strong>Text Input</strong></p>
+
+<pre><code>gui-&gt;addTextInput(string label, string value = "");
+</code></pre>
+
+<p><img src="https://raw.githubusercontent.com/braitsch/ofxDatGui/master/readme-img/ofxdatgui_input.png?raw=true" alt="ofxDatGui"></p>
+
+<p><strong>Basic Button</strong></p>
+
+<pre><code>gui-&gt;addButton(string label);
+</code></pre>
+
+<p><img src="https://raw.githubusercontent.com/braitsch/ofxDatGui/master/readme-img/ofxdatgui_click.png?raw=true" alt="ofxDatGui">   </p>
+
+<p><strong>Toggle Button</strong></p>
+
+<pre><code>gui-&gt;addToggle(string label, bool enabled = true);
+</code></pre>
+
+<p><img src="https://raw.githubusercontent.com/braitsch/ofxDatGui/master/readme-img/ofxdatgui_toggle.png?raw=true" alt="ofxDatGui"></p>
+
+<p><strong>Range Slider</strong></p>
+
+<pre><code>gui-&gt;addSlider(string label, float min, float max);
+</code></pre>
+
+<p><img src="https://raw.githubusercontent.com/braitsch/ofxDatGui/master/readme-img/ofxdatgui_slider.png?raw=true" alt="ofxDatGui"></p>
+
+<p>You can also set the starting value of the slider.<br>
+If this is not set it will default to halfway between the min and max values.</p>
+
+<pre><code>gui-&gt;addSlider(string label, float min, float max, float value);
+</code></pre>
+
+<p><strong>Color Picker</strong>    </p>
+
+<pre><code>gui-&gt;addColorPicker(string label, ofColor color = ofColor::black);
+</code></pre>
+
+<p><img src="https://raw.githubusercontent.com/braitsch/ofxDatGui/master/readme-img/ofxdatgui_color.png?raw=true" alt="ofxDatGui"></p>
+
+<p><strong>Dropdown Menu</strong></p>
+
+<pre><code>vector&lt;string&gt; options = {"ONE", "TWO", "THREE", "FOUR"};
+gui-&gt;addDropdown(options);
+</code></pre>
+
+<p><img src="https://raw.githubusercontent.com/braitsch/ofxDatGui/master/readme-img/ofxdatgui_dropdown.png?raw=true" alt="ofxDatGui"></p>
+
+<p><strong>Button Matrix</strong></p>
+
+<pre><code>gui-&gt;addMatrix(string label, int numButtons)
+</code></pre>
+
+<p><img src="https://raw.githubusercontent.com/braitsch/ofxDatGui/master/readme-img/ofxdatgui_matrix.png?raw=true" alt="ofxDatGui"></p>
+
+<p>You can display numbered labels on the buttons by passing <code>true</code> as the third argument.</p>
+
+<pre><code>gui-&gt;addMatrix(string label, int numButtons, bool showLabels)
+</code></pre>
+
+<p><img src="https://raw.githubusercontent.com/braitsch/ofxDatGui/master/readme-img/ofxdatgui_matrix_labels.png?raw=true" alt="ofxDatGui"></p>
+
+<p><strong>2D Coordinate Pad</strong></p>
+
+<pre><code>gui-&gt;add2dPad(string label, ofRectangle bounds);
+</code></pre>
+
+<p><img src="https://raw.githubusercontent.com/braitsch/ofxDatGui/master/readme-img/ofxdatgui_2dpad.png?raw=true" alt="ofxDatGui"></p>
+
+<p>The bounds parameter is optional and will default to the window dimensions if omitted.</p>
+
+<h2>
+<a id="utility-components" class="anchor" href="#utility-components" aria-hidden="true"><span class="octicon octicon-link"></span></a>Utility Components</h2>
+
+<p><strong>ofxDatGui</strong> also provides a few non-interactive utility components to assist with layout and application health monitoring.</p>
+
+<p><strong>Label</strong></p>
+
+<pre><code>gui-&gt;addLabel(string label);
+</code></pre>
+
+<p><img src="https://raw.githubusercontent.com/braitsch/ofxDatGui/master/readme-img/ofxdatgui_label.png?raw=true" alt="ofxDatGui"></p>
+
+<p><strong>Framerate Monitor</strong></p>
+
+<pre><code>gui-&gt;addFRM(float refreshFrequency = 1.0f);
+</code></pre>
+
+<p><img src="https://raw.githubusercontent.com/braitsch/ofxDatGui/master/readme-img/ofxdatgui_fps.gif?raw=true" alt="ofxDatGui"></p>
+
+<p><strong>Break</strong></p>
+
+<pre><code>gui-&gt;addLabel("Above");
+gui-&gt;addBreak(float height = 10.0f);
+gui-&gt;addLabel("Stuck in the Middle");
+gui-&gt;addBreak(float height = 10.0f);
+gui-&gt;addLabel("Below");
+</code></pre>
+
+<p><img src="https://raw.githubusercontent.com/braitsch/ofxDatGui/master/readme-img/ofxdatgui_break.png?raw=true" alt="ofxDatGui"></p>
+
+<h2>
+<a id="headers--footers" class="anchor" href="#headers--footers" aria-hidden="true"><span class="octicon octicon-link"></span></a>Headers &amp; Footers</h2>
+
+<p><strong>ofxDatGui</strong> also provides an optional header and footer that allows you to title your gui, drag it around and conveniently collapse and expand it. The <code>AllComponentsGui</code> example offers a nice demonstration of their use.</p>
+
+<pre><code>gui-&gt;addHeader(":: Drag Me To Reposition ::");
+</code></pre>
+
+<p><img src="https://raw.githubusercontent.com/braitsch/ofxDatGui/master/readme-img/ofxdatgui_header.png?raw=true" alt="ofxDatGui"></p>
+
+<pre><code>gui-&gt;addFooter();
+</code></pre>
+
+<p><img src="https://raw.githubusercontent.com/braitsch/ofxDatGui/master/readme-img/ofxdatgui_footer.png?raw=true" alt="ofxDatGui"></p>
+
+<h2>
+<a id="component-groups-folders" class="anchor" href="#component-groups-folders" aria-hidden="true"><span class="octicon octicon-link"></span></a>Component Groups (Folders)</h2>
+
+<p>You can also group related components into folders. When constructing a folder pass in a label to name the folder and an optional color to help visually group its contents.</p>
+
+<div class="highlight highlight-source-c++"><pre>ofxDatGuiFolder* folder = gui-&gt;<span class="pl-en">addFolder</span>(<span class="pl-s"><span class="pl-pds">"</span>My White Folder<span class="pl-pds">"</span></span>, ofColor::white);
+folder-&gt;<span class="pl-en">addTextInput</span>(<span class="pl-s"><span class="pl-pds">"</span>** Input<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>A Nested Text Input<span class="pl-pds">"</span></span>);
+folder-&gt;<span class="pl-en">addSlider</span>(<span class="pl-s"><span class="pl-pds">"</span>** Slider<span class="pl-pds">"</span></span>, <span class="pl-c1">0</span>, <span class="pl-c1">100</span>);
+folder-&gt;<span class="pl-en">addToggle</span>(<span class="pl-s"><span class="pl-pds">"</span>** Toggle<span class="pl-pds">"</span></span>, <span class="pl-c1">false</span>);</pre></div>
+
+<p><img src="https://raw.githubusercontent.com/braitsch/ofxDatGui/master/readme-img/ofxdatgui_folder.png?raw=true" alt="ofxDatGui"></p>
+
+<p>All components can be nested into folders with the exception of other folders and dropdowns.</p>
+
+<hr>
+
+<p>Folders and dropdown menus can also be expanded and collapsed programmatically.</p>
+
+<pre><code>folder-&gt;expand();
+folder-&gt;collapse();
+</code></pre>
+
+<h2>
+<a id="manipulation" class="anchor" href="#manipulation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Manipulation</h2>
+
+<p>Every <code>gui-&gt;add*</code> method returns a pointer to an <strong>ofxDatGuiItem</strong> object that you can store in a variable for later manipulation.</p>
+
+<pre><code>ofxDatGuiTextInput* myInput;
+myInput = gui-&gt;addTextInput("Name:", "Stephen");
+myInput-&gt;setText("Freddy");
+</code></pre>
+
+<p>Every <strong>ofxDatGuiItem</strong> has a mutable label that can easily be retrieved or changed via:</p>
+
+<pre><code>item-&gt;getLabel();
+item-&gt;setLabel(string label);
+</code></pre>
+
+<p>In addition some components have methods (typically getters &amp; setters) that allow for the retrieval and manipulation of its unique properties.</p>
+
+<p><strong>Text Input</strong></p>
+
+<div class="highlight highlight-source-c++"><pre>ofxDatGuiTextInput* myInput;
+string myInput-&gt;<span class="pl-en">getText</span>();
+myInput-&gt;<span class="pl-en">setText</span>(string text);</pre></div>
+
+<p><strong>Toggle Button</strong></p>
+
+<div class="highlight highlight-source-c++"><pre>ofxDatGuiToggle* myToggle;
+myToggle-&gt;<span class="pl-en">toggle</span>();
+myToggle-&gt;<span class="pl-en">setEnabled</span>(<span class="pl-k">bool</span> enable);
+<span class="pl-k">bool</span> myToggle-&gt;<span class="pl-en">getEnabled</span>();</pre></div>
+
+<p><strong>Range Slider</strong></p>
+
+<div class="highlight highlight-source-c++"><pre>ofxDatGuiSlider* mySlider;
+<span class="pl-k">float</span> mySlider-&gt;<span class="pl-en">getScale</span>(); 
+mySlider-&gt;<span class="pl-en">setScale</span>(<span class="pl-k">float</span> scale); <span class="pl-c">// a value between 0 &amp; 1 //</span>
+<span class="pl-k">float</span> mySlider-&gt;<span class="pl-en">getValue</span>();
+mySlider-&gt;<span class="pl-en">setValue</span>(<span class="pl-k">float</span> value); <span class="pl-c">// a value between min &amp; max //</span></pre></div>
+
+<p><strong>Color Picker</strong></p>
+
+<div class="highlight highlight-source-c++"><pre>ofxDatGuiColorPicker* myColorPicker;
+ofColor myColorPicker-&gt;<span class="pl-en">getColor</span>();
+myColorPicker-&gt;<span class="pl-en">setColor</span>(<span class="pl-k">int</span> hexValue);
+myColorPicker-&gt;<span class="pl-en">setColor</span>(<span class="pl-k">int</span> r, <span class="pl-k">int</span> g, <span class="pl-k">int</span> b);
+myColorPicker-&gt;<span class="pl-en">setColor</span>(ofColor color);</pre></div>
+
+<p><strong>Dropdown Menu</strong></p>
+
+<div class="highlight highlight-source-c++"><pre>ofxDatGuiDropdown* myDropdown;
+<span class="pl-k">int</span> myDropdown-&gt;<span class="pl-en">size</span>();
+myDropdown-&gt;<span class="pl-en">select</span>(<span class="pl-k">int</span> index);
+ofxDatGuiDropdownOption* <span class="pl-en">getChildAt</span>(<span class="pl-k">int</span> index);
+ofxDatGuiDropdownOption* myDropdown-&gt;<span class="pl-en">getSelected</span>();
+myDropdown-&gt;<span class="pl-en">expand</span>();
+myDropdown-&gt;<span class="pl-en">collapse</span>();</pre></div>
+
+<p><strong>ofxDatGuiMatrix</strong></p>
+
+<div class="highlight highlight-source-c++"><pre>ofxDatGuiMatrix* myMatrix;
+ofxDatGuiMatrixButton* myMatrix-&gt;<span class="pl-en">getChildAt</span>(<span class="pl-k">int</span> index);
+vector&lt;<span class="pl-k">int</span>&gt; myMatrix-&gt;<span class="pl-en">getSelected</span>();
+<span class="pl-c">// returns a vector containing the indicies of the selected buttons //</span>
+myMatrix-&gt;<span class="pl-en">clear</span>(); <span class="pl-c">// deselects all buttons in the matrix //</span></pre></div>
+
+<p><strong>ofxDatGui2dPad</strong></p>
+
+<div class="highlight highlight-source-c++"><pre>ofxDatGui2dPad* my2dPad;
+my2dPad-&gt;<span class="pl-en">setBounds</span>(ofRectangle bounds);
+ofPoint my2dPad-&gt;<span class="pl-en">getPosition</span>();
+<span class="pl-c">// returns the current position within the bounds rectangle you gave it //</span></pre></div>
+
+<p><strong>Note:</strong> All indicies are zero based so the first item in your  <strong>ofxDatGui</strong> instance will have an index of 0, the second item will have an index of 1, the third item an index of 2 etc..</p>
+
+<h2>
+<a id="component-retrieval" class="anchor" href="#component-retrieval" aria-hidden="true"><span class="octicon octicon-link"></span></a>Component Retrieval</h2>
+
+<p>If you're lazy and don't feel like storing your components in variables you can easily retrieve them by name which by default is the same as whatever you set its label to.</p>
+
+<pre><code>ofxDatGuiButton* gui-&gt;getButton("My Button"); // button name
+ofxDatGuiSlider* gui-&gt;getSlider("My Slider"); // slider name
+</code></pre>
+
+<p>Note: <code>gui-&gt;getComponent</code> performs a case-insensitive lookup against the component's name so the following works fine as well.</p>
+
+<pre><code>ofxDatGuiButton* gui-&gt;getButton("my bUTTon"); // button name
+ofxDatGuiSlider* gui-&gt;getSlider("mY sLiDEr"); // slider name
+</code></pre>
+
+<p>To change a component's label or name simply:</p>
+
+<pre><code>gui-&gt;getButton("My Button")-&gt;setName("b1");
+gui-&gt;getButton("b1")-&gt;setLabel("Your Button");
+</code></pre>
+
+<p>If you have multiple components with the same name nested in separate folders just specify the folder to search.</p>
+
+<pre><code>ofxDatGuiButton* gui-&gt;getButton("Reset Button", "Folder 1");
+ofxDatGuiButton* gui-&gt;getButton("Reset Button", "Folder 2");
+</code></pre>
+
+<p>Otherwise the function will return the first component whose name &amp; type match the query.</p>
+
+<h2>
+<a id="variable-binding" class="anchor" href="#variable-binding" aria-hidden="true"><span class="octicon octicon-link"></span></a>Variable Binding</h2>
+
+<p><strong>ofxDatGui</strong> sliders &amp; coordinate pads can also be bound to object variables. Just pass a reference to the variable to the component and set a range by which to limit its movement.</p>
+
+<p>For example the following snippet binds a circle's position to a range slider and limits its movement to the width &amp; height of the screen.</p>
+
+<div class="highlight highlight-source-c++"><pre><span class="pl-c">// draw a circle with a radius of 100px</span>
+<span class="pl-c">// and position it in the middle of the screen //</span>
+    circle = <span class="pl-k">new</span> Circle(<span class="pl-c1">100</span>);
+    circle-&gt;x = ofGetWidth()/<span class="pl-c1">2</span>;
+    circle-&gt;y = ofGetHeight()/<span class="pl-c1">2</span>;
+
+<span class="pl-c">// instantiate a gui and a couple of range sliders //</span>
+    gui = <span class="pl-k">new</span> ofxDatGui( ofxDatGuiAnchor::TOP_RIGHT );
+    ofxDatGuiSlider* sx = gui-&gt;<span class="pl-en">addSlider</span>(<span class="pl-s"><span class="pl-pds">"</span>CIRCLE X<span class="pl-pds">"</span></span>, <span class="pl-c1">0</span>, <span class="pl-c1">100</span>);
+    ofxDatGuiSlider* sy = gui-&gt;<span class="pl-en">addSlider</span>(<span class="pl-s"><span class="pl-pds">"</span>CIRCLE Y<span class="pl-pds">"</span></span>, <span class="pl-c1">0</span>, <span class="pl-c1">100</span>);
+
+<span class="pl-c">// bind the circle's x &amp; y movement to the sliders //</span>
+    sx-&gt;<span class="pl-en">bind</span>(&amp;circle-&gt;x, <span class="pl-c1">0</span>, ofGetWidth());
+    sy-&gt;<span class="pl-en">bind</span>(&amp;circle-&gt;y, <span class="pl-c1">0</span>, ofGetHeight());</pre></div>
+
+<h2>
+<a id="events" class="anchor" href="#events" aria-hidden="true"><span class="octicon octicon-link"></span></a>Events</h2>
+
+<p><strong>ofxDatGuiEvents</strong> are designed to be as easy as possible to interact with.</p>
+
+<p>To listen for an event simply register a callback to be executed when an event you care about is fired:</p>
+
+<pre><code>gui-&gt;onButtonEvent(this, &amp;ofApp::onButtonEvent);
+void onButtonEvent(ofxDatGuiButtonEvent e)
+{
+    cout &lt;&lt; "A button was clicked!" &lt;&lt; endl;
+}
+</code></pre>
+
+<p>Every callback you register will receive an event object that contains a pointer (called target) to the object that created the event. </p>
+
+<pre><code>gui-&gt;addButton("My Button");
+gui-&gt;onButtonEvent(this, &amp;ofApp::onButtonEvent);
+void onButtonEvent(ofxDatGuiButtonEvent e)
+{
+    cout &lt;&lt; e.target-&gt;getLabel() &lt;&lt; endl; // prints "My Button"
+}
+</code></pre>
+
+<p>If you saved the pointer returned by <code>gui-&gt;add*</code> in a variable you can compare it to the event target to decide how to handle the event. </p>
+
+<pre><code>ofxDatGuiButton* b1 = gui-&gt;addButton("Button 1");
+ofxDatGuiButton* b2 = gui-&gt;addButton("Button 2");
+gui-&gt;onButtonEvent(this, &amp;ofApp::onButtonEvent);
+void onButtonEvent(ofxDatGuiButtonEvent e)
+{
+    if (e.target == b1){
+        cout &lt;&lt; "Button 1 was clicked" &lt;&lt; endl;
+    } else if (e.target == b2){
+    //  button 2 was clicked, do something else //
+    }
+}
+</code></pre>
+
+<p>However a more convenient way of determining which component dispatched the event is by using the built in <code>is</code> operator.</p>
+
+<pre><code>gui-&gt;addButton("Button 1");
+gui-&gt;addButton("Button 2");
+
+void onButtonEvent(ofxDatGuiButtonEvent e)
+{
+    if (e.target-&gt;is("button 1")){
+        cout &lt;&lt; "Button 1 was clicked" &lt;&lt; endl;
+    } else if (e.target-&gt;is("button 2")){
+    //  button 2 was clicked, do something else //
+    }
+}
+</code></pre>
+
+<p>This performs a case-insensitive search against the component's name which by default is the same as its label.</p>
+
+<hr>
+
+<p>All events also contain additonal properties that allow convenient access to the state of the component that dispatched the event.</p>
+
+<p><strong>ofxDatGuiButtonEvent</strong></p>
+
+<pre><code>ofxDatGuiButtonEvent e
+bool e.enabled // the enabled state of a toggle button
+</code></pre>
+
+<p><strong>ofxDatGuiSliderEvent</strong></p>
+
+<pre><code>ofxDatGuiSliderEvent e
+float e.value // current value of the slider 
+float e.scale // current scale of the slider 
+</code></pre>
+
+<p><strong>ofxDatGuiTextInputEvent</strong></p>
+
+<pre><code>ofxDatGuiTextInputEvent e
+string e.text // current text in the textfield
+</code></pre>
+
+<p><strong>ofxDatGuiColorPickerEvent</strong></p>
+
+<pre><code>ofxDatGuiColorPickerEvent e
+ofColor e.color // the color of the picker
+</code></pre>
+
+<p><strong>ofxDatGui2dPadEvent</strong></p>
+
+<pre><code>ofxDatGui2dPadEvent e
+float e.x // x coordinate within the pad's bounds rectangle
+float e.y // y coordinate within the pad's bounds rectangle
+</code></pre>
+
+<p><strong>ofxDatGuiDropdownEvent</strong></p>
+
+<pre><code>ofxDatGuiDropdownEvent e
+int e.child // the index of the selected option (zero based)
+</code></pre>
+
+<p><strong>ofxDatGuiMatrixEvent</strong></p>
+
+<pre><code>ofxDatGuiMatrixEvent e
+int e.child // the index of the selected button (zero based)
+bool e.enabled // enabled state of the selected button
+</code></pre>
+
+<p><strong>Note:</strong> You can also retrieve these properties directly from the event target itself.</p>
+
+<pre><code>ofxDatGuiSliderEvent e
+float value = e.target-&gt;getValue();
+float scale = e.target-&gt;getScale();
+</code></pre>
+
+<h2>
+<a id="customization" class="anchor" href="#customization" aria-hidden="true"><span class="octicon octicon-link"></span></a>Customization</h2>
+
+<p>Just about every aspect of <strong>ofxDatGui's</strong> appearance can be tailored to meet your needs.</p>
+
+<p>Customization is accomplished via extensible templates where you define how you want <strong>ofxDatGui</strong> to render.</p>
+
+<p>Just create a class that extends <code>ofxDatGuiTemplate</code> and pass it to <strong>ofxDatGui</strong> or any component via <code>gui-&gt;setTemplate()</code></p>
+
+<div class="highlight highlight-source-c++"><pre><span class="pl-k">class</span> <span class="pl-en">myCustomTemplate</span> : <span class="pl-k">public</span> <span class="pl-en">ofxDatGuiTemplate</span>
+{
+    <span class="pl-k">public:</span>
+        <span class="pl-en">myCustomTemplate</span>() {
+        <span class="pl-c">// row characteristics //</span>
+            row.<span class="pl-smi">width</span>   = <span class="pl-c1">540</span>;
+            row.<span class="pl-smi">height</span>  = <span class="pl-c1">52</span>;
+            row.<span class="pl-smi">padding</span> = <span class="pl-c1">4</span>;
+            row.<span class="pl-smi">spacing</span> = <span class="pl-c1">2</span>;
+            row.<span class="pl-smi">stripeWidth</span> = <span class="pl-c1">4</span>;
+        <span class="pl-c">// font characteristics //</span>
+            font.<span class="pl-smi">file</span>   = <span class="pl-s"><span class="pl-pds">"</span>PillGothic-Light.ttf<span class="pl-pds">"</span></span>
+            font.<span class="pl-smi">size</span>   = <span class="pl-c1">12</span>;
+            font.<span class="pl-smi">highlightPadding</span> = <span class="pl-c1">4</span>;
+        <span class="pl-c">// component colors //</span>
+            color.<span class="pl-smi">rowBkgd</span>   = ofColor::lightGray;
+            color.<span class="pl-smi">button</span>    = <span class="pl-c1">ofColor::fromHex</span>(0xFFD00B);
+            color.<span class="pl-smi">slider</span>    = <span class="pl-c1">ofColor::fromHex</span>(0x2FA1D6);
+            color.<span class="pl-smi">rowMouseOver</span> = <span class="pl-c1">ofColor::fromHex</span>(0x777777);
+        <span class="pl-c">// after everything is setup initialize the template // </span>
+            <span class="pl-c1">init</span>();
+        }
+};
+
+<span class="pl-c">// assign this template to a gui instance //</span>
+    gui = <span class="pl-k">new</span> ofxDatGui();
+    gui-&gt;<span class="pl-en">setTemplate</span>(<span class="pl-k">new</span> myCustomTemplate());
+</pre></div>
+
+<p>Take a look at the <a href="https://raw.githubusercontent.com/braitsch/ofxDatGui/master/src/templates/ofxDatGuiTemplate.h">ofxDatGuiTemplate</a> base class for a list of everything that can be customized.</p>
+
+<hr>
+
+<p>Additionally all components and gui instances provide the following instance methods.</p>
+
+<pre><code>setWidth(int width);
+setOrigin(int x, int y);
+setOpacity(float opacity); // a value between 0 &amp; 1 //
+setVisible(bool visible);
+setEnabled(bool enabled);
+setAlignment(ofxDatGuiAlignment alignment);
+</code></pre>
+
+<h2>
+<a id="label-alignment" class="anchor" href="#label-alignment" aria-hidden="true"><span class="octicon octicon-link"></span></a>Label Alignment</h2>
+
+<p>You can set the label alignment for each component or on <strong>ofxDatGui</strong> itself via:</p>
+
+<pre><code>gui-&gt;setAlignment(ofxDatGuiAlignment alignment);
+</code></pre>
+
+<p>Valid values are:</p>
+
+<pre><code>ofxDatGuiAlignment::LEFT
+ofxDatGuiAlignment::CENTER
+ofxDatGuiAlignment::RIGHT
+</code></pre>
+
+<h2>
+<a id="automatic-rendering" class="anchor" href="#automatic-rendering" aria-hidden="true"><span class="octicon octicon-link"></span></a>Automatic Rendering</h2>
+
+<p><strong>ofxDatGui</strong> automatically updates and draws itself on top of your application so there is no need to call <code>update</code> or <code>draw</code> on it. However you can easily disable this if you like via:</p>
+
+<pre><code>gui-&gt;setAutoDraw(bool enabled);
+</code></pre>
+
+<h2>
+<a id="logging" class="anchor" href="#logging" aria-hidden="true"><span class="octicon octicon-link"></span></a>Logging</h2>
+
+<p><strong>ofxDatGui</strong> will softly warn you if you forget to attach an event listener to a component you've created or if you attempt to perform an action on a component that does not exist.</p>
+
+<pre><code>[ERROR] :: Component Not Found : GHOST BUTTON
+[WARNING] :: Event Handler Not Set : MY BUTTON
+</code></pre>
+
+<p>However you can easily suppress these warnings by calling:</p>
+
+<pre><code>ofxDatGuiLog::quiet();
+</code></pre>
+
+<h2>
+<a id="save--load-settings" class="anchor" href="#save--load-settings" aria-hidden="true"><span class="octicon octicon-link"></span></a>Save &amp; Load Settings</h2>
+
+<pre><code>Coming Soon
+</code></pre>
+
+<h2>
+<a id="additonal-notes" class="anchor" href="#additonal-notes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Additonal Notes</h2>
+
+<p>Thanks for reading all this and checking the project out. </p>
+
+<p>I'm actively looking for people to help me test this and provide feedback to help shape ongoing development. If you'd like to see a feature prioritized or have any general questions or feedback please send me a message or open an issue here on Github.</p>
+
+<p>Thanks!</p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/braitsch/ofxDatGui">Openframeworks DatGui</a> is maintained by <a href="https://github.com/braitsch">braitsch</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
