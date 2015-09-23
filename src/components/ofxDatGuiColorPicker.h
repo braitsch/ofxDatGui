@@ -81,6 +81,12 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
             setTextFieldInputColor();
         }
     
+        void setTemplate(ofxDatGuiTemplate* tmplt)
+        {
+            ofxDatGuiTextInput::setTemplate(tmplt);
+            setTextFieldInputColor();
+        }
+    
         ofColor getColor()
         {
             return mColor;

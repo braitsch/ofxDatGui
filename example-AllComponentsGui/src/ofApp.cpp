@@ -10,6 +10,8 @@ void ofApp::setup()
 // instantiate and position the gui //
     gui = new ofxDatGui( ofxDatGuiAnchor::TOP_RIGHT );
     
+//  gui->setTemplate(new ofxDatGuiExampleCustomTemplate());
+    
 // add some components //
     gui->addTextInput("MESSAGE", "# OPEN FRAMEWORKS #");
     
@@ -35,7 +37,7 @@ void ofApp::setup()
     gui->addSlider("DATGUI OPACITY", 0, 100);
     
 // and a colorpicker! //
-    gui->addColorPicker("COLOR PICKER", ofColor::fromHex(0xC63256));
+    gui->addColorPicker("COLOR PICKER", ofColor::fromHex(0xeeeeee));
     
     gui->addBreak();
 // add a dropdown menu //

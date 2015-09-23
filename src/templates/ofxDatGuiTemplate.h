@@ -151,13 +151,14 @@ class ofxDatGui2880x1800 : public ofxDatGuiTemplate{
     
         ofxDatGui2880x1800()
         {
-            row.width   = 540;
+            row.width   = 540;//600
             row.height  *= 2;
             row.padding *= 2;
             row.spacing *= 2;
             row.stripeWidth *= 2;
             font.size   *= 2;
             font.highlightPadding *= 2;
+            matrix.buttonSize = 47;//53;
             init();
         }
 };

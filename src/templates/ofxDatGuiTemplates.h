@@ -33,61 +33,12 @@ class ofxDatGuiExampleCustomTemplate : public ofxDatGui2880x1800{
     
         ofxDatGuiExampleCustomTemplate()
         {
-    // look inside of ofxDatGuiTemplate for settings to override //
-            row.color.bkgd = ofColor::fromHex(0xFFD00B);
-    // don't forget to call init when you're done //
-            init();
-        }
-};
-
-class t1 : public ofxDatGui2880x1800{
-    public:
-        t1(){
-            row.color.bkgd = ofColor::fromHex(0xFFD00B);
-            row.color.label = ofColor::fromHex(0x303030);
-            textInput.color.text = ofColor::fromHex(0xEEEEEE);
-            init();
-        }
-};
-class t2 : public ofxDatGui2880x1800{
-    public:
-        t2(){
-            row.color.bkgd = ofColor::fromHex(0x2FA1D6);
-            init();
-        }
-};
-class t3 : public ofxDatGui2880x1800{
-    public:
-        t3(){
+    // look inside of ofxDatGuiTemplate for a full list of settings you can override //
             row.color.bkgd = ofColor::fromHex(0xC63256);
+            textInput.color.text = ofColor::fromHex(0xEEEEEE);
+    // and don't forget to call init when you're done //
             init();
         }
 };
-class t4 : public ofxDatGui2880x1800{
-    public:
-        t4(){
-            row.color.bkgd = ofColor::fromHex(0xeeeeee);
-            row.color.label = ofColor::fromHex(0x303030);
-            init();
-        }
-};
-//
-//            ofColor button              = ofColor::fromHex(0xFFD00B);
-//            ofColor toggle              = ofColor::fromHex(0xFFD00B);
-//            ofColor slider              = ofColor::fromHex(0x2FA1D6);
-//            ofColor textInput           = ofColor::fromHex(0x1ED36F);
-//            ofColor matrix              = ofColor::fromHex(0xB2770D);
-//            ofColor pad2d               = ofColor::fromHex(0x9AF398);
-//            ofColor dropdown            = ofColor::fromHex(0xC63256);
-//            ofColor colorPicker         = ofColor::fromHex(0xFFD00B);
-
-
-
-
-
-
-
-
-
 
 

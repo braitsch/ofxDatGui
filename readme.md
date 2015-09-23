@@ -2,7 +2,7 @@
 
 **ofxDatGui** is a **simple to use**, fully customizable, high-resolution graphical user interface for [openFrameworks](http://openframeworks.cc/) inspired by the popular JavaScript [datgui](http://workshop.chromeexperiments.com/examples/gui/) interface.  
 
-[![ofxDatGui](./readme-img/ofxdatgui_03.png)](https://www.youtube.com/watch?v=IrmABSyabng)
+![ofxDatGui](./readme-img/ofxdatgui_03.png?raw=true)
 
 ##Features
 
