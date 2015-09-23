@@ -21,7 +21,7 @@ void ofApp::setup()
     folder->addTextInput("** INPUT", "NESTED INPUT FIELD");
     folder->addSlider("** SLIDER", 0, 100);
     folder->addToggle("** TOGGLE");
-    folder->addColorPicker("** PICKER", ofxDatGuiColor::DROPDOWN_STRIPE);
+    folder->addColorPicker("** PICKER", ofColor::fromHex(0xFFD00B));
 // let's have it open by default. note: call this only after you're done adding items //
     folder->expand();
 
@@ -35,7 +35,7 @@ void ofApp::setup()
     gui->addSlider("DATGUI OPACITY", 0, 100);
     
 // and a colorpicker! //
-    gui->addColorPicker("COLOR PICKER", ofxDatGuiColor::TOGGLE_STRIPE);
+    gui->addColorPicker("COLOR PICKER", ofColor::fromHex(0xC63256));
     
     gui->addBreak();
 // add a dropdown menu //

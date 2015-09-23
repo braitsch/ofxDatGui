@@ -23,31 +23,9 @@
 #pragma once
 #include "ofMain.h"
 
-static const string ofxDatGuiAssetDir = "ofxdatgui_assets";
-
-namespace ofxDatGuiColor
-{
-    const ofColor GUI_BKGD          = ofColor::fromHex(0x303030);
-    const ofColor ROW_BKGD          = ofColor::fromHex(0x1A1A1A);
-    const ofColor LABEL             = ofColor::fromHex(0xEEEEEE);
-    const ofColor TEXT              = ofColor::fromHex(0x00FF00);
-    const ofColor TEXT_HIGHLIGHT    = ofColor::fromHex(0x688EB5);
-    const ofColor INPUT             = ofColor::fromHex(0x303030);
-    const ofColor SLIDER            = ofColor::fromHex(0x2FA1D6);
-    const ofColor BUTTON_OVER       = ofColor::fromHex(0x777777);
-    const ofColor BUTTON_DOWN       = ofColor::fromHex(0x222222);
-    const ofColor MATRIX_BUTTON     = ofColor::fromHex(0x555555);
-    
-// stripe identifiers //
-    const ofColor INPUT_STRIPE      = ofColor::fromHex(0x1ED36F);
-    const ofColor BUTTON_STRIPE     = ofColor::fromHex(0xFFD00B);
-    const ofColor TOGGLE_STRIPE     = ofColor::fromHex(0xFFD00B);
-    const ofColor SLIDER_STRIPE     = ofColor::fromHex(0x2FA1D6);
-    const ofColor MATRIX_STRIPE     = ofColor::fromHex(0xB2770D);
-    const ofColor PAD2D_STRIPE      = ofColor::fromHex(0x9AF398);
-    const ofColor DROPDOWN_STRIPE   = ofColor::fromHex(0xC63256);
-    
-}
+static const int OFXDG_RETINA_MIN_WIDTH = 2560;
+static const int OFXDG_RETINA_MIN_HEIGHT = 1600;
+static const string OFXDG_ASSET_DIR = "ofxdatgui_assets";
 
 enum ofxDatGuiAnchor
 {
@@ -80,11 +58,6 @@ enum ofxDatGuiType
     COLOR_PICKER,
 };
 
-namespace ofxDatGuiMsg
-{
-    const string EVENT_HANDLER_NULL = "[WARNING] :: Event Handler Not Set";
-    const string COMPONENT_NOT_FOUND = "[ERROR] :: Component Not Found";
-}
 
 
 

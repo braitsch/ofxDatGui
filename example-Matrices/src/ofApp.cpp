@@ -11,7 +11,7 @@ void ofApp::setup()
     numCols = 3;
     numRows = 7;
     ofSetWindowPosition(0, 0);
-    font.load(ofxDatGuiAssetDir+"/font-verdana.ttf", 24);
+    font.load("ofxdatgui_assets/font-verdana.ttf", 24);
     
 // instantiate a matrix with a button for each box in our grid //
     matrix = new ofxDatGuiMatrix("MATRIX", numCols*numRows, true);
@@ -40,12 +40,12 @@ void ofApp::draw()
     // fill the box if the corresponding button in the matrix is selected //
         if (matrix->getChildAt(i)->getSelected() == true) {
             ofFill();
-            ofSetColor(ofxDatGuiColor::LABEL);
+            ofSetColor(ofColor::fromHex(0xEEEEEE));
             ofDrawRectangle(x, y, w, h);
         }
     // draw wireframe /
         ofNoFill();
-        ofSetColor(ofxDatGuiColor::GUI_BKGD);
+        ofSetColor(ofColor::fromHex(0x303030));
         ofDrawRectangle(x, y, w, h);
     // draw box number //
         ofRectangle bounds = font.getStringBoundingBox(ofToString(i+1), 0, 0);

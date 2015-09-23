@@ -27,7 +27,7 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
 
     public:
 
-        ofxDatGuiHeader(string label, ofxDatGuiFont* font=nullptr) : ofxDatGuiButton(label, font)
+        ofxDatGuiHeader(string label, ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiButton(label, tmplt)
         {
             mRow.height = mRow.height*.8;
             mLabelAlignment = ofxDatGuiAlignment::CENTER;
@@ -40,6 +40,12 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
                 ofxDatGuiButton::drawBkgd();
                 ofxDatGuiButton::drawLabel();
             ofPopStyle();
+        }
+    
+        void setTemplate(ofxDatGuiTemplate* tmplt)
+        {
+            ofxDatGuiButton::setTemplate(tmplt);
+            mRow.height = mRow.height*.8;
         }
     
         void onMousePress(ofPoint m)
@@ -65,11 +71,17 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
 
     public:
     
-        ofxDatGuiFooter(ofxDatGuiFont* font=nullptr) : ofxDatGuiButton("COLLAPSE CONTROLS", font)
+        ofxDatGuiFooter(ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiButton("COLLAPSE CONTROLS", tmplt)
         {
             mIsExpanded = true;
             mRow.height = mRow.height*.8;
             mLabelAlignment = ofxDatGuiAlignment::CENTER;
+        }
+    
+        void setTemplate(ofxDatGuiTemplate* tmplt)
+        {
+            ofxDatGuiButton::setTemplate(tmplt);
+            mRow.height = mRow.height*.8;
         }
     
         bool getIsExpanded()

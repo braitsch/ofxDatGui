@@ -11,21 +11,24 @@ void ofApp::setup()
 // add the optional header and footer //
     gui->addTextInput("INPUT MESSAGE", "# OPEN FRAMEWORKS #");
     gui->addFooter();
-    
+
+    gui->addBreak();
 // add some color pickers to color our lines //
-    ofxDatGuiFolder* f1 = gui->addFolder("LINE COLORS", ofColor::green);
+    ofxDatGuiFolder* f1 = gui->addFolder("LINE COLORS", ofColor::fromHex(0x2FA1D6));
     f1->addColorPicker("LINE 1", ofColor::fromHex(0x20201f));
     f1->addColorPicker("LINE 2", ofColor::fromHex(0x80b0b0));
     f1->addColorPicker("LINE 3", ofColor::fromHex(0x4f4b4d));
     f1->addColorPicker("LINE 4", ofColor::fromHex(0xe5e2d9));
     f1->expand();
+    gui->addBreak();
     
 // and some sliders to adjust how they're drawn //
-    ofxDatGuiFolder* f2 = gui->addFolder("LINE CONTROLS", ofxDatGuiColor::SLIDER);
+    ofxDatGuiFolder* f2 = gui->addFolder("LINE CONTROLS", ofColor::fromHex(0xFFD00B));
     s1 = f2->addSlider("DRAW SPEED", 0, 120, 5);
     s2 = f2->addSlider("LINE WEIGHT", 1, 60, 2);
     s3 = f2->addSlider("LINE LENGTH", 4, 200, 140);
     f2->expand();
+    gui->addBreak();
     
 // and a few others widgits for good measure :) //
     gui->addSlider("DATGUI OPACITY", 0, 100);

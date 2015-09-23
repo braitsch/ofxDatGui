@@ -40,22 +40,27 @@ ofxDatGui::ofxDatGui(ofxDatGuiAnchor anchor)
 
 void ofxDatGui::init()
 {
-    setWidth(540);
-    setOpacity(1.0f);
-    mRowSpacing = 1;
     mVisible = true;
     mEnabled = true;
     mExpanded = true;
-    mousePressed = false;
-    setAutoDraw(true);
+    mMousePressed = false;
     mGuiHeader = nullptr;
     mGuiFooter = nullptr;
     activeHover = nullptr;
     activeFocus = nullptr;
     mAlignment = ofxDatGuiAlignment::LEFT;
-    bool retinaEnabled = (ofGetScreenWidth()>=2560 && ofGetScreenHeight()>=1600);
-    if (retinaEnabled) mRowSpacing*=2;
-    mFont = new ofxDatGuiFont(retinaEnabled);
+    
+// load a default layout template //
+    if (ofxDatGuiIsRetina() == false){
+        mTemplate = new ofxDatGui1440x900();
+    }   else{
+        mTemplate = new ofxDatGui2880x1800();
+    }
+    setOpacity(1.0f);
+    setAutoDraw(true);
+    setWidth(mTemplate->row.width);
+    mRowSpacing = mTemplate->row.spacing;
+
     ofAddListener(ofEvents().keyPressed, this, &ofxDatGui::onKeyPressed, OF_EVENT_ORDER_BEFORE_APP);
     ofAddListener(ofEvents().mousePressed, this, &ofxDatGui::onMousePressed, OF_EVENT_ORDER_BEFORE_APP);
     ofAddListener(ofEvents().mouseReleased, this, &ofxDatGui::onMouseReleased, OF_EVENT_ORDER_BEFORE_APP);
@@ -71,6 +76,15 @@ void ofxDatGui::setWidth(int width)
     mWidth = width;
     mWidthChanged = true;
     if (mAnchor == ofxDatGuiAnchor::TOP_RIGHT) anchorGui();
+}
+
+void ofxDatGui::setTemplate(ofxDatGuiTemplate* t)
+{
+//  delete mTemplate;
+    mTemplate = t;
+    setWidth(mTemplate->row.width);
+    mRowSpacing = mTemplate->row.spacing;
+    mTemplateChanged = true;
 }
 
 void ofxDatGui::setOrigin(int x, int y)
@@ -135,7 +149,7 @@ ofPoint ofxDatGui::getPosition()
 ofxDatGuiHeader* ofxDatGui::addHeader(string label)
 {
     if (mGuiHeader == nullptr){
-        mGuiHeader = new ofxDatGuiHeader(label, mFont);
+        mGuiHeader = new ofxDatGuiHeader(label, mTemplate);
         if (items.size() == 0){
             items.push_back(mGuiHeader);
         }   else{
@@ -149,7 +163,7 @@ ofxDatGuiHeader* ofxDatGui::addHeader(string label)
 ofxDatGuiFooter* ofxDatGui::addFooter()
 {
     if (mGuiFooter == nullptr){
-        mGuiFooter = new ofxDatGuiFooter(mFont);
+        mGuiFooter = new ofxDatGuiFooter(mTemplate);
         items.push_back(mGuiFooter);
         mGuiFooter->onInternalEvent(this, &ofxDatGui::onInternalEventCallback);
         layoutGui();
@@ -158,14 +172,14 @@ ofxDatGuiFooter* ofxDatGui::addFooter()
 
 ofxDatGuiLabel* ofxDatGui::addLabel(string label)
 {
-    ofxDatGuiLabel* lbl = new ofxDatGuiLabel(label, mFont);
+    ofxDatGuiLabel* lbl = new ofxDatGuiLabel(label, mTemplate);
     attachItem(lbl);
     return lbl;
 }
 
 ofxDatGuiButton* ofxDatGui::addButton(string label)
 {
-    ofxDatGuiButton* button = new ofxDatGuiButton(label, mFont);
+    ofxDatGuiButton* button = new ofxDatGuiButton(label, mTemplate);
     button->onButtonEvent(this, &ofxDatGui::onButtonEventCallback);
     attachItem(button);
     return button;
@@ -173,7 +187,7 @@ ofxDatGuiButton* ofxDatGui::addButton(string label)
 
 ofxDatGuiToggle* ofxDatGui::addToggle(string label, bool enabled)
 {
-    ofxDatGuiToggle* button = new ofxDatGuiToggle(label, enabled, mFont);
+    ofxDatGuiToggle* button = new ofxDatGuiToggle(label, enabled, mTemplate);
     button->onButtonEvent(this, &ofxDatGui::onButtonEventCallback);
     attachItem(button);
     return button;
@@ -188,7 +202,7 @@ ofxDatGuiSlider* ofxDatGui::addSlider(string label, float min, float max)
 
 ofxDatGuiSlider* ofxDatGui::addSlider(string label, float min, float max, float val)
 {
-    ofxDatGuiSlider* slider = new ofxDatGuiSlider(label, min, max, val, mFont);
+    ofxDatGuiSlider* slider = new ofxDatGuiSlider(label, min, max, val, mTemplate);
     slider->onSliderEvent(this, &ofxDatGui::onSliderEventCallback);
     attachItem(slider);
     return slider;
@@ -196,7 +210,7 @@ ofxDatGuiSlider* ofxDatGui::addSlider(string label, float min, float max, float 
 
 ofxDatGuiTextInput* ofxDatGui::addTextInput(string label, string value)
 {
-    ofxDatGuiTextInput* input = new ofxDatGuiTextInput(label, value, mFont);
+    ofxDatGuiTextInput* input = new ofxDatGuiTextInput(label, value, mTemplate);
     input->onTextInputEvent(this, &ofxDatGui::onTextInputEventCallback);
     attachItem(input);
     return input;
@@ -204,7 +218,7 @@ ofxDatGuiTextInput* ofxDatGui::addTextInput(string label, string value)
 
 ofxDatGuiColorPicker* ofxDatGui::addColorPicker(string label, ofColor color)
 {
-    ofxDatGuiColorPicker* picker = new ofxDatGuiColorPicker(label, color, mFont);
+    ofxDatGuiColorPicker* picker = new ofxDatGuiColorPicker(label, color, mTemplate);
     picker->onColorPickerEvent(this, &ofxDatGui::onColorPickerEventCallback);
     attachItem(picker);
     return picker;
@@ -212,30 +226,30 @@ ofxDatGuiColorPicker* ofxDatGui::addColorPicker(string label, ofColor color)
 
 ofxDatGuiDropdown* ofxDatGui::addDropdown(string label, vector<string> options)
 {
-    ofxDatGuiDropdown* dropdown = new ofxDatGuiDropdown(label, options, mFont);
+    ofxDatGuiDropdown* dropdown = new ofxDatGuiDropdown(label, options, mTemplate);
     dropdown->onDropdownEvent(this, &ofxDatGui::onDropdownEventCallback);
     dropdown->onInternalEvent(this, &ofxDatGui::onInternalEventCallback);
     attachItem(dropdown);
     return dropdown;
 }
 
-ofxDatGuiFRM* ofxDatGui::addFRM()
+ofxDatGuiFRM* ofxDatGui::addFRM(float refresh)
 {
-    ofxDatGuiFRM* monitor = new ofxDatGuiFRM();
+    ofxDatGuiFRM* monitor = new ofxDatGuiFRM(refresh, mTemplate);
     attachItem(monitor);
     return monitor;
 }
 
 ofxDatGuiBreak* ofxDatGui::addBreak(int height)
 {
-    ofxDatGuiBreak* brk = new ofxDatGuiBreak(height, mFont);
+    ofxDatGuiBreak* brk = new ofxDatGuiBreak(height, mTemplate);
     attachItem(brk);
     return brk;
 }
 
 ofxDatGui2dPad* ofxDatGui::add2dPad(string label)
 {
-    ofxDatGui2dPad* pad = new ofxDatGui2dPad(label, mFont);
+    ofxDatGui2dPad* pad = new ofxDatGui2dPad(label, mTemplate);
     pad->on2dPadEvent(this, &ofxDatGui::on2dPadEventCallback);
     attachItem(pad);
     return pad;
@@ -243,7 +257,7 @@ ofxDatGui2dPad* ofxDatGui::add2dPad(string label)
 
 ofxDatGui2dPad* ofxDatGui::add2dPad(string label, ofRectangle bounds)
 {
-    ofxDatGui2dPad* pad = new ofxDatGui2dPad(label, bounds, mFont);
+    ofxDatGui2dPad* pad = new ofxDatGui2dPad(label, bounds, mTemplate);
     pad->on2dPadEvent(this, &ofxDatGui::on2dPadEventCallback);
     attachItem(pad);
     return pad;
@@ -251,7 +265,7 @@ ofxDatGui2dPad* ofxDatGui::add2dPad(string label, ofRectangle bounds)
 
 ofxDatGuiMatrix* ofxDatGui::addMatrix(string label, int numButtons, bool showLabels)
 {
-    ofxDatGuiMatrix* matrix = new ofxDatGuiMatrix(label, numButtons, showLabels, mFont);
+    ofxDatGuiMatrix* matrix = new ofxDatGuiMatrix(label, numButtons, showLabels, mTemplate);
     matrix->onMatrixEvent(this, &ofxDatGui::onMatrixEventCallback);
     attachItem(matrix);
     return matrix;
@@ -259,7 +273,7 @@ ofxDatGuiMatrix* ofxDatGui::addMatrix(string label, int numButtons, bool showLab
 
 ofxDatGuiFolder* ofxDatGui::addFolder(string label, ofColor color)
 {
-    ofxDatGuiFolder* folder = new ofxDatGuiFolder(label, color, mFont);
+    ofxDatGuiFolder* folder = new ofxDatGuiFolder(label, color, mTemplate);
     folder->onButtonEvent(this, &ofxDatGui::onButtonEventCallback);
     folder->onSliderEvent(this, &ofxDatGui::onSliderEventCallback);
     folder->on2dPadEvent(this, &ofxDatGui::on2dPadEventCallback);
@@ -584,7 +598,7 @@ void ofxDatGui::collapseGui()
 void ofxDatGui::onMousePressed(ofMouseEventArgs &e)
 {
     if (!mEnabled || !mVisible) return;
-    mousePressed = true;
+    mMousePressed = true;
     if (activeHover != nullptr){
         activeHover->onMousePress(mouse);
         if (activeFocus!= activeHover){
@@ -601,7 +615,7 @@ void ofxDatGui::onMousePressed(ofMouseEventArgs &e)
 void ofxDatGui::onMouseReleased(ofMouseEventArgs &e)
 {
     if (!mEnabled || !mVisible) return;
-    mousePressed = false;
+    mMousePressed = false;
     if (activeHover != nullptr){
         activeHover->onMouseRelease(mouse);
         if (activeFocus!= activeHover){
@@ -672,6 +686,7 @@ bool ofxDatGui::isMouseOverGui()
 void ofxDatGui::update()
 {
     if (mAlphaChanged) setGuiAlpha();
+    if (mTemplateChanged) setGuiTemplate();
     if (mWidthChanged) setGuiWidth();
     if (mAlignmentChanged) setGuiAlignment();
     if (!mEnabled || !mVisible) return;
@@ -682,7 +697,7 @@ void ofxDatGui::update()
         activeHover->onMouseLeave(mouse);
         activeHover = nullptr;
     }
-    if (mousePressed && activeFocus != nullptr){
+    if (mMousePressed && activeFocus != nullptr){
         activeFocus->onMouseDrag(mouse);
     // allow the panel to be repositioned //
         if (mGuiHeader != nullptr && activeFocus == mGuiHeader) {
@@ -709,6 +724,13 @@ void ofxDatGui::setGuiWidth()
     mWidthChanged = false;
 }
 
+void ofxDatGui::setGuiTemplate()
+{
+    for (int i=0; i<items.size(); i++) items[i]->setTemplate(mTemplate);
+    layoutGui();
+    mTemplateChanged = false;
+}
+
 void ofxDatGui::setGuiAlignment()
 {
     for (int i=0; i<items.size(); i++) items[i]->setAlignment(mAlignment);
@@ -720,7 +742,7 @@ void ofxDatGui::draw()
     if (mVisible == false) return;
     ofPushStyle();
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-        ofSetColor(ofxDatGuiColor::GUI_BKGD, mAlpha * 255);
+        ofSetColor(mTemplate->gui.color.bkgd, mAlpha * 255);
         ofDrawRectangle(mPosition.x, mPosition.y, mWidth, mHeight - mRowSpacing);
         if (mExpanded == false){
             mGuiFooter->draw();

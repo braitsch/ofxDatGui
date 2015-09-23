@@ -27,12 +27,12 @@ class ofxDatGuiBreak : public ofxDatGuiComponent{
 
     public:
     
-        ofxDatGuiBreak(int height = 0, ofxDatGuiFont* font=nullptr) : ofxDatGuiComponent("", font)
+        ofxDatGuiBreak(int height = 0, ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiComponent("", tmplt)
         {
-            if (height <= 0){
-                mRow.height *= .1;
-            }   else{
-                mRow.height = height;
+            if (height > 0){
+                mHeight = height;
+            }   else {
+                mHeight = mTemplate->row.height * .1;
             }
         }
     
@@ -40,14 +40,25 @@ class ofxDatGuiBreak : public ofxDatGuiComponent{
         {
             if (!mVisible) return;
             ofPushStyle();
-                ofxDatGuiComponent::drawBkgd();
+                ofFill();
+                ofSetColor(mTemplate->row.color.bkgd, mAlpha);
+                ofDrawRectangle(x, y, mRow.width, mHeight);
             ofPopStyle();
+        }
+    
+        int getHeight()
+        {
+            return mHeight;
         }
     
         bool hitTest(ofPoint m)
         {
             return false;
         }
+    
+    private:
+        float mHeight;
+        
 
 };
 
@@ -55,9 +66,9 @@ class ofxDatGuiLabel : public ofxDatGuiComponent{
 
     public:
         
-        ofxDatGuiLabel(string label, ofxDatGuiFont* font=nullptr) : ofxDatGuiComponent(label, font)
+        ofxDatGuiLabel(string label, ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiComponent(label, tmplt)
         {
-            mStripeColor = ofxDatGuiColor::BUTTON_STRIPE;
+            mStripeColor = mTemplate->button.color.stripe;
         }
     
         void draw()

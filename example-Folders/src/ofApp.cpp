@@ -11,18 +11,18 @@ void ofApp::setup()
     int y = 100;
     ofSetWindowPosition(0, 0);
 
-    f1 = new ofxDatGuiFolder("FOLDER 1", ofxDatGuiColor::BUTTON_STRIPE);
+    f1 = new ofxDatGuiFolder("FOLDER 1", ofColor::fromHex(0xFFD00B));
     f1->addToggle("TOGGLE");
     f1->addBreak();
     f1->addFRM();
     f1->addBreak();
     f1->addSlider("SLIDER", 0, 100);
     f1->addMatrix("MATRIX", 14);
-    f1->addColorPicker("COLOR PICKER", ofxDatGuiColor::SLIDER_STRIPE);
+    f1->addColorPicker("COLOR PICKER", ofColor::fromHex(0x2FA1D6));
     f1->setOrigin(x, y);
     f1->expand();
     
-    f2 = new ofxDatGuiFolder("FOLDER 2", ofxDatGuiColor::INPUT_STRIPE);
+    f2 = new ofxDatGuiFolder("FOLDER 2", ofColor::fromHex(0x1ED36F));
     f2->setOrigin(x + f1->getWidth()+40, y);
     f2->addButton("BUTTON");
     f2->addTextInput("TEXT INPUT", "ENTER A MESSAGE");

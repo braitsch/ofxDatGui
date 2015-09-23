@@ -10,10 +10,10 @@ void ofApp::setup()
     ofSetWindowPosition(0, 0);
 
 // create a vector of colors to populate our dropdown //
-    colors.push_back(ofxDatGuiColor::BUTTON_STRIPE);
-    colors.push_back(ofxDatGuiColor::SLIDER_STRIPE);
-    colors.push_back(ofxDatGuiColor::INPUT_STRIPE);
-    colors.push_back(ofxDatGuiColor::DROPDOWN_STRIPE);
+    colors.push_back(ofColor::fromHex(0xFFD00B));
+    colors.push_back(ofColor::fromHex(0x2FA1D6));
+    colors.push_back(ofColor::fromHex(0x1ED36F));
+    colors.push_back(ofColor::fromHex(0xC63256));
     
 // convert the hex values of those colors to strings for the menu labels //
     vector<string> options;

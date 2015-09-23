@@ -27,14 +27,14 @@ class ofxDatGui2dPad : public ofxDatGuiComponent {
 
     public:
     
-        ofxDatGui2dPad(string label, ofxDatGuiFont* font=nullptr) : ofxDatGuiComponent(label, font)
+        ofxDatGui2dPad(string label, ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiComponent(label, tmplt)
         {
             init();
             mScaleOnResize = true;
             mBounds = ofRectangle(0, 0, ofGetWidth(), ofGetHeight());
         }
     
-        ofxDatGui2dPad(string label, ofRectangle bounds, ofxDatGuiFont* font=nullptr) : ofxDatGuiComponent(label, font)
+        ofxDatGui2dPad(string label, ofRectangle bounds, ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiComponent(label, tmplt)
         {
             init();
             mBounds = bounds;
@@ -61,10 +61,11 @@ class ofxDatGui2dPad : public ofxDatGuiComponent {
         void init()
         {
             reset();
-            mRow.height = 164;
             mType = ofxDatGuiType::PAD2D;
-            mStripeColor = ofxDatGuiColor::PAD2D_STRIPE;
+            mStripeColor = mTemplate->pad2d.color.stripe;
+            mRow.height = mTemplate->pad2d.height;
             mPad = ofRectangle(0, 0, mRow.width-mRow.padding-mRow.inputX, mRow.height-(mRow.padding*2));
+            setWidth(mRow.width);
         }
     
         void reset()
@@ -85,6 +86,14 @@ class ofxDatGui2dPad : public ofxDatGuiComponent {
             }
         }
     
+        void setTemplate(ofxDatGuiTemplate* tmplt)
+        {
+            ofxDatGuiComponent::setTemplate(tmplt);
+            mRow.height = mTemplate->pad2d.height;
+            mPad = ofRectangle(0, 0, mRow.width-mRow.padding-mRow.inputX, mRow.height-(mRow.padding*2));
+            setWidth(mRow.width);
+        }
+    
         void draw()
         {
             if (!mVisible) return;
@@ -97,13 +106,14 @@ class ofxDatGui2dPad : public ofxDatGuiComponent {
                 ofxDatGuiComponent::drawBkgd();
                 ofxDatGuiComponent::drawLabel();
                 ofxDatGuiComponent::drawStripe();
-                ofSetColor(ofxDatGuiColor::INPUT);
+                ofSetColor(mTemplate->row.color.inputArea);
                 ofDrawRectangle(mPad);
                 ofSetLineWidth(2);
-                ofSetColor(ofxDatGuiColor::LABEL);
-                ofDrawCircle(pLocal, 10);
+                ofSetColor(mTemplate->pad2d.color.lines);
                 ofDrawLine(mPad.x, pLocal.y, mPad.x+mPad.width, pLocal.y);
                 ofDrawLine(pLocal.x, mPad.y, pLocal.x, mPad.y+mPad.height);
+                ofSetColor(mTemplate->pad2d.color.circle);
+                ofDrawCircle(pLocal, 10);
             ofPopStyle();
         }
     

@@ -27,23 +27,19 @@ class ofxDatGuiFont{
 
     public:
     
-        ofxDatGuiFont(bool retinaEnabled)
+        ofxDatGuiFont(string file, int size, int padding, ofColor lc, ofColor hc)
         {
-            size = 6;
-            highlightPadding = 3;
-            mRetinaEnabled = retinaEnabled;
-            if (mRetinaEnabled){
-                size*=2;
-                highlightPadding*=2;
-                tFont.load(ofxDatGuiAssetDir+"/font-verdana.ttf", size);
-            }
+            tFont.load(OFXDG_ASSET_DIR+"/"+file, size);
+            labelColor = lc;
+            highlightColor = hc;
+            highlightPadding = padding;
             labelHeight = getStringBoundingBox("ABCDEFG123456", 0, 0).height;
         }
 
         void drawLabel(string text, int xpos, int ypos)
         {
             ofPushStyle();
-                ofSetColor(ofxDatGuiColor::LABEL);
+                ofSetColor(labelColor);
                 if (tFont.isLoaded()){
                     tFont.drawString(text, xpos, ypos+labelHeight/2);
                 }   else{
@@ -62,7 +58,7 @@ class ofxDatGuiFont{
                     hRect.width += highlightPadding*2;
                     hRect.y -= highlightPadding;
                     hRect.height += highlightPadding*2;
-                    ofSetColor(ofxDatGuiColor::TEXT_HIGHLIGHT);
+                    ofSetColor(highlightColor);
                     ofDrawRectangle(hRect);
                 }
                 ofSetColor(color);
@@ -90,6 +86,9 @@ class ofxDatGuiFont{
         int highlightPadding;
     
     private:
+    
+        ofColor labelColor;
+        ofColor highlightColor;
         ofBitmapFont bFont;
         ofTrueTypeFont tFont;
         bool mRetinaEnabled;

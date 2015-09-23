@@ -18,7 +18,7 @@ void ofApp::setup()
     component->setOrigin(x, y);
     component->onButtonEvent(this, &ofApp::onButtonEvent);
     components.push_back(component);
-    
+
     y += component->getHeight() + p;
     component = new ofxDatGuiToggle("TOGGLE", false);
     component->setOrigin(x, y);
@@ -30,19 +30,19 @@ void ofApp::setup()
     component->setOrigin(x, y);
     component->onMatrixEvent(this, &ofApp::onMatrixEvent);
     components.push_back(component);
-    
+
     y += component->getHeight() + p;
     component = new ofxDatGuiTextInput("TEXT INPUT", "# OPEN FRAMEWORKS #");
     component->setOrigin(x, y);
     component->onTextInputEvent(this, &ofApp::onTextInputEvent);
     components.push_back(component);
-    
+
     y += component->getHeight() + p;
-    component = new ofxDatGuiColorPicker("COLOR PICKER", ofxDatGuiColor::BUTTON_STRIPE);
+    component = new ofxDatGuiColorPicker("COLOR PICKER", ofColor::fromHex(0xFFD00B));
     component->setOrigin(x, y);
     component->onColorPickerEvent(this, &ofApp::onColorPickerEvent);
     components.push_back(component);
-    
+
     y = 100;
     x += component->getWidth() + p+60;
 
@@ -83,7 +83,7 @@ void ofApp::update()
 void ofApp::draw()
 {
 // pattern the background //
-    for(int i=0; i < ofGetHeight(); i += 400) for(int j = 0; j < ofGetWidth(); j += 400) bkgd.draw(j, i, 400, 400);
+ //   for(int i=0; i < ofGetHeight(); i += 400) for(int j = 0; j < ofGetWidth(); j += 400) bkgd.draw(j, i, 400, 400);
     for(int i=0; i<components.size(); i++) components[i]->draw();
 }
 

@@ -27,11 +27,11 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
 
     public:
     
-        ofxDatGuiColorPicker(string label, ofColor color=ofColor::black, ofxDatGuiFont* font=nullptr) : ofxDatGuiTextInput(label, "XXXXXX", font)
+        ofxDatGuiColorPicker(string label, ofColor color=ofColor::black, ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiTextInput(label, "XXXXXX", tmplt)
         {
             mColor = color;
             mType = ofxDatGuiType::COLOR_PICKER;
-            mStripeColor = ofxDatGuiColor::TOGGLE_STRIPE;
+            mStripeColor = mTemplate->colorPicker.color.stripe;
             
         // center the text input field //
             input->setTextInputFieldType(ofxDatGuiTextInputField::COLORPICKER);
@@ -44,7 +44,7 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
             rainbowHeight = pickerRect.height -(mRow.padding*2);
             rainbowRect = ofRectangle(0, 0, rainbowWidth, rainbowHeight);
             gradientRect = ofRectangle(0, 0, pickerRect.width-rainbowRect.width-(mRow.padding*3), rainbowHeight);
-            if (rainbow.isAllocated() == false) rainbow.load(ofxDatGuiAssetDir+"/picker-rainbow.png");
+            if (rainbow.isAllocated() == false) rainbow.load(OFXDG_ASSET_DIR+"/picker-rainbow.png");
             
         // setup the vbo that draws the gradient //
             gPoints.push_back(ofVec2f(0, 0));
@@ -117,7 +117,7 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
                     gPoints[2] = ofVec2f(gradientRect.x+ gradientRect.width, gradientRect.y+gradientRect.height);
                     gPoints[3] = ofVec2f(gradientRect.x, gradientRect.y+gradientRect.height);
                     vbo.setVertexData(&gPoints[0], 4, GL_DYNAMIC_DRAW );
-                    ofSetColor(ofxDatGuiColor::LABEL);
+                    ofSetColor(mTemplate->row.color.label);
                     ofDrawRectangle(pickerRect);
                     ofSetColor(ofColor::white);
                     rainbow.draw(rainbowRect);
@@ -130,7 +130,7 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
         {
             if (mShowPicker){
                 ofPushStyle();
-                    ofSetColor(ofxDatGuiColor::LABEL);
+                    ofSetColor(mTemplate->row.color.label);
                     ofDrawRectangle(pickerRect);
                     ofSetColor(ofColor::white);
                     rainbow.draw(rainbowRect);

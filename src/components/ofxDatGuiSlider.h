@@ -28,21 +28,19 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
 
     public:
     
-        ofxDatGuiSlider(string label, float min, float max, float val, ofxDatGuiFont* font=nullptr) : ofxDatGuiComponent(label, font)
+        ofxDatGuiSlider(string label, float min, float max, float val, ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiComponent(label, tmplt)
         {
             mMin = min;
             mMax = max;
             mVal = val;
             mType = ofxDatGuiType::SLIDER;
-            mStripeColor = ofxDatGuiColor::SLIDER_STRIPE;
-            input = new ofxDatGuiTextInputField(mRow.height-(mRow.padding*2), mFont);
-            input->setTextInactiveColor(ofxDatGuiColor::SLIDER);
+            mStripeColor = mTemplate->slider.color.stripe;
+            input = new ofxDatGuiTextInputField(mRow.height-(mRow.padding*2), mTemplate);
+            input->setTextInactiveColor(mTemplate->slider.color.text);
             input->setTextInputFieldType(ofxDatGuiTextInputField::NUMERIC);
             input->onInternalEvent(this, &ofxDatGuiSlider::onInputChanged);
             calcScale();
-        // set width & position of the text input field //
-            setOrigin(0, 0);
-            setWidth(mRetinaEnabled ? 540 : 320);
+            setWidth(mRow.width);
         }
     
         ofxDatGuiSlider(string label, float min, float max) : ofxDatGuiSlider(label, min, max, (max+min)/2) {}
@@ -101,6 +99,14 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
             ofxDatGuiComponent::setOrigin(x, y);
             input->setOrigin(x + mSlider.inputX, y + mRow.padding);
         }
+    
+        void setTemplate(ofxDatGuiTemplate* tmplt)
+        {
+            ofxDatGuiComponent::setTemplate(tmplt);
+            input->setTemplate(tmplt);
+            input->setTextInactiveColor(mTemplate->slider.color.text);
+            setWidth(mRow.width);
+        }
 
     /*
         data binding - experiemental feature
@@ -158,11 +164,11 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
                 ofxDatGuiComponent::drawLabel();
                 ofxDatGuiComponent::drawStripe();
             // slider bkgd //
-                ofSetColor(ofxDatGuiColor::INPUT);
+                ofSetColor(mTemplate->row.color.inputArea);
                 ofDrawRectangle(x+mRow.inputX, y+mRow.padding, mSlider.width, mRow.height-(mRow.padding*2));
             // slider fill //
                 if (mScale > 0){
-                    ofSetColor(ofxDatGuiColor::SLIDER);
+                    ofSetColor(mTemplate->slider.color.fill);
                     ofDrawRectangle(x+mRow.inputX, y+mRow.padding, mSlider.width*mScale, mRow.height-(mRow.padding*2));
                 }
             // numeric input field //

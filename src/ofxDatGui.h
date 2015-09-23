@@ -41,6 +41,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         void setEnabled(bool enabled);
         void setOpacity(float opacity);
         void setAutoDraw(bool autodraw);
+        void setTemplate(ofxDatGuiTemplate* t);
         void setAlignment(ofxDatGuiAlignment align);
     
         int getWidth();
@@ -56,13 +57,13 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofxDatGuiSlider* addSlider(string label, float min, float max, float val);
         ofxDatGuiTextInput* addTextInput(string label, string value = "");
         ofxDatGuiDropdown* addDropdown(string label, vector<string> options);
-        ofxDatGuiFRM* addFRM();
+        ofxDatGuiFRM* addFRM(float refresh = 1.0f);
         ofxDatGuiBreak* addBreak(int height = 0);
         ofxDatGui2dPad* add2dPad(string label);
         ofxDatGui2dPad* add2dPad(string label, ofRectangle bounds);
         ofxDatGuiColorPicker* addColorPicker(string label, ofColor color = ofColor::black);
         ofxDatGuiMatrix* addMatrix(string label, int numButtons, bool showLabels = false);
-        ofxDatGuiFolder* addFolder(string label, ofColor color = ofxDatGuiColor::LABEL);
+        ofxDatGuiFolder* addFolder(string label, ofColor color = ofColor::white);
     
         ofxDatGuiHeader* getHeader();
         ofxDatGuiFooter* getFooter();
@@ -87,18 +88,19 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         bool mExpanded;
         bool mAlphaChanged;
         bool mWidthChanged;
+        bool mMousePressed;
+        bool mTemplateChanged;
         bool mAlignmentChanged;
-        ofxDatGuiAlignment mAlignment;
     
-        bool mousePressed;
         ofPoint mouse;
         ofPoint mPosition;
-        ofxDatGuiFont* mFont;
         ofxDatGuiAnchor mAnchor;
-        ofxDatGuiComponent* activeHover;
-        ofxDatGuiComponent* activeFocus;
         ofxDatGuiHeader* mGuiHeader;
         ofxDatGuiFooter* mGuiFooter;
+        ofxDatGuiComponent* activeHover;
+        ofxDatGuiComponent* activeFocus;
+        ofxDatGuiTemplate* mTemplate;
+        ofxDatGuiAlignment mAlignment;
         vector<ofxDatGuiComponent*> items;
         vector<ofxDatGuiComponent*> trash;
     
@@ -112,6 +114,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         void adjustHeight(int index);
         void setGuiAlpha();
         void setGuiWidth();
+        void setGuiTemplate();
         void setGuiAlignment();
     
         void onDraw(ofEventArgs &e);

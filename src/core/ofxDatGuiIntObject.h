@@ -22,8 +22,14 @@
 
 #pragma once
 #include "ofxDatGuiEvents.h"
-#include "ofxDatGuiFont.h"
 #include "ofxDatGuiConstants.h"
+#include "ofxDatGuiTemplates.h"
+
+namespace ofxDatGuiMsg
+{
+    const string EVENT_HANDLER_NULL = "[WARNING] :: Event Handler Not Set";
+    const string COMPONENT_NOT_FOUND = "[ERROR] :: Component Not Found";
+}
 
 class ofxDatGuiLog {
 
@@ -42,6 +48,11 @@ class ofxDatGuiLog {
         }
         static bool mQuiet;
 };
+
+inline static bool ofxDatGuiIsRetina()
+{
+    return (ofGetScreenWidth()>=OFXDG_RETINA_MIN_WIDTH && ofGetScreenHeight()>=OFXDG_RETINA_MIN_HEIGHT);
+}
 
 class ofxDatGuiInteractiveObject{
 

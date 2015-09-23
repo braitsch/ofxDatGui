@@ -28,6 +28,7 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
     public:
     
         ofxDatGuiComponent(string label, ofxDatGuiFont* font=nullptr);
+        ofxDatGuiComponent(string label, ofxDatGuiTemplate* font=nullptr);
         virtual ~ofxDatGuiComponent();
     
         vector<ofxDatGuiComponent*> children;
@@ -57,6 +58,7 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         virtual void setY(int y);
         virtual void setWidth(int w);
         virtual void setOrigin(int x, int y);
+        virtual void setTemplate(ofxDatGuiTemplate* t);
         virtual void setAlignment(ofxDatGuiAlignment align);
         virtual int  getWidth();
         virtual int  getHeight();
@@ -94,6 +96,7 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         ofxDatGuiType mType;
         ofxDatGuiFont* mFont;
         ofxDatGuiAnchor mAnchor;
+        ofxDatGuiTemplate* mTemplate;
         ofxDatGuiAlignment mLabelAlignment;
     
         struct {
@@ -126,8 +129,9 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
     
         void drawLabel();
         void drawLabel(string label);
+        void drawBkgd();
+        void drawBkgd(ofColor color, int alpha);
         void drawStripe();
-        void drawBkgd(ofColor color=ofxDatGuiColor::ROW_BKGD, int alpha=-1);
     
 };
 

@@ -6,8 +6,8 @@
 class ofApp : public ofBaseApp{
 
 	public:
-		void setup();
-		void draw();
+        void setup();
+        void draw();
         void update();
     
         ofxDatGui* gui;
@@ -24,4 +24,3 @@ class ofApp : public ofBaseApp{
         void onMatrixEvent(ofxDatGuiMatrixEvent e);
 
 };
-

@@ -1,8 +1,8 @@
 ##ofxDatGui
 
-**ofxDatGui** is a **simple to use**, lightweight, high-resolution graphical user interface for [openFrameworks](http://openframeworks.cc/) inspired by the popular JavaScript [datgui](http://workshop.chromeexperiments.com/examples/gui/) interface.  
+**ofxDatGui** is a **simple to use**, fully customizable, high-resolution graphical user interface for [openFrameworks](http://openframeworks.cc/) inspired by the popular JavaScript [datgui](http://workshop.chromeexperiments.com/examples/gui/) interface.  
 
-[![ofxDatGui](./readme-img/ofxdatgui_03.png?raw=true)](https://www.youtube.com/watch?v=IrmABSyabng)
+[![ofxDatGui](./readme-img/ofxdatgui_03.png)](https://www.youtube.com/watch?v=IrmABSyabng)
 
 ##Features
 
@@ -14,10 +14,12 @@
 * Range Sliders
 * Dropdown Menus
 * Button Matrices
+* Coordinate Pads
+* Variable Binding
 * Framerate Monitor
-* 2D Coordinate Pads
+* Completely Customizable
 * Folders to group components together
-* An optional header & footer that allow you to collapse and drag the Gui around
+* An optional header & footer that allow you to title the gui, collapse and drag it around
 
 ##Installation
 
@@ -142,7 +144,19 @@ The bounds parameter is optional and will default to the window dimensions if om
 	gui->addLabel("Below");
 
 ![ofxDatGui](./readme-img/ofxdatgui_break.png?raw=true)
+
+##Headers & Footers
+
+**ofxDatGui** also provides an optional header and footer that allows you to title your gui, drag it around and conveniently collapse and expand it. The ```AllComponentsGui``` example offers a nice demonstration of their use.
+
+	gui->addHeader(":: Drag Me To Reposition ::");
 	
+![ofxDatGui](./readme-img/ofxdatgui_header.png?raw=true)
+	
+	gui->addFooter();
+ 
+![ofxDatGui](./readme-img/ofxdatgui_footer.png?raw=true)
+
 ##Component Groups (Folders)
 
 You can also group related components into folders. When constructing a folder pass in a label to name the folder and an optional color to help visually group its contents.
@@ -160,7 +174,7 @@ All components can be nested into folders with the exception of other folders an
 
 ---
 	
-Folders and dropdown menus can be expanded and collapsed programmatically.
+Folders and dropdown menus can also be expanded and collapsed programmatically.
 
 	folder->expand();
 	folder->collapse();
@@ -272,6 +286,29 @@ If you have multiple components with the same name nested in separate folders ju
 	
 Otherwise the function will return the first component whose name & type match the query.
 	
+## Variable Binding
+
+**ofxDatGui** sliders & coordinate pads can also be bound to object variables. Just pass a reference to the variable to the component and set a range by which to limit its movement.
+
+For example the following snippet binds a circle's position to a range slider and limits its movement to the width & height of the screen.
+
+```cpp
+// draw a circle with a radius of 100px
+// and position it in the middle of the screen //
+	circle = new Circle(100);
+	circle->x = ofGetWidth()/2;
+	circle->y = ofGetHeight()/2;
+    
+// instantiate a gui and a couple of range sliders //
+	gui = new ofxDatGui( ofxDatGuiAnchor::TOP_RIGHT );
+	ofxDatGuiSlider* sx = gui->addSlider("CIRCLE X", 0, 100);
+	ofxDatGuiSlider* sy = gui->addSlider("CIRCLE Y", 0, 100);
+    
+// bind the circle's x & y movement to the sliders //
+	sx->bind(&circle->x, 0, ofGetWidth());
+	sy->bind(&circle->y, 0, ofGetHeight());
+```
+	
 ## Events
 
 **ofxDatGuiEvents** are designed to be as easy as possible to interact with.
@@ -370,29 +407,62 @@ All events also contain additonal properties that allow convenient access to the
 	ofxDatGuiSliderEvent e
 	float value = e.target->getValue();
 	float scale = e.target->getScale();
-	
-		
-##Headers & Footers
-
-**ofxDatGui** also provides an optional header and footer that allows you to title your gui, drag it around and conveniently collapse and expand it. The ```GuiComponents``` example for offers a nice demonstration of their use.
-
-	gui->addHeader(":: Drag Me To Reposition ::");
-	
-![ofxDatGui](./readme-img/ofxdatgui_header.png?raw=true)
-	
-	gui->addFooter();
  
-![ofxDatGui](./readme-img/ofxdatgui_footer.png?raw=true)
+##Customization
 
-##Automatic Rendering
+Just about every aspect of **ofxDatGui's** appearance can be tailored to meet your needs.
 
-**ofxDatGui** automatically updates and draws itself on top of your application so there is no need to call ```update``` or ```draw``` on it. However you can easily disable this if you like via:
+Customization is accomplished via extensible templates where you define how you want **ofxDatGui** to render.
 
-	gui->setAutoDraw(bool enabled);
- 
+Just create a class that extends ``ofxDatGuiTemplate`` and pass it to **ofxDatGui** or any component via ``gui->setTemplate()``
+
+```cpp
+class myCustomTemplate : public ofxDatGuiTemplate
+{
+    public:
+        myCustomTemplate() {
+        // row characteristics //
+            row.width	= 540;
+            row.height	= 52;
+            row.padding	= 4;
+            row.spacing	= 2;
+            row.stripeWidth = 4;
+        // font characteristics //
+            font.file	= "PillGothic-Light.ttf"
+            font.size   = 12;
+            font.highlightPadding = 4;
+        // component colors //
+            color.rowBkgd	= ofColor::lightGray;
+            color.button	= ofColor::fromHex(0xFFD00B);
+            color.slider	= ofColor::fromHex(0x2FA1D6);
+            color.rowMouseOver = ofColor::fromHex(0x777777);
+		// after everything is setup initialize the template // 
+            init();
+        }
+};
+
+// assign this template to a gui instance //
+	gui = new ofxDatGui();
+	gui->setTemplate(new myCustomTemplate());
+
+```
+
+Take a look at the [ofxDatGuiTemplate](./src/templates/ofxDatGuiTemplate.h) base class for a list of everything that can be customized.
+
+---
+
+Aditionally all components and gui instances provide the following instance methods.
+
+ 	setWidth(int width);
+ 	setOrigin(int x, int y);
+	setOpacity(float opacity); // a value between 0 & 1 //
+	setVisible(bool visible);
+	setEnabled(bool enabled);
+	setAlignment(ofxDatGuiAlignment alignment);
+
 ##Label Alignment
 
-You can easily set the label alignment for each component or on **ofxDatGui** itself via:
+You can set the label alignment for each component or on **ofxDatGui** itself via:
 
 	gui->setAlignment(ofxDatGuiAlignment alignment);
 
@@ -401,18 +471,12 @@ Valid values are:
  	ofxDatGuiAlignment::LEFT
  	ofxDatGuiAlignment::CENTER
  	ofxDatGuiAlignment::RIGHT
- 
-##Customization
 
-Aditionally all components provide the following instance methods.
+##Automatic Rendering
 
- 	setWidth(int width);
- 	setOrigin(int x, int y);
-	setOpacity(float opacity); // a value between 0 & 1 //
-	setVisible(bool visible);
-	setEnabled(bool enabled);
-	setStripeColor(ofColor color);
-	setAlignment(ofxDatGuiAlignment alignment);
+**ofxDatGui** automatically updates and draws itself on top of your application so there is no need to call ```update``` or ```draw``` on it. However you can easily disable this if you like via:
+
+	gui->setAutoDraw(bool enabled);
 
 ##Logging
 

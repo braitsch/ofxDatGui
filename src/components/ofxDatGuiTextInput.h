@@ -27,16 +27,15 @@
 class ofxDatGuiTextInput : public ofxDatGuiComponent {
 
     public:
-        ofxDatGuiTextInput(string label, string text = "", ofxDatGuiFont* font=nullptr) : ofxDatGuiComponent(label, font)
+        ofxDatGuiTextInput(string label, string text = "", ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiComponent(label, tmplt)
         {
             mType = ofxDatGuiType::TEXT_INPUT;
-            mStripeColor = ofxDatGuiColor::INPUT_STRIPE;
-            input = new ofxDatGuiTextInputField(mRow.height-(mRow.padding*2), mFont);
+            mStripeColor = mTemplate->textInput.color.stripe;
+            input = new ofxDatGuiTextInputField(mRow.height-(mRow.padding*2), mTemplate);
             input->setText(text);
+            input->setTextInactiveColor(mTemplate->textInput.color.text);
             input->onInternalEvent(this, &ofxDatGuiTextInput::onInputChanged);
-        // set width & position of the text input field //
-            setOrigin(0, 0);
-            setWidth(mRetinaEnabled ? 540 : 320);
+            setWidth(mRow.width);
         }
     
         ~ofxDatGuiTextInput()
@@ -64,6 +63,14 @@ class ofxDatGuiTextInput : public ofxDatGuiComponent {
             ofxDatGuiComponent::setWidth(w);
             input->setOrigin(x + mRow.inputX, y + mRow.padding);
             input->setWidth(mRow.width-mRow.padding-mRow.inputX);
+        }
+    
+        void setTemplate(ofxDatGuiTemplate* tmplt)
+        {
+            ofxDatGuiComponent::setTemplate(tmplt);
+            input->setTemplate(tmplt);
+            input->setTextInactiveColor(mTemplate->textInput.color.text);
+            setWidth(mRow.width);
         }
     
         void setOrigin(int x, int y)

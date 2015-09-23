@@ -24,43 +24,43 @@
 
 bool ofxDatGuiLog::mQuiet = false;
 
-ofxDatGuiComponent::ofxDatGuiComponent(string label, ofxDatGuiFont* font)
+ofxDatGuiComponent::ofxDatGuiComponent(string label, ofxDatGuiTemplate* tmplt)
 {
     mAlpha = 255;
+    mName = label;
+    mLabel = label;
     mVisible = true;
     mEnabled = true;
     mFocused = false;
     mMouseOver = false;
     mMouseDown = false;
     mLabelMarginRight = 0;
+    mRetinaEnabled = ofxDatGuiIsRetina();
     mAnchor = ofxDatGuiAnchor::NO_ANCHOR;
     mLabelAlignment = ofxDatGuiAlignment::LEFT;
-    mRetinaEnabled = (ofGetScreenWidth()>=2560 && ofGetScreenHeight()>=1600);
-    mIcon.y = 8;
-    mIcon.size = 10;
-    mRow.width = 320;
-    mRow.height = 26;
-    mRow.padding = 2;
-    mRow.spacing = 1;
-    mRow.stripeWidth = 2;
-    if (mRetinaEnabled){
-        mRow.width = 540;
-        mIcon.y *=2;
-        mIcon.size *=2;
-        mRow.height *=2;
-        mRow.padding*=2;
-        mRow.spacing*=2;
-        mRow.stripeWidth*=2;
+    if (tmplt == nullptr){
+// load a default layout template //
+        if (mRetinaEnabled == false){
+            tmplt = new ofxDatGui1440x900();
+        }   else{
+            tmplt = new ofxDatGui2880x1800();
+        }
     }
-    if (font!=nullptr) {
-        mFont = font;
-    }   else{
-        mFont = new ofxDatGuiFont(mRetinaEnabled);
-    }
-    setName(label);
-    setLabel(label);
-    setOrigin(0, 0);
-    setWidth(mRow.width);
+    setTemplate(tmplt);
+}
+
+void ofxDatGuiComponent::setTemplate(ofxDatGuiTemplate* tmplt)
+{
+    mTemplate = tmplt;
+    mRow.width = mTemplate->row.width;
+    mRow.height = mTemplate->row.height;
+    mRow.padding = mTemplate->row.padding;
+    mRow.spacing = mTemplate->row.spacing;
+    mRow.stripeWidth = mTemplate->row.stripeWidth;
+    mIcon.y = mRow.height * .33;
+    mIcon.size = mRetinaEnabled ? 20 : 10;
+    mFont = mTemplate->font.ttf;
+    setLabel(mLabel);
 }
 
 ofxDatGuiComponent::~ofxDatGuiComponent()
@@ -137,7 +137,7 @@ void ofxDatGuiComponent::setWidth(int w)
     mSlider.width=mRow.rWidth*.7;
     mSlider.inputX=mRow.inputX+mSlider.width+mRow.padding;
     mSlider.inputWidth=mRow.rWidth-mSlider.width-(mRow.padding*2);
-    for (int i=0; i<children.size(); i++) children[i]->setWidth(w);
+ //   for (int i=0; i<children.size(); i++) children[i]->setWidth(w);
 }
 
 void ofxDatGuiComponent::setVisible(bool visible)
@@ -256,11 +256,16 @@ void ofxDatGuiComponent::update()
     if (getIsExpanded()) for(int i=0; i<children.size(); i++) children[i]->update();
 }
 
+void ofxDatGuiComponent::drawBkgd()
+{
+    drawBkgd(mTemplate->row.color.bkgd, mAlpha);
+}
+
 void ofxDatGuiComponent::drawBkgd(ofColor color, int alpha)
 {
     ofPushStyle();
         ofFill();
-        ofSetColor(color, alpha!=-1 ? alpha  : mAlpha);
+        ofSetColor(color, alpha);
         ofDrawRectangle(x, y, mRow.width, mRow.height);
     ofPopStyle();
 }
