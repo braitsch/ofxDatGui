@@ -162,7 +162,7 @@ You can change the header's label just like any other component by calling:
 ```cpp
 gui->getHeader()->setLabel("PANEL 1");
 ```
-Footers have two labels that each map to the gui's expanded and collapsed states.<br>By default these labels are "Collapse Controls" and "Expand Controls" however you can override these defaults by via:
+Footers however have two labels that each map to the gui's expanded and collapsed states.<br>By default these labels are "Collapse Controls" and "Expand Controls" although you can override these defaults via:
 
 ```cpp
 gui->getFooter()->setLabelWhenExpanded("CLOSE PANEL 1");
