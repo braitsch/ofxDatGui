@@ -210,7 +210,10 @@ void ofxDatGuiComponent::setStripeColor(ofColor color)
     mStripeColor = color;
 }
 
-bool ofxDatGuiComponent::getIsExpanded(){}
+bool ofxDatGuiComponent::getIsExpanded()
+{
+	return false;
+}
 
 /*
     draw methods
