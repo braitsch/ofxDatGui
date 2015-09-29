@@ -505,6 +505,8 @@ void ofxDatGui::onDropdownEventCallback(ofxDatGuiDropdownEvent e)
     }   else{
         ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
     }
+// adjust the gui after a dropdown is closed //
+    layoutGui();
 }
 
 void ofxDatGui::on2dPadEventCallback(ofxDatGui2dPadEvent e)

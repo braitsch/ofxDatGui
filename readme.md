@@ -157,6 +157,17 @@ The bounds parameter is optional and will default to the window dimensions if om
  
 ![ofxDatGui](./readme-img/ofxdatgui_footer.png?raw=true)
 
+You can change the header's label just like any other component by calling:
+
+```cpp
+gui->getHeader()->setLabel("PANEL 1");
+```
+Footers have two labels that each map to the gui's expanded and collapsed states.<br>By default these labels are "Collapse Controls" and "Expand Controls" however you can override these defaults by via:
+
+```cpp
+gui->getFooter()->setLabelWhenExpanded("CLOSE PANEL 1");
+gui->getFooter()->setLabelWhenCollapsed("EXPAND PANEL 1");
+```
 ##Component Groups (Folders)
 
 You can also group related components into folders. When constructing a folder pass in a label to name the folder and an optional color to help visually group its contents.

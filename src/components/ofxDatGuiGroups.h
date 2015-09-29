@@ -37,8 +37,17 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
         ofxDatGuiGroup(string label, ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiButton(label, tmplt)
         {
             mIsExpanded = false;
-            mChildrenHeight = 0;
             if (mImage.isAllocated() == false) mImage.load(OFXDG_ASSET_DIR+"/icon-dropdown.png");
+        }
+    
+        int getHeight()
+        {
+            return mHeight;
+        }
+    
+        bool getIsExpanded()
+        {
+            return mIsExpanded;
         }
     
         void setWidth(int w)
@@ -50,41 +59,7 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
         void setOrigin(int x, int y)
         {
             ofxDatGuiComponent::setOrigin(x, y);
-            int ypos = mRow.height + mRow.spacing;
-            for(int i=0; i<children.size(); i++){
-                if (mIsExpanded){
-                    children[i]->setOrigin(x, y + (ypos*(i+1)));
-                }   else{
-                    children[i]->setOrigin(x, y);
-                }
-            }
-        }
-    
-        void setY(int y)
-        {
-            ofxDatGuiComponent::setY(y);
-            int ypos = mRow.height + mRow.spacing;
-            for(int i=0; i<children.size(); i++) {
-                if (mIsExpanded){
-                    children[i]->setY(y + (ypos*(i+1)));
-                }   else{
-                    children[i]->setY(y);
-                }
-            }
-        }
-    
-        int getHeight()
-        {
-            if (!mIsExpanded){
-                return mRow.height;
-            }   else{
-                return mRow.height + mChildrenHeight;
-            }
-        }
-    
-        bool getIsExpanded()
-        {
-            return mIsExpanded;
+            layout();
         }
     
         void draw()
@@ -115,10 +90,11 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
     
         void onMouseRelease(ofPoint m)
         {
-    // open & close the group when its header is clicked //
+        // open & close the group when its header is clicked //
             ofxDatGuiComponent::onMouseRelease(m);
             mIsExpanded ? collapse() : expand();
-            if (internalEventCallback!=nullptr){
+        // dispatch an event out to the gui panel to adjust its children //
+            if (internalEventCallback != nullptr){
                 ofxDatGuiInternalEvent e(ofxDatGuiEventType::DROPDOWN_TOGGLED, mIndex);
                 internalEventCallback(e);
             }
@@ -127,26 +103,40 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
         void expand()
         {
             mIsExpanded = true;
-            int mHeight = mRow.height + mRow.spacing;
-            for (int i=0; i<children.size(); i++) {
-                children[i]->setOrigin(x, y + mHeight);
-                mHeight += children[i]->getHeight() + mRow.spacing;
-            }
+            layout();
         }
     
         void collapse()
         {
             mIsExpanded = false;
-            for(int i=0; i<children.size(); i++) {
-                children[i]->setOrigin(x, y);
+            layout();
+        }
+    
+        void layout()
+        {
+            mHeight = mRow.height + mRow.spacing;
+            for (int i=0; i<children.size(); i++) {
+                if (children[i]->getVisible() == false) continue;
+                if (mIsExpanded == false){
+                    children[i]->setOrigin(x, y + mHeight);
+                }   else{
+                    children[i]->setOrigin(x, y + mHeight);
+                    mHeight += children[i]->getHeight() + mRow.spacing;
+                }
             }
+        }
+    
+        void dispatchInternalEvent(ofxDatGuiInternalEvent e)
+        {
+            if (e.type == ofxDatGuiEventType::VISIBILITY_CHANGED) layout();
+            internalEventCallback(e);
         }
     
     protected:
     
+        int mHeight;
         ofImage mImage;
         bool mIsExpanded;
-        int mChildrenHeight;
     
 };
 
@@ -333,10 +323,8 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
         void attachItem(ofxDatGuiComponent* item)
         {
             item->setIndex(children.size());
+            item->onInternalEvent(this, &ofxDatGuiFolder::dispatchInternalEvent);
             children.push_back(item);
-        // recalculate the group's height //
-            mChildrenHeight = 0;
-            for(int i=0; i<children.size(); i++) mChildrenHeight += children[i]->getHeight() + mRow.spacing;
         }
     
         ofxDatGuiComponent* getComponent(ofxDatGuiType type, string label)
@@ -389,7 +377,6 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
                 opt->onButtonEvent(this, &ofxDatGuiDropdown::onOptionSelected);
                 children.push_back(opt);
             }
-            mChildrenHeight = children.size() * (mRow.height+mRow.spacing);
         }
     
         static ofxDatGuiDropdown* getInstance()

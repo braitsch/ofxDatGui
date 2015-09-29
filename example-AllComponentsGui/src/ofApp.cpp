@@ -101,7 +101,7 @@ void ofApp::on2dPadEvent(ofxDatGui2dPadEvent e)
 
 void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
 {
-    cout << "onDropdownEvent: " << e.target->getLabel() << " Selected Child Index: " << e.target->getSelected() << endl;
+    cout << "onDropdownEvent: " << e.target->getLabel() << " Selected" << endl;
 }
 
 void ofApp::onColorPickerEvent(ofxDatGuiColorPickerEvent e)
