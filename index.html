@@ -201,6 +201,15 @@ gui-&gt;addLabel("Below");
 
 <p><img src="https://raw.githubusercontent.com/braitsch/ofxDatGui/master/readme-img/ofxdatgui_footer.png?raw=true" alt="ofxDatGui"></p>
 
+<p>You can change the header's label just like any other component by calling:</p>
+
+<div class="highlight highlight-source-c++"><pre>gui-&gt;<span class="pl-en">getHeader</span>()-&gt;setLabel(<span class="pl-s"><span class="pl-pds">"</span>PANEL 1<span class="pl-pds">"</span></span>);</pre></div>
+
+<p>Footers however have two labels that each map to the gui's expanded and collapsed states.<br>By default these labels are "Collapse Controls" and "Expand Controls" although you can override these defaults via:</p>
+
+<div class="highlight highlight-source-c++"><pre>gui-&gt;<span class="pl-en">getFooter</span>()-&gt;setLabelWhenExpanded(<span class="pl-s"><span class="pl-pds">"</span>CLOSE PANEL 1<span class="pl-pds">"</span></span>);
+gui-&gt;<span class="pl-en">getFooter</span>()-&gt;setLabelWhenCollapsed(<span class="pl-s"><span class="pl-pds">"</span>EXPAND PANEL 1<span class="pl-pds">"</span></span>);</pre></div>
+
 <h2>
 <a id="component-groups-folders" class="anchor" href="#component-groups-folders" aria-hidden="true"><span class="octicon octicon-link"></span></a>Component Groups (Folders)</h2>
 
