@@ -232,7 +232,6 @@ ofxDatGuiDropdown* ofxDatGui::addDropdown(string label, vector<string> options)
 {
     ofxDatGuiDropdown* dropdown = new ofxDatGuiDropdown(label, options, mTemplate);
     dropdown->onDropdownEvent(this, &ofxDatGui::onDropdownEventCallback);
-    dropdown->onInternalEvent(this, &ofxDatGui::onInternalEventCallback);
     attachItem(dropdown);
     return dropdown;
 }
@@ -296,18 +295,8 @@ void ofxDatGui::attachItem(ofxDatGuiComponent* item)
     }   else {
         items.push_back( item );
     }
+    item->onInternalEvent(this, &ofxDatGui::onInternalEventCallback);
     layoutGui();
-}
-
-void ofxDatGui::layoutGui()
-{
-    mHeight = 0;
-    for (int i=0; i<items.size(); i++) {
-        items[i]->setIndex(i);
-        items[i]->setOrigin(mPosition.x, mPosition.y + mHeight);
-        mHeight += items[i]->getHeight() + mRowSpacing;
-    }
-    mHeightMinimum = mHeight;
 }
 
 /*
@@ -511,7 +500,6 @@ void ofxDatGui::onTextInputEventCallback(ofxDatGuiTextInputEvent e)
 
 void ofxDatGui::onDropdownEventCallback(ofxDatGuiDropdownEvent e)
 {
-    adjustHeight(e.parent);
     if (dropdownEventCallback != nullptr) {
         dropdownEventCallback(e);
     }   else{
@@ -550,29 +538,39 @@ void ofxDatGui::onInternalEventCallback(ofxDatGuiInternalEvent e)
 {
 // these events are not dispatched out to the main application //
     if (e.type == ofxDatGuiEventType::DROPDOWN_TOGGLED){
-        adjustHeight(e.index);
+        layoutGui();
     }   else if (e.type == ofxDatGuiEventType::GUI_TOGGLED){
-        mGuiFooter->getIsExpanded() ? collapseGui() : expandGui();
+        mExpanded ? collapseGui() : expandGui();
+    }   else if (e.type == ofxDatGuiEventType::VISIBILITY_CHANGED){
+        layoutGui();
     }
 }
 
-void ofxDatGui::adjustHeight(int index)
-{
-    ofxDatGuiComponent* target = items[index];
-    mHeight = target->getY() - mPosition.y + target->getHeight() + mRowSpacing;
-    for (uint8_t i=index+1; i<items.size(); i++){
-        items[i]->setY(mPosition.y + mHeight);
-        mHeight += items[i]->getHeight() + mRowSpacing;
-    }
-    mWidthChanged = true;
-}
+/*
+    layout, position and anchor gui
+*/
 
 void ofxDatGui::moveGui(ofPoint pt)
 {
-    mHeight = 0;
     mPosition.x = pt.x;
     mPosition.y = pt.y;
-    for (uint8_t i=0; i<items.size(); i++){
+    layoutGui();
+}
+
+void ofxDatGui::anchorGui()
+{
+    mPosition.y = 0;
+    mPosition.x = ofGetWidth() - mWidth;
+    moveGui(mPosition);
+}
+
+void ofxDatGui::layoutGui()
+{
+    mHeight = 0;
+    for (int i=0; i<items.size(); i++) {
+        items[i]->setIndex(i);
+    // skip over any components that are currently invisible //
+        if (items[i]->getVisible() == false) continue;
         items[i]->setOrigin(mPosition.x, mPosition.y + mHeight);
         mHeight += items[i]->getHeight() + mRowSpacing;
     }
@@ -580,24 +578,19 @@ void ofxDatGui::moveGui(ofPoint pt)
 
 void ofxDatGui::expandGui()
 {
-    mHeight = 0;
-    for (uint8_t i=0; i<items.size(); i++) {
-        items[i]->setVisible(true);
-        mHeight += items[i]->getHeight() + mRowSpacing;
-    }
     mExpanded = true;
     mGuiFooter->setY(mPosition.y + mHeight - mGuiFooter->getHeight() - mRowSpacing);
 }
 
 void ofxDatGui::collapseGui()
 {
-    for (uint8_t i=0; i<items.size()-1; i++) items[i]->setVisible(false);
-    mGuiFooter->setY(mPosition.y);
     mExpanded = false;
-    mHeight = mGuiFooter->getHeight();
+    mGuiFooter->setY(mPosition.y);
 }
 
-/* event handlers & update / draw loop */
+/* 
+    event handlers & update / draw loop 
+*/
 
 void ofxDatGui::onMousePressed(ofMouseEventArgs &e)
 {
@@ -636,18 +629,13 @@ void ofxDatGui::onMouseReleased(ofMouseEventArgs &e)
 void ofxDatGui::onKeyPressed(ofKeyEventArgs &e)
 {
     if (!mEnabled || !mVisible) return;
-    bool disableShowAndHide = false;
     if (activeFocus != nullptr) {
         activeFocus->onKeyPressed(e.key);
         if ((e.key == OF_KEY_RETURN || e.key == OF_KEY_TAB)){
             activeFocus->onFocusLost();
             activeFocus = nullptr;
         }
-    // if an text input is active ignore the gui show/hide key command //
-        ofxDatGuiTextInput* dd = dynamic_cast<ofxDatGuiTextInput*>(activeFocus);
-        disableShowAndHide = (dd != NULL);
     }
-//    if (e.key == 'h' && disableShowAndHide == false) mVisible = !mVisible;
 }
 
 bool ofxDatGui::isMouseOverRow(ofxDatGuiComponent* row)
@@ -695,8 +683,13 @@ void ofxDatGui::update()
     if (mAlignmentChanged) setGuiAlignment();
     if (!mEnabled || !mVisible) return;
     
+    bool hit;
     mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
-    bool hit = isMouseOverGui();
+    if (mExpanded){
+        hit = isMouseOverGui();
+    }   else{
+        hit = isMouseOverRow(mGuiFooter);
+    }
     if (!hit && activeHover != nullptr){
         activeHover->onMouseLeave(mouse);
         activeHover = nullptr;
@@ -747,10 +740,11 @@ void ofxDatGui::draw()
     ofPushStyle();
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         ofSetColor(mTemplate->gui.color.bkgd, mAlpha * 255);
-        ofDrawRectangle(mPosition.x, mPosition.y, mWidth, mHeight - mRowSpacing);
         if (mExpanded == false){
+            ofDrawRectangle(mPosition.x, mPosition.y, mWidth, mGuiFooter->getHeight());
             mGuiFooter->draw();
         }   else{
+            ofDrawRectangle(mPosition.x, mPosition.y, mWidth, mHeight - mRowSpacing);
             for (int i=0; i<items.size(); i++) items[i]->draw();
         // color pickers overlap other components when expanded so they must be drawn last //
             for (int i=0; i<items.size(); i++) items[i]->drawColorPicker();
@@ -758,18 +752,19 @@ void ofxDatGui::draw()
     ofPopStyle();
 }
 
-void ofxDatGui::onDraw(ofEventArgs &e) { draw(); }
-void ofxDatGui::onUpdate(ofEventArgs &e) { update(); }
+void ofxDatGui::onDraw(ofEventArgs &e)
+{
+    draw();
+}
+
+void ofxDatGui::onUpdate(ofEventArgs &e)
+{
+    update();
+}
 
 void ofxDatGui::onWindowResized(ofResizeEventArgs &e)
 {
     if (mAnchor == ofxDatGuiAnchor::TOP_RIGHT) anchorGui();
 }
 
-void ofxDatGui::anchorGui()
-{
-    mPosition.y = 0;
-    mPosition.x = ofGetWidth() - mWidth;
-    moveGui(mPosition);
-}
 

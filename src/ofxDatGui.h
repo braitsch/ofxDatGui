@@ -80,7 +80,6 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
     
         int mWidth;
         int mHeight;
-        int mHeightMinimum;
         int mRowSpacing;
         float mAlpha;
         bool mVisible;
@@ -111,7 +110,6 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         void collapseGui();
         void moveGui(ofPoint pt);
         void attachItem(ofxDatGuiComponent* item);
-        void adjustHeight(int index);
         void setGuiAlpha();
         void setGuiWidth();
         void setGuiTemplate();

@@ -73,7 +73,8 @@ void ofApp::setup()
     gui->setOpacity(gui->getSlider("datgui opacity")->getScale());
 
 // let's launch the app fullscreen //
-    toggleFullscreen();
+    mFullscreen = true;
+    refreshWindow();
 }
 
 void ofApp::onSliderEvent(ofxDatGuiSliderEvent e)
@@ -125,10 +126,16 @@ void ofApp::keyPressed(int key)
 
 void ofApp::toggleFullscreen()
 {
-    isFullscreen =!isFullscreen;
-    ofSetFullscreen(isFullscreen);
-    if (!isFullscreen) {
+    mFullscreen = !mFullscreen;
+    refreshWindow();
+}
+
+void ofApp::refreshWindow()
+{
+    ofSetFullscreen(mFullscreen);
+    if (!mFullscreen) {
         ofSetWindowShape(1920, 1400);
         ofSetWindowPosition((ofGetScreenWidth()/2)-(1920/2), 0);
     }
 }
+

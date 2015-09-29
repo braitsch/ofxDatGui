@@ -143,6 +143,10 @@ void ofxDatGuiComponent::setWidth(int w)
 void ofxDatGuiComponent::setVisible(bool visible)
 {
     mVisible = visible;
+    if (internalEventCallback!=nullptr){
+        ofxDatGuiInternalEvent e(ofxDatGuiEventType::VISIBILITY_CHANGED, mIndex);
+        internalEventCallback(e);
+    }
 }
 
 bool ofxDatGuiComponent::getVisible()

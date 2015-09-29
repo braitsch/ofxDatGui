@@ -73,7 +73,9 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
     
         ofxDatGuiFooter(ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiButton("COLLAPSE CONTROLS", tmplt)
         {
-            mIsExpanded = true;
+            mGuiCollapsed = false;
+            mLabelCollapsed = "EXPAND CONTROLS";
+            mLabelExpanded = "COLLAPSE CONTROLS";
             mRow.height = mRow.height*.8;
             mLabelAlignment = ofxDatGuiAlignment::CENTER;
         }
@@ -84,11 +86,16 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
             mRow.height = mRow.height*.8;
         }
     
-        bool getIsExpanded()
+        void setLabelWhenExpanded(string label)
         {
-            return mIsExpanded;
+            mLabelExpanded = label;
         }
     
+        void setLabelWhenCollapsed(string label)
+        {
+            mLabelCollapsed = label;
+        }
+
         void draw()
         {
             if (!mVisible) return;
@@ -100,16 +107,15 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
     
         void onMouseRelease(ofPoint m)
         {
+            mGuiCollapsed = !mGuiCollapsed;
             ofxDatGuiComponent::onMouseRelease(m);
         // dispatch event out to main application //
             ofxDatGuiInternalEvent e(ofxDatGuiEventType::GUI_TOGGLED, mIndex);
             internalEventCallback(e);
-            if (mIsExpanded){
-                mIsExpanded = false;
-                setLabel("EXPAND CONTROLS");
+            if (!mGuiCollapsed){
+                setLabel(mLabelExpanded);
             }   else{
-                mIsExpanded = true;
-                setLabel("COLLAPSE CONTROLS");
+                setLabel(mLabelCollapsed);
             }
         }
     
@@ -117,6 +123,8 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
         void setAlignment(ofxDatGuiAlignment align) {}
     
     private:
-        bool mIsExpanded;
+        bool mGuiCollapsed;
+        string mLabelExpanded;
+        string mLabelCollapsed;
     
 };
