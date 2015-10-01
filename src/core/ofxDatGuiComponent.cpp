@@ -292,7 +292,7 @@ void ofxDatGuiComponent::drawLabel(string label)
     }   else if (mLabelAlignment == ofxDatGuiAlignment::RIGHT){
         lx = mLabelAreaWidth-mLabelRect.width-mFont->labelX-mLabelMarginRight;
     }
-    mFont->drawLabel(label, x+lx, y+(mRow.height/2));
+    mFont->drawLabel(label, x+lx, y+mRow.height/2-mLabelRect.height/2);
 }
 
 void ofxDatGuiComponent::drawStripe()

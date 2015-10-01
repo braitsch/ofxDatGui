@@ -138,6 +138,15 @@ class ofxDatGuiTemplate{
                 } selected;
             } color;
         } matrix;
+    
+        struct {
+            int height = 164;
+            int lineWeight = 2;
+            struct{
+                ofColor stripe = ofColor::fromHex(0x9AF398);
+                ofColor lines = ofColor::fromHex(0xEEEEEE);
+            } color;
+        } plotter;
 
 };
 

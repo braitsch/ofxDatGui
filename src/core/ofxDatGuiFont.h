@@ -36,15 +36,15 @@ class ofxDatGuiFont{
             labelHeight = getStringBoundingBox("ABCDEFG123456", 0, 0).height;
         }
 
-        void drawLabel(string text, int xpos, int ypos)
+        void drawLabel(string text, int x, int y)
         {
             ofPushStyle();
                 ofSetColor(labelColor);
                 if (tFont.isLoaded()){
-                    tFont.drawString(text, xpos, ypos+labelHeight/2);
+                    tFont.drawString(text, x, y + labelHeight);
                 }   else{
-                    if (!mRetinaEnabled) ypos-=2;
-                    ofDrawBitmapString(text, xpos, ypos+labelHeight/2);
+                    if (!mRetinaEnabled) y-=2;
+                    ofDrawBitmapString(text, x, y + labelHeight);
                 }
             ofPopStyle();
         }

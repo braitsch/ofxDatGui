@@ -53,6 +53,7 @@ enum ofxDatGuiType
     MATRIX,
     SLIDER,
     FOLDER,
+    PLOTTER,
     TEXT_INPUT,
     FRAME_RATE,
     COLOR_PICKER,
