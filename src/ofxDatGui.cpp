@@ -89,8 +89,7 @@ void ofxDatGui::setTemplate(ofxDatGuiTemplate* t)
 
 void ofxDatGui::setOrigin(int x, int y)
 {
-    mPosition.x = x;
-    mPosition.y = y;
+    moveGui(ofPoint(x, y));
     mAnchor = ofxDatGuiAnchor::NO_ANCHOR;
 }
 
@@ -563,7 +562,7 @@ void ofxDatGui::anchorGui()
 {
     mPosition.y = 0;
     mPosition.x = ofGetWidth() - mWidth;
-    moveGui(mPosition);
+    layoutGui();
 }
 
 void ofxDatGui::layoutGui()

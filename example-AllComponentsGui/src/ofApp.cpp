@@ -71,9 +71,11 @@ void ofApp::setup()
     gui->onMatrixEvent(this, &ofApp::onMatrixEvent);
 
     gui->setOpacity(gui->getSlider("datgui opacity")->getScale());
+    
+  //  gui->setOrigin(200, 200);
 
 // let's launch the app fullscreen //
-    mFullscreen = true;
+    mFullscreen = false;
     refreshWindow();
 }
 
