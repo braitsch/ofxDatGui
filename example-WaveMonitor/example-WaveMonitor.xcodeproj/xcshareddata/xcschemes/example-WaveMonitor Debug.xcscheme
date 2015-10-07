@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-               BuildableName = "example-ValuePlotterDebug.app"
-               BlueprintName = "example-ValuePlotter"
-               ReferencedContainer = "container:example-ValuePlotter.xcodeproj">
+               BuildableName = "example-WaveMonitorDebug.app"
+               BlueprintName = "example-WaveMonitor"
+               ReferencedContainer = "container:example-WaveMonitor.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "example-ValuePlotterDebug.app"
-            BlueprintName = "example-ValuePlotter"
-            ReferencedContainer = "container:example-ValuePlotter.xcodeproj">
+            BuildableName = "example-WaveMonitorDebug.app"
+            BlueprintName = "example-WaveMonitor"
+            ReferencedContainer = "container:example-WaveMonitor.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -56,9 +56,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "example-ValuePlotterDebug.app"
-            BlueprintName = "example-ValuePlotter"
-            ReferencedContainer = "container:example-ValuePlotter.xcodeproj">
+            BuildableName = "example-WaveMonitorDebug.app"
+            BlueprintName = "example-WaveMonitor"
+            ReferencedContainer = "container:example-WaveMonitor.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -75,9 +75,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "example-ValuePlotterDebug.app"
-            BlueprintName = "example-ValuePlotter"
-            ReferencedContainer = "container:example-ValuePlotter.xcodeproj">
+            BuildableName = "example-WaveMonitorDebug.app"
+            BlueprintName = "example-WaveMonitor"
+            ReferencedContainer = "container:example-WaveMonitor.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

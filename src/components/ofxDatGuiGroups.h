@@ -29,7 +29,7 @@
 #include "ofxDatGui2dPad.h"
 #include "ofxDatGuiColorPicker.h"
 #include "ofxDatGuiMatrix.h"
-#include "ofxDatGuiValuePlotter.h"
+#include "ofxDatGuiWaveMonitor.h"
 
 class ofxDatGuiGroup : public ofxDatGuiButton {
 

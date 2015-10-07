@@ -36,8 +36,11 @@ void ofApp::setup()
 // and a slider to adjust the gui opacity //
     gui->addSlider("DATGUI OPACITY", 0, 100);
     
-// and a colorpicker! //
+// and a colorpicker //
     gui->addColorPicker("COLOR PICKER", ofColor::fromHex(0xeeeeee));
+    
+// and a wave monitor //
+    gui->addWaveMonitor("WAVE\nMONITOR", -100, 100);
     
     gui->addBreak();
 // add a dropdown menu //
@@ -71,8 +74,6 @@ void ofApp::setup()
     gui->onMatrixEvent(this, &ofApp::onMatrixEvent);
 
     gui->setOpacity(gui->getSlider("datgui opacity")->getScale());
-    
-  //  gui->setOrigin(200, 200);
 
 // let's launch the app fullscreen //
     mFullscreen = false;

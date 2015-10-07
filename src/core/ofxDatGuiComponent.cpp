@@ -225,7 +225,7 @@ bool ofxDatGuiComponent::getIsExpanded()
 
 void ofxDatGuiComponent::update()
 {
-    if (!mEnabled) return;
+//    if (!mEnabled) return;
     bool mp = ofGetMousePressed();
     ofPoint mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
     if (hitTest(mouse)){

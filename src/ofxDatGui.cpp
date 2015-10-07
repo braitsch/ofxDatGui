@@ -227,6 +227,13 @@ ofxDatGuiColorPicker* ofxDatGui::addColorPicker(string label, ofColor color)
     return picker;
 }
 
+ofxDatGuiWaveMonitor* ofxDatGui::addWaveMonitor(string label, float min, float max)
+{
+    ofxDatGuiWaveMonitor* monitor = new ofxDatGuiWaveMonitor(label, min, max, mTemplate);
+    attachItem(monitor);
+    return monitor;
+}
+
 ofxDatGuiDropdown* ofxDatGui::addDropdown(string label, vector<string> options)
 {
     ofxDatGuiDropdown* dropdown = new ofxDatGuiDropdown(label, options, mTemplate);

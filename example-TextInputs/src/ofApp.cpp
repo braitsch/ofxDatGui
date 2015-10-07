@@ -8,6 +8,8 @@
 
 void ofApp::setup()
 {
+    ofSetWindowPosition(0, 0);
+    
     input = new ofxDatGuiTextInput("TEXT INPUT", "Type Something Here");
     input->onTextInputEvent(this, &ofApp::onTextInputEvent);
     input->setOrigin(100, 100);

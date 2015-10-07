@@ -23,24 +23,26 @@
 #pragma once
 #include "ofxDatGuiComponent.h"
 
-class ofxDatGuiValuePlotter : public ofxDatGuiComponent {
+class ofxDatGuiWaveMonitor : public ofxDatGuiComponent {
 
     public:
     
-        ofxDatGuiValuePlotter(string label, float min, float max, ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiComponent(label, tmplt)
+        ofxDatGuiWaveMonitor(string label, float min, float max, ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiComponent(label, tmplt)
         {
-            mAng = 0.0f;
             mFill = true;
-            mSpeed = 10.0f;
-            mType = ofxDatGuiType::PLOTTER;
+            mSpeed = 1.0f;
+            mAmplitude = 0.0f;
             setRange(min, max);
             setTemplate(mTemplate);
+            mType = ofxDatGuiType::WAVE_MONITOR;
         }
     
         void setRange(float min, float max)
         {
             mMin = min;
             mMax = max;
+            mMid = (max+min)/2;
+            setFrequency(mMid);
         }
     
         void setSpeed(float speed)
@@ -48,10 +50,32 @@ class ofxDatGuiValuePlotter : public ofxDatGuiComponent {
             mSpeed = speed;
         }
     
-        void addValue(float val)
+        void setFrequency(float val)
         {
-            float scale = 1-(val-mMin)/(mMax-mMin);
-            pts.push_back(ofVec2f(mPlotterRect.x+mPlotterRect.width, mPlotterRect.y+(mPlotterRect.height*scale)));
+            mVal = val;
+        // shift all points over before adding new value //
+            for (int i=0; i<pts.size(); i++) {
+                pts[i].x -= mSpeed;
+        // this still allows two points to have the same x coordinate //
+                if (pts[i].x <= mPlotterRect.x){
+                    pts.erase(pts.begin());
+                }   else if (pts[i].x <= mPlotterRect.x + mSpeed){
+                    pts[i].x = mPlotterRect.x + mLineWeight/2;
+                }
+            }
+            float scale = mVal/mMax;
+            float height = ((mStepHeight*scale)*mAmplitude) * -1;
+            pts.push_back(ofVec2f(mPlotterRect.x+mPlotterRect.width, mPlotterRect.y + mPlotterMidY + height));
+        }
+    
+        void setAmplitude(float amp)
+        {
+            mAmplitude = amp;
+            if (mAmplitude < 0) {
+                mAmplitude = 0;
+            }   else if (mAmplitude > MAX_AMPLITUDE){
+                mAmplitude = MAX_AMPLITUDE;
+            }
         }
     
         void drawFilled(bool fill)
@@ -59,21 +83,11 @@ class ofxDatGuiValuePlotter : public ofxDatGuiComponent {
             mFill = fill;
         }
     
-        void update()
+        bool hitTest(ofPoint m)
         {
-            for (int i=0; i<pts.size(); i++) {
-                pts[i].x -= mSpeed;
-        // this still allows two points to have the same x coordinate //
-                if (pts[i].x < mPlotterRect.x){
-                    pts.erase(pts.begin());
-                }   else if (pts[i].x < mPlotterRect.x + mSpeed){
-                    pts[i].x = mPlotterRect.x + mLineWeight/2;
-                }
-            }
-            mAng+=0.1;
-            float v = ((sin(mAng)/2)+.5)*(mMax-mMin);
-            addValue(v);
-            //addValue(ofRandom(mMin, mMax));
+        // this is called each frame within update //
+            setFrequency(mVal);
+            return false;
         }
     
         void draw()
@@ -110,7 +124,7 @@ class ofxDatGuiValuePlotter : public ofxDatGuiComponent {
             glLineWidth(mLineWeight);
             glBegin(GL_LINE_LOOP);
             glVertex2f(x+mPlotterRect.width, y);
-            glVertex2f(x, y);
+            glVertex2f(pts[0].x, y);
             for (int i=0; i<pts.size(); i++) {
                 glVertex2f(pts[i].x, pts[i].y);
                 if (i == pts.size()-1){
@@ -123,9 +137,10 @@ class ofxDatGuiValuePlotter : public ofxDatGuiComponent {
             glEnd();
         }
     
-        bool hitTest(ofPoint m)
+        void setOrigin(int x, int y)
         {
-            return false;
+            ofxDatGuiComponent::setOrigin(x, y);
+            setTemplate(mTemplate);
         }
     
         void setTemplate(ofxDatGuiTemplate* tmplt)
@@ -144,19 +159,26 @@ class ofxDatGuiValuePlotter : public ofxDatGuiComponent {
             mPlotterRect.y = y + mRow.padding;
             mPlotterRect.width = mRow.width - mRow.padding - mRow.inputX;
             mPlotterRect.height = mRow.height - (mRow.padding*2);
+            mPlotterMidY = mPlotterRect.height/2;
+            mStepHeight = mPlotterMidY / MAX_AMPLITUDE;
         }
-    
     
     private:
 
         bool mFill;
         float mMin;
         float mMax;
-        float mAng;
+        float mVal;
+        float mMid;
         float mSpeed;
         int mLineWeight;
+        float mAmplitude;
         vector<ofVec2f> pts;
+        float mStepHeight;
+        float mPlotterMidY;
         ofRectangle mPlotterRect;
+    
+        static const int MAX_AMPLITUDE = 10;
 
 };
 
