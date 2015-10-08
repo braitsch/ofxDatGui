@@ -71,11 +71,11 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
 
     public:
     
-        ofxDatGuiFooter(ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiButton("COLLAPSE CONTROLS", tmplt)
+        ofxDatGuiFooter(ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiButton("collapse controls", tmplt)
         {
             mGuiCollapsed = false;
-            mLabelCollapsed = "EXPAND CONTROLS";
-            mLabelExpanded = "COLLAPSE CONTROLS";
+            mLabelCollapsed = "expand controls";
+            mLabelExpanded = "collapse controls";
             mRow.height = mRow.height*.8;
             mLabelAlignment = ofxDatGuiAlignment::CENTER;
         }
