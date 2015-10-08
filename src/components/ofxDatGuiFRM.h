@@ -27,7 +27,7 @@ class ofxDatGuiFRM : public ofxDatGuiTextInput {
 
     public:
     
-        ofxDatGuiFRM(float refresh = 1.0f, ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiTextInput("FRAMERATE", "XX", tmplt)
+        ofxDatGuiFRM(float refresh = 1.0f, ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiTextInput("framerate", "XX", tmplt)
         {
             mRefresh = refresh;
             mTime = ofGetElapsedTimef();

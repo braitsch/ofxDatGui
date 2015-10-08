@@ -86,6 +86,7 @@ int ofxDatGuiComponent::getIndex()
 
 void ofxDatGuiComponent::setLabel(string label)
 {
+    if (mTemplate->row.forceUpperCase) label = ofToUpper(label);
     mLabel = label;
     mLabelRect = mFont->getStringBoundingBox(mLabel, 0, 0);
 }

@@ -10,7 +10,6 @@ class ofApp : public ofBaseApp{
 		void update();
 		void draw();
  
-        ofImage bkgd;
         vector<ofxDatGuiComponent*> components;
     
 		void onButtonEvent(ofxDatGuiButtonEvent e);

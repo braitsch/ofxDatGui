@@ -54,6 +54,7 @@ class ofxDatGuiTemplate{
             float padding = 2;
             float spacing = 1;
             float stripeWidth = 2;
+            bool forceUpperCase = true;
             struct {
                 ofColor bkgd = ofColor::fromHex(0x1A1A1A);
                 ofColor label = ofColor::fromHex(0xEEEEEE);
@@ -69,6 +70,12 @@ class ofxDatGuiTemplate{
             string file = "font-verdana.ttf";
             ofxDatGuiFont* ttf;
         } font;
+
+        struct{
+            struct{
+                ofColor stripe = ofColor::fromHex(0xEEEEEE);
+            } color;
+        } label;
     
         struct{
             struct{
@@ -103,6 +110,7 @@ class ofxDatGuiTemplate{
         } colorPicker;
     
         struct {
+            bool forceUpperCase = true;
             struct{
                 ofColor stripe = ofColor::fromHex(0x1ED36F);
                 ofColor text = ofColor::fromHex(0x00FF00);

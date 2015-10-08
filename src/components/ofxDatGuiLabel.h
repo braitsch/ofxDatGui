@@ -68,7 +68,7 @@ class ofxDatGuiLabel : public ofxDatGuiComponent{
         
         ofxDatGuiLabel(string label, ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiComponent(label, tmplt)
         {
-            mStripeColor = mTemplate->button.color.stripe;
+            mStripeColor = mTemplate->label.color.stripe;
         }
     
         void draw()

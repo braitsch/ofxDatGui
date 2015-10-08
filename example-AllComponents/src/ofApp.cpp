@@ -14,31 +14,31 @@ void ofApp::setup()
 
     ofxDatGuiComponent* component;
 
-    component = new ofxDatGuiButton("BUTTON");
+    component = new ofxDatGuiButton("button");
     component->setOrigin(x, y);
     component->onButtonEvent(this, &ofApp::onButtonEvent);
     components.push_back(component);
 
     y += component->getHeight() + p;
-    component = new ofxDatGuiToggle("TOGGLE", false);
+    component = new ofxDatGuiToggle("toggle", false);
     component->setOrigin(x, y);
     component->onButtonEvent(this, &ofApp::onButtonEvent);
     components.push_back(component);
     
     y += component->getHeight() + p;
-    component = new ofxDatGuiMatrix("MATRIX", 21, true);
+    component = new ofxDatGuiMatrix("matrix", 21, true);
     component->setOrigin(x, y);
     component->onMatrixEvent(this, &ofApp::onMatrixEvent);
     components.push_back(component);
 
     y += component->getHeight() + p;
-    component = new ofxDatGuiTextInput("TEXT INPUT", "# OPEN FRAMEWORKS #");
+    component = new ofxDatGuiTextInput("text input", "# open frameworks #");
     component->setOrigin(x, y);
     component->onTextInputEvent(this, &ofApp::onTextInputEvent);
     components.push_back(component);
 
     y += component->getHeight() + p;
-    component = new ofxDatGuiColorPicker("COLOR PICKER", ofColor::fromHex(0xFFD00B));
+    component = new ofxDatGuiColorPicker("color picker", ofColor::fromHex(0xFFD00B));
     component->setOrigin(x, y);
     component->onColorPickerEvent(this, &ofApp::onColorPickerEvent);
     components.push_back(component);
@@ -51,27 +51,26 @@ void ofApp::setup()
     components.push_back(component);
     
     y += component->getHeight() + p;
-    component = new ofxDatGuiSlider("SLIDER", 0, 100, 50);
+    component = new ofxDatGuiSlider("slider", 0, 100, 50);
     component->setOrigin(x, y);
     component->onSliderEvent(this, &ofApp::onSliderEvent);
     components.push_back(component);
     
     y += component->getHeight() + p;
-    component = new ofxDatGui2dPad("2D PAD");
+    component = new ofxDatGui2dPad("2d pad");
     component->setOrigin(x, y);
     component->on2dPadEvent(this, &ofApp::on2dPadEvent);
     components.push_back(component);
 
     y += component->getHeight() + p;
     ofxDatGuiDropdown* dropdown;
-    vector<string> options = {"ONE", "TWO", "THREE", "FOUR"};
-    dropdown = new ofxDatGuiDropdown("DROPDOWN MENU", options);
+    vector<string> options = {"one", "two", "three", "four"};
+    dropdown = new ofxDatGuiDropdown("dropdown menu", options);
     dropdown->setOrigin(x, y);
     dropdown->expand();
     dropdown->onDropdownEvent(this, &ofApp::onDropdownEvent);
     components.push_back(dropdown);
     
-    bkgd.load("bkgd-pattern.png");
 //  for(int i=0; i<components.size(); i++) components[i]->setOpacity(.25);
 }
 
@@ -82,8 +81,6 @@ void ofApp::update()
 
 void ofApp::draw()
 {
-// pattern the background //
- //   for(int i=0; i < ofGetHeight(); i += 400) for(int j = 0; j < ofGetWidth(); j += 400) bkgd.draw(j, i, 400, 400);
     for(int i=0; i<components.size(); i++) components[i]->draw();
 }
 

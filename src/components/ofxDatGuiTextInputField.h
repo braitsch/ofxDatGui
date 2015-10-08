@@ -63,6 +63,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             mBkgdColor = mTemplate->row.color.inputArea;
             mTextActiveColor = mTemplate->row.color.label;
             mTextInactiveColor = mTemplate->textInput.color.stripe;
+            mUpperCaseText = mTemplate->textInput.forceUpperCase;
         }
     
         void draw()
@@ -96,6 +97,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
         {
             mText = text;
             mTextChanged = true;
+            if (mUpperCaseText) mText = ofToUpper(mText);
             mTextRect = mFont->getStringBoundingBox(mType==COLORPICKER ? "#"+mText : mText, 0, 0);
         }
     
@@ -157,7 +159,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
                 if (mText.size() > 0) mText.resize(mText.size()-1);
             }
             mHighlightText = false;
-            setText(ofToUpper(mText));
+            setText(mText);
         }
     
         bool keyIsValid(int key)
@@ -200,6 +202,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
         string mText;
         bool mTextChanged;
         bool mHighlightText;
+        bool mUpperCaseText;
         int mMaxCharacters;
         ofRectangle mRect;
         ofRectangle mTextRect;
