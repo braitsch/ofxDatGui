@@ -86,7 +86,7 @@ int ofxDatGuiComponent::getIndex()
 
 void ofxDatGuiComponent::setLabel(string label)
 {
-    if (mTemplate->row.forceUpperCase) label = ofToUpper(label);
+    if (mTemplate->row.label.forceUpperCase) label = ofToUpper(label);
     mLabel = label;
     mLabelRect = mFont->getStringBoundingBox(mLabel, 0, 0);
 }
@@ -131,6 +131,7 @@ void ofxDatGuiComponent::setWidth(int w)
 {
     mRow.width = w;
     mRow.lWidth=mRow.width*.35;
+    if (mRow.lWidth > mTemplate->row.label.maxAreaWidth) mRow.lWidth = mTemplate->row.label.maxAreaWidth;
     mRow.inputX=mRow.lWidth;
     mRow.rWidth=mRow.width-mRow.inputX;
     mFont->labelX=(mRow.width*.03)+10;

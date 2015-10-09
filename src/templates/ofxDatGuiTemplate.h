@@ -49,12 +49,15 @@ class ofxDatGuiTemplate{
         } gui;
     
         struct {
-            float width = 320;
-            float height = 26;
-            float padding = 2;
-            float spacing = 1;
-            float stripeWidth = 2;
-            bool forceUpperCase = true;
+            float width = 320.0f;
+            float height = 26.0f;
+            float padding = 2.0f;
+            float spacing = 1.0f;
+            float stripeWidth = 2.0f;
+            struct {
+                float maxAreaWidth = 220.0f;
+                bool forceUpperCase = true;
+            } label;
             struct {
                 ofColor bkgd = ofColor::fromHex(0x1A1A1A);
                 ofColor label = ofColor::fromHex(0xEEEEEE);

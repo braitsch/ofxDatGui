@@ -40,7 +40,7 @@ void ofApp::setup()
     gui->addColorPicker("color picker", ofColor::fromHex(0xeeeeee));
     
 // and a wave monitor //
-    gui->addWaveMonitor("wave\nmonitor", -100, 100);
+    gui->addWaveMonitor("wave\nmonitor", 3, .5);
     
     gui->addBreak();
 // add a dropdown menu //

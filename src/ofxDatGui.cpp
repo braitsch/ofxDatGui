@@ -48,6 +48,10 @@ void ofxDatGui::init()
     mGuiFooter = nullptr;
     activeHover = nullptr;
     activeFocus = nullptr;
+    mAlphaChanged = false;
+    mWidthChanged = false;
+    mTemplateChanged = false;
+    mAlignmentChanged = false;
     mAlignment = ofxDatGuiAlignment::LEFT;
     
 // load a default layout template //
@@ -56,11 +60,11 @@ void ofxDatGui::init()
     }   else{
         mTemplate = new ofxDatGui2880x1800();
     }
-    setOpacity(1.0f);
-    setAutoDraw(true);
-    setWidth(mTemplate->row.width);
+    mAlpha = 1.0f;
+    mWidth = mTemplate->row.width;
     mRowSpacing = mTemplate->row.spacing;
-
+    
+    setAutoDraw(true);
     ofAddListener(ofEvents().keyPressed, this, &ofxDatGui::onKeyPressed, OF_EVENT_ORDER_BEFORE_APP);
     ofAddListener(ofEvents().mousePressed, this, &ofxDatGui::onMousePressed, OF_EVENT_ORDER_BEFORE_APP);
     ofAddListener(ofEvents().mouseReleased, this, &ofxDatGui::onMouseReleased, OF_EVENT_ORDER_BEFORE_APP);
@@ -227,11 +231,18 @@ ofxDatGuiColorPicker* ofxDatGui::addColorPicker(string label, ofColor color)
     return picker;
 }
 
-ofxDatGuiWaveMonitor* ofxDatGui::addWaveMonitor(string label, float min, float max)
+ofxDatGuiWaveMonitor* ofxDatGui::addWaveMonitor(string label, float frequency, float amplitude)
 {
-    ofxDatGuiWaveMonitor* monitor = new ofxDatGuiWaveMonitor(label, min, max, mTemplate);
+    ofxDatGuiWaveMonitor* monitor = new ofxDatGuiWaveMonitor(label, frequency, frequency, mTemplate);
     attachItem(monitor);
     return monitor;
+}
+
+ofxDatGuiValuePlotter* ofxDatGui::addValuePlotter(string label, float min, float max)
+{
+    ofxDatGuiValuePlotter* plotter = new ofxDatGuiValuePlotter(label, min, max, mTemplate);
+    attachItem(plotter);
+    return plotter;
 }
 
 ofxDatGuiDropdown* ofxDatGui::addDropdown(string label, vector<string> options)

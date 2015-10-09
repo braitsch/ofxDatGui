@@ -7,31 +7,32 @@
 
 void ofApp::setup()
 {
-    int x = 150;
-    int y = 180;
-    int margin = 40;
     angle1 = 0.0f;
     ofSetWindowPosition(0, 0);
     
-    g1 = new ofxDatGui(x, y);
-// set the range that we care about //
-    g1m1 = g1->addWaveMonitor("SINE WAVE", -1, 1);
-    g1s1 = g1->addSlider("FREQUENCY", -1, 1);
-    g1s1->setEnabled(false);
-// amplitude multiplier must be between 0 & 10 //
-    g1s2 = g1->addSlider("AMPLITUDE", 0, 10);
-    g1m1->setAmplitude(g1s2->getValue());
-    g1->onSliderEvent(this, &ofApp::onGui1SliderEvent);
+    g1 = new ofxDatGui();
+    g1->setWidth(1200);
+    g1->setAlignment(ofxDatGuiAlignment::CENTER);
+    g1->addHeader("wave monitor & value plotter example");
+    g1m1 = g1->addWaveMonitor("wave monitor", 3, .5);
+    g1s1 = g1->addSlider("frequency", 0, 50, 5);
+// amplitude multiplier must be a value between 0 & 1 //
+    g1s2 = g1->addSlider("amplitude", 0, 1);
+    g1t1 = g1->addToggle("draw filled", true);
+    g1->addBreak(20);
+    p1 = g1->addValuePlotter("value plotter", 0, 100);
+    g1t2 = g1->addToggle("draw filled", true);
     
-    g2 = new ofxDatGui(x+g1->getWidth()+margin, y);
-    g2m1 = g2->addWaveMonitor("SQUARE WAVE", -1, 1);
-    g2s1 = g2->addSlider("FREQUENCY", -1, 1);
-    g2s2 = g2->addSlider("AMPLITUDE", 0, 10, 10);
-    g2m1->setAmplitude(g2s2->getValue());
-    g2->onSliderEvent(this, &ofApp::onGui2SliderEvent);
+// set the frequency and amplitude //
+    g1m1->setFrequency(g1s1->getValue());
+    g1m1->setAmplitude(g1s2->getValue());
+    
+    g1->setOrigin(ofGetWidth()/2 - g1->getWidth()/2, 100);
+    g1->onButtonEvent(this, &ofApp::onGuiButtonEvent);
+    g1->onSliderEvent(this, &ofApp::onGuiSliderEvent);
 }
 
-void ofApp::onGui1SliderEvent(ofxDatGuiSliderEvent e)
+void ofApp::onGuiSliderEvent(ofxDatGuiSliderEvent e)
 {
     if (e.target == g1s1){
         g1m1->setFrequency(g1s1->getValue());
@@ -40,18 +41,19 @@ void ofApp::onGui1SliderEvent(ofxDatGuiSliderEvent e)
     }
 }
 
-void ofApp::onGui2SliderEvent(ofxDatGuiSliderEvent e)
+void ofApp::onGuiButtonEvent(ofxDatGuiButtonEvent e)
 {
-    if (e.target == g2s1){
-        g2m1->setFrequency(g2s1->getValue());
-    }   else if (e.target == g2s2){
-        g2m1->setAmplitude(g2s2->getValue());
+    if (e.target == g1t1){
+        g1m1->drawFilled(e.enabled);
+    } else if (e.target == g1t2){
+        p1->drawFilled(e.enabled);
     }
 }
 
 void ofApp::update()
 {
 // sine wave //
+    return;
     float val = sin(angle1+=0.05);
     g1s1->setValue(val);
     g1m1->setFrequency(val);

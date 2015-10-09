@@ -7,10 +7,11 @@
 
 void ofApp::setup()
 {
-    int x = 140;
+    int x = 340;
     int y = 100;
     int p = 40;
     ofSetWindowPosition(0, 0);
+    ofSetWindowShape(1920, 1080);
 
     ofxDatGuiComponent* component;
 
@@ -23,6 +24,11 @@ void ofApp::setup()
     component = new ofxDatGuiToggle("toggle", false);
     component->setOrigin(x, y);
     component->onButtonEvent(this, &ofApp::onButtonEvent);
+    components.push_back(component);
+
+    y += component->getHeight() + p;
+    component = new ofxDatGuiWaveMonitor("wave\nmonitor", 3, .5);
+    component->setOrigin(x, y);
     components.push_back(component);
     
     y += component->getHeight() + p;
@@ -57,12 +63,20 @@ void ofApp::setup()
     components.push_back(component);
     
     y += component->getHeight() + p;
+// capture the plotter in a variable so we can feed it values later //
+    plotter = new ofxDatGuiValuePlotter("value\nplotter", -100, 100);
+    plotter->drawFilled(false);
+    component = plotter;
+    component->setOrigin(x, y);
+    components.push_back(component);
+    
+    y += component->getHeight() + p;
     component = new ofxDatGui2dPad("2d pad");
     component->setOrigin(x, y);
     component->on2dPadEvent(this, &ofApp::on2dPadEvent);
     components.push_back(component);
 
-    y += component->getHeight() + p;
+    y += component->getHeight() + p - 9;
     ofxDatGuiDropdown* dropdown;
     vector<string> options = {"one", "two", "three", "four"};
     dropdown = new ofxDatGuiDropdown("dropdown menu", options);
@@ -76,6 +90,8 @@ void ofApp::setup()
 
 void ofApp::update()
 {
+//  append a random value to the plotter within its range //
+    plotter->setValue(ofRandom(plotter->getMin()*.5, plotter->getMax()*.5));
     for(int i=0; i<components.size(); i++) components[i]->update();
 }
 

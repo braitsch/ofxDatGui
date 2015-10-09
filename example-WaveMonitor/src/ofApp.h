@@ -13,16 +13,15 @@ class ofApp : public ofBaseApp{
         ofxDatGui* g1;
         ofxDatGui* g2;
  
+        ofxDatGuiToggle* g1t1;
+        ofxDatGuiToggle* g1t2;
         ofxDatGuiSlider* g1s1;
         ofxDatGuiSlider* g1s2;
         ofxDatGuiWaveMonitor* g1m1;
-    
-        ofxDatGuiSlider* g2s1;
-        ofxDatGuiSlider* g2s2;
-        ofxDatGuiWaveMonitor* g2m1;
+        ofxDatGuiValuePlotter* p1;
     
         float angle1;
-        void onGui1SliderEvent(ofxDatGuiSliderEvent e);
-        void onGui2SliderEvent(ofxDatGuiSliderEvent e);
+        void onGuiButtonEvent(ofxDatGuiButtonEvent e);
+        void onGuiSliderEvent(ofxDatGuiSliderEvent e);
     
 };

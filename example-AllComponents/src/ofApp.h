@@ -10,6 +10,7 @@ class ofApp : public ofBaseApp{
 		void update();
 		void draw();
  
+        ofxDatGuiValuePlotter* plotter;
         vector<ofxDatGuiComponent*> components;
     
 		void onButtonEvent(ofxDatGuiButtonEvent e);
