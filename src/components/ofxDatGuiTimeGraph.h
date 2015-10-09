@@ -23,20 +23,31 @@
 #pragma once
 #include "ofxDatGuiComponent.h"
 
+
+
 class ofxDatGuiTimeGraph : public ofxDatGuiComponent {
 
     public:
     
-        void drawFilled(bool fill)
+        void setDrawMode(ofxDatGuiGraph gMode)
         {
-            mFill = fill;
+            switch (gMode) {
+                case LINES : mDrawFunc = &ofxDatGuiTimeGraph::drawLines;
+                break;
+                case FILLED : mDrawFunc = &ofxDatGuiTimeGraph::drawFilled;
+                break;
+                case POINTS : mDrawFunc = &ofxDatGuiTimeGraph::drawPoints;
+                break;
+                case OUTLINE : mDrawFunc = &ofxDatGuiTimeGraph::drawOutline;
+                break;
+            }
         }
 
     protected:
     
         ofxDatGuiTimeGraph(string label, ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiComponent(label, tmplt)
         {
-            mFill = true;
+            mDrawFunc = &ofxDatGuiTimeGraph::drawFilled;
             mRow.height = mTemplate->plotter.height;
             mLineWeight = mTemplate->plotter.lineWeight;
             mStripeColor = mTemplate->plotter.color.stripe;
@@ -53,11 +64,11 @@ class ofxDatGuiTimeGraph : public ofxDatGuiComponent {
                 ofSetColor(mTemplate->row.color.inputArea);
                 ofDrawRectangle(x+mPlotterRect.x, y+mPlotterRect.y, mPlotterRect.width, mPlotterRect.height);
                 glColor3ub(210, 210, 210);
-                mFill ? drawPlotFilled() : drawPlotNoFill();
+                (*this.*mDrawFunc)();
             ofPopStyle();
         }
     
-        void drawPlotFilled()
+        void drawFilled()
         {
             float px = this->x + mPlotterRect.x;
             float py = this->y + mPlotterRect.y;
@@ -70,7 +81,7 @@ class ofxDatGuiTimeGraph : public ofxDatGuiComponent {
             glEnd();
         }
 
-        void drawPlotNoFill()
+        void drawOutline()
         {
             float px = this->x + mPlotterRect.x;
             float py = this->y + mPlotterRect.y;
@@ -79,6 +90,26 @@ class ofxDatGuiTimeGraph : public ofxDatGuiComponent {
             glVertex2f(px+mPlotterRect.width, py+mPlotterRect.height);
             for (int i=0; i<pts.size(); i++) glVertex2f(px+pts[i].x, py+pts[i].y);
             glVertex2f(px, py+mPlotterRect.height);
+            glEnd();
+        }
+    
+        void drawLines()
+        {
+            float px = this->x + mPlotterRect.x;
+            float py = this->y + mPlotterRect.y;
+            glPointSize(4);
+            glBegin(GL_POINTS);
+            for (int i=0; i<pts.size(); i++) glVertex2f(px+pts[i].x, py+pts[i].y);
+            glEnd();
+        }
+    
+        void drawPoints()
+        {
+            float px = this->x + mPlotterRect.x;
+            float py = this->y + mPlotterRect.y;
+            glPointSize(4);
+            glBegin(GL_LINES);
+            for (int i=0; i<pts.size(); i++) glVertex2f(px+pts[i].x, py+pts[i].y);
             glEnd();
         }
     
@@ -103,15 +134,12 @@ class ofxDatGuiTimeGraph : public ofxDatGuiComponent {
             mPlotterRect.y = mRow.padding;
             mPlotterRect.width = mRow.width - mRow.padding - mRow.inputX;
             mPlotterRect.height = mRow.height - (mRow.padding*2);
-            mPlotterMidY = mPlotterRect.height/2;
         }
 
-        bool mFill;
         int mLineWeight;
-        float mPlotterMidY;
         vector<ofVec2f> pts;
         ofRectangle mPlotterRect;
-
+        void (ofxDatGuiTimeGraph::*mDrawFunc)() = nullptr;
 };
 
 class ofxDatGuiWaveMonitor : public ofxDatGuiTimeGraph {
@@ -207,7 +235,12 @@ class ofxDatGuiValuePlotter : public ofxDatGuiTimeGraph {
         {
             mMin = min;
             mMax = max;
-            setValue((max+min)/2);
+            setValue((max+min)/4);
+        }
+    
+        float getRange()
+        {
+            return mMax-mMin;
         }
     
         void setSpeed(float speed)
@@ -218,7 +251,6 @@ class ofxDatGuiValuePlotter : public ofxDatGuiTimeGraph {
         void setValue(float value)
         {
             mVal = value;
-            cout << mVal << endl;
             if (mVal > mMax){
                 mVal = mMax;
             }   else if (mVal < mMin){
@@ -254,9 +286,8 @@ class ofxDatGuiValuePlotter : public ofxDatGuiTimeGraph {
                     pts[i].x = mLineWeight/2;
                 }
             }
-            float scale = (mVal/mMax) * -1;
-            cout << scale << endl;
-            float height = mPlotterRect.height/2 + (mPlotterRect.height/2)*scale;
+            float scale = (mVal/(mMax-mMin));
+            float height = mPlotterRect.height - (mPlotterRect.height * scale);
             pts.insert(pts.begin(), ofVec2f(mPlotterRect.width, height));
         }
     

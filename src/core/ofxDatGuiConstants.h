@@ -34,6 +34,14 @@ enum ofxDatGuiAnchor
     TOP_RIGHT = 2
 };
 
+enum ofxDatGuiGraph
+{
+    LINES = 0,
+    FILLED,
+    POINTS,
+    OUTLINE,
+};
+
 enum ofxDatGuiAlignment
 {
     LEFT = 1,
