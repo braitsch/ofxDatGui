@@ -65,7 +65,8 @@ void ofApp::setup()
     y += component->getHeight() + p;
 // capture the plotter in a variable so we can feed it values later //
     plotter = new ofxDatGuiValuePlotter("value\nplotter", -100, 100);
-    plotter->drawFilled(false);
+    plotter->setSpeed(2.0f);
+    plotter->setDrawMode(ofxDatGuiGraph::LINES);
     component = plotter;
     component->setOrigin(x, y);
     components.push_back(component);
@@ -91,7 +92,9 @@ void ofApp::setup()
 void ofApp::update()
 {
 //  append a random value to the plotter within its range //
-    plotter->setValue(ofRandom(plotter->getMin()*.5, plotter->getMax()*.5));
+//    plotter->setValue(ofRandom(plotter->getMin()*.5, plotter->getMax()*.5));
+    float v = ofRandom(plotter->getMin(), plotter->getMax());
+    plotter->setValue(v);
     for(int i=0; i<components.size(); i++) components[i]->update();
 }
 

@@ -42,15 +42,21 @@ class ofxDatGuiTimeGraph : public ofxDatGuiComponent {
                 break;
             }
         }
+    
+        bool hitTest(ofPoint m)
+        {
+            return false;
+        }
 
     protected:
     
         ofxDatGuiTimeGraph(string label, ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiComponent(label, tmplt)
         {
             mDrawFunc = &ofxDatGuiTimeGraph::drawFilled;
-            mRow.height = mTemplate->plotter.height;
-            mLineWeight = mTemplate->plotter.lineWeight;
-            mStripeColor = mTemplate->plotter.color.stripe;
+            mRow.height = mTemplate->graph.height;
+            mPointSize = mTemplate->graph.pointSize;
+            mLineWeight = mTemplate->graph.lineWeight;
+            mStripeColor = mTemplate->graph.color.stripe;
             setWidth(mRow.width);
         }
     
@@ -97,8 +103,8 @@ class ofxDatGuiTimeGraph : public ofxDatGuiComponent {
         {
             float px = this->x + mPlotterRect.x;
             float py = this->y + mPlotterRect.y;
-            glPointSize(4);
-            glBegin(GL_POINTS);
+            glLineWidth(mLineWeight);
+            glBegin(GL_LINES);
             for (int i=0; i<pts.size(); i++) glVertex2f(px+pts[i].x, py+pts[i].y);
             glEnd();
         }
@@ -107,8 +113,9 @@ class ofxDatGuiTimeGraph : public ofxDatGuiComponent {
         {
             float px = this->x + mPlotterRect.x;
             float py = this->y + mPlotterRect.y;
-            glPointSize(4);
-            glBegin(GL_LINES);
+            glPointSize(mLineWeight);
+            glLineWidth(mLineWeight);
+            glBegin(GL_POINTS);
             for (int i=0; i<pts.size(); i++) glVertex2f(px+pts[i].x, py+pts[i].y);
             glEnd();
         }
@@ -121,9 +128,10 @@ class ofxDatGuiTimeGraph : public ofxDatGuiComponent {
         void setTemplate(ofxDatGuiTemplate* tmplt)
         {
             ofxDatGuiComponent::setTemplate(tmplt);
-            mRow.height = mTemplate->plotter.height;
-            mLineWeight = mTemplate->plotter.lineWeight;
-            mStripeColor = mTemplate->plotter.color.stripe;
+            mRow.height = mTemplate->graph.height;
+            mPointSize = mTemplate->graph.pointSize;
+            mLineWeight = mTemplate->graph.lineWeight;
+            mStripeColor = mTemplate->graph.color.stripe;
             setWidth(mRow.width);
         }
     
@@ -136,6 +144,7 @@ class ofxDatGuiTimeGraph : public ofxDatGuiComponent {
             mPlotterRect.height = mRow.height - (mRow.padding*2);
         }
 
+        int mPointSize;
         int mLineWeight;
         vector<ofVec2f> pts;
         ofRectangle mPlotterRect;
@@ -151,6 +160,7 @@ class ofxDatGuiWaveMonitor : public ofxDatGuiTimeGraph {
             mFrequencyLimit = 100;
             setAmplitude(amplitude);
             setFrequency(frequency);
+            mType = ofxDatGuiType::WAVE_MONITOR;
         }
     
     // amplitude is a multiplier that affect the vertical height of the wave and should be a value between 0 & 1 //
@@ -201,12 +211,6 @@ class ofxDatGuiWaveMonitor : public ofxDatGuiTimeGraph {
             }
         }
     
-        bool hitTest(ofPoint m)
-        {
-            update();
-            return false;
-        }
-    
         void update()
         {
             pts[0].y = pts[pts.size()-1].y;
@@ -229,18 +233,14 @@ class ofxDatGuiValuePlotter : public ofxDatGuiTimeGraph {
         {
             mSpeed = 5.0f;
             setRange(min, max);
+            mType = ofxDatGuiType::VALUE_PLOTTER;
         }
     
         void setRange(float min, float max)
         {
             mMin = min;
             mMax = max;
-            setValue((max+min)/4);
-        }
-    
-        float getRange()
-        {
-            return mMax-mMin;
+            setValue((max+min)/2);
         }
     
         void setSpeed(float speed)
@@ -268,10 +268,9 @@ class ofxDatGuiValuePlotter : public ofxDatGuiTimeGraph {
             return mMax;
         }
     
-        bool hitTest(ofPoint m)
+        float getRange()
         {
-            update();
-            return false;
+            return mMax-mMin;
         }
     
         void update()
@@ -286,15 +285,14 @@ class ofxDatGuiValuePlotter : public ofxDatGuiTimeGraph {
                     pts[i].x = mLineWeight/2;
                 }
             }
-            float scale = (mVal/(mMax-mMin));
-            float height = mPlotterRect.height - (mPlotterRect.height * scale);
+            float height = mPlotterRect.height - (mPlotterRect.height * ofxDatGuiScale(mVal, mMin, mMax));
             pts.insert(pts.begin(), ofVec2f(mPlotterRect.width, height));
         }
     
     private:
+        float mVal;
         float mMin;
         float mMax;
-        float mVal;
         float mSpeed;
 };
 

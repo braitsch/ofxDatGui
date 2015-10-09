@@ -39,8 +39,8 @@ void ofApp::setup()
 // and a colorpicker! //
     gui->addColorPicker("color picker", ofColor::fromHex(0xeeeeee));
     
-// and a wave monitor //
-    gui->addWaveMonitor("wave\nmonitor", 3, .5);
+// take a look inside example-TimeGraph for more examples of this and the value plotter //
+    gui->addWaveMonitor("wave\nmonitor", 3, .2);
     
     gui->addBreak();
 // add a dropdown menu //

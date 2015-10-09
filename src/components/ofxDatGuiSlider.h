@@ -196,7 +196,7 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
     
         void onMouseDrag(ofPoint m)
         {
-            if (mInputActive == false){
+            if (mFocused && mInputActive == false){
                 float s = (m.x-x-mRow.inputX)/mSlider.width;
                 if (s > .99) s = 1;
                 if (s < .01) s = 0;
@@ -271,15 +271,7 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
                 mScale = 0.5f;
                 mVal = (mMax+mMin) * mScale;
             }   else{
-                if (mMin<0){
-                    float n = abs(mMin);
-                    float a = mMin+n;
-                    float b = mMax+n;
-                    float c = mVal+n;
-                    mScale = (c-a)/(b-a);
-                }   else{
-                    mScale = (mVal-mMin)/(mMax-mMin);
-                }
+                mScale = ofxDatGuiScale(mVal, mMin, mMax);
             }
             input->setText(ofToString(mVal, 2));
         }

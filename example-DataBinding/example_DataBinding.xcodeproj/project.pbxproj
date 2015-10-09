@@ -141,11 +141,11 @@
 		D8DD1043C333F6F63C8685E6 /* ofxDatGui */ = {
 			isa = PBXGroup;
 			children = (
+				8AB356E21BB22F56002AC802 /* templates */,
 				8AB356CD1BB22F56002AC802 /* components */,
 				8AB356D91BB22F56002AC802 /* core */,
 				8AB356E01BB22F56002AC802 /* ofxDatGui.cpp */,
 				8AB356E11BB22F56002AC802 /* ofxDatGui.h */,
-				8AB356E21BB22F56002AC802 /* templates */,
 			);
 			name = ofxDatGui;
 			sourceTree = "<group>";

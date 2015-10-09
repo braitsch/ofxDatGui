@@ -35,6 +35,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         void draw();
         void update();
     
+        bool hasFocus();
         void setWidth(int width);
         void setOrigin(int x, int y);
         void setVisible(bool visible);
@@ -87,19 +88,16 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         bool mVisible;
         bool mEnabled;
         bool mExpanded;
+        bool mGuiHasFocus;
         bool mAlphaChanged;
         bool mWidthChanged;
-        bool mMousePressed;
         bool mTemplateChanged;
         bool mAlignmentChanged;
     
-        ofPoint mouse;
         ofPoint mPosition;
         ofxDatGuiAnchor mAnchor;
         ofxDatGuiHeader* mGuiHeader;
         ofxDatGuiFooter* mGuiFooter;
-        ofxDatGuiComponent* activeHover;
-        ofxDatGuiComponent* activeFocus;
         ofxDatGuiTemplate* mTemplate;
         ofxDatGuiAlignment mAlignment;
         vector<ofxDatGuiComponent*> items;
@@ -119,12 +117,6 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
     
         void onDraw(ofEventArgs &e);
         void onUpdate(ofEventArgs &e);
-        
-        bool isMouseOverRow(ofxDatGuiComponent* row);
-        bool isMouseOverGui();
-        void onKeyPressed(ofKeyEventArgs &e);
-        void onMousePressed(ofMouseEventArgs &e);
-        void onMouseReleased(ofMouseEventArgs &e);
         void onWindowResized(ofResizeEventArgs &e);
     
         ofxDatGuiComponent* getComponent(string key);

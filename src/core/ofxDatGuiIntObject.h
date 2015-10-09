@@ -49,6 +49,19 @@ class ofxDatGuiLog {
         static bool mQuiet;
 };
 
+inline static float ofxDatGuiScale(float val, float min, float max)
+{
+    if (min<0){
+        float n = abs(min);
+        float a = min+n;
+        float b = max+n;
+        float c = val+n;
+        return (c-a)/(b-a);
+    }   else{
+        return (val-min)/(max-min);
+    }
+}
+
 inline static bool ofxDatGuiIsRetina()
 {
     return (ofGetScreenWidth()>=OFXDG_RETINA_MIN_WIDTH && ofGetScreenHeight()>=OFXDG_RETINA_MIN_HEIGHT);

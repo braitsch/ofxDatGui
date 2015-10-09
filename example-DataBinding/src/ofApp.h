@@ -40,10 +40,13 @@ class ofApp : public ofBaseApp{
 		void setup();
 		void update();
 		void draw();
+        void windowResized(int w, int h);
     
         bool mDragging;
         Circle* circle;
         ofxDatGui* gui;
+        ofxDatGuiSlider* sx;
+        ofxDatGuiSlider* sy;
 
 };
 

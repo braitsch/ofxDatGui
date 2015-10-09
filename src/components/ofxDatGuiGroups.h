@@ -91,13 +91,15 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
     
         void onMouseRelease(ofPoint m)
         {
-        // open & close the group when its header is clicked //
-            ofxDatGuiComponent::onMouseRelease(m);
-            mIsExpanded ? collapse() : expand();
-        // dispatch an event out to the gui panel to adjust its children //
-            if (internalEventCallback != nullptr){
-                ofxDatGuiInternalEvent e(ofxDatGuiEventType::DROPDOWN_TOGGLED, mIndex);
-                internalEventCallback(e);
+            if (mFocused){
+            // open & close the group when its header is clicked //
+                ofxDatGuiComponent::onMouseRelease(m);
+                mIsExpanded ? collapse() : expand();
+            // dispatch an event out to the gui panel to adjust its children //
+                if (internalEventCallback != nullptr){
+                    ofxDatGuiInternalEvent e(ofxDatGuiEventType::DROPDOWN_TOGGLED, mIndex);
+                    internalEventCallback(e);
+                }
             }
         }
     

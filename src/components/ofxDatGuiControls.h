@@ -51,13 +51,19 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
         void onMousePress(ofPoint m)
         {
             dragOffset = ofPoint(m.x-this->x,m.y-this->y);
+            ofxDatGuiComponent::onMousePress(m);
         }
     
         void onMouseRelease(ofPoint m)
         {
             dragOffset = m;
+            ofxDatGuiComponent::onFocusLost();
+            ofxDatGuiComponent::onMouseRelease(m);
         }
-    
+
+    // we override this to allow the panel to be dragged around //
+        void onFocusLost() { }
+
         void setAlignment(ofxDatGuiAlignment align) {}
     
         ofPoint dragOffset;

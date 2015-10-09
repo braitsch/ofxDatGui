@@ -58,7 +58,7 @@ class ofxDatGuiButton : public ofxDatGuiComponent {
         void drawBkgd()
         {
         // anything that extends ofxDatGuiButton has the same rollover effect //
-            if (mMouseDown){
+            if (mFocused && mMouseDown){
                 ofxDatGuiComponent::drawBkgd(mTemplate->row.color.mouseDown, 255);
             }   else if (mMouseOver){
                 ofxDatGuiComponent::drawBkgd(mTemplate->row.color.mouseOver, 255);

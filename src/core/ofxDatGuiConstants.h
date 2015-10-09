@@ -64,7 +64,8 @@ enum ofxDatGuiType
     TEXT_INPUT,
     FRAME_RATE,
     COLOR_PICKER,
-    WAVE_MONITOR
+    WAVE_MONITOR,
+    VALUE_PLOTTER
 };
 
 

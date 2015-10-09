@@ -15,6 +15,7 @@ void ofApp::setup()
     g1->setWidth(1200);
     g1->setAlignment(ofxDatGuiAlignment::CENTER);
     g1->addHeader("wave monitor & value plotter example");
+    g1->addFooter();
     g1m1 = g1->addWaveMonitor("wave monitor", 3, .5);
     g1s1 = g1->addSlider("frequency", 0, 50, 5);
 // amplitude multiplier must be a value between 0 & 1 //

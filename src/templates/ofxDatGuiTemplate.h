@@ -55,7 +55,7 @@ class ofxDatGuiTemplate{
             float spacing = 1.0f;
             float stripeWidth = 2.0f;
             struct {
-                float maxAreaWidth = 220.0f;
+                float maxAreaWidth = 340.0f;
                 bool forceUpperCase = true;
             } label;
             struct {
@@ -152,12 +152,13 @@ class ofxDatGuiTemplate{
     
         struct {
             int height = 164;
+            int pointSize = 2;
             int lineWeight = 2;
             struct{
                 ofColor stripe = ofColor::fromHex(0x9AF398);
                 ofColor lines = ofColor::fromHex(0xEEEEEE);
             } color;
-        } plotter;
+        } graph;
 
 };
 

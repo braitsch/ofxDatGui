@@ -65,6 +65,7 @@
 		8AB357BE1BB2315F002AC802 /* ofxDatGui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxDatGui.h; path = ../src/ofxDatGui.h; sourceTree = "<group>"; };
 		8AB357C01BB2315F002AC802 /* ofxDatGuiTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiTemplate.h; sourceTree = "<group>"; };
 		8AB357C11BB2315F002AC802 /* ofxDatGuiTemplates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiTemplates.h; sourceTree = "<group>"; };
+		8ACE3C831BC856C2004B46CD /* ofxDatGuiTimeGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiTimeGraph.h; sourceTree = "<group>"; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E4B69B5B0A3A1756003C02F2 /* example-FRMDebug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "example-FRMDebug.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4B69E1D0A3A1BDC003C02F2 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = SOURCE_ROOT; };
@@ -101,6 +102,7 @@
 				8AB357B31BB2315F002AC802 /* ofxDatGuiSlider.h */,
 				8AB357B41BB2315F002AC802 /* ofxDatGuiTextInput.h */,
 				8AB357B51BB2315F002AC802 /* ofxDatGuiTextInputField.h */,
+				8ACE3C831BC856C2004B46CD /* ofxDatGuiTimeGraph.h */,
 			);
 			name = components;
 			path = ../src/components;
@@ -141,11 +143,11 @@
 		D8DD1043C333F6F63C8685E6 /* ofxDatGui */ = {
 			isa = PBXGroup;
 			children = (
+				8AB357BF1BB2315F002AC802 /* templates */,
 				8AB357AA1BB2315F002AC802 /* components */,
 				8AB357B61BB2315F002AC802 /* core */,
 				8AB357BD1BB2315F002AC802 /* ofxDatGui.cpp */,
 				8AB357BE1BB2315F002AC802 /* ofxDatGui.h */,
-				8AB357BF1BB2315F002AC802 /* templates */,
 			);
 			name = ofxDatGui;
 			sourceTree = "<group>";

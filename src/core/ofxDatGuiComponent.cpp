@@ -172,6 +172,22 @@ bool ofxDatGuiComponent::getEnabled()
     return mEnabled;
 }
 
+bool ofxDatGuiComponent::getFocused()
+{
+    return mFocused;
+}
+
+bool ofxDatGuiComponent::getPressed()
+{
+    return mFocused;
+}
+
+void ofxDatGuiComponent::stripFocus()
+{
+// called by gui when another component captures focus //
+    onFocusLost();
+}
+
 int ofxDatGuiComponent::getX()
 {
     return this->x;
@@ -238,7 +254,6 @@ void ofxDatGuiComponent::update()
                 onMousePress(mouse);
                 if (!mFocused) {
                     onFocus();
-                    ofAddListener(ofEvents().keyPressed, this, &ofxDatGuiComponent::onKeyPressed);
                 }
             }
         }
@@ -247,7 +262,6 @@ void ofxDatGuiComponent::update()
             onMouseLeave(mouse);
         }
         if (mp && mFocused) {
-            ofRemoveListener(ofEvents().keyPressed, this, &ofxDatGuiComponent::onKeyPressed);
             onFocusLost();
         }
     }
@@ -313,7 +327,7 @@ void ofxDatGuiComponent::drawColorPicker() { }
 
 void ofxDatGuiComponent::onMouseEnter(ofPoint m)
 {
-     mMouseOver = true;
+    mMouseOver = true;
 }
 
 void ofxDatGuiComponent::onMouseLeave(ofPoint m)
@@ -333,12 +347,17 @@ void ofxDatGuiComponent::onMouseRelease(ofPoint m)
 
 void ofxDatGuiComponent::onFocus()
 {
+//  cout << "ofxDatGuiComponent::onFocus" << mName << endl;
     mFocused = true;
+    ofAddListener(ofEvents().keyPressed, this, &ofxDatGuiComponent::onKeyPressed);
 }
 
 void ofxDatGuiComponent::onFocusLost()
 {
     mFocused = false;
+    mMouseDown = false;
+//  cout << "ofxDatGuiComponent::onFocusLost " << mName << endl;
+    ofRemoveListener(ofEvents().keyPressed, this, &ofxDatGuiComponent::onKeyPressed);
 }
 
 void ofxDatGuiComponent::onKeyPressed(int key) { }

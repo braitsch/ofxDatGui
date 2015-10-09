@@ -32,10 +32,9 @@ ofxDatGui::ofxDatGui(int x, int y)
 
 ofxDatGui::ofxDatGui(ofxDatGuiAnchor anchor)
 {
-    mPosition.x = 0;
-    mPosition.y = 0;
-    mAnchor = anchor;
     init();
+    mAnchor = anchor;
+    anchorGui();
 }
 
 void ofxDatGui::init()
@@ -43,11 +42,8 @@ void ofxDatGui::init()
     mVisible = true;
     mEnabled = true;
     mExpanded = true;
-    mMousePressed = false;
     mGuiHeader = nullptr;
     mGuiFooter = nullptr;
-    activeHover = nullptr;
-    activeFocus = nullptr;
     mAlphaChanged = false;
     mWidthChanged = false;
     mTemplateChanged = false;
@@ -65,9 +61,6 @@ void ofxDatGui::init()
     mRowSpacing = mTemplate->row.spacing;
     
     setAutoDraw(true);
-    ofAddListener(ofEvents().keyPressed, this, &ofxDatGui::onKeyPressed, OF_EVENT_ORDER_BEFORE_APP);
-    ofAddListener(ofEvents().mousePressed, this, &ofxDatGui::onMousePressed, OF_EVENT_ORDER_BEFORE_APP);
-    ofAddListener(ofEvents().mouseReleased, this, &ofxDatGui::onMouseReleased, OF_EVENT_ORDER_BEFORE_APP);
     ofAddListener(ofEvents().windowResized, this, &ofxDatGui::onWindowResized, OF_EVENT_ORDER_BEFORE_APP);
 }
 
@@ -75,16 +68,20 @@ void ofxDatGui::init()
     public getters & setters
 */
 
+bool ofxDatGui::hasFocus()
+{
+    return mGuiHasFocus;
+}
+
 void ofxDatGui::setWidth(int width)
 {
     mWidth = width;
     mWidthChanged = true;
-    if (mAnchor == ofxDatGuiAnchor::TOP_RIGHT) anchorGui();
+    if (mAnchor != ofxDatGuiAnchor::NO_ANCHOR) anchorGui();
 }
 
 void ofxDatGui::setTemplate(ofxDatGuiTemplate* t)
 {
-//  delete mTemplate;
     mTemplate = t;
     setWidth(mTemplate->row.width);
     mRowSpacing = mTemplate->row.spacing;
@@ -94,7 +91,6 @@ void ofxDatGui::setTemplate(ofxDatGuiTemplate* t)
 void ofxDatGui::setOrigin(int x, int y)
 {
     moveGui(ofPoint(x, y));
-    mAnchor = ofxDatGuiAnchor::NO_ANCHOR;
 }
 
 void ofxDatGui::setOpacity(float opacity)
@@ -233,7 +229,7 @@ ofxDatGuiColorPicker* ofxDatGui::addColorPicker(string label, ofColor color)
 
 ofxDatGuiWaveMonitor* ofxDatGui::addWaveMonitor(string label, float frequency, float amplitude)
 {
-    ofxDatGuiWaveMonitor* monitor = new ofxDatGuiWaveMonitor(label, frequency, frequency, mTemplate);
+    ofxDatGuiWaveMonitor* monitor = new ofxDatGuiWaveMonitor(label, frequency, amplitude, mTemplate);
     attachItem(monitor);
     return monitor;
 }
@@ -573,13 +569,18 @@ void ofxDatGui::moveGui(ofPoint pt)
 {
     mPosition.x = pt.x;
     mPosition.y = pt.y;
+    mAnchor = ofxDatGuiAnchor::NO_ANCHOR;
     layoutGui();
 }
 
 void ofxDatGui::anchorGui()
 {
     mPosition.y = 0;
-    mPosition.x = ofGetWidth() - mWidth;
+    if (mAnchor == ofxDatGuiAnchor::TOP_LEFT){
+        mPosition.x = 0;
+    }   else if (mAnchor == ofxDatGuiAnchor::TOP_RIGHT){
+        mPosition.x = ofGetWidth() - mWidth;
+    }
     layoutGui();
 }
 
@@ -593,6 +594,8 @@ void ofxDatGui::layoutGui()
         items[i]->setOrigin(mPosition.x, mPosition.y + mHeight);
         mHeight += items[i]->getHeight() + mRowSpacing;
     }
+    // move the footer back to the top of the gui //
+    if (!mExpanded) mGuiFooter->setY(mPosition.y);
 }
 
 void ofxDatGui::expandGui()
@@ -605,126 +608,6 @@ void ofxDatGui::collapseGui()
 {
     mExpanded = false;
     mGuiFooter->setY(mPosition.y);
-}
-
-/* 
-    event handlers & update / draw loop 
-*/
-
-void ofxDatGui::onMousePressed(ofMouseEventArgs &e)
-{
-    if (!mEnabled || !mVisible) return;
-    mMousePressed = true;
-    if (activeHover != nullptr){
-        activeHover->onMousePress(mouse);
-        if (activeFocus!= activeHover){
-            if (activeFocus != nullptr) activeFocus->onFocusLost();
-            activeFocus = activeHover;
-            activeFocus->onFocus();
-        }
-    }   else if (activeFocus != nullptr){
-        activeFocus->onFocusLost();
-        activeFocus = nullptr;
-    }
-}
-
-void ofxDatGui::onMouseReleased(ofMouseEventArgs &e)
-{
-    if (!mEnabled || !mVisible) return;
-    mMousePressed = false;
-    if (activeHover != nullptr){
-        activeHover->onMouseRelease(mouse);
-        if (activeFocus!= activeHover){
-            if (activeFocus != nullptr) activeFocus->onFocusLost();
-            activeFocus = activeHover;
-            activeFocus->onFocus();
-        }
-    }   else if (activeFocus != nullptr){
-        activeFocus->onFocusLost();
-        activeFocus = nullptr;
-    }
-}
-
-void ofxDatGui::onKeyPressed(ofKeyEventArgs &e)
-{
-    if (!mEnabled || !mVisible) return;
-    if (activeFocus != nullptr) {
-        activeFocus->onKeyPressed(e.key);
-        if ((e.key == OF_KEY_RETURN || e.key == OF_KEY_TAB)){
-            activeFocus->onFocusLost();
-            activeFocus = nullptr;
-        }
-    }
-}
-
-bool ofxDatGui::isMouseOverRow(ofxDatGuiComponent* row)
-{
-    bool hit = false;
-    if (row->getVisible() && row->hitTest(mouse)){
-        hit = true;
-        if (activeHover != nullptr){
-            if (activeHover != row){
-                activeHover->onMouseLeave(mouse);
-                activeHover = row;
-                activeHover->onMouseEnter(mouse);
-            }
-        }   else{
-            activeHover = row;
-            activeHover->onMouseEnter(mouse);
-        }
-    }
-    return hit;
-}
-
-bool ofxDatGui::isMouseOverGui()
-{
-    bool hit = false;
-    for (uint8_t i=0; i<items.size(); i++) {
-        if (items[i]->getIsExpanded()){
-            for (uint8_t j=0; j<items[i]->children.size(); j++) {
-                hit = isMouseOverRow(items[i]->children[j]);
-                if (hit) return true;
-            }
-        }
-        if (!hit) {
-            hit = isMouseOverRow(items[i]);
-            if (hit) return true;
-        }
-    }
-    return hit;
-}
-
-void ofxDatGui::update()
-{
-    if (mAlphaChanged) setGuiAlpha();
-    if (mTemplateChanged) setGuiTemplate();
-    if (mWidthChanged) setGuiWidth();
-    if (mAlignmentChanged) setGuiAlignment();
-    if (!mEnabled || !mVisible) return;
-    
-    bool hit;
-    mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
-    if (mExpanded){
-        hit = isMouseOverGui();
-    }   else{
-        hit = isMouseOverRow(mGuiFooter);
-    }
-    if (!hit && activeHover != nullptr){
-        activeHover->onMouseLeave(mouse);
-        activeHover = nullptr;
-    }
-    if (mMousePressed && activeFocus != nullptr){
-        activeFocus->onMouseDrag(mouse);
-    // allow the panel to be repositioned //
-        if (mGuiHeader != nullptr && activeFocus == mGuiHeader) {
-            moveGui(mouse-mGuiHeader->dragOffset);
-    // disable anchor when gui is dragged //
-            mAnchor = ofxDatGuiAnchor::NO_ANCHOR;
-        }
-    }
-// empty the trash //
-    for (int i=0; i<trash.size(); i++) delete trash[i];
-    trash.clear();
 }
 
 void ofxDatGui::setGuiAlpha()
@@ -751,6 +634,43 @@ void ofxDatGui::setGuiAlignment()
 {
     for (int i=0; i<items.size(); i++) items[i]->setAlignment(mAlignment);
     mAlignmentChanged = false;
+}
+
+
+/* 
+    update & draw loop
+*/
+
+void ofxDatGui::update()
+{
+    if (mAlphaChanged) setGuiAlpha();
+    if (mTemplateChanged) setGuiTemplate();
+    if (mWidthChanged) setGuiWidth();
+    if (mAlignmentChanged) setGuiAlignment();
+    
+    if (!mEnabled || !mVisible) return;
+    
+    if (mExpanded == false){
+        mGuiFooter->update();
+    }   else{
+        for (int i=0; i<items.size(); i++) items[i]->update();
+    // *mGuiHasFocus is still wip* //
+        mGuiHasFocus = false;
+        for (int i=0; i<items.size(); i++) {
+            if (items[i]->getFocused()) {
+                mGuiHasFocus = true;
+                if (mGuiHeader != nullptr && mGuiHeader->getPressed()){
+                    ofPoint mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
+                    moveGui(mouse - mGuiHeader->dragOffset);
+                }
+                break;
+            }
+        }
+    }
+    
+// empty the trash //
+    for (int i=0; i<trash.size(); i++) delete trash[i];
+    trash.clear();
 }
 
 void ofxDatGui::draw()
@@ -783,7 +703,7 @@ void ofxDatGui::onUpdate(ofEventArgs &e)
 
 void ofxDatGui::onWindowResized(ofResizeEventArgs &e)
 {
-    if (mAnchor == ofxDatGuiAnchor::TOP_RIGHT) anchorGui();
+    if (mAnchor != ofxDatGuiAnchor::NO_ANCHOR) anchorGui();
 }
 
 
