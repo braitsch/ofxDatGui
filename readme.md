@@ -2,7 +2,7 @@
 
 **ofxDatGui** is a **simple to use**, fully customizable, high-resolution graphical user interface for [openFrameworks](http://openframeworks.cc/) inspired by the popular JavaScript [datgui](http://workshop.chromeexperiments.com/examples/gui/) interface.  
 
-![ofxDatGui](./readme-img/ofxdatgui_03.png?raw=true)
+![ofxDatGui](./readme-img/ofxdatgui_.png?raw=true)
 
 ##Features
 
@@ -112,6 +112,19 @@ If this is not set it will default to halfway between the min and max values.
 	gui->addWaveMonitor(string label, float frequency, float amplitude);
 
 ![ofxDatGui](./readme-img/ofxdatgui_wave_monitor.gif?raw=true)
+
+**Value Plotters** and **Waveform Monitors** support four different draw modes:
+
+	ofxDatGuiGraph::LINES
+	ofxDatGuiGraph::FILLED
+	ofxDatGuiGraph::POINTS
+	ofxDatGuiGraph::OUTLINE
+
+	ofxDatGuiValuePlotter* plotter = new ofxDatGuiValuePlotter("my plotter", 0, 100);
+	// set the drawmode to "points" //
+	plotter->setDrawMode(ofxDatGuiGraph::POINTS);
+
+----
 
 **Button Matrix**
 
@@ -476,11 +489,12 @@ class myCustomTemplate : public ofxDatGuiTemplate
             font.file	= "PillGothic-Light.ttf"
             font.size   = 12;
             font.highlightPadding = 4;
-        // component colors //
-            color.rowBkgd	= ofColor::lightGray;
-            color.button	= ofColor::fromHex(0xFFD00B);
-            color.slider	= ofColor::fromHex(0x2FA1D6);
-            color.rowMouseOver = ofColor::fromHex(0x777777);
+        // gui / component colors //
+            row.color.bkgd	= ofColor::lightGray;
+            row.color.label	= ofColor::fromHex(0xFFD00B);
+            row.color.mouseOver	= ofColor::fromHex(0x2FA1D6);
+            row.color.mouseOver = ofColor::fromHex(0x777777);
+            row.color.inputArea = ofColor::fromHex(0x303030);
 		// after everything is setup initialize the template // 
             init();
         }
@@ -492,7 +506,7 @@ class myCustomTemplate : public ofxDatGuiTemplate
 
 ```
 
-Take a look at the [ofxDatGuiTemplate](./src/templates/ofxDatGuiTemplate.h) base class for a list of everything that can be customized.
+Take a look at the [ofxDatGuiTemplate](./src/templates/ofxDatGuiTemplate.h) base class for a full list of everything that can be customized.
 
 ---
 
