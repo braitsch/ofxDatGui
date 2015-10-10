@@ -23,8 +23,6 @@
 #pragma once
 #include "ofxDatGuiComponent.h"
 
-
-
 class ofxDatGuiTimeGraph : public ofxDatGuiComponent {
 
     public:
@@ -158,6 +156,11 @@ class ofxDatGuiWaveMonitor : public ofxDatGuiTimeGraph {
             mType = ofxDatGuiType::WAVE_MONITOR;
         }
     
+        static ofxDatGuiWaveMonitor* getInstance()
+        {
+            return new ofxDatGuiWaveMonitor("X", 0, 0);
+        }
+    
     // amplitude is a multiplier that affect the vertical height of the wave and should be a value between 0 & 1 //
         void setAmplitude(float amp)
         {
@@ -229,6 +232,11 @@ class ofxDatGuiValuePlotter : public ofxDatGuiTimeGraph {
             mSpeed = 5.0f;
             setRange(min, max);
             mType = ofxDatGuiType::VALUE_PLOTTER;
+        }
+    
+        static ofxDatGuiValuePlotter* getInstance()
+        {
+            return new ofxDatGuiValuePlotter("X", 0, 0);
         }
     
         void setRange(float min, float max)

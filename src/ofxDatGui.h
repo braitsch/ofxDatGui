@@ -76,6 +76,8 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofxDatGuiTextInput* getTextInput(string label, string folder = "");
         ofxDatGuiColorPicker* getColorPicker(string label, string folder = "");
         ofxDatGuiMatrix* getMatrix(string label, string folder = "");
+        ofxDatGuiWaveMonitor* getWaveMonitor(string label, string folder = "");
+        ofxDatGuiValuePlotter* getValuePlotter(string label, string folder = "");
         ofxDatGuiFolder* getFolder(string label);
         ofxDatGuiDropdown* getDropdown(string label);
     

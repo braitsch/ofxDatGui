@@ -95,11 +95,13 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
         void setLabelWhenExpanded(string label)
         {
             mLabelExpanded = label;
+            if (!mGuiCollapsed) setLabel(mLabelExpanded);
         }
     
         void setLabelWhenCollapsed(string label)
         {
             mLabelCollapsed = label;
+            if (mGuiCollapsed) setLabel(mLabelCollapsed);
         }
 
         void draw()

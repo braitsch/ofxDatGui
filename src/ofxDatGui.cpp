@@ -402,6 +402,40 @@ ofxDatGuiColorPicker* ofxDatGui::getColorPicker(string cl, string fl)
     return o;
 }
 
+ofxDatGuiWaveMonitor* ofxDatGui::getWaveMonitor(string cl, string fl)
+{
+    ofxDatGuiWaveMonitor* o = nullptr;
+    if (fl != ""){
+        ofxDatGuiFolder* f = static_cast<ofxDatGuiFolder*>(getComponent(ofxDatGuiType::FOLDER, fl));
+        if (f) o = static_cast<ofxDatGuiWaveMonitor*>(f->getComponent(ofxDatGuiType::WAVE_MONITOR, cl));
+    }   else{
+        o = static_cast<ofxDatGuiWaveMonitor*>(getComponent(ofxDatGuiType::WAVE_MONITOR, cl));
+    }
+    if (o==nullptr){
+        o = ofxDatGuiWaveMonitor::getInstance();
+        ofxDatGuiLog::write(ofxDatGuiMsg::COMPONENT_NOT_FOUND, fl!="" ? fl+"-"+cl : cl);
+        trash.push_back(o);
+    }
+    return o;
+}
+
+ofxDatGuiValuePlotter* ofxDatGui::getValuePlotter(string cl, string fl)
+{
+    ofxDatGuiValuePlotter* o = nullptr;
+    if (fl != ""){
+        ofxDatGuiFolder* f = static_cast<ofxDatGuiFolder*>(getComponent(ofxDatGuiType::FOLDER, fl));
+        if (f) o = static_cast<ofxDatGuiValuePlotter*>(f->getComponent(ofxDatGuiType::VALUE_PLOTTER, cl));
+    }   else{
+        o = static_cast<ofxDatGuiValuePlotter*>(getComponent(ofxDatGuiType::VALUE_PLOTTER, cl));
+    }
+    if (o==nullptr){
+        o = ofxDatGuiValuePlotter::getInstance();
+        ofxDatGuiLog::write(ofxDatGuiMsg::COMPONENT_NOT_FOUND, fl!="" ? fl+"-"+cl : cl);
+        trash.push_back(o);
+    }
+    return o;
+}
+
 ofxDatGuiMatrix* ofxDatGui::getMatrix(string ml, string fl)
 {
     ofxDatGuiMatrix* o = nullptr;

@@ -17,8 +17,10 @@ class ofApp : public ofBaseApp{
         ofxDatGuiDropdown* dd;
         ofxDatGuiWaveMonitor* m1;
         ofxDatGuiValuePlotter* p1;
+        ofxDatGuiValuePlotter* p2;
     
-        float angle1;
+        float ang1;
+        float ang2;
         void onGuiSliderEvent(ofxDatGuiSliderEvent e);
         void onGuiDropdownEvent(ofxDatGuiDropdownEvent e);
     

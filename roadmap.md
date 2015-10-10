@@ -13,8 +13,9 @@
 **components**
 
 * radio buttons
-* waveform visualizers
 * vertical range sliders
+* <del>waveform visualizers</del>
+* <del>value plotters</del>
 * <del>framerate monitor</del>
 * <del>padded breaks</del>
 * <del>color pickers</del>

@@ -55,7 +55,7 @@ class ofxDatGuiTemplate{
             float spacing = 1.0f;
             float stripeWidth = 2.0f;
             struct {
-                float maxAreaWidth = 340.0f;
+                float maxAreaWidth = 240.0f;
                 bool forceUpperCase = true;
             } label;
             struct {
@@ -151,7 +151,7 @@ class ofxDatGuiTemplate{
         } matrix;
     
         struct {
-            int height = 164;
+            int height = 140;
             int pointSize = 2;
             int lineWeight = 2;
             struct{

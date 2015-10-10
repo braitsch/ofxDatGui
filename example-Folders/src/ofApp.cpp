@@ -11,25 +11,27 @@ void ofApp::setup()
     int y = 100;
     ofSetWindowPosition(0, 0);
 
-    f1 = new ofxDatGuiFolder("FOLDER 1", ofColor::fromHex(0xFFD00B));
-    f1->addToggle("TOGGLE");
+    f1 = new ofxDatGuiFolder("folder 1", ofColor::fromHex(0xFFD00B));
+    f1->addToggle("toggle");
     f1->addBreak();
     f1->addFRM();
     f1->addBreak();
-    f1->addSlider("SLIDER", 0, 100);
-    f1->addMatrix("MATRIX", 14);
-    f1->addColorPicker("COLOR PICKER", ofColor::fromHex(0x2FA1D6));
+    f1->addSlider("slider", 0, 100);
+    f1->addMatrix("matrix", 14);
+    f1->addColorPicker("color picker", ofColor::fromHex(0x2FA1D6));
+    f1->addWaveMonitor("wave monitor", 3, .5);
     f1->setOrigin(x, y);
     f1->expand();
     
-    f2 = new ofxDatGuiFolder("FOLDER 2", ofColor::fromHex(0x1ED36F));
+    f2 = new ofxDatGuiFolder("folder 2", ofColor::fromHex(0x1ED36F));
     f2->setOrigin(x + f1->getWidth()+40, y);
-    f2->addButton("BUTTON");
-    f2->addTextInput("TEXT INPUT", "ENTER A MESSAGE");
+    f2->addButton("button");
+    f2->addTextInput("text input", "enter a message");
     f2->addBreak();
-    f2->addMatrix("MATRIX", 21, true);
+    f2->addMatrix("matrix", 21, true);
     f2->addBreak();
-    f2->add2dPad("2D PAD");
+    f2->add2dPad("2d pad");
+    f2->addSlider("slider", 0, 100);
     f2->expand();
     
     f1->onButtonEvent(this, &ofApp::onButtonEvent);

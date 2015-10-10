@@ -266,7 +266,7 @@ myDropdown->expand();
 myDropdown->collapse();
 ```
 
-**ofxDatGuiValuePlotter**
+**Value Plotter**
 
 ```cpp
 ofxDatGuiValuePlotter* myPlotter;
@@ -276,7 +276,7 @@ myPlotter->setSpeed(float speed);
 myPlotter->setDrawMode(ofxDatGuiGraph drawMode);
 ```
 
-**ofxDatGuiWaveMonitor**
+**Waveform Monitor**
 
 ```cpp
 ofxDatGuiWaveMonitor* myWaveMonitor;
@@ -286,7 +286,7 @@ myWaveMonitor->setFrequencyLimit(float limit);
 myWaveMonitor->setDrawMode(ofxDatGuiGraph drawMode);
 ```
 	
-**ofxDatGuiMatrix**
+**Button Matrix**
 
 ```cpp	
 ofxDatGuiMatrix* myMatrix;
@@ -296,7 +296,7 @@ vector<int> myMatrix->getSelected();
 myMatrix->clear(); // deselects all buttons in the matrix //
 ```
 
-**ofxDatGui2dPad**
+**2d Coordinate Pad**
 
 ```cpp	
 ofxDatGui2dPad* my2dPad;

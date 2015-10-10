@@ -7,23 +7,33 @@
 
 void ofApp::setup()
 {
-    angle1 = 0.0f;
+    ang1 = ang2 = 0.0f;
     ofSetWindowPosition(0, 0);
-    ofSetWindowShape(1920, 1080);
+    ofSetWindowShape(1920, 1200);
     
+// setup our gui //
     gui = new ofxDatGui();
-  //  gui->setWidth(1200);
+    gui->setWidth(1200);
     gui->setAlignment(ofxDatGuiAlignment::CENTER);
     gui->addHeader("wave monitor & value plotter example");
     gui->addFooter();
+    
+// add a wave monitor with a frequency of 3 & amplitude of 50% //
     m1 = gui->addWaveMonitor("wave monitor", 3, .5);
     s1 = gui->addSlider("frequency", 0, 50, 5);
 // amplitude multiplier must be a value between 0 & 1 //
     s2 = gui->addSlider("amplitude", 0, 1);
+// we'll animate it on a sine wave so let's disable user input //
+    s2->setEnabled(false);
+    
     gui->addBreak(20);
+    
+// add a couple value plotters with a range of 0 - 100 //
     p1 = gui->addValuePlotter("value plotter", 0, 100);
-    gui->addSlider("multiplier", 0, 1, .02);
-    gui->addSlider("sweep speed", 0, 30, 3);
+    p2 = gui->addValuePlotter("point plotter", 0, 100);
+    p2->setDrawMode(ofxDatGuiGraph::POINTS);
+    gui->addSlider("multiplier", 0, 1, .10);
+    gui->addSlider("sweep speed", 0, 30, 10);
     gui->addBreak(20);
     
 // add a dropdown to select between the four draw modes //
@@ -36,7 +46,7 @@ void ofApp::setup()
     
     p1->setSpeed(gui->getSlider("sweep speed")->getValue());
     
-    gui->setOrigin(ofGetWidth()/2 - gui->getWidth()/2, 100);
+    gui->setOrigin(ofGetWidth()/2 - gui->getWidth()/2, 140);
     gui->onSliderEvent(this, &ofApp::onGuiSliderEvent);
     gui->onDropdownEvent(this, &ofApp::onGuiDropdownEvent);
 }
@@ -78,11 +88,19 @@ void ofApp::onGuiDropdownEvent(ofxDatGuiDropdownEvent e)
 
 void ofApp::update()
 {
-// generate a sine wave between 0 & 1 //
-    float val = (1+sin(angle1+=gui->getSlider("multiplier")->getValue()))/2;
-// and multiply it by the range of the plotter //
-    p1->setValue(val * p1->getRange());
+// generate a couple sine waves between 0 & 1 //
+    float v1 = (1+sin(ang1+=.02f))/2;
+    float v2 = (1+sin(ang2+=gui->getSlider("multiplier")->getValue()))/2;
+    
+// oscillate the amplitude of the wave monitor //
+    s2->setValue(v1);
+    m1->setAmplitude(v1);
+    
+// and the values we supply to the plotter //
+    p1->setValue(v2 * p1->getRange());
     p1->setSpeed(gui->getSlider("sweep speed")->getValue());
+    p2->setValue(v2 * p1->getRange());
+    p2->setSpeed(gui->getSlider("sweep speed")->getValue());
 }
 
 void ofApp::draw()

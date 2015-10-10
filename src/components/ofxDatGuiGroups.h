@@ -323,6 +323,22 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
             return matrix;
         }
     
+        ofxDatGuiWaveMonitor* addWaveMonitor(string label, float frequency, float amplitude)
+        {
+            ofxDatGuiWaveMonitor* monitor = new ofxDatGuiWaveMonitor(label, frequency, amplitude, mTemplate);
+            monitor->setStripeColor(mStripeColor);
+            attachItem(monitor);
+            return monitor;
+        }
+    
+        ofxDatGuiValuePlotter* addValuePlotter(string label, float min, float max)
+        {
+            ofxDatGuiValuePlotter* plotter = new ofxDatGuiValuePlotter(label, min, max, mTemplate);
+            plotter->setStripeColor(mStripeColor);
+            attachItem(plotter);
+            return plotter;
+        }
+    
         void attachItem(ofxDatGuiComponent* item)
         {
             item->setIndex(children.size());
