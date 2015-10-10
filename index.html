@@ -24,7 +24,7 @@
 
 <p><strong>ofxDatGui</strong> is a <strong>simple to use</strong>, fully customizable, high-resolution graphical user interface for <a href="http://openframeworks.cc/">openFrameworks</a> inspired by the popular JavaScript <a href="http://workshop.chromeexperiments.com/examples/gui/">datgui</a> interface.  </p>
 
-<p><img src="https://raw.githubusercontent.com/braitsch/ofxDatGui/master/readme-img/ofxdatgui_03.png" alt="ofxDatGui"></p>
+<p><img src="https://raw.githubusercontent.com/braitsch/ofxDatGui/master/readme-img/ofxdatgui_.png" alt="ofxDatGui"></p>
 
 <h2>
 <a id="features" class="anchor" href="#features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Features</h2>
@@ -39,8 +39,10 @@
 <li>Dropdown Menus</li>
 <li>Button Matrices</li>
 <li>Coordinate Pads</li>
-<li>Variable Binding</li>
+<li>Value Plotters</li>
+<li>Waveform Monitors</li>
 <li>Framerate Monitor</li>
+<li>Variable Binding</li>
 <li>Completely Customizable</li>
 <li>Folders to group components together</li>
 <li>An optional header &amp; footer that allow you to title the gui, collapse and drag it around</li>
@@ -132,6 +134,34 @@ gui-&gt;addDropdown(options);
 </code></pre>
 
 <p><img src="https://raw.githubusercontent.com/braitsch/ofxDatGui/master/readme-img/ofxdatgui_dropdown.png?raw=true" alt="ofxDatGui"></p>
+
+<p><strong>Value Plotter</strong></p>
+
+<pre><code>gui-&gt;addValuePlotter(string label, float min, float max);
+</code></pre>
+
+<p><img src="./readme-img/ofxdatgui_value_plotter.gif?raw=true" alt="ofxDatGui"></p>
+
+<p><strong>Waveform Monitor</strong></p>
+
+<pre><code>gui-&gt;addWaveMonitor(string label, float frequency, float amplitude);
+</code></pre>
+
+<p><img src="./readme-img/ofxdatgui_wave_monitor.gif?raw=true" alt="ofxDatGui"></p>
+
+<p><strong>Value Plotters</strong> and <strong>Waveform Monitors</strong> support four different draw modes:</p>
+
+<pre><code>ofxDatGuiGraph::LINES
+ofxDatGuiGraph::FILLED
+ofxDatGuiGraph::POINTS
+ofxDatGuiGraph::OUTLINE
+
+ofxDatGuiValuePlotter* plotter = new ofxDatGuiValuePlotter("my plotter", 0, 100);
+// set the drawmode to "points" //
+plotter-&gt;setDrawMode(ofxDatGuiGraph::POINTS);
+</code></pre>
+
+<hr>
 
 <p><strong>Button Matrix</strong></p>
 
@@ -492,16 +522,16 @@ float scale = e.target-&gt;getScale();
             font.<span class="pl-smi">file</span>   = <span class="pl-s"><span class="pl-pds">"</span>PillGothic-Light.ttf<span class="pl-pds">"</span></span>
             font.<span class="pl-smi">size</span>   = <span class="pl-c1">12</span>;
             font.<span class="pl-smi">highlightPadding</span> = <span class="pl-c1">4</span>;
-        <span class="pl-c">// component colors //</span>
-            color.<span class="pl-smi">rowBkgd</span>   = ofColor::lightGray;
-            color.<span class="pl-smi">button</span>    = <span class="pl-c1">ofColor::fromHex</span>(0xFFD00B);
-            color.<span class="pl-smi">slider</span>    = <span class="pl-c1">ofColor::fromHex</span>(0x2FA1D6);
-            color.<span class="pl-smi">rowMouseOver</span> = <span class="pl-c1">ofColor::fromHex</span>(0x777777);
+        <span class="pl-c">// gui / component colors //</span>
+            row.<span class="pl-smi">color</span>.<span class="pl-smi">bkgd</span>  = ofColor::lightGray;
+            row.<span class="pl-smi">color</span>.<span class="pl-smi">label</span> = <span class="pl-c1">ofColor::fromHex</span>(0xFFD00B);
+            row.<span class="pl-smi">color</span>.<span class="pl-smi">mouseOver</span> = <span class="pl-c1">ofColor::fromHex</span>(0x2FA1D6);
+            row.<span class="pl-smi">color</span>.<span class="pl-smi">mouseOver</span> = <span class="pl-c1">ofColor::fromHex</span>(0x777777);
+            row.<span class="pl-smi">color</span>.<span class="pl-smi">inputArea</span> = <span class="pl-c1">ofColor::fromHex</span>(0x303030);
         <span class="pl-c">// after everything is setup initialize the template // </span>
             <span class="pl-c1">init</span>();
         }
 };
-
 <span class="pl-c">// assign this template to a gui instance //</span>
     gui = <span class="pl-k">new</span> ofxDatGui();
     gui-&gt;<span class="pl-en">setTemplate</span>(<span class="pl-k">new</span> myCustomTemplate());
