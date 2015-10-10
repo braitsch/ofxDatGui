@@ -319,6 +319,22 @@ ofxDatGuiDropdownOption* myDropdown-&gt;<span class="pl-en">getSelected</span>()
 myDropdown-&gt;<span class="pl-en">expand</span>();
 myDropdown-&gt;<span class="pl-en">collapse</span>();</pre></div>
 
+<p><strong>Value Plotter</strong></p>
+
+<div class="highlight highlight-source-c++"><pre>ofxDatGuiValuePlotter* myPlotter;
+myPlotter-&gt;<span class="pl-en">setValue</span>(<span class="pl-k">float</span> value);
+myPlotter-&gt;<span class="pl-en">setRange</span>(<span class="pl-k">float</span> min, <span class="pl-k">float</span> max);
+myPlotter-&gt;<span class="pl-en">setSpeed</span>(<span class="pl-k">float</span> speed);
+myPlotter-&gt;<span class="pl-en">setDrawMode</span>(ofxDatGuiGraph drawMode);</pre></div>
+
+<p><strong>Waveform Monitor</strong></p>
+
+<div class="highlight highlight-source-c++"><pre>ofxDatGuiWaveMonitor* myWaveMonitor;
+myWaveMonitor-&gt;<span class="pl-en">setFrequency</span>(<span class="pl-k">float</span> frequency);
+myWaveMonitor-&gt;<span class="pl-en">setAmplitude</span>(<span class="pl-k">float</span> amplitude);
+myWaveMonitor-&gt;<span class="pl-en">setFrequencyLimit</span>(<span class="pl-k">float</span> limit);
+myWaveMonitor-&gt;<span class="pl-en">setDrawMode</span>(ofxDatGuiGraph drawMode);</pre></div>
+
 <p><strong>ofxDatGuiMatrix</strong></p>
 
 <div class="highlight highlight-source-c++"><pre>ofxDatGuiMatrix* myMatrix;
