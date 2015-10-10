@@ -44,6 +44,7 @@ void ofxDatGui::init()
     mExpanded = true;
     mGuiHeader = nullptr;
     mGuiFooter = nullptr;
+    mActiveItem = nullptr;
     mAlphaChanged = false;
     mWidthChanged = false;
     mTemplateChanged = false;
@@ -636,7 +637,6 @@ void ofxDatGui::setGuiAlignment()
     mAlignmentChanged = false;
 }
 
-
 /* 
     update & draw loop
 */
@@ -653,19 +653,37 @@ void ofxDatGui::update()
     if (mExpanded == false){
         mGuiFooter->update();
     }   else{
-        for (int i=0; i<items.size(); i++) items[i]->update();
-    // *mGuiHasFocus is still wip* //
-        mGuiHasFocus = false;
+        int activeItemIndex = -1;
         for (int i=0; i<items.size(); i++) {
+            items[i]->update(false);
             if (items[i]->getFocused()) {
-                mGuiHasFocus = true;
+                activeItemIndex = i;
                 if (mGuiHeader != nullptr && mGuiHeader->getPressed()){
                     ofPoint mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
                     moveGui(mouse - mGuiHeader->dragOffset);
                 }
                 break;
+            }   else if (items[i]->getIsExpanded()){
+            // check if one of its children has focus //
+                for (int j=0; j<items[i]->children.size(); j++) {
+                    if (items[i]->children[j]->getFocused()){
+                        activeItemIndex = i;
+                        break;
+                    }
+                }
+                if (activeItemIndex != -1) break;
             }
         }
+    // update the remaining components //
+        if (activeItemIndex != -1){
+            for (int i=activeItemIndex + 1; i<items.size(); i++) {
+        //  but tell them to ignore mouse & keyboard events //
+                items[i]->update(true);
+            }
+        }
+    // gui should retain focus until user clicks somewhere outside of it //
+        mGuiHasFocus = activeItemIndex != -1;
+    //    cout << "mGuiHasFocus " << mGuiHasFocus << endl;
     }
     
 // empty the trash //

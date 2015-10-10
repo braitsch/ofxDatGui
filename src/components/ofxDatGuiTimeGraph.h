@@ -42,11 +42,6 @@ class ofxDatGuiTimeGraph : public ofxDatGuiComponent {
                 break;
             }
         }
-    
-        bool hitTest(ofPoint m)
-        {
-            return false;
-        }
 
     protected:
     
@@ -104,7 +99,7 @@ class ofxDatGuiTimeGraph : public ofxDatGuiComponent {
             float px = this->x + mPlotterRect.x;
             float py = this->y + mPlotterRect.y;
             glLineWidth(mLineWeight);
-            glBegin(GL_LINES);
+            glBegin(GL_LINE_STRIP);
             for (int i=0; i<pts.size(); i++) glVertex2f(px+pts[i].x, py+pts[i].y);
             glEnd();
         }
@@ -211,7 +206,7 @@ class ofxDatGuiWaveMonitor : public ofxDatGuiTimeGraph {
             }
         }
     
-        void update()
+        void update(bool ignoreMouseEvents)
         {
             pts[0].y = pts[pts.size()-1].y;
             for (int i=mPlotterRect.width-1; i>0; i--) pts[i].y = pts[i-1].y;
@@ -245,7 +240,10 @@ class ofxDatGuiValuePlotter : public ofxDatGuiTimeGraph {
     
         void setSpeed(float speed)
         {
-            mSpeed = speed;
+            if (speed != mSpeed){
+                pts.clear();
+                mSpeed = speed;
+            }
         }
 
         void setValue(float value)
@@ -273,17 +271,16 @@ class ofxDatGuiValuePlotter : public ofxDatGuiTimeGraph {
             return mMax-mMin;
         }
     
-        void update()
+        void update(bool ignoreMouseEvents)
         {
         // shift all points over before adding new value //
-            for (int i=0; i<pts.size(); i++) {
-                pts[i].x -= mSpeed;
-        // this still allows two points to have the same x coordinate //
-                if (pts[i].x <= 0){
-                    pts.erase(pts.end()-1);
-                }   else if (pts[i].x <= 0 + mSpeed){
-                    pts[i].x = mLineWeight/2;
-                }
+            for (int i=0; i<pts.size(); i++) pts[i].x -= mSpeed;
+            int i = 0;
+            while(i < pts.size())
+            {
+                if (pts[i].x <= 0) pts.erase(pts.end()-1);
+                if (pts[i].x <= mSpeed) pts[i].x = mLineWeight/2;
+                i++;
             }
             float height = mPlotterRect.height - (mPlotterRect.height * ofxDatGuiScale(mVal, mMin, mMax));
             pts.insert(pts.begin(), ofVec2f(mPlotterRect.width, height));

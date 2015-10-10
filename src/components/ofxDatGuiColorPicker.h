@@ -101,7 +101,7 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
         void onMouseLeave(ofPoint mouse)
         {
             mShowPicker = false;
-            ofxDatGuiComponent::onMouseLeave(mouse);
+            ofxDatGuiTextInput::onMouseLeave(mouse);
         }
     
         void draw()

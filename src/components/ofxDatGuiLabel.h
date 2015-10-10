@@ -27,13 +27,14 @@ class ofxDatGuiBreak : public ofxDatGuiComponent{
 
     public:
     
-        ofxDatGuiBreak(int height = 0, ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiComponent("", tmplt)
+        ofxDatGuiBreak(int height = 0, ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiComponent("break", tmplt)
         {
             if (height > 0){
                 mHeight = height;
             }   else {
                 mHeight = mTemplate->row.height * .1;
             }
+            mRow.height = height;
         }
     
         void draw()
@@ -49,11 +50,6 @@ class ofxDatGuiBreak : public ofxDatGuiComponent{
         int getHeight()
         {
             return mHeight;
-        }
-    
-        bool hitTest(ofPoint m)
-        {
-            return false;
         }
     
     private:
@@ -76,11 +72,6 @@ class ofxDatGuiLabel : public ofxDatGuiComponent{
             ofxDatGuiComponent::drawBkgd();
             ofxDatGuiComponent::drawLabel();
             ofxDatGuiComponent::drawStripe();
-        }
-    
-        bool hitTest(ofPoint m)
-        {
-            return false;
         }
     
     protected:

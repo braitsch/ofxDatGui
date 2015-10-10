@@ -400,7 +400,7 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
             if (cIndex < 0 || cIndex >= children.size()){
                 ofLogError() << "ofxDatGuiDropdown->select("<<cIndex<<") is out of range";
             }   else{
-                mLabel = children[cIndex]->getLabel();
+                setLabel(children[cIndex]->getLabel());
             }
         }
 
@@ -422,7 +422,7 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
         void onOptionSelected(ofxDatGuiButtonEvent e)
         {
             for(int i=0; i<children.size(); i++) if (e.target == children[i]) mOption = i;
-            mLabel = children[mOption]->getLabel();
+            setLabel(children[mOption]->getLabel());
             collapse();
             if (dropdownEventCallback != nullptr) {
                 ofxDatGuiDropdownEvent e1(this, mIndex, mOption);

@@ -25,7 +25,7 @@ void ofApp::setup()
     folder->addToggle("** toggle");
     folder->addColorPicker("** picker", ofColor::fromHex(0xFFD00B));
 // let's have it open by default. note: call this only after you're done adding items //
-    folder->expand();
+  //  folder->expand();
 
     gui->addBreak();
 // add a couple range sliders //
@@ -39,7 +39,7 @@ void ofApp::setup()
 // and a colorpicker! //
     gui->addColorPicker("color picker", ofColor::fromHex(0xeeeeee));
     
-// take a look inside example-TimeGraph for more examples of this and the value plotter //
+//// take a look inside example-TimeGraph for more examples of this and the value plotter //
     gui->addWaveMonitor("wave\nmonitor", 3, .2);
     
     gui->addBreak();
@@ -76,7 +76,7 @@ void ofApp::setup()
     gui->setOpacity(gui->getSlider("datgui opacity")->getScale());
     
 // let's launch the app fullscreen //
-    mFullscreen = true;
+    mFullscreen = false;
     refreshWindow();
 }
 
@@ -138,7 +138,8 @@ void ofApp::refreshWindow()
     ofSetFullscreen(mFullscreen);
     if (!mFullscreen) {
         ofSetWindowShape(1920, 1400);
-        ofSetWindowPosition((ofGetScreenWidth()/2)-(1920/2), 0);
+        ofSetWindowPosition(0, 0);
+        //ofSetWindowPosition((ofGetScreenWidth()/2)-(1920/2), 0);
     }
 }
 

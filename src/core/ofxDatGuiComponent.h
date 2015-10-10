@@ -55,8 +55,8 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         ofxDatGuiType getType();
     
         virtual void draw() = 0;
-        virtual void update();
-        virtual bool hitTest(ofPoint m) = 0;
+        virtual void update(bool ignoreMouseEvents = false);
+        virtual bool hitTest(ofPoint m);
 
         virtual void setY(int y);
         virtual void setWidth(int w);
@@ -77,6 +77,7 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         virtual void onMouseLeave(ofPoint m);
         virtual void onMouseRelease(ofPoint m);
         void onKeyPressed(ofKeyEventArgs &e);
+        void onWindowResized(ofResizeEventArgs &e);
     
     protected:
     

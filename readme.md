@@ -15,8 +15,10 @@
 * Dropdown Menus
 * Button Matrices
 * Coordinate Pads
-* Variable Binding
+* Value Plotters
+* Waveform Monitors
 * Framerate Monitor
+* Variable Binding
 * Completely Customizable
 * Folders to group components together
 * An optional header & footer that allow you to title the gui, collapse and drag it around
@@ -98,6 +100,18 @@ If this is not set it will default to halfway between the min and max values.
 	gui->addDropdown(options);
 	
 ![ofxDatGui](./readme-img/ofxdatgui_dropdown.png?raw=true)
+
+**Value Plotter**
+	
+	gui->addValuePlotter(string label, float min, float max);
+
+![ofxDatGui](./readme-img/ofxdatgui_value_plotter.gif?raw=true)
+
+**Waveform Monitor**
+	
+	gui->addWaveMonitor(string label, float frequency, float amplitude);
+
+![ofxDatGui](./readme-img/ofxdatgui_wave_monitor.gif?raw=true)
 
 **Button Matrix**
 
@@ -242,7 +256,7 @@ myColorPicker->setColor(ofColor color);
 	
 **Dropdown Menu**
 
-```cpp	
+```cpp
 ofxDatGuiDropdown* myDropdown;
 int myDropdown->size();
 myDropdown->select(int index);
@@ -250,6 +264,26 @@ ofxDatGuiDropdownOption* getChildAt(int index);
 ofxDatGuiDropdownOption* myDropdown->getSelected();
 myDropdown->expand();
 myDropdown->collapse();
+```
+
+**ofxDatGuiValuePlotter**
+
+```cpp
+ofxDatGuiValuePlotter* myPlotter;
+myPlotter->setValue(float value);
+myPlotter->setRange(float min, float max);
+myPlotter->setSpeed(float speed);
+myPlotter->setDrawMode(ofxDatGuiGraph drawMode);
+```
+
+**ofxDatGuiWaveMonitor**
+
+```cpp
+ofxDatGuiWaveMonitor* myWaveMonitor;
+myWaveMonitor->setFrequency(float frequency);
+myWaveMonitor->setAmplitude(float amplitude);
+myWaveMonitor->setFrequencyLimit(float limit);
+myWaveMonitor->setDrawMode(ofxDatGuiGraph drawMode);
 ```
 	
 **ofxDatGuiMatrix**

@@ -209,6 +209,12 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
             }
         }
     
+        void onMouseLeave(ofPoint m)
+        {
+        // override the base call to retain focus //
+            mMouseOver = false;
+        }
+    
         void dispatchSliderChangedEvent()
         {
          // experimental - check for bound variables //

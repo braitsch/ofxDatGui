@@ -10,18 +10,16 @@ class ofApp : public ofBaseApp{
 		void update();
 		void draw();
  
-        ofxDatGui* g1;
-        ofxDatGui* g2;
+        ofxDatGui* gui;
  
-        ofxDatGuiToggle* g1t1;
-        ofxDatGuiToggle* g1t2;
-        ofxDatGuiSlider* g1s1;
-        ofxDatGuiSlider* g1s2;
-        ofxDatGuiWaveMonitor* g1m1;
+        ofxDatGuiSlider* s1;
+        ofxDatGuiSlider* s2;
+        ofxDatGuiDropdown* dd;
+        ofxDatGuiWaveMonitor* m1;
         ofxDatGuiValuePlotter* p1;
     
         float angle1;
-        void onGuiButtonEvent(ofxDatGuiButtonEvent e);
         void onGuiSliderEvent(ofxDatGuiSliderEvent e);
+        void onGuiDropdownEvent(ofxDatGuiDropdownEvent e);
     
 };

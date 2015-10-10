@@ -117,11 +117,6 @@ class ofxDatGui2dPad : public ofxDatGuiComponent {
             ofPopStyle();
         }
     
-        bool hitTest(ofPoint m)
-        {
-            return (m.x>=x && m.x<= x+mRow.width && m.y>=y && m.y<= y+mRow.height);
-        }
-    
         void onMouseDrag(ofPoint m)
         {
             if (mPad.inside(m)){

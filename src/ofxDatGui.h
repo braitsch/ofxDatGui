@@ -100,6 +100,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofxDatGuiFooter* mGuiFooter;
         ofxDatGuiTemplate* mTemplate;
         ofxDatGuiAlignment mAlignment;
+        ofxDatGuiComponent* mActiveItem;
         vector<ofxDatGuiComponent*> items;
         vector<ofxDatGuiComponent*> trash;
     

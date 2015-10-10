@@ -49,20 +49,6 @@ ofxDatGuiComponent::ofxDatGuiComponent(string label, ofxDatGuiTemplate* tmplt)
     setTemplate(tmplt);
 }
 
-void ofxDatGuiComponent::setTemplate(ofxDatGuiTemplate* tmplt)
-{
-    mTemplate = tmplt;
-    mRow.width = mTemplate->row.width;
-    mRow.height = mTemplate->row.height;
-    mRow.padding = mTemplate->row.padding;
-    mRow.spacing = mTemplate->row.spacing;
-    mRow.stripeWidth = mTemplate->row.stripeWidth;
-    mIcon.y = mRow.height * .33;
-    mIcon.size = mRetinaEnabled ? 20 : 10;
-    mFont = mTemplate->font.ttf;
-    setLabel(mLabel);
-}
-
 ofxDatGuiComponent::~ofxDatGuiComponent()
 {
     delete mFont;
@@ -127,6 +113,20 @@ int ofxDatGuiComponent::getHeight()
     return mRow.height;
 }
 
+void ofxDatGuiComponent::setTemplate(ofxDatGuiTemplate* tmplt)
+{
+    mTemplate = tmplt;
+    mRow.width = mTemplate->row.width;
+    mRow.height = mTemplate->row.height;
+    mRow.padding = mTemplate->row.padding;
+    mRow.spacing = mTemplate->row.spacing;
+    mRow.stripeWidth = mTemplate->row.stripeWidth;
+    mIcon.y = mRow.height * .33;
+    mIcon.size = mRetinaEnabled ? 20 : 10;
+    mFont = mTemplate->font.ttf;
+    setLabel(mLabel);
+}
+
 void ofxDatGuiComponent::setWidth(int w)
 {
     mRow.width = w;
@@ -139,7 +139,7 @@ void ofxDatGuiComponent::setWidth(int w)
     mSlider.width=mRow.rWidth*.7;
     mSlider.inputX=mRow.inputX+mSlider.width+mRow.padding;
     mSlider.inputWidth=mRow.rWidth-mSlider.width-(mRow.padding*2);
- //   for (int i=0; i<children.size(); i++) children[i]->setWidth(w);
+    for (int i=0; i<children.size(); i++) children[i]->setWidth(w);
 }
 
 void ofxDatGuiComponent::setVisible(bool visible)
@@ -214,11 +214,12 @@ void ofxDatGuiComponent::setOrigin(int x, int y)
 void ofxDatGuiComponent::setAnchor(ofxDatGuiAnchor anchor)
 {
     mAnchor = anchor;
-    if (mAnchor == ofxDatGuiAnchor::TOP_LEFT){
-        setOrigin(0, 0);
-    }   else if (mAnchor == ofxDatGuiAnchor::TOP_RIGHT){
-        setOrigin(ofGetWidth()-mRow.width, 0);
+    if (mAnchor != ofxDatGuiAnchor::NO_ANCHOR){
+        ofAddListener(ofEvents().windowResized, this, &ofxDatGuiComponent::onWindowResized);
+    }   else{
+        ofRemoveListener(ofEvents().windowResized, this, &ofxDatGuiComponent::onWindowResized);
     }
+    ofSetWindowShape(ofGetWidth(), ofGetHeight());
 }
 
 void ofxDatGuiComponent::setAlignment(ofxDatGuiAlignment align)
@@ -241,42 +242,42 @@ bool ofxDatGuiComponent::getIsExpanded()
     draw methods
 */
 
-void ofxDatGuiComponent::update()
+void ofxDatGuiComponent::update(bool ignoreMouseEvents)
 {
-//    if (!mEnabled) return;
-    bool mp = ofGetMousePressed();
-    ofPoint mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
-    if (hitTest(mouse)){
-        if (!mMouseOver){
-            onMouseEnter(mouse);
-        }   else {
-            if (!mMouseDown && mp){
-                onMousePress(mouse);
-                if (!mFocused) {
-                    onFocus();
+    if (ignoreMouseEvents || mEnabled == false){
+// strip focus away if another component in the panel has received it //
+        if (mFocused) onFocusLost();
+    }   else{
+        bool mp = ofGetMousePressed();
+        ofPoint mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
+        if (hitTest(mouse)){
+            if (!mMouseOver){
+                onMouseEnter(mouse);
+            }   else {
+                if (!mMouseDown && mp){
+                    onMousePress(mouse);
+                    if (!mFocused) {
+                        onFocus();
+                    }
                 }
             }
-        }
-    }   else{
-        if (mMouseOver){
-            onMouseLeave(mouse);
-        }
-        if (mp && mFocused) {
-            onFocusLost();
-        }
-    }
-    if (mMouseDown) {
-        if (mp){
-            onMouseDrag(mouse);
         }   else{
-            onMouseRelease(mouse);
+            if (mMouseOver){
+                onMouseLeave(mouse);
+            }   else if (mp && mFocused){
+                onFocusLost();
+            }
         }
+        if (mMouseDown) {
+            if (mp){
+                onMouseDrag(mouse);
+            }   else{
+                onMouseRelease(mouse);
+            }
+        }
+    // don't iterate over children unless they're visible //
+        if (this->getIsExpanded()) for(int i=0; i<children.size(); i++) children[i]->update();
     }
-// if we're anchored, check if the window was resized //
-    if (mAnchor != ofxDatGuiAnchor::NO_ANCHOR) if (ofGetWidth() != mWindow.width) setAnchor(mAnchor);
-// don't iterate over children unless they're visible //
-// TODO need to stop iterating over children once hitTest returns true //
-    if (getIsExpanded()) for(int i=0; i<children.size(); i++) children[i]->update();
 }
 
 void ofxDatGuiComponent::drawBkgd()
@@ -325,6 +326,11 @@ void ofxDatGuiComponent::drawColorPicker() { }
     events
 */
 
+bool ofxDatGuiComponent::hitTest(ofPoint m)
+{
+    return (m.x>=x && m.x<= x+mRow.width && m.y>=y && m.y<= y+mRow.height);
+}
+
 void ofxDatGuiComponent::onMouseEnter(ofPoint m)
 {
     mMouseOver = true;
@@ -333,6 +339,8 @@ void ofxDatGuiComponent::onMouseEnter(ofPoint m)
 void ofxDatGuiComponent::onMouseLeave(ofPoint m)
 {
     mMouseOver = false;
+// strip away focus on mouse leave, this is overridden by components with textfields //
+    if (mFocused) onFocusLost();
 }
 
 void ofxDatGuiComponent::onMousePress(ofPoint m)
@@ -347,7 +355,6 @@ void ofxDatGuiComponent::onMouseRelease(ofPoint m)
 
 void ofxDatGuiComponent::onFocus()
 {
-//  cout << "ofxDatGuiComponent::onFocus" << mName << endl;
     mFocused = true;
     ofAddListener(ofEvents().keyPressed, this, &ofxDatGuiComponent::onKeyPressed);
 }
@@ -356,7 +363,6 @@ void ofxDatGuiComponent::onFocusLost()
 {
     mFocused = false;
     mMouseDown = false;
-//  cout << "ofxDatGuiComponent::onFocusLost " << mName << endl;
     ofRemoveListener(ofEvents().keyPressed, this, &ofxDatGuiComponent::onKeyPressed);
 }
 
@@ -369,6 +375,15 @@ void ofxDatGuiComponent::onKeyPressed(ofKeyEventArgs &e)
     if ((e.key == OF_KEY_RETURN || e.key == OF_KEY_TAB)){
         onFocusLost();
         ofRemoveListener(ofEvents().keyPressed, this, &ofxDatGuiComponent::onKeyPressed);
+    }
+}
+
+void ofxDatGuiComponent::onWindowResized(ofResizeEventArgs &e)
+{
+    if (mAnchor == ofxDatGuiAnchor::TOP_LEFT){
+        setOrigin(0, 0);
+    }   else if (mAnchor == ofxDatGuiAnchor::TOP_RIGHT){
+        setOrigin(ofGetWidth()-mRow.width, 0);
     }
 }
 
