@@ -157,9 +157,8 @@ ofxDatGuiHeader* ofxDatGui::addHeader(string label)
             items.insert(items.begin(), mGuiHeader);
         }
         layoutGui();
-	}	else {
-		return mGuiHeader;
 	}
+    return mGuiHeader;
 }
 
 ofxDatGuiFooter* ofxDatGui::addFooter()
@@ -169,9 +168,8 @@ ofxDatGuiFooter* ofxDatGui::addFooter()
         items.push_back(mGuiFooter);
         mGuiFooter->onInternalEvent(this, &ofxDatGui::onInternalEventCallback);
         layoutGui();
-	}	else {
-		return mGuiFooter;
 	}
+    return mGuiFooter;
 }
 
 ofxDatGuiLabel* ofxDatGui::addLabel(string label)
