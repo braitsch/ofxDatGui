@@ -1,0 +1,64 @@
+
+body {
+	font-size:16px;
+	font-family: 'Raleway', sans-serif;
+	line-height:1.6;
+}
+
+.jumbotron, .well{
+	padding-top:20px;
+	padding-right: 60px;
+	padding-left: 60px;
+	p, h4{
+		margin-top:20px;
+	}
+	background-color:#fff;
+	border-style: solid;
+	border-color: #ddd;
+	border-width: 1px;
+	border-radius: 4px 4px 0 0;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+.jumbotron, .gallery{
+	margin-top:80px;
+	h4{
+		line-height:1.4;
+	}
+}
+
+img{
+	height: auto;
+	max-width: 100%;
+}
+
+h2{
+	color: #ea503f;
+}
+
+.navbar-default .navbar-brand{
+	color: #ea503f;
+}
+
+.site-footer{
+	text-align:center;
+	margin: 60px 0 20px 0;
+}
+
+.anchor {
+	display: block;
+	position: relative;
+	top: -100px;
+	visibility: hidden;
+}
+
+pre.prettyprint{
+	padding: 9.5px;
+	border: 1px solid #ccc;
+}
+
+.gallery-project{
+	margin-top:40px;
+}
+
