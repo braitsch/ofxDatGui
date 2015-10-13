@@ -99,8 +99,8 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
     
         void setOrigin(int x, int y)
         {
-            ofxDatGuiComponent::setOrigin(x, y);
-            mLabelMarginRight = mRow.width-mIcon.x;
+            ofxDatGuiButton::setOrigin(x, y);
+            mLabelMarginRight = mLabelAreaWidth - mIcon.x;
         }
     
         void setTemplate(ofxDatGuiTemplate* tmplt)

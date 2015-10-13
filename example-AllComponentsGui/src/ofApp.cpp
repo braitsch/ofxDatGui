@@ -76,7 +76,7 @@ void ofApp::setup()
     gui->setOpacity(gui->getSlider("datgui opacity")->getScale());
     
 // let's launch the app fullscreen //
-    mFullscreen = false;
+    mFullscreen = true;
     refreshWindow();
 }
 
