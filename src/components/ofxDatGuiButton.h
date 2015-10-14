@@ -29,7 +29,7 @@ class ofxDatGuiButton : public ofxDatGuiComponent {
     
         ofxDatGuiButton(string label, ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiComponent(label, tmplt)
         {
-            mType = ofxDatGuiType::BUTTON;
+            mType = ofxDatGuiType::OFXDATGUI_BUTTON;
             mStripeColor = mTemplate->button.color.stripe;
             setWidth(mRow.width);
         }

@@ -33,7 +33,7 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
             mMin = min;
             mMax = max;
             mVal = val;
-            mType = ofxDatGuiType::SLIDER;
+            mType = ofxDatGuiType::OFXDATGUI_SLIDER;
             mStripeColor = mTemplate->slider.color.stripe;
             input = new ofxDatGuiTextInputField(mRow.height-(mRow.padding*2), mTemplate);
             input->setTextInactiveColor(mTemplate->slider.color.text);

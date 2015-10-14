@@ -29,7 +29,7 @@ class ofxDatGuiTextInput : public ofxDatGuiComponent {
     public:
         ofxDatGuiTextInput(string label, string text = "", ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiComponent(label, tmplt)
         {
-            mType = ofxDatGuiType::TEXT_INPUT;
+            mType = ofxDatGuiType::OFXDATGUI_TEXT_INPUT;
             mStripeColor = mTemplate->textInput.color.stripe;
             input = new ofxDatGuiTextInputField(mRow.height-(mRow.padding*2), mTemplate);
             input->setText(text);
