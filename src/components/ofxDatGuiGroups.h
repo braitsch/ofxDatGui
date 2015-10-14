@@ -151,7 +151,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
         {
     // all items within a folder share the same stripe color //
             mStripeColor = color;
-            mType = ofxDatGuiType::FOLDER;
+            mType = ofxDatGuiType::OFXDATGUI_FOLDER;
         }
     
         static ofxDatGuiFolder* getInstance()
@@ -388,7 +388,7 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
         ofxDatGuiDropdown(string label, const vector<string>& options = vector<string>(), ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiGroup(label, tmplt)
         {
             mOption = 0;
-            mType = ofxDatGuiType::DROPDOWN;
+            mType = ofxDatGuiType::OFXDATGUI_DROPDOWN;
             mStripeColor = mTemplate->dropdown.color.stripe;
             for(int i=0; i<options.size(); i++){
                 ofxDatGuiDropdownOption* opt = new ofxDatGuiDropdownOption(options[i], mTemplate);

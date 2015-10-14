@@ -29,7 +29,7 @@ ofxDatGui::ofxDatGui(int x, int y)
 {
     mPosition.x = x;
     mPosition.y = y;
-    mAnchor = ofxDatGuiAnchor::NO_ANCHOR;
+    mAnchor = ofxDatGuiAnchor::OFXDATGUI_NO_ANCHOR;
     init();
 }
 
@@ -53,7 +53,7 @@ void ofxDatGui::init()
     mWidthChanged = false;
     mTemplateChanged = false;
     mAlignmentChanged = false;
-    mAlignment = ofxDatGuiAlignment::LEFT;
+    mAlignment = ofxDatGuiAlignment::OFXDATGUI_LEFT;
     
 // load a default layout template //
     if (ofxDatGuiIsRetina() == false){
@@ -88,7 +88,7 @@ void ofxDatGui::setWidth(int width)
 {
     mWidth = width;
     mWidthChanged = true;
-    if (mAnchor != ofxDatGuiAnchor::NO_ANCHOR) anchorGui();
+    if (mAnchor != ofxDatGuiAnchor::OFXDATGUI_NO_ANCHOR) anchorGui();
 }
 
 void ofxDatGui::setTemplate(ofxDatGuiTemplate* t)
@@ -328,10 +328,10 @@ ofxDatGuiButton* ofxDatGui::getButton(string bl, string fl)
 {
     ofxDatGuiButton* o = nullptr;
     if (fl != ""){
-        ofxDatGuiFolder* f = static_cast<ofxDatGuiFolder*>(getComponent(ofxDatGuiType::FOLDER, fl));
-        if (f) o = static_cast<ofxDatGuiButton*>(f->getComponent(ofxDatGuiType::BUTTON, bl));
+        ofxDatGuiFolder* f = static_cast<ofxDatGuiFolder*>(getComponent(ofxDatGuiType::OFXDATGUI_FOLDER, fl));
+        if (f) o = static_cast<ofxDatGuiButton*>(f->getComponent(ofxDatGuiType::OFXDATGUI_BUTTON, bl));
     }   else{
-        o = static_cast<ofxDatGuiButton*>(getComponent(ofxDatGuiType::BUTTON, bl));
+        o = static_cast<ofxDatGuiButton*>(getComponent(ofxDatGuiType::OFXDATGUI_BUTTON, bl));
     }
     if (o==nullptr){
         o = ofxDatGuiButton::getInstance();
@@ -345,10 +345,10 @@ ofxDatGuiSlider* ofxDatGui::getSlider(string sl, string fl)
 {
     ofxDatGuiSlider* o = nullptr;
     if (fl != ""){
-        ofxDatGuiFolder* f = static_cast<ofxDatGuiFolder*>(getComponent(ofxDatGuiType::FOLDER, fl));
-        if (f) o = static_cast<ofxDatGuiSlider*>(f->getComponent(ofxDatGuiType::SLIDER, sl));
+        ofxDatGuiFolder* f = static_cast<ofxDatGuiFolder*>(getComponent(ofxDatGuiType::OFXDATGUI_FOLDER, fl));
+        if (f) o = static_cast<ofxDatGuiSlider*>(f->getComponent(ofxDatGuiType::OFXDATGUI_SLIDER, sl));
     }   else{
-        o = static_cast<ofxDatGuiSlider*>(getComponent(ofxDatGuiType::SLIDER, sl));
+        o = static_cast<ofxDatGuiSlider*>(getComponent(ofxDatGuiType::OFXDATGUI_SLIDER, sl));
     }
     if (o==nullptr){
         o = ofxDatGuiSlider::getInstance();
@@ -362,10 +362,10 @@ ofxDatGuiTextInput* ofxDatGui::getTextInput(string tl, string fl)
 {
     ofxDatGuiTextInput* o = nullptr;
     if (fl != ""){
-        ofxDatGuiFolder* f = static_cast<ofxDatGuiFolder*>(getComponent(ofxDatGuiType::FOLDER, fl));
-        if (f) o = static_cast<ofxDatGuiTextInput*>(f->getComponent(ofxDatGuiType::TEXT_INPUT, tl));
+        ofxDatGuiFolder* f = static_cast<ofxDatGuiFolder*>(getComponent(ofxDatGuiType::OFXDATGUI_FOLDER, fl));
+        if (f) o = static_cast<ofxDatGuiTextInput*>(f->getComponent(ofxDatGuiType::OFXDATGUI_TEXT_INPUT, tl));
     }   else{
-        o = static_cast<ofxDatGuiTextInput*>(getComponent(ofxDatGuiType::TEXT_INPUT, tl));
+        o = static_cast<ofxDatGuiTextInput*>(getComponent(ofxDatGuiType::OFXDATGUI_TEXT_INPUT, tl));
     }
     if (o==nullptr){
         o = ofxDatGuiTextInput::getInstance();
@@ -379,10 +379,10 @@ ofxDatGui2dPad* ofxDatGui::get2dPad(string pl, string fl)
 {
     ofxDatGui2dPad* o = nullptr;
     if (fl != ""){
-        ofxDatGuiFolder* f = static_cast<ofxDatGuiFolder*>(getComponent(ofxDatGuiType::FOLDER, fl));
-        if (f) o = static_cast<ofxDatGui2dPad*>(f->getComponent(ofxDatGuiType::PAD2D, pl));
+        ofxDatGuiFolder* f = static_cast<ofxDatGuiFolder*>(getComponent(ofxDatGuiType::OFXDATGUI_FOLDER, fl));
+        if (f) o = static_cast<ofxDatGui2dPad*>(f->getComponent(ofxDatGuiType::OFXDATGUI_PAD2D, pl));
     }   else{
-        o = static_cast<ofxDatGui2dPad*>(getComponent(ofxDatGuiType::PAD2D, pl));
+        o = static_cast<ofxDatGui2dPad*>(getComponent(ofxDatGuiType::OFXDATGUI_PAD2D, pl));
     }
     if (o==nullptr){
         o = ofxDatGui2dPad::getInstance();
@@ -396,10 +396,10 @@ ofxDatGuiColorPicker* ofxDatGui::getColorPicker(string cl, string fl)
 {
     ofxDatGuiColorPicker* o = nullptr;
     if (fl != ""){
-        ofxDatGuiFolder* f = static_cast<ofxDatGuiFolder*>(getComponent(ofxDatGuiType::FOLDER, fl));
-        if (f) o = static_cast<ofxDatGuiColorPicker*>(f->getComponent(ofxDatGuiType::COLOR_PICKER, cl));
+        ofxDatGuiFolder* f = static_cast<ofxDatGuiFolder*>(getComponent(ofxDatGuiType::OFXDATGUI_FOLDER, fl));
+        if (f) o = static_cast<ofxDatGuiColorPicker*>(f->getComponent(ofxDatGuiType::OFXDATGUI_COLOR_PICKER, cl));
     }   else{
-        o = static_cast<ofxDatGuiColorPicker*>(getComponent(ofxDatGuiType::COLOR_PICKER, cl));
+        o = static_cast<ofxDatGuiColorPicker*>(getComponent(ofxDatGuiType::OFXDATGUI_COLOR_PICKER, cl));
     }
     if (o==nullptr){
         o = ofxDatGuiColorPicker::getInstance();
@@ -413,10 +413,10 @@ ofxDatGuiWaveMonitor* ofxDatGui::getWaveMonitor(string cl, string fl)
 {
     ofxDatGuiWaveMonitor* o = nullptr;
     if (fl != ""){
-        ofxDatGuiFolder* f = static_cast<ofxDatGuiFolder*>(getComponent(ofxDatGuiType::FOLDER, fl));
-        if (f) o = static_cast<ofxDatGuiWaveMonitor*>(f->getComponent(ofxDatGuiType::WAVE_MONITOR, cl));
+        ofxDatGuiFolder* f = static_cast<ofxDatGuiFolder*>(getComponent(ofxDatGuiType::OFXDATGUI_FOLDER, fl));
+        if (f) o = static_cast<ofxDatGuiWaveMonitor*>(f->getComponent(ofxDatGuiType::OFXDATGUI_WAVE_MONITOR, cl));
     }   else{
-        o = static_cast<ofxDatGuiWaveMonitor*>(getComponent(ofxDatGuiType::WAVE_MONITOR, cl));
+        o = static_cast<ofxDatGuiWaveMonitor*>(getComponent(ofxDatGuiType::OFXDATGUI_WAVE_MONITOR, cl));
     }
     if (o==nullptr){
         o = ofxDatGuiWaveMonitor::getInstance();
@@ -430,10 +430,10 @@ ofxDatGuiValuePlotter* ofxDatGui::getValuePlotter(string cl, string fl)
 {
     ofxDatGuiValuePlotter* o = nullptr;
     if (fl != ""){
-        ofxDatGuiFolder* f = static_cast<ofxDatGuiFolder*>(getComponent(ofxDatGuiType::FOLDER, fl));
-        if (f) o = static_cast<ofxDatGuiValuePlotter*>(f->getComponent(ofxDatGuiType::VALUE_PLOTTER, cl));
+        ofxDatGuiFolder* f = static_cast<ofxDatGuiFolder*>(getComponent(ofxDatGuiType::OFXDATGUI_FOLDER, fl));
+        if (f) o = static_cast<ofxDatGuiValuePlotter*>(f->getComponent(ofxDatGuiType::OFXDATGUI_VALUE_PLOTTER, cl));
     }   else{
-        o = static_cast<ofxDatGuiValuePlotter*>(getComponent(ofxDatGuiType::VALUE_PLOTTER, cl));
+        o = static_cast<ofxDatGuiValuePlotter*>(getComponent(ofxDatGuiType::OFXDATGUI_VALUE_PLOTTER, cl));
     }
     if (o==nullptr){
         o = ofxDatGuiValuePlotter::getInstance();
@@ -447,10 +447,10 @@ ofxDatGuiMatrix* ofxDatGui::getMatrix(string ml, string fl)
 {
     ofxDatGuiMatrix* o = nullptr;
     if (fl != ""){
-        ofxDatGuiFolder* f = static_cast<ofxDatGuiFolder*>(getComponent(ofxDatGuiType::FOLDER, fl));
-        if (f) o = static_cast<ofxDatGuiMatrix*>(f->getComponent(ofxDatGuiType::MATRIX, ml));
+        ofxDatGuiFolder* f = static_cast<ofxDatGuiFolder*>(getComponent(ofxDatGuiType::OFXDATGUI_FOLDER, fl));
+        if (f) o = static_cast<ofxDatGuiMatrix*>(f->getComponent(ofxDatGuiType::OFXDATGUI_MATRIX, ml));
     }   else{
-        o = static_cast<ofxDatGuiMatrix*>(getComponent(ofxDatGuiType::MATRIX, ml));
+        o = static_cast<ofxDatGuiMatrix*>(getComponent(ofxDatGuiType::OFXDATGUI_MATRIX, ml));
     }
     if (o==nullptr){
         o = ofxDatGuiMatrix::getInstance();
@@ -462,7 +462,7 @@ ofxDatGuiMatrix* ofxDatGui::getMatrix(string ml, string fl)
 
 ofxDatGuiDropdown* ofxDatGui::getDropdown(string dl)
 {
-    ofxDatGuiDropdown* o = static_cast<ofxDatGuiDropdown*>(getComponent(ofxDatGuiType::DROPDOWN, dl));
+    ofxDatGuiDropdown* o = static_cast<ofxDatGuiDropdown*>(getComponent(ofxDatGuiType::OFXDATGUI_DROPDOWN, dl));
     if (o==NULL){
         o = ofxDatGuiDropdown::getInstance();
         ofxDatGuiLog::write(ofxDatGuiMsg::COMPONENT_NOT_FOUND, dl);
@@ -473,7 +473,7 @@ ofxDatGuiDropdown* ofxDatGui::getDropdown(string dl)
 
 ofxDatGuiFolder* ofxDatGui::getFolder(string fl)
 {
-    ofxDatGuiFolder* o = static_cast<ofxDatGuiFolder*>(getComponent(ofxDatGuiType::FOLDER, fl));
+    ofxDatGuiFolder* o = static_cast<ofxDatGuiFolder*>(getComponent(ofxDatGuiType::OFXDATGUI_FOLDER, fl));
     if (o==NULL){
         o = ofxDatGuiFolder::getInstance();
         ofxDatGuiLog::write(ofxDatGuiMsg::COMPONENT_NOT_FOUND, fl);
@@ -620,16 +620,16 @@ void ofxDatGui::moveGui(ofPoint pt)
 {
     mPosition.x = pt.x;
     mPosition.y = pt.y;
-    mAnchor = ofxDatGuiAnchor::NO_ANCHOR;
+    mAnchor = ofxDatGuiAnchor::OFXDATGUI_NO_ANCHOR;
     layoutGui();
 }
 
 void ofxDatGui::anchorGui()
 {
     mPosition.y = 0;
-    if (mAnchor == ofxDatGuiAnchor::TOP_LEFT){
+    if (mAnchor == ofxDatGuiAnchor::OFXDATGUI_TOP_LEFT){
         mPosition.x = 0;
-    }   else if (mAnchor == ofxDatGuiAnchor::TOP_RIGHT){
+    }   else if (mAnchor == ofxDatGuiAnchor::OFXDATGUI_TOP_RIGHT){
         mPosition.x = ofGetWidth() - mWidth;
     }
     layoutGui();
@@ -797,7 +797,7 @@ void ofxDatGui::onUpdate(ofEventArgs &e)
 
 void ofxDatGui::onWindowResized(ofResizeEventArgs &e)
 {
-    if (mAnchor != ofxDatGuiAnchor::NO_ANCHOR) anchorGui();
+    if (mAnchor != ofxDatGuiAnchor::OFXDATGUI_NO_ANCHOR) anchorGui();
 }
 
 

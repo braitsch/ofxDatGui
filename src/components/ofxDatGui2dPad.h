@@ -61,7 +61,7 @@ class ofxDatGui2dPad : public ofxDatGuiComponent {
         void init()
         {
             reset();
-            mType = ofxDatGuiType::PAD2D;
+            mType = ofxDatGuiType::OFXDATGUI_PAD2D;
             mStripeColor = mTemplate->pad2d.color.stripe;
             mRow.height = mTemplate->pad2d.height;
             mPad = ofRectangle(0, 0, mRow.width-mRow.padding-mRow.inputX, mRow.height-(mRow.padding*2));

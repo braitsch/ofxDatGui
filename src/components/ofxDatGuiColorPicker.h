@@ -30,7 +30,7 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
         ofxDatGuiColorPicker(string label, ofColor color=ofColor::black, ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiTextInput(label, "XXXXXX", tmplt)
         {
             mColor = color;
-            mType = ofxDatGuiType::COLOR_PICKER;
+            mType = ofxDatGuiType::OFXDATGUI_COLOR_PICKER;
             mStripeColor = mTemplate->colorPicker.color.stripe;
             
         // center the text input field //

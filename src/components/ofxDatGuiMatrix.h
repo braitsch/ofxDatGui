@@ -126,7 +126,7 @@ class ofxDatGuiMatrix : public ofxDatGuiComponent {
         {
             mNumButtons = numButtons;
             mShowLabels = showLabels;
-            mType = ofxDatGuiType::MATRIX;
+            mType = ofxDatGuiType::OFXDATGUI_MATRIX;
             mStripeColor = mTemplate->matrix.color.stripe;
             mButtonSize  = mTemplate->matrix.buttonSize;
             setButtons();

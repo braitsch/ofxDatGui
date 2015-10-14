@@ -30,7 +30,7 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
         ofxDatGuiHeader(string label, ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiButton(label, tmplt)
         {
             mRow.height = mRow.height*.8;
-            mLabelAlignment = ofxDatGuiAlignment::CENTER;
+            mLabelAlignment = ofxDatGuiAlignment::OFXDATGUI_CENTER;
         }
     
         void draw()
@@ -83,7 +83,7 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
             mLabelCollapsed = "expand controls";
             mLabelExpanded = "collapse controls";
             mRow.height = mRow.height*.8;
-            mLabelAlignment = ofxDatGuiAlignment::CENTER;
+            mLabelAlignment = ofxDatGuiAlignment::OFXDATGUI_CENTER;
         }
     
         void setTemplate(ofxDatGuiTemplate* tmplt)

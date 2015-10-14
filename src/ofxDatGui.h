@@ -30,7 +30,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
     public:
     
         ofxDatGui(int x, int y);
-        ofxDatGui(ofxDatGuiAnchor anchor = ofxDatGuiAnchor::TOP_LEFT);
+        ofxDatGui(ofxDatGuiAnchor anchor = ofxDatGuiAnchor::OFXDATGUI_TOP_LEFT);
     
         void draw();
         void update();

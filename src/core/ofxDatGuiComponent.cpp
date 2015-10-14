@@ -36,8 +36,8 @@ ofxDatGuiComponent::ofxDatGuiComponent(string label, ofxDatGuiTemplate* tmplt)
     mMouseDown = false;
     mLabelMarginRight = 0;
     mRetinaEnabled = ofxDatGuiIsRetina();
-    mAnchor = ofxDatGuiAnchor::NO_ANCHOR;
-    mLabelAlignment = ofxDatGuiAlignment::LEFT;
+    mAnchor = ofxDatGuiAnchor::OFXDATGUI_NO_ANCHOR;
+    mLabelAlignment = ofxDatGuiAlignment::OFXDATGUI_LEFT;
     if (tmplt == nullptr){
 // load a default layout template //
         if (mRetinaEnabled == false){
@@ -208,7 +208,7 @@ void ofxDatGuiComponent::setOrigin(int x, int y)
 void ofxDatGuiComponent::setAnchor(ofxDatGuiAnchor anchor)
 {
     mAnchor = anchor;
-    if (mAnchor != ofxDatGuiAnchor::NO_ANCHOR){
+    if (mAnchor != ofxDatGuiAnchor::OFXDATGUI_NO_ANCHOR){
         ofAddListener(ofEvents().windowResized, this, &ofxDatGuiComponent::onWindowResized);
     }   else{
         ofRemoveListener(ofEvents().windowResized, this, &ofxDatGuiComponent::onWindowResized);
@@ -296,11 +296,11 @@ void ofxDatGuiComponent::drawLabel()
 void ofxDatGuiComponent::drawLabel(string label)
 {
     int lx;
-    if (mLabelAlignment == ofxDatGuiAlignment::LEFT){
+    if (mLabelAlignment == ofxDatGuiAlignment::OFXDATGUI_LEFT){
         lx = mFont->labelX;
-    }   else if (mLabelAlignment == ofxDatGuiAlignment::CENTER){
+    }   else if (mLabelAlignment == ofxDatGuiAlignment::OFXDATGUI_CENTER){
         lx = mLabelAreaWidth/2-mLabelRect.width/2;
-    }   else if (mLabelAlignment == ofxDatGuiAlignment::RIGHT){
+    }   else if (mLabelAlignment == ofxDatGuiAlignment::OFXDATGUI_RIGHT){
         lx = mLabelAreaWidth-mLabelRect.width-mFont->labelX-mLabelMarginRight;
     }
     mFont->drawLabel(label, x+lx, y+mRow.height/2-mLabelRect.height/2);
@@ -374,9 +374,9 @@ void ofxDatGuiComponent::onKeyPressed(ofKeyEventArgs &e)
 
 void ofxDatGuiComponent::onWindowResized(ofResizeEventArgs &e)
 {
-    if (mAnchor == ofxDatGuiAnchor::TOP_LEFT){
+    if (mAnchor == ofxDatGuiAnchor::OFXDATGUI_TOP_LEFT){
         setOrigin(0, 0);
-    }   else if (mAnchor == ofxDatGuiAnchor::TOP_RIGHT){
+    }   else if (mAnchor == ofxDatGuiAnchor::OFXDATGUI_TOP_RIGHT){
         setOrigin(ofGetWidth()-mRow.width, 0);
     }
 }

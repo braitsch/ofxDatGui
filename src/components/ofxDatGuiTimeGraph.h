@@ -30,13 +30,13 @@ class ofxDatGuiTimeGraph : public ofxDatGuiComponent {
         void setDrawMode(ofxDatGuiGraph gMode)
         {
             switch (gMode) {
-                case LINES : mDrawFunc = &ofxDatGuiTimeGraph::drawLines;
+                case OFXDATGUI_LINES : mDrawFunc = &ofxDatGuiTimeGraph::drawLines;
                 break;
-                case FILLED : mDrawFunc = &ofxDatGuiTimeGraph::drawFilled;
+                case OFXDATGUI_FILLED : mDrawFunc = &ofxDatGuiTimeGraph::drawFilled;
                 break;
-                case POINTS : mDrawFunc = &ofxDatGuiTimeGraph::drawPoints;
+				case OFXDATGUI_POINTS : mDrawFunc = &ofxDatGuiTimeGraph::drawPoints;
                 break;
-                case OUTLINE : mDrawFunc = &ofxDatGuiTimeGraph::drawOutline;
+                case OFXDATGUI_OUTLINE : mDrawFunc = &ofxDatGuiTimeGraph::drawOutline;
                 break;
             }
         }
@@ -153,7 +153,7 @@ class ofxDatGuiWaveMonitor : public ofxDatGuiTimeGraph {
             mFrequencyLimit = 100;
             setAmplitude(amplitude);
             setFrequency(frequency);
-            mType = ofxDatGuiType::WAVE_MONITOR;
+            mType = ofxDatGuiType::OFXDATGUI_WAVE_MONITOR;
         }
     
         static ofxDatGuiWaveMonitor* getInstance()
@@ -231,7 +231,7 @@ class ofxDatGuiValuePlotter : public ofxDatGuiTimeGraph {
         {
             mSpeed = 5.0f;
             setRange(min, max);
-            mType = ofxDatGuiType::VALUE_PLOTTER;
+            mType = ofxDatGuiType::OFXDATGUI_VALUE_PLOTTER;
         }
     
         static ofxDatGuiValuePlotter* getInstance()
