@@ -30,13 +30,13 @@ class ofxDatGuiTimeGraph : public ofxDatGuiComponent {
         void setDrawMode(ofxDatGuiGraph gMode)
         {
             switch (gMode) {
-                case LINES : mDrawFunc = &ofxDatGuiTimeGraph::drawLines;
+				case ofxDatGuiGraph::LINES : mDrawFunc = &ofxDatGuiTimeGraph::drawLines;
                 break;
-                case FILLED : mDrawFunc = &ofxDatGuiTimeGraph::drawFilled;
+				case ofxDatGuiGraph::FILLED : mDrawFunc = &ofxDatGuiTimeGraph::drawFilled;
                 break;
-                case POINTS : mDrawFunc = &ofxDatGuiTimeGraph::drawPoints;
+				case ofxDatGuiGraph::POINTS : mDrawFunc = &ofxDatGuiTimeGraph::drawPoints;
                 break;
-                case OUTLINE : mDrawFunc = &ofxDatGuiTimeGraph::drawOutline;
+				case ofxDatGuiGraph::OUTLINE : mDrawFunc = &ofxDatGuiTimeGraph::drawOutline;
                 break;
             }
         }
