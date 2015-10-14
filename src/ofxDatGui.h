@@ -36,14 +36,15 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         void update();
     
         bool hasFocus();
+        bool isMoving();
         void setWidth(int width);
         void setOrigin(int x, int y);
         void setVisible(bool visible);
         void setEnabled(bool enabled);
         void setOpacity(float opacity);
-        void setAutoDraw(bool autodraw);
         void setTemplate(ofxDatGuiTemplate* t);
         void setAlignment(ofxDatGuiAlignment align);
+        void setAutoDraw(bool autodraw, int priority = 0);
     
         int getWidth();
         int getHeight();
@@ -87,24 +88,26 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         int mHeight;
         int mRowSpacing;
         float mAlpha;
+        bool mMoving;
         bool mVisible;
         bool mEnabled;
         bool mExpanded;
-        bool mGuiHasFocus;
         bool mAlphaChanged;
         bool mWidthChanged;
         bool mTemplateChanged;
         bool mAlignmentChanged;
     
         ofPoint mPosition;
+        ofRectangle mGuiBounds;
         ofxDatGuiAnchor mAnchor;
         ofxDatGuiHeader* mGuiHeader;
         ofxDatGuiFooter* mGuiFooter;
         ofxDatGuiTemplate* mTemplate;
         ofxDatGuiAlignment mAlignment;
-        ofxDatGuiComponent* mActiveItem;
         vector<ofxDatGuiComponent*> items;
         vector<ofxDatGuiComponent*> trash;
+        static ofxDatGui* mActiveGui;
+        static vector<ofxDatGui*> mGuis;
     
         void init();
         void layoutGui();
@@ -112,6 +115,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         void expandGui();
         void collapseGui();
         void moveGui(ofPoint pt);
+        bool hitTest(ofPoint pt);
         void attachItem(ofxDatGuiComponent* item);
         void setGuiAlpha();
         void setGuiWidth();

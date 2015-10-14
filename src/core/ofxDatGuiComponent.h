@@ -51,7 +51,6 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         void    setOpacity(float opacity);
         bool    getFocused();
         bool    getPressed();
-        void    stripFocus();
         ofxDatGuiType getType();
     
         virtual void draw() = 0;

@@ -182,12 +182,6 @@ bool ofxDatGuiComponent::getPressed()
     return mFocused;
 }
 
-void ofxDatGuiComponent::stripFocus()
-{
-// called by gui when another component captures focus //
-    onFocusLost();
-}
-
 int ofxDatGuiComponent::getX()
 {
     return this->x;

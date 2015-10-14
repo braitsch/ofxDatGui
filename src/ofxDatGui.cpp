@@ -22,6 +22,9 @@
 
 #include "ofxDatGui.h"
 
+ofxDatGui* ofxDatGui::mActiveGui;
+vector<ofxDatGui*> ofxDatGui::mGuis;
+
 ofxDatGui::ofxDatGui(int x, int y)
 {
     mPosition.x = x;
@@ -39,12 +42,13 @@ ofxDatGui::ofxDatGui(ofxDatGuiAnchor anchor)
 
 void ofxDatGui::init()
 {
+    mMoving = false;
     mVisible = true;
     mEnabled = true;
     mExpanded = true;
     mGuiHeader = nullptr;
     mGuiFooter = nullptr;
-    mActiveItem = nullptr;
+    mActiveGui = nullptr;
     mAlphaChanged = false;
     mWidthChanged = false;
     mTemplateChanged = false;
@@ -62,6 +66,7 @@ void ofxDatGui::init()
     mRowSpacing = mTemplate->row.spacing;
     
     setAutoDraw(true);
+    mGuis.push_back(this);
     ofAddListener(ofEvents().windowResized, this, &ofxDatGui::onWindowResized, OF_EVENT_ORDER_BEFORE_APP);
 }
 
@@ -69,9 +74,14 @@ void ofxDatGui::init()
     public getters & setters
 */
 
+bool ofxDatGui::isMoving()
+{
+    return mMoving;
+}
+
 bool ofxDatGui::hasFocus()
 {
-    return mGuiHasFocus;
+    return mActiveGui == this;
 }
 
 void ofxDatGui::setWidth(int width)
@@ -110,14 +120,13 @@ void ofxDatGui::setEnabled(bool enabled)
     mEnabled = enabled;
 }
 
-void ofxDatGui::setAutoDraw(bool autodraw)
+void ofxDatGui::setAutoDraw(bool autodraw, int priority)
 {
+    ofRemoveListener(ofEvents().draw, this, &ofxDatGui::onDraw);
+    ofRemoveListener(ofEvents().update, this, &ofxDatGui::onUpdate);
     if (autodraw){
-        ofAddListener(ofEvents().draw, this, &ofxDatGui::onDraw, OF_EVENT_ORDER_AFTER_APP);
-        ofAddListener(ofEvents().update, this, &ofxDatGui::onUpdate, OF_EVENT_ORDER_AFTER_APP);
-    }   else{
-        ofRemoveListener(ofEvents().draw, this, &ofxDatGui::onDraw, OF_EVENT_ORDER_AFTER_APP);
-        ofRemoveListener(ofEvents().update, this, &ofxDatGui::onUpdate, OF_EVENT_ORDER_AFTER_APP);
+        ofAddListener(ofEvents().draw, this, &ofxDatGui::onDraw, OF_EVENT_ORDER_AFTER_APP + priority);
+        ofAddListener(ofEvents().update, this, &ofxDatGui::onUpdate, OF_EVENT_ORDER_AFTER_APP + priority);
     }
 }
 
@@ -595,8 +604,17 @@ void ofxDatGui::onInternalEventCallback(ofxDatGuiInternalEvent e)
 }
 
 /*
-    layout, position and anchor gui
+    layout, position, anchor and check for focus
 */
+
+bool ofxDatGui::hitTest(ofPoint pt)
+{
+    if (mMoving){
+        return true;
+    }   else{
+        return mGuiBounds.inside(pt);
+    }
+}
 
 void ofxDatGui::moveGui(ofPoint pt)
 {
@@ -629,6 +647,7 @@ void ofxDatGui::layoutGui()
     }
     // move the footer back to the top of the gui //
     if (!mExpanded) mGuiFooter->setY(mPosition.y);
+    mGuiBounds = ofRectangle(mPosition.x, mPosition.y, mWidth, mHeight);
 }
 
 void ofxDatGui::expandGui()
@@ -675,47 +694,72 @@ void ofxDatGui::setGuiAlignment()
 
 void ofxDatGui::update()
 {
+    if (!mVisible) return;
+
     if (mAlphaChanged) setGuiAlpha();
     if (mTemplateChanged) setGuiTemplate();
     if (mWidthChanged) setGuiWidth();
     if (mAlignmentChanged) setGuiAlignment();
-    
-    if (!mEnabled || !mVisible) return;
-    
-    if (mExpanded == false){
-        mGuiFooter->update();
-    }   else{
-        int activeItemIndex = -1;
-        for (int i=0; i<items.size(); i++) {
-            items[i]->update(false);
-            if (items[i]->getFocused()) {
-                activeItemIndex = i;
-                if (mGuiHeader != nullptr && mGuiHeader->getPressed()){
-                    ofPoint mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
-                    moveGui(mouse - mGuiHeader->dragOffset);
+
+// first check for focus change //
+    if (ofGetMousePressed()){
+        bool focusChanged = false;
+        ofPoint mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
+        for (int i=mGuis.size()-1; i>-1; i--){
+            if (mGuis[i]->hitTest(mouse)){
+                if (mGuis[i] != mActiveGui){
+                    mActiveGui = mGuis[i];
+                    focusChanged = true;
+            // stick this gui at the end of the array so it is drawn last //
+                    std::swap(mGuis[i], mGuis[mGuis.size()-1]);
                 }
                 break;
-            }   else if (items[i]->getIsExpanded()){
-            // check if one of its children has focus //
-                for (int j=0; j<items[i]->children.size(); j++) {
-                    if (items[i]->children[j]->getFocused()){
-                        activeItemIndex = i;
-                        break;
+            }
+        }
+    // reassign the draw / update order //
+        if (focusChanged) for (int i=0; i<mGuis.size(); i++) mGuis[i]->setAutoDraw(true, i);
+    }
+
+    if (!hasFocus() || !mEnabled){
+    // update children but ignore mouse & keyboard events //
+        for (int i=0; i<items.size(); i++) items[i]->update(true);
+    }   else {
+        mMoving = false;
+    // this gui has focus so let's see if any of its components were interacted with //
+        if (mExpanded == false){
+            mGuiFooter->update(false);
+        }   else{
+            int activeItemIndex = -1;
+            for (int i=0; i<items.size(); i++) {
+                items[i]->update(false);
+                if (items[i]->getFocused()) {
+                    activeItemIndex = i;
+                    if (mGuiHeader != nullptr && mGuiHeader->getPressed()){
+                // track that we're moving to force preserve focus //
+                        mMoving = true;
+                        ofPoint mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
+                        moveGui(mouse - mGuiHeader->dragOffset);
                     }
+                    break;
+                }   else if (items[i]->getIsExpanded()){
+                // check if one of its children has focus //
+                    for (int j=0; j<items[i]->children.size(); j++) {
+                        if (items[i]->children[j]->getFocused()){
+                            activeItemIndex = i;
+                            break;
+                        }
+                    }
+                    if (activeItemIndex != -1) break;
                 }
-                if (activeItemIndex != -1) break;
+            }
+        // update the remaining components //
+            if (activeItemIndex != -1){
+                for (int i=activeItemIndex + 1; i<items.size(); i++) {
+        //  but tell them to ignore mouse & keyboard events since we're already determined the active component //
+                    items[i]->update(true);
+                }
             }
         }
-    // update the remaining components //
-        if (activeItemIndex != -1){
-            for (int i=activeItemIndex + 1; i<items.size(); i++) {
-        //  but tell them to ignore mouse & keyboard events //
-                items[i]->update(true);
-            }
-        }
-    // gui should retain focus until user clicks somewhere outside of it //
-        mGuiHasFocus = activeItemIndex != -1;
-    //    cout << "mGuiHasFocus " << mGuiHasFocus << endl;
     }
     
 // empty the trash //
