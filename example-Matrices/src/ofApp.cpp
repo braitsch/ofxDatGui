@@ -16,6 +16,9 @@ void ofApp::setup()
 // instantiate a matrix with a button for each box in our grid //
     matrix = new ofxDatGuiMatrix("MATRIX", numCols*numRows, true);
     
+// matrices can also function as radio buttons (only 1 on at a time)
+    matrix->setRadioMode(true);
+    
 // reduce the component opacity so it's easier to see behind it //
     matrix->setOpacity(.75);
     

@@ -124,6 +124,7 @@ class ofxDatGuiMatrix : public ofxDatGuiComponent {
     
         ofxDatGuiMatrix(string label, int numButtons, bool showLabels=false, ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiComponent(label, tmplt)
         {
+            mRadioMode = false;
             mNumButtons = numButtons;
             mShowLabels = showLabels;
             mType = ofxDatGuiType::MATRIX;
@@ -162,6 +163,11 @@ class ofxDatGuiMatrix : public ofxDatGuiComponent {
                 btn.onInternalEvent(this, &ofxDatGuiMatrix::onButtonSelected);
                 btns.push_back(btn);
             }
+        }
+    
+        void setRadioMode(bool enabled)
+        {
+            mRadioMode = enabled;
         }
     
         void setWidth(int w)
@@ -237,6 +243,10 @@ class ofxDatGuiMatrix : public ofxDatGuiComponent {
     
         void onButtonSelected(ofxDatGuiInternalEvent e)
         {
+            if (mRadioMode) {
+        // deselect all buttons save the one that was selected //
+                for(int i=0; i<btns.size(); i++) btns[i].setSelected(e.index == i);
+            }
             if (matrixEventCallback != nullptr) {
                 ofxDatGuiMatrixEvent ev(this, e.index, btns[e.index].getSelected());
                 matrixEventCallback(ev);
@@ -249,6 +259,7 @@ class ofxDatGuiMatrix : public ofxDatGuiComponent {
     
         int mButtonSize;
         int mNumButtons;
+        bool mRadioMode;
         bool mShowLabels;
         ofRectangle mMatrixRect;
         static const int mMinPadding = 2;
