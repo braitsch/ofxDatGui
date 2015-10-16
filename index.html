@@ -322,10 +322,14 @@ bool myToggle-&gt;getEnabled();</pre>
 			<p><strong>Range Slider</strong></p>
 
 <pre class="prettyprint">ofxDatGuiSlider* mySlider;
-float mySlider-&gt;getScale(); 
-mySlider-&gt;setScale(float scale); // a value between 0 &amp; 1 //
+// request the current scale //
+float mySlider-&gt;getScale();
+// scale is always a float between 0 &amp; 1 //
+mySlider-&gt;setScale(float scale);
+// request the current value //
 float mySlider-&gt;getValue();
-mySlider-&gt;setValue(float value); // a value between min &amp; max //</pre>
+// value must be between min &amp; max //
+mySlider-&gt;setValue(float value);</pre>
 
 			<p><strong>Color Picker</strong></p>
 
@@ -364,17 +368,25 @@ myWaveMonitor-&gt;setDrawMode(ofxDatGuiGraph drawMode);</pre>
 			<p><strong>Button Matrix</strong></p>
 
 <pre class="prettyprint">ofxDatGuiMatrix* myMatrix;
+// request a button at a specific index //
 ofxDatGuiMatrixButton* myMatrix-&gt;getChildAt(int index);
+// request a list of the indices of all buttons that are selected //
 vector&lt;int&gt; myMatrix-&gt;getSelected();
-// returns a vector containing the indicies of the selected buttons //
-myMatrix-&gt;clear(); // deselects all buttons in the matrix //</pre>
+// deselect everything in the matrix //
+myMatrix-&gt;clear();
+// set the matrix to function as a radio button group (only 1 selected at a time) //
+myMatrix-&gt;setRadioMode(bool enabled);</pre>
+</pre>
+
 
 			<p><strong>2d Coordinate Pad</strong></p>
 
 <pre class="prettyprint">ofxDatGui2dPad* my2dPad;
+// bounds is the area that the coordinate pad maps to //
 my2dPad-&gt;setBounds(ofRectangle bounds);
+// request the current position within the bounds rectangle //
 ofPoint my2dPad-&gt;getPosition();
-// returns the current position within the bounds rectangle you gave it //</pre>
+</pre>
 
 <p><strong>Note:</strong> All indicies are zero based so the first item in your <strong>ofxDatGui</strong> instance will have an index of 0, the second item will have an index of 1, the third item an index of 2 etc..</p>
 
