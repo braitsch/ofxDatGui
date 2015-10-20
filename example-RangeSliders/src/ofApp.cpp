@@ -13,7 +13,9 @@ void ofApp::setup()
     slider = new ofxDatGuiSlider("BACKGROUND BRIGHTNESS", 0, 100, 20);
     
 // let's make it BIG //
-    slider->setWidth(ofGetWidth());
+    mTemplate.row.width = ofGetWidth();
+    mTemplate.row.label.maxAreaWidth = 340;
+    slider->setTemplate(&mTemplate);
     
 // and position it verticaly centered on the screen //
     slider->setOrigin(0, ofGetHeight()/2 - slider->getHeight()/2);
