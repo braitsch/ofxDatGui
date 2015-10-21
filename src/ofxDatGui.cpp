@@ -88,7 +88,7 @@ bool ofxDatGui::hasFocus()
     return mActiveGui == this;
 }
 
-void ofxDatGui::setFocus()
+void ofxDatGui::focus()
 {
     if (mActiveGui!= this){
         mActiveGui = this;
@@ -735,7 +735,7 @@ void ofxDatGui::update()
         ofPoint mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
         for (int i=mGuis.size()-1; i>-1; i--){
             if (mGuis[i]->hitTest(mouse)){
-                if (mGuis[i] != mActiveGui) mGuis[i]->setFocus();
+                if (mGuis[i] != mActiveGui) mGuis[i]->focus();
                 break;
             }
         }

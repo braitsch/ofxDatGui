@@ -33,11 +33,11 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofxDatGui(ofxDatGuiAnchor anchor = ofxDatGuiAnchor::TOP_LEFT);
     
         void draw();
+        void focus();
         void update();
     
         bool hasFocus();
         bool isMoving();
-        void setFocus();
         void setWidth(int width);
         void setOrigin(int x, int y);
         void setVisible(bool visible);
