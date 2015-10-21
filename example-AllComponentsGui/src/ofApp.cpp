@@ -25,7 +25,7 @@ void ofApp::setup()
     folder->addToggle("** toggle");
     folder->addColorPicker("** picker", ofColor::fromHex(0xFFD00B));
 // let's have it open by default. note: call this only after you're done adding items //
-  //  folder->expand();
+    folder->expand();
 
     gui->addBreak();
 // add a couple range sliders //

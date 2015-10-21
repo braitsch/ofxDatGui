@@ -95,6 +95,7 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
         void onMouseEnter(ofPoint mouse)
         {
             mShowPicker = true;
+            ofxDatGuiComponent::onFocus();
             ofxDatGuiComponent::onMouseEnter(mouse);
         }
     
@@ -102,6 +103,13 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
         {
             mShowPicker = false;
             ofxDatGuiTextInput::onMouseLeave(mouse);
+            if (!input->hasFocus()) ofxDatGuiComponent::onFocusLost();
+        }
+    
+        void onMousePress(ofPoint mouse)
+        {
+            if (input->hitTest(mouse) && !input->hasFocus()) input->onFocus();
+            ofxDatGuiComponent::onMousePress(mouse);
         }
     
         void draw()

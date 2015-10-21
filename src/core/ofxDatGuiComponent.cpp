@@ -172,6 +172,15 @@ bool ofxDatGuiComponent::getEnabled()
     return mEnabled;
 }
 
+void ofxDatGuiComponent::setFocused(bool focused)
+{
+    if (focused){
+        onFocus();
+    }   else{
+        onFocusLost();
+    }
+}
+
 bool ofxDatGuiComponent::getFocused()
 {
     return mFocused;
@@ -236,12 +245,9 @@ bool ofxDatGuiComponent::getIsExpanded()
     draw methods
 */
 
-void ofxDatGuiComponent::update(bool ignoreMouseEvents)
+void ofxDatGuiComponent::update(bool acceptEvents)
 {
-    if (ignoreMouseEvents || mEnabled == false){
-// strip focus away if another component in the panel has received it //
-        if (mFocused) onFocusLost();
-    }   else{
+    if (acceptEvents && mEnabled){
         bool mp = ofGetMousePressed();
         ofPoint mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
         if (hitTest(mouse)){
@@ -256,9 +262,10 @@ void ofxDatGuiComponent::update(bool ignoreMouseEvents)
                 }
             }
         }   else{
+    // the mouse is not over the component //
             if (mMouseOver){
                 onMouseLeave(mouse);
-            }   else if (mp && mFocused){
+            }   else if (mp && mFocused && mMouseDown==false){
                 onFocusLost();
             }
         }
@@ -269,8 +276,16 @@ void ofxDatGuiComponent::update(bool ignoreMouseEvents)
                 onMouseRelease(mouse);
             }
         }
-    // don't iterate over children unless they're visible //
-        if (this->getIsExpanded()) for(int i=0; i<children.size(); i++) children[i]->update();
+    }
+// don't update children unless they're visible //
+    if (this->getIsExpanded()) {
+        for(int i=0; i<children.size(); i++) {
+            children[i]->update(acceptEvents);
+            if (children[i]->getFocused()){
+                if (acceptEvents == false ) children[i]->setFocused(false);
+                acceptEvents = false;
+            }
+        }
     }
 }
 
@@ -333,8 +348,6 @@ void ofxDatGuiComponent::onMouseEnter(ofPoint m)
 void ofxDatGuiComponent::onMouseLeave(ofPoint m)
 {
     mMouseOver = false;
-// strip away focus on mouse leave, this is overridden by components with textfields //
-    if (mFocused) onFocusLost();
 }
 
 void ofxDatGuiComponent::onMousePress(ofPoint m)
@@ -350,6 +363,7 @@ void ofxDatGuiComponent::onMouseRelease(ofPoint m)
 void ofxDatGuiComponent::onFocus()
 {
     mFocused = true;
+//  cout << "ofxDatGuiComponent::onFocus " << mLabel << endl;
     ofAddListener(ofEvents().keyPressed, this, &ofxDatGuiComponent::onKeyPressed);
 }
 
@@ -357,6 +371,7 @@ void ofxDatGuiComponent::onFocusLost()
 {
     mFocused = false;
     mMouseDown = false;
+//  cout << "ofxDatGuiComponent::onFocusLost " << mLabel << endl;
     ofRemoveListener(ofEvents().keyPressed, this, &ofxDatGuiComponent::onKeyPressed);
 }
 

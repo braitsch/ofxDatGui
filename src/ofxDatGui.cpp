@@ -83,11 +83,6 @@ bool ofxDatGui::isMoving()
     return mMoving;
 }
 
-bool ofxDatGui::hasFocus()
-{
-    return mActiveGui == this;
-}
-
 void ofxDatGui::focus()
 {
     if (mActiveGui!= this){
@@ -105,6 +100,11 @@ void ofxDatGui::focus()
     }   else{
         ofxDatGuiLog::write(ofxDatGuiMsg::PANEL_ALREADY_HAS_FOCUS, "#"+ofToString(mGuid));
     }
+}
+
+bool ofxDatGui::getFocused()
+{
+    return mActiveGui == this;
 }
 
 void ofxDatGui::setWidth(int width)
@@ -741,18 +741,18 @@ void ofxDatGui::update()
         }
     }
 
-    if (!hasFocus() || !mEnabled){
+    if (!getFocused() || !mEnabled){
     // update children but ignore mouse & keyboard events //
-        for (int i=0; i<items.size(); i++) items[i]->update(true);
+        for (int i=0; i<items.size(); i++) items[i]->update(false);
     }   else {
         mMoving = false;
     // this gui has focus so let's see if any of its components were interacted with //
         if (mExpanded == false){
-            mGuiFooter->update(false);
+            mGuiFooter->update();
         }   else{
             int activeItemIndex = -1;
             for (int i=0; i<items.size(); i++) {
-                items[i]->update(false);
+                items[i]->update();
                 if (items[i]->getFocused()) {
                     activeItemIndex = i;
                     if (mGuiHeader != nullptr && mGuiHeader->getPressed()){
@@ -777,7 +777,8 @@ void ofxDatGui::update()
             if (activeItemIndex != -1){
                 for (int i=activeItemIndex + 1; i<items.size(); i++) {
         //  but tell them to ignore mouse & keyboard events since we're already determined the active component //
-                    items[i]->update(true);
+                    items[i]->update(false);
+                    if (items[i]->getFocused()) items[i]->setFocused(false);
                 }
             }
         }

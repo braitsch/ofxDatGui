@@ -48,13 +48,14 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         bool    getEnabled();
         void    setVisible(bool visible);
         bool    getVisible();
-        void    setOpacity(float opacity);
+        void    setFocused(bool focused);
         bool    getFocused();
+        void    setOpacity(float opacity);
         bool    getPressed();
         ofxDatGuiType getType();
     
         virtual void draw() = 0;
-        virtual void update(bool ignoreMouseEvents = false);
+        virtual void update(bool acceptEvents = true);
         virtual bool hitTest(ofPoint m);
 
         virtual void setY(int y);

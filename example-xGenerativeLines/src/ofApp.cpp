@@ -32,7 +32,7 @@ void ofApp::setup()
     
 // and a few others widgits for good measure :) //
     gui->addSlider("DATGUI OPACITY", 0, 100);
-    gui->addButton("RESET");
+    gui->addButton("CLEAR");
     gui->addToggle("PAUSE DRAWING", false);
     
 // register a few callbacks to listen for our gui events //
@@ -81,9 +81,9 @@ void ofApp::onSliderEvent(ofxDatGuiSliderEvent e)
 
 void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
 {
-    if (e.target->getLabel() == "RESET") {
+    if (e.target->is("clear")) {
         reset();
-    }   else if (e.target->getLabel() == "PAUSE DRAWING") {
+    }   else if (e.target->is("pause drawing")) {
         drawingPaused = e.enabled;
     }
 }

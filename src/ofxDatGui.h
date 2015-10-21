@@ -36,7 +36,6 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         void focus();
         void update();
     
-        bool hasFocus();
         bool isMoving();
         void setWidth(int width);
         void setOrigin(int x, int y);
@@ -49,6 +48,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
     
         int getWidth();
         int getHeight();
+        bool getFocused();
         bool getAutoDraw();
         ofPoint getPosition();
     

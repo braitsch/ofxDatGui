@@ -107,11 +107,11 @@ class ofxDatGuiTextInput : public ofxDatGuiComponent {
             ofxDatGuiComponent::onFocusLost();
         }
     
-        void onMouseLeave(ofPoint m)
-        {
-        // override the base call to retain focus //
-            mMouseOver = false;
-        }
+//        void onMouseLeave(ofPoint m)
+//        {
+//        // override the base call to retain focus //
+//            mMouseOver = false;
+//        }
     
         void onKeyPressed(int key)
         {

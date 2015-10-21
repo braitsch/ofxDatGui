@@ -88,6 +88,11 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             return mRect.height;
         }
     
+        bool hasFocus()
+        {
+            return mFocused;
+        }
+    
         bool hitTest(ofPoint m)
         {
             return (m.x>=mRect.x && m.x<=mRect.x+mRect.width && m.y>=mRect.y && m.y<=mRect.y+mRect.height);
@@ -131,15 +136,17 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             mMaxCharacters = max;
         }
     
-        virtual void onFocus()
+        void onFocus()
         {
+            mFocused = true;
             mTextChanged = false;
             mHighlightText = true;
             if (mType != COLORPICKER) mBkgdColor = mTemplate->row.color.mouseOver;
         }
     
-        virtual void onFocusLost()
+        void onFocusLost()
         {
+            mFocused = false;
             mHighlightText = false;
             if (mTextChanged){
                 mTextChanged = false;
@@ -200,6 +207,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
     
     private:
         string mText;
+        bool mFocused;
         bool mTextChanged;
         bool mHighlightText;
         bool mUpperCaseText;
