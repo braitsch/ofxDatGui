@@ -37,6 +37,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
     
         bool hasFocus();
         bool isMoving();
+        void setFocus();
         void setWidth(int width);
         void setOrigin(int x, int y);
         void setVisible(bool visible);
@@ -48,6 +49,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
     
         int getWidth();
         int getHeight();
+        bool getAutoDraw();
         ofPoint getPosition();
     
         ofxDatGuiHeader* addHeader(string label = "");
@@ -84,6 +86,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
     
     private:
     
+        int mGuid;
         int mWidth;
         int mHeight;
         int mRowSpacing;
@@ -92,6 +95,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         bool mVisible;
         bool mEnabled;
         bool mExpanded;
+        bool mAutoDraw;
         bool mAlphaChanged;
         bool mWidthChanged;
         bool mTemplateChanged;

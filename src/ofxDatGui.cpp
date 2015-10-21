@@ -48,7 +48,6 @@ void ofxDatGui::init()
     mExpanded = true;
     mGuiHeader = nullptr;
     mGuiFooter = nullptr;
-    mActiveGui = nullptr;
     mAlphaChanged = false;
     mWidthChanged = false;
     mTemplateChanged = false;
@@ -65,8 +64,13 @@ void ofxDatGui::init()
     mWidth = mTemplate->row.width;
     mRowSpacing = mTemplate->row.spacing;
     
+// enable autodraw by default //
     setAutoDraw(true);
+    
+// assign focus to this newly created gui //
+    mActiveGui = this;
     mGuis.push_back(this);
+    mGuid = mGuis.size();
     ofAddListener(ofEvents().windowResized, this, &ofxDatGui::onWindowResized, OF_EVENT_ORDER_BEFORE_APP);
 }
 
@@ -82,6 +86,25 @@ bool ofxDatGui::isMoving()
 bool ofxDatGui::hasFocus()
 {
     return mActiveGui == this;
+}
+
+void ofxDatGui::setFocus()
+{
+    if (mActiveGui!= this){
+        mActiveGui = this;
+    // update the draw order //
+        for (int i=0; i<mGuis.size(); i++) {
+            if (mGuis[i] == mActiveGui) {
+                std::swap(mGuis[i], mGuis[mGuis.size()-1]);
+                break;
+            }
+        }
+        for (int i=0; i<mGuis.size(); i++) {
+            if (mGuis[i]->getAutoDraw()) mGuis[i]->setAutoDraw(true, i);
+        }
+    }   else{
+        ofxDatGuiLog::write(ofxDatGuiMsg::PANEL_ALREADY_HAS_FOCUS, "#"+ofToString(mGuid));
+    }
 }
 
 void ofxDatGui::setWidth(int width)
@@ -122,12 +145,18 @@ void ofxDatGui::setEnabled(bool enabled)
 
 void ofxDatGui::setAutoDraw(bool autodraw, int priority)
 {
+    mAutoDraw = autodraw;
     ofRemoveListener(ofEvents().draw, this, &ofxDatGui::onDraw);
     ofRemoveListener(ofEvents().update, this, &ofxDatGui::onUpdate);
     if (autodraw){
         ofAddListener(ofEvents().draw, this, &ofxDatGui::onDraw, OF_EVENT_ORDER_AFTER_APP + priority);
         ofAddListener(ofEvents().update, this, &ofxDatGui::onUpdate, OF_EVENT_ORDER_AFTER_APP + priority);
     }
+}
+
+bool ofxDatGui::getAutoDraw()
+{
+    return mAutoDraw;
 }
 
 void ofxDatGui::setAlignment(ofxDatGuiAlignment align)
@@ -700,24 +729,16 @@ void ofxDatGui::update()
     if (mTemplateChanged) setGuiTemplate();
     if (mWidthChanged) setGuiWidth();
     if (mAlignmentChanged) setGuiAlignment();
-
-// first check for focus change //
-    if (ofGetMousePressed()){
-        bool focusChanged = false;
+    
+    // first check for gui focus change //
+    if (ofGetMousePressed() && mActiveGui->isMoving() == false){
         ofPoint mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
         for (int i=mGuis.size()-1; i>-1; i--){
             if (mGuis[i]->hitTest(mouse)){
-                if (mGuis[i] != mActiveGui){
-                    mActiveGui = mGuis[i];
-                    focusChanged = true;
-            // stick this gui at the end of the array so it is drawn last //
-                    std::swap(mGuis[i], mGuis[mGuis.size()-1]);
-                }
+                if (mGuis[i] != mActiveGui) mGuis[i]->setFocus();
                 break;
             }
         }
-    // reassign the draw / update order //
-        if (focusChanged) for (int i=0; i<mGuis.size(); i++) mGuis[i]->setAutoDraw(true, i);
     }
 
     if (!hasFocus() || !mEnabled){
