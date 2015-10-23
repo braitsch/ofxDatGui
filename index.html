@@ -249,7 +249,11 @@ gui-&gt;addLabel("Below");</pre>
 			<pre class="prettyprint">gui-&gt;getHeader()-&gt;setLabel("PANEL 1");</pre>
 
 			<p>Adding a header to your gui will allow you to drag it around, however you can easily disable this via: </p>
-			<pre class="prettyprint">gui-&gt;setDraggable(false);</pre>
+			<pre class="prettyprint">gui-&gt;getHeader()-&gt;setDraggable(false);</pre>
+			
+			<p>Or by passing in <code>false</code> as the second argument to the constructor.</p>
+			<pre class="prettyprint">gui-&gt;addHeader(":: My Stationary Panel ::", false);</pre>
+			
 			<hr>
 			<p><strong>Footer</strong></p>
 			<pre class="prettyprint">gui-&gt;addFooter();</code></pre>
