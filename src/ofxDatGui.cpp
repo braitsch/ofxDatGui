@@ -173,11 +173,6 @@ void ofxDatGui::setAlignment(ofxDatGuiAlignment align)
     mAlignmentChanged = true;
 }
 
-void ofxDatGui::setDraggable(bool draggable)
-{
-    if (mGuiHeader != nullptr) mGuiHeader->setDraggable(draggable);
-}
-
 int ofxDatGui::getWidth()
 {
     return mWidth;
