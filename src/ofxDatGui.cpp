@@ -86,6 +86,9 @@ bool ofxDatGui::isMoving()
 void ofxDatGui::focus()
 {
     if (mActiveGui!= this){
+    // enable and make visible if hidden //
+        mVisible = true;
+        mEnabled = true;
         mActiveGui = this;
     // update the draw order //
         for (int i=0; i<mGuis.size(); i++) {
@@ -100,6 +103,11 @@ void ofxDatGui::focus()
     }   else{
         ofxDatGuiLog::write(ofxDatGuiMsg::PANEL_ALREADY_HAS_FOCUS, "#"+ofToString(mGuid));
     }
+}
+
+bool ofxDatGui::getVisible()
+{
+    return mVisible;
 }
 
 bool ofxDatGui::getFocused()
@@ -184,10 +192,10 @@ ofPoint ofxDatGui::getPosition()
     add component methods
 */
 
-ofxDatGuiHeader* ofxDatGui::addHeader(string label)
+ofxDatGuiHeader* ofxDatGui::addHeader(string label, bool draggable)
 {
     if (mGuiHeader == nullptr){
-        mGuiHeader = new ofxDatGuiHeader(label, mTemplate);
+        mGuiHeader = new ofxDatGuiHeader(label, draggable, mTemplate);
         if (items.size() == 0){
             items.push_back(mGuiHeader);
         }   else{
@@ -734,7 +742,8 @@ void ofxDatGui::update()
     if (ofGetMousePressed() && mActiveGui->isMoving() == false){
         ofPoint mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
         for (int i=mGuis.size()-1; i>-1; i--){
-            if (mGuis[i]->hitTest(mouse)){
+        // ignore guis that are invisible //
+            if (mGuis[i]->getVisible() && mGuis[i]->hitTest(mouse)){
                 if (mGuis[i] != mActiveGui) mGuis[i]->focus();
                 break;
             }
@@ -755,7 +764,7 @@ void ofxDatGui::update()
                 items[i]->update();
                 if (items[i]->getFocused()) {
                     activeItemIndex = i;
-                    if (mGuiHeader != nullptr && mGuiHeader->getPressed()){
+                    if (mGuiHeader != nullptr && mGuiHeader->getDraggable() && mGuiHeader->getPressed()){
                 // track that we're moving to force preserve focus //
                         mMoving = true;
                         ofPoint mouse = ofPoint(ofGetMouseX(), ofGetMouseY());

@@ -49,10 +49,11 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         int getWidth();
         int getHeight();
         bool getFocused();
+        bool getVisible();
         bool getAutoDraw();
         ofPoint getPosition();
     
-        ofxDatGuiHeader* addHeader(string label = "");
+        ofxDatGuiHeader* addHeader(string label = "", bool draggable = true);
         ofxDatGuiFooter* addFooter();
         ofxDatGuiLabel* addLabel(string label);
         ofxDatGuiButton* addButton(string label);

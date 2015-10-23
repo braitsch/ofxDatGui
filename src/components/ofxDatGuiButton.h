@@ -69,6 +69,7 @@ class ofxDatGuiButton : public ofxDatGuiComponent {
     
         void onMouseRelease(ofPoint m)
         {
+            ofxDatGuiComponent::onFocusLost();
             ofxDatGuiComponent::onMouseRelease(m);
         // dispatch event out to main application //
             if (buttonEventCallback != nullptr) {
@@ -141,8 +142,9 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
     
         void onMouseRelease(ofPoint m)
         {
-            ofxDatGuiComponent::onMouseRelease(m);
             mEnabled = !mEnabled;
+            ofxDatGuiComponent::onFocusLost();
+            ofxDatGuiComponent::onMouseRelease(m);
         // dispatch event out to main application //
             if (buttonEventCallback != nullptr) {
                 ofxDatGuiButtonEvent e(this, mEnabled);

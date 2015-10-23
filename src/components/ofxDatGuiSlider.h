@@ -209,10 +209,10 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
             }
         }
     
-        void onMouseLeave(ofPoint m)
+        void onMouseRelease(ofPoint m)
         {
-        // override the base call to retain focus //
-            mMouseOver = false;
+            ofxDatGuiComponent::onMouseRelease(m);
+            if (input->hitTest(m) == false) onFocusLost();
         }
     
         void dispatchSliderChangedEvent()

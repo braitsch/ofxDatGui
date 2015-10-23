@@ -27,8 +27,9 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
 
     public:
 
-        ofxDatGuiHeader(string label, ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiButton(label, tmplt)
+        ofxDatGuiHeader(string label, bool draggable = true, ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiButton(label, tmplt)
         {
+            mDraggable = draggable;
             mRow.height = mRow.height*.8;
             mLabelAlignment = ofxDatGuiAlignment::CENTER;
         }
@@ -46,6 +47,22 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
         {
             ofxDatGuiButton::setTemplate(tmplt);
             mRow.height = mRow.height*.8;
+        }
+    
+        void setDraggable(bool draggable)
+        {
+            mDraggable = draggable;
+        }
+    
+        bool getDraggable()
+        {
+            return mDraggable;
+        }
+
+        void onMouseEnter(ofPoint m)
+        {
+        // disable hover state if we're not draggable //
+            if (mDraggable) ofxDatGuiComponent::onMouseEnter(m);
         }
     
         void onMousePress(ofPoint m)
@@ -69,6 +86,7 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
         ofPoint dragOffset;
     
     private:
+        bool mDraggable;
 
 };
 

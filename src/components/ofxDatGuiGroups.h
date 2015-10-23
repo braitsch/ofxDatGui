@@ -93,6 +93,7 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
         {
             if (mFocused){
             // open & close the group when its header is clicked //
+                ofxDatGuiComponent::onFocusLost();
                 ofxDatGuiComponent::onMouseRelease(m);
                 mIsExpanded ? collapse() : expand();
             // dispatch an event out to the gui panel to adjust its children //

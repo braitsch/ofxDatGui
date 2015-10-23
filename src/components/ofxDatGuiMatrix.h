@@ -237,6 +237,7 @@ class ofxDatGuiMatrix : public ofxDatGuiComponent {
     
         void onMouseRelease(ofPoint m)
         {
+            ofxDatGuiComponent::onFocusLost();
             ofxDatGuiComponent::onMouseRelease(m);
             for(int i=0; i<btns.size(); i++) btns[i].onMouseRelease(m);
         }
