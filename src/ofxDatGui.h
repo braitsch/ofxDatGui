@@ -43,6 +43,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         void setEnabled(bool enabled);
         void setOpacity(float opacity);
         void setTemplate(ofxDatGuiTemplate* t);
+        void setDraggable(bool draggable);
         void setAlignment(ofxDatGuiAlignment align);
         void setAutoDraw(bool autodraw, int priority = 0);
     
