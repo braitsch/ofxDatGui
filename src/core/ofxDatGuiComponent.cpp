@@ -51,7 +51,6 @@ ofxDatGuiComponent::ofxDatGuiComponent(string label, ofxDatGuiTemplate* tmplt)
 
 ofxDatGuiComponent::~ofxDatGuiComponent()
 {
-    delete mFont;
     cout << "ofxDatGuiComponent deleted" << endl;
 }
 
