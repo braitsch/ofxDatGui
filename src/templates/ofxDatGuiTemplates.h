@@ -21,7 +21,7 @@
 */
 
 #pragma once
-#include "ofxDatGuiTemplate.h"
+#include "ofxDatGuiDefaultTemplates.h"
 
 /*
     Add your custom templates here and ensure they extend ofxDatGuiTemplate

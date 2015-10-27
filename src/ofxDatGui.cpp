@@ -21,6 +21,7 @@
 */
 
 #include "ofxDatGui.h"
+#include "ofxDatGuiDefaultTemplates.h"
 
 ofxDatGui* ofxDatGui::mActiveGui;
 vector<ofxDatGui*> ofxDatGui::mGuis;
@@ -55,10 +56,10 @@ void ofxDatGui::init()
     mAlignment = ofxDatGuiAlignment::LEFT;
     
 // load a default layout template //
-    if (ofxDatGuiIsRetina() == false){
-        mTemplate = new ofxDatGui1440x900();
+    if (ofxDatGuiIsRetina()){
+        mTemplate = ofxDatGuiDefaultTemplates::get2880x1800();
     }   else{
-        mTemplate = new ofxDatGui2880x1800();
+        mTemplate = ofxDatGuiDefaultTemplates::get1440x900();
     }
     mAlpha = 1.0f;
     mWidth = mTemplate->row.width;

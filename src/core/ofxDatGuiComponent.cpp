@@ -21,6 +21,7 @@
 */
 
 #include "ofxDatGuiComponent.h"
+#include "ofxDatGuiDefaultTemplates.h"
 
 bool ofxDatGuiLog::mQuiet = false;
 
@@ -40,10 +41,10 @@ ofxDatGuiComponent::ofxDatGuiComponent(string label, ofxDatGuiTemplate* tmplt)
     mLabelAlignment = ofxDatGuiAlignment::LEFT;
     if (tmplt == nullptr){
 // load a default layout template //
-        if (mRetinaEnabled == false){
-            tmplt = new ofxDatGui1440x900();
-        }   else{
-            tmplt = new ofxDatGui2880x1800();
+        if (mRetinaEnabled){
+            tmplt = ofxDatGuiDefaultTemplates::get2880x1800();
+        } else {
+            tmplt = ofxDatGuiDefaultTemplates::get1440x900();
         }
     }
     setTemplate(tmplt);
@@ -51,7 +52,6 @@ ofxDatGuiComponent::ofxDatGuiComponent(string label, ofxDatGuiTemplate* tmplt)
 
 ofxDatGuiComponent::~ofxDatGuiComponent()
 {
-    delete mFont;
     cout << "ofxDatGuiComponent deleted" << endl;
 }
 
