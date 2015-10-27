@@ -63,22 +63,22 @@ void ofApp::onGuiSliderEvent(ofxDatGuiSliderEvent e)
 void ofApp::onGuiDropdownEvent(ofxDatGuiDropdownEvent e)
 {
     switch (e.child) {
-        case ofxDatGuiGraph::LINES :
+        case (int)ofxDatGuiGraph::LINES :
             m1->setDrawMode(ofxDatGuiGraph::LINES);
             p1->setDrawMode(ofxDatGuiGraph::LINES);
             dd->setLabel("drawing mode : lines");
         break;
-        case ofxDatGuiGraph::FILLED :
+        case (int)ofxDatGuiGraph::FILLED :
             m1->setDrawMode(ofxDatGuiGraph::FILLED);
             p1->setDrawMode(ofxDatGuiGraph::FILLED);
             dd->setLabel("drawing mode : filled");
         break;
-        case ofxDatGuiGraph::POINTS :
+        case (int)ofxDatGuiGraph::POINTS :
             m1->setDrawMode(ofxDatGuiGraph::POINTS);
             p1->setDrawMode(ofxDatGuiGraph::POINTS);
             dd->setLabel("drawing mode : points");
         break;
-        case ofxDatGuiGraph::OUTLINE :
+        case (int)ofxDatGuiGraph::OUTLINE :
             m1->setDrawMode(ofxDatGuiGraph::OUTLINE);
             p1->setDrawMode(ofxDatGuiGraph::OUTLINE);
             dd->setLabel("drawing mode : outline");

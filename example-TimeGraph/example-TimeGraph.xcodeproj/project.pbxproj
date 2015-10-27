@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		8A0E28B31BBC775200525E4D /* ofxDatGuiComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A0E28A81BBC775200525E4D /* ofxDatGuiComponent.cpp */; settings = {ASSET_TAGS = (); }; };
 		8A0E28B41BBC775200525E4D /* ofxDatGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A0E28AE1BBC775200525E4D /* ofxDatGui.cpp */; settings = {ASSET_TAGS = (); }; };
+		8AB35E681BDF1FC000A016A1 /* ofxDatGuiTemplate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8AB35E671BDF1FC000A016A1 /* ofxDatGuiTemplate.cpp */; settings = {ASSET_TAGS = (); }; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
 		E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4B69E1D0A3A1BDC003C02F2 /* main.cpp */; };
 		E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */; };
@@ -66,6 +67,7 @@
 		8A0E28B11BBC775200525E4D /* ofxDatGuiTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiTemplate.h; sourceTree = "<group>"; };
 		8A0E28B21BBC775200525E4D /* ofxDatGuiTemplates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiTemplates.h; sourceTree = "<group>"; };
 		8A1D66EE1BC758C500D30189 /* ofxDatGuiTimeGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiTimeGraph.h; sourceTree = "<group>"; };
+		8AB35E671BDF1FC000A016A1 /* ofxDatGuiTemplate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxDatGuiTemplate.cpp; sourceTree = "<group>"; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E4B69B5B0A3A1756003C02F2 /* example-TimeGraphDebug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "example-TimeGraphDebug.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4B69E1D0A3A1BDC003C02F2 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = SOURCE_ROOT; };
@@ -125,6 +127,7 @@
 		8A0E28B01BBC775200525E4D /* templates */ = {
 			isa = PBXGroup;
 			children = (
+				8AB35E671BDF1FC000A016A1 /* ofxDatGuiTemplate.cpp */,
 				8A0E28B11BBC775200525E4D /* ofxDatGuiTemplate.h */,
 				8A0E28B21BBC775200525E4D /* ofxDatGuiTemplates.h */,
 			);
@@ -143,11 +146,11 @@
 		D8DD1043C333F6F63C8685E6 /* ofxDatGui */ = {
 			isa = PBXGroup;
 			children = (
+				8A0E28B01BBC775200525E4D /* templates */,
 				8A0E289B1BBC775200525E4D /* components */,
 				8A0E28A71BBC775200525E4D /* core */,
 				8A0E28AE1BBC775200525E4D /* ofxDatGui.cpp */,
 				8A0E28AF1BBC775200525E4D /* ofxDatGui.h */,
-				8A0E28B01BBC775200525E4D /* templates */,
 			);
 			name = ofxDatGui;
 			sourceTree = "<group>";
@@ -282,6 +285,7 @@
 				8A0E28B41BBC775200525E4D /* ofxDatGui.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
 				8A0E28B31BBC775200525E4D /* ofxDatGuiComponent.cpp in Sources */,
+				8AB35E681BDF1FC000A016A1 /* ofxDatGuiTemplate.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -21,7 +21,7 @@
 */
 
 #include "ofxDatGuiComponent.h"
-#include "ofxDatGuiDefaultTemplates.h"
+#include "ofxDatGuiTemplate.h"
 
 bool ofxDatGuiLog::mQuiet = false;
 
@@ -42,9 +42,9 @@ ofxDatGuiComponent::ofxDatGuiComponent(string label, ofxDatGuiTemplate* tmplt)
     if (tmplt == nullptr){
 // load a default layout template //
         if (mRetinaEnabled){
-            tmplt = ofxDatGuiDefaultTemplates::get2880x1800();
+            tmplt = ofxDatGui2880x1800::get();
         } else {
-            tmplt = ofxDatGuiDefaultTemplates::get1440x900();
+            tmplt = ofxDatGui1440x900::get();
         }
     }
     setTemplate(tmplt);
@@ -222,7 +222,7 @@ void ofxDatGuiComponent::setAnchor(ofxDatGuiAnchor anchor)
     }   else{
         ofRemoveListener(ofEvents().windowResized, this, &ofxDatGuiComponent::onWindowResized);
     }
-    ofSetWindowShape(ofGetWidth(), ofGetHeight());
+    onWindowResized();
 }
 
 void ofxDatGuiComponent::setAlignment(ofxDatGuiAlignment align)
@@ -363,7 +363,6 @@ void ofxDatGuiComponent::onMouseRelease(ofPoint m)
 void ofxDatGuiComponent::onFocus()
 {
     mFocused = true;
-//  cout << "ofxDatGuiComponent::onFocus " << mLabel << endl;
     ofAddListener(ofEvents().keyPressed, this, &ofxDatGuiComponent::onKeyPressed);
 }
 
@@ -371,7 +370,6 @@ void ofxDatGuiComponent::onFocusLost()
 {
     mFocused = false;
     mMouseDown = false;
-//  cout << "ofxDatGuiComponent::onFocusLost " << mLabel << endl;
     ofRemoveListener(ofEvents().keyPressed, this, &ofxDatGuiComponent::onKeyPressed);
 }
 
@@ -387,13 +385,18 @@ void ofxDatGuiComponent::onKeyPressed(ofKeyEventArgs &e)
     }
 }
 
-void ofxDatGuiComponent::onWindowResized(ofResizeEventArgs &e)
+void ofxDatGuiComponent::onWindowResized()
 {
     if (mAnchor == ofxDatGuiAnchor::TOP_LEFT){
         setOrigin(0, 0);
     }   else if (mAnchor == ofxDatGuiAnchor::TOP_RIGHT){
         setOrigin(ofGetWidth()-mRow.width, 0);
     }
+}
+
+void ofxDatGuiComponent::onWindowResized(ofResizeEventArgs &e)
+{
+    onWindowResized();
 }
 
 

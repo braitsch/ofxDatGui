@@ -70,6 +70,7 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
 
         virtual void onFocus();    
         virtual void onFocusLost();
+        virtual void onWindowResized();
         virtual void onKeyPressed(int key);
         virtual void onMouseEnter(ofPoint m);
         virtual void onMousePress(ofPoint m);

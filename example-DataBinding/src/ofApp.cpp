@@ -33,7 +33,6 @@ void ofApp::setup()
 
 void ofApp::update()
 {
-    if (gui->hasFocus()) return;
 // drag the circle around if the mouse is pressed while over it //
     ofPoint mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
     if (ofGetMousePressed()){

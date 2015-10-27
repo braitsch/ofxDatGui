@@ -34,7 +34,7 @@ class ofxDatGuiFRM : public ofxDatGuiTextInput {
             input->setText(ofToString(ofGetFrameRate(), 2));
         }
     
-        void update(bool ignoreMouseEvents)
+        void update(bool ignoreMouseEvents = true)
         {
             if (ofGetElapsedTimef() - mTime > mRefresh){
                 mTime = ofGetElapsedTimef();

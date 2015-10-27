@@ -20,25 +20,42 @@
     SOFTWARE.
 */
 
-#pragma once
 #include "ofxDatGuiTemplate.h"
 
-/*
-    Add your custom templates here and ensure they extend ofxDatGuiTemplate
-*/
+unique_ptr<ofxDatGui1440x900> ofxDatGui1440x900::tmplt = nullptr;
+unique_ptr<ofxDatGui2880x1800> ofxDatGui2880x1800::tmplt = nullptr;
 
-class ofxDatGuiExampleCustomTemplate : public ofxDatGui2880x1800{
+ofxDatGui2880x1800::ofxDatGui2880x1800()
+{
+    row.width   = 540;
+    row.height  *= 2;
+    row.padding *= 2;
+    row.spacing *= 2;
+    row.stripeWidth *= 2;
+    font.size   *= 2;
+    font.highlightPadding *= 2;
+    matrix.buttonSize = 47;
+    init();
+}
 
-    public:
-    
-        ofxDatGuiExampleCustomTemplate()
-        {
-    // look inside of ofxDatGuiTemplate for a full list of settings you can override //
-            row.color.bkgd = ofColor::fromHex(0xC63256);
-            textInput.color.text = ofColor::fromHex(0xEEEEEE);
-    // and don't forget to call init when you're done //
-            init();
-        }
-};
+ofxDatGui1440x900::ofxDatGui1440x900()
+{
+// just inherent all defaults //
+    init();
+}
 
+ofxDatGuiTemplate* ofxDatGui1440x900::get()
+{
+    if (tmplt == nullptr) {
+        tmplt = unique_ptr<ofxDatGui1440x900>(new ofxDatGui1440x900());
+    }
+    return tmplt.get();
+}
 
+ofxDatGuiTemplate* ofxDatGui2880x1800::get()
+{
+    if (tmplt == nullptr) {
+        tmplt = unique_ptr<ofxDatGui2880x1800>(new ofxDatGui2880x1800());
+    }
+    return tmplt.get();
+}

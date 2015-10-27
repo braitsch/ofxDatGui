@@ -161,3 +161,32 @@ class ofxDatGuiTemplate{
         } graph;
 
 };
+
+/*
+    15" RETINA MACBOOK PRO
+*/
+
+class ofxDatGui2880x1800 : public ofxDatGuiTemplate
+{
+    public:
+        ofxDatGui2880x1800();
+        static ofxDatGuiTemplate* get();
+    private:
+        static unique_ptr<ofxDatGui2880x1800> tmplt;
+};
+
+/*
+    15" NON-RETINA MACBOOK PRO
+*/
+
+class ofxDatGui1440x900 : public ofxDatGuiTemplate
+{
+    public:
+        ofxDatGui1440x900();
+        static ofxDatGuiTemplate* get();
+    private:
+        static unique_ptr<ofxDatGui1440x900> tmplt;
+};
+
+
+
