@@ -423,18 +423,22 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
         }
 
         void selectOption(const string& option) {
-            int optionIndex = -1;
-            for (int i=0; i<children.size(); i++) {
-                if (getChildAt(i)->getName().compare(option)==0) {
-                    optionIndex = i;
-                    break;
+            if (children.size() > 0) {
+                int optionIndex = -1;
+                for (int i = 0; i < children.size(); i++) {
+                    if (getChildAt(i)->getName().compare(option) == 0) {
+                        optionIndex = i;
+                        break;
+                    }
                 }
-            }
-            if (optionIndex == -1) {
-                mOption=0;
-                setLabel(mName);
+                if (optionIndex != -1) {
+                    select(optionIndex);
+                } else {
+                    select(mOption);
+                }
             } else {
-                select(optionIndex);
+                mOption = 0;
+                setLabel(mName);
             }
         }
     
