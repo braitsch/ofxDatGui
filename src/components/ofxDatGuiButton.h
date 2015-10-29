@@ -127,17 +127,19 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
 
         void draw()
         {
-            ofxDatGuiButton::drawBkgd();
-            ofxDatGuiComponent::drawLabel();
-            ofxDatGuiComponent::drawStripe();
-            ofPushStyle();
+            if (mVisible) {
+                ofxDatGuiButton::drawBkgd();
+                ofxDatGuiComponent::drawLabel();
+                ofxDatGuiComponent::drawStripe();
+                ofPushStyle();
                 ofSetColor(mTemplate->row.color.label);
-                if (mEnabled == true){
-                    radioOn.draw(x+mIcon.x, y+mIcon.y, mIcon.size, mIcon.size);
-                }   else{
-                    radioOff.draw(x+mIcon.x, y+mIcon.y, mIcon.size, mIcon.size);
+                if (mEnabled) {
+                    radioOn.draw(x + mIcon.x, y + mIcon.y, mIcon.size, mIcon.size);
+                } else {
+                    radioOff.draw(x + mIcon.x, y + mIcon.y, mIcon.size, mIcon.size);
                 }
-            ofPopStyle();
+                ofPopStyle();
+            }
         }
     
         void onMouseRelease(ofPoint m)
