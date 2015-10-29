@@ -130,7 +130,7 @@ void ofxDatGuiComponent::setTemplate(ofxDatGuiTemplate* tmplt)
 void ofxDatGuiComponent::setWidth(int w)
 {
     mRow.width = w;
-    mRow.lWidth=mRow.width*.35;
+    mRow.lWidth=mRow.width * mTemplate->row.label.lWidthRatio;
     if (mRow.lWidth > mTemplate->row.label.maxAreaWidth) mRow.lWidth = mTemplate->row.label.maxAreaWidth;
     mRow.inputX=mRow.lWidth;
     mRow.rWidth=mRow.width-mRow.inputX;

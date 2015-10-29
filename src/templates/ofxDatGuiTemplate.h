@@ -56,6 +56,7 @@ class ofxDatGuiTemplate{
             float stripeWidth = 2.0f;
             struct {
                 float maxAreaWidth = 240.0f;
+                float lWidthRatio = 0.35f;
                 bool forceUpperCase = true;
             } label;
             struct {
