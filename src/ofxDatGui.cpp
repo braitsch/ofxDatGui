@@ -740,12 +740,16 @@ void ofxDatGui::update()
     if (mAlignmentChanged) setGuiAlignment();
     
     // first check for gui focus change //
-    if (ofGetMousePressed() && mActiveGui->isMoving() == false){
+    if (!mActiveGui->isMoving()){
         ofPoint mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
-        for (int i=mGuis.size()-1; i>-1; i--){
+        for (auto gui = mGuis.rbegin(); gui != mGuis.rend(); gui++){
         // ignore guis that are invisible //
-            if (mGuis[i]->getVisible() && mGuis[i]->hitTest(mouse)){
-                if (mGuis[i] != mActiveGui) mGuis[i]->focus();
+            if ((*gui)->getVisible() && (*gui)->hitTest(mouse)) {
+                if ((*gui) != mActiveGui) {
+                    // let the previous gui process loss of focus
+                    mActiveGui->onFocusLost();
+                    (*gui)->focus();
+                }
                 break;
             }
         }
@@ -757,9 +761,9 @@ void ofxDatGui::update()
     }   else {
         mMoving = false;
     // this gui has focus so let's see if any of its components were interacted with //
-        if (mExpanded == false){
+        if (!mExpanded){
             mGuiFooter->update();
-        }   else{
+        } else {
             int activeItemIndex = -1;
             for (int i=0; i<items.size(); i++) {
                 items[i]->update();
@@ -797,6 +801,26 @@ void ofxDatGui::update()
 // empty the trash //
     for (int i=0; i<trash.size(); i++) delete trash[i];
     trash.clear();
+}
+
+void ofxDatGui::onFocusLost() {
+    // losing focus is essentially the mouse leaving even if the mouse is actually in the unfocused gui
+    // so manually update the the components as if the mouse left
+    if (mGuiHeader != nullptr) {
+        mGuiHeader->onMouseLeave(ofPoint(0,0));
+    }
+    if (mGuiFooter != nullptr) {
+        mGuiFooter->onMouseLeave(ofPoint(0,0));
+        mGuiFooter->onFocusLost();
+    }
+    for (auto* item : items) {
+        for (auto* child : item->children) {
+            child->onMouseLeave(ofPoint(0,0));
+            child->onFocusLost();
+        }
+        item->onMouseLeave(ofPoint(0,0));
+        item->onFocusLost();
+    }
 }
 
 void ofxDatGui::draw()
