@@ -766,25 +766,28 @@ void ofxDatGui::update()
         } else {
             int activeItemIndex = -1;
             for (int i=0; i<items.size(); i++) {
-                items[i]->update();
-                if (items[i]->getFocused()) {
-                    activeItemIndex = i;
-                    if (mGuiHeader != nullptr && mGuiHeader->getDraggable() && mGuiHeader->getPressed()){
-                // track that we're moving to force preserve focus //
-                        mMoving = true;
-                        ofPoint mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
-                        moveGui(mouse - mGuiHeader->dragOffset);
-                    }
-                    break;
-                }   else if (items[i]->getIsExpanded()){
-                // check if one of its children has focus //
-                    for (int j=0; j<items[i]->children.size(); j++) {
-                        if (items[i]->children[j]->getFocused()){
-                            activeItemIndex = i;
-                            break;
+                // only update if the item is visible
+                if (items[i]->getVisible()) {
+                    items[i]->update();
+                    if (items[i]->getFocused()) {
+                        activeItemIndex = i;
+                        if (mGuiHeader != nullptr && mGuiHeader->getDraggable() && mGuiHeader->getPressed()) {
+                            // track that we're moving to force preserve focus //
+                            mMoving = true;
+                            ofPoint mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
+                            moveGui(mouse - mGuiHeader->dragOffset);
                         }
+                        break;
+                    } else if (items[i]->getIsExpanded()) {
+                        // check if one of its children has focus //
+                        for (int j = 0; j < items[i]->children.size(); j++) {
+                            if (items[i]->children[j]->getFocused()) {
+                                activeItemIndex = i;
+                                break;
+                            }
+                        }
+                        if (activeItemIndex != -1) break;
                     }
-                    if (activeItemIndex != -1) break;
                 }
             }
         // update the remaining components //
