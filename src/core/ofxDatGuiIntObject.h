@@ -93,7 +93,18 @@ class ofxDatGuiInteractiveObject{
             using namespace std::placeholders;
             sliderEventCallback = std::bind(listenerMethod, owner, _1);
         }
-    
+
+    // int slider events //
+        typedef std::function<void(ofxDatGuiIntSliderEvent)> onIntSliderEventCallback;
+        onIntSliderEventCallback intSliderEventCallback;
+
+        template<typename T, typename args, class ListenerClass>
+        void onIntSliderEvent(T* owner, void (ListenerClass::*listenerMethod)(args))
+        {
+            using namespace std::placeholders;
+            intSliderEventCallback = std::bind(listenerMethod, owner, _1);
+        }
+
     // text input events //
         typedef std::function<void(ofxDatGuiTextInputEvent)> onTextInputEventCallback;
         onTextInputEventCallback textInputEventCallback;

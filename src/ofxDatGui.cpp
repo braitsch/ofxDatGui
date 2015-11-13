@@ -257,6 +257,21 @@ ofxDatGuiSlider* ofxDatGui::addSlider(string label, float min, float max, float 
     return slider;
 }
 
+ofxDatGuiIntSlider* ofxDatGui::addIntSlider(string label, int min, int max)
+{
+    // default to halfway between min & max values //
+    ofxDatGuiIntSlider* slider = addIntSlider(label, min, max, (max+min)/2);
+    return slider;
+}
+
+ofxDatGuiIntSlider* ofxDatGui::addIntSlider(string label, int min, int max, int val)
+{
+    ofxDatGuiIntSlider* slider = new ofxDatGuiIntSlider(label, min, max, val, mTemplate);
+    slider->onIntSliderEvent(this, &ofxDatGui::onIntSliderEventCallback);
+    attachItem(slider);
+    return slider;
+}
+
 ofxDatGuiTextInput* ofxDatGui::addTextInput(string label, string value)
 {
     ofxDatGuiTextInput* input = new ofxDatGuiTextInput(label, value, mTemplate);
@@ -338,6 +353,7 @@ ofxDatGuiFolder* ofxDatGui::addFolder(string label, ofColor color)
     ofxDatGuiFolder* folder = new ofxDatGuiFolder(label, color, mTemplate);
     folder->onButtonEvent(this, &ofxDatGui::onButtonEventCallback);
     folder->onSliderEvent(this, &ofxDatGui::onSliderEventCallback);
+    folder->onIntSliderEvent(this, &ofxDatGui::onIntSliderEventCallback);
     folder->on2dPadEvent(this, &ofxDatGui::on2dPadEventCallback);
     folder->onMatrixEvent(this, &ofxDatGui::onMatrixEventCallback);
     folder->onTextInputEvent(this, &ofxDatGui::onTextInputEventCallback);
@@ -577,6 +593,15 @@ void ofxDatGui::onSliderEventCallback(ofxDatGuiSliderEvent e)
 {
     if (sliderEventCallback != nullptr) {
         sliderEventCallback(e);
+    }   else{
+        ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+    }
+}
+
+void ofxDatGui::onIntSliderEventCallback(ofxDatGuiIntSliderEvent e)
+{
+    if (intSliderEventCallback != nullptr) {
+        intSliderEventCallback(e);
     }   else{
         ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
     }

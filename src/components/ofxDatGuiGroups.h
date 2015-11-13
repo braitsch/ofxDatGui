@@ -24,6 +24,7 @@
 #include "ofxDatGuiLabel.h"
 #include "ofxDatGuiButton.h"
 #include "ofxDatGuiSlider.h"
+#include "ofxDatGuiIntSlider.h"
 #include "ofxDatGuiTextInput.h"
 #include "ofxDatGuiFRM.h"
 #include "ofxDatGui2dPad.h"
@@ -189,7 +190,16 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
                 ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
             }
         }
-    
+
+        void dispatchIntSliderEvent(ofxDatGuiIntSliderEvent e)
+        {
+            if (intSliderEventCallback != nullptr) {
+                intSliderEventCallback(e);
+            }   else{
+                ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+            }
+        }
+
         void dispatchTextInputEvent(ofxDatGuiTextInputEvent e)
         {
             if (textInputEventCallback != nullptr) {
@@ -271,7 +281,16 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
             attachItem(slider);
             return slider;
         }
-    
+
+        ofxDatGuiIntSlider* addIntSlider(string label, int min, int max, int val)
+        {
+            ofxDatGuiIntSlider* slider = new ofxDatGuiIntSlider(label, min, max, val, mTemplate);
+            slider->setStripeColor(mStripeColor);
+            slider->onIntSliderEvent(this, &ofxDatGuiFolder::dispatchIntSliderEvent);
+            attachItem(slider);
+            return slider;
+        }
+
         ofxDatGuiTextInput* addTextInput(string label, string value)
         {
             ofxDatGuiTextInput* input = new ofxDatGuiTextInput(label, value, mTemplate);
