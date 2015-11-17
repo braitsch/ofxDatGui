@@ -217,7 +217,7 @@ class ofxDatGuiIntSlider : public ofxDatGuiComponent {
             }
             
         // dispatch event out to main application //
-            if (sliderEventCallback != nullptr) {
+            if (intSliderEventCallback != nullptr) {
                 ofxDatGuiIntSliderEvent e(this, mVal, mScale);
                 intSliderEventCallback(e);
             }   else{

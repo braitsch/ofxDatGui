@@ -60,6 +60,7 @@ enum class ofxDatGuiType
     DROPDOWN,
     MATRIX,
     SLIDER,
+    INTSLIDER,
     FOLDER,
     TEXT_INPUT,
     FRAME_RATE,
