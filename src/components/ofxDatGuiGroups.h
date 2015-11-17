@@ -420,6 +420,7 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
                 }
                 children.clear();
             }
+            mOption = 0;
         }
 
         void selectOption(const string& option) {
