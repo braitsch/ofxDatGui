@@ -20,9 +20,9 @@ void ofApp::setup()
 void ofApp::onTextInputEvent(ofxDatGuiTextInputEvent e)
 {
 // text input events carry the text of the input field //
-    cout << "From Event Object: " << e.text;
+    cout << "From Event Object: " << e.text << endl;
 // although you can also retrieve it from the event target //
-    cout << "From Event Target: " << e.target->getText();
+    cout << "From Event Target: " << e.target->getText() << endl;
 }
 
 void ofApp::update()

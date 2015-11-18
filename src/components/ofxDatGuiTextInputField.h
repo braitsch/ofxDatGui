@@ -199,8 +199,8 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
                 }   else{
                     return false;
                 }
-            }   else{
-            // allow anything //
+            // limit range to printable characters //
+            }   else if (key >= 32 && key <= 255){
                 return true;
             }
         }

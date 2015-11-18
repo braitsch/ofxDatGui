@@ -34,8 +34,8 @@ class ofxDatGuiExampleCustomTemplate : public ofxDatGui2880x1800{
         ofxDatGuiExampleCustomTemplate()
         {
     // look inside of ofxDatGuiTemplate for a full list of settings you can override //
-            row.color.bkgd = ofColor::fromHex(0xC63256);
-            textInput.color.text = ofColor::fromHex(0xEEEEEE);
+            row.color.bkgd = ofColor::fromHex(0x777777);
+            row.color.label = ofColor::fromHex(0x111111);
     // and don't forget to call init when you're done //
             init();
         }
