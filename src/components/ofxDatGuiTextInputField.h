@@ -171,37 +171,46 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
     
         bool keyIsValid(int key)
         {
-            if (mType == COLORPICKER){
-               if (key==OF_KEY_BACKSPACE){
-                    return true;
-            // limit string length to six hex characters //
-                } else if (!mHighlightText && mText.size() == 6){
-                    return false;
-            // allows numbers 0-9 //
-                }   else if (key>=48 && key<=57){
-                    return true;
-            // allows letters a-f & A-F //
-                }   else if ((key>=97 && key<=102) || (key>=65 && key<=70)){
-                    return true;
-                }   else{
-                    return false;
-                }
-            }   else if (mType == NUMERIC){
-                if (key==OF_KEY_BACKSPACE){
-                    return true;
-            // allow dash (-) or dot (.) //
-                }   else if (key==45 || key==46){
-                    return true;
-            // allows numbers 0-9 //
-                }   else if (key>=48 && key<=57){
-                    return true;
-            // an invalid key was entered //
-                }   else{
-                    return false;
-                }
-            // limit range to printable characters //
-            }   else if (key >= 32 && key <= 255){
+            if (key==OF_KEY_BACKSPACE){
                 return true;
+            }   else{
+                if (mType == COLORPICKER){
+                // limit string length to six hex characters //
+                    if (!mHighlightText && mText.size() == 6){
+                        return false;
+                // allow numbers 0-9 //
+                    }   else if (key>=48 && key<=57){
+                        return true;
+                // allow letters a-f & A-F //
+                    }   else if ((key>=97 && key<=102) || (key>=65 && key<=70)){
+                        return true;
+                    }   else{
+                // an invalid key was entered //
+                        return false;
+                    }
+                }   else if (mType == NUMERIC){
+                // allow dash (-) or dot (.) //
+                    if (key==45 || key==46){
+                        return true;
+                // allow numbers 0-9 //
+                    }   else if (key>=48 && key<=57){
+                        return true;
+                    }   else{
+                // an invalid key was entered //
+                        return false;
+                    }
+                }   else if (mType == ALPHA_NUMERIC){
+                // limit range to printable characters http://www.ascii-code.com //
+                    if (key >= 32 && key <= 255) {
+                        return true;
+                    }   else {
+                // an invalid key was entered //
+                        return false;
+                    }
+                }   else{
+                // invalid textfield type //
+                    return false;
+                }
             }
         }
     
