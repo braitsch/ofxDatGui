@@ -108,8 +108,8 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
     
         void onMousePress(ofPoint mouse)
         {
-            if (input->hitTest(mouse) && !input->hasFocus()) input->onFocus();
             ofxDatGuiComponent::onMousePress(mouse);
+            if (input->hitTest(mouse)) input->onFocus();
         }
     
         void draw()
