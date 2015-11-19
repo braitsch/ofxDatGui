@@ -336,7 +336,12 @@ mySlider-&gt;setScale(float scale);
 // request the current value //
 float mySlider-&gt;getValue();
 // value must be between min &amp; max //
-mySlider-&gt;setValue(float value);</pre>
+mySlider-&gt;setValue(float value);
+// set the floating point precision (default is two decimal places) //
+mySlider-&gt;setPrecision(int precision);
+// to cast the slider value to an integer set the precision to zero // 
+mySlider-&gt;setPrecision(0);
+</pre>
 
 			<p><strong>Color Picker</strong></p>
 
