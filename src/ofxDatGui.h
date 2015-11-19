@@ -60,6 +60,8 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofxDatGuiToggle* addToggle(string label, bool state = false);
         ofxDatGuiSlider* addSlider(string label, float min, float max);
         ofxDatGuiSlider* addSlider(string label, float min, float max, float val);
+        ofxDatGuiIntSlider* addIntSlider(string label, int min, int max);
+        ofxDatGuiIntSlider* addIntSlider(string label, int min, int max, int val);
         ofxDatGuiTextInput* addTextInput(string label, string value = "");
         ofxDatGuiDropdown* addDropdown(string label, vector<string> options);
         ofxDatGuiFRM* addFRM(float refresh = 1.0f);
@@ -76,6 +78,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofxDatGuiFooter* getFooter();
         ofxDatGuiButton* getButton(string label, string folder = "");
         ofxDatGuiSlider* getSlider(string label, string folder = "");
+        ofxDatGuiIntSlider* getIntSlider(string label, string folder = "");
         ofxDatGui2dPad* get2dPad(string label, string folder = "");
         ofxDatGuiTextInput* getTextInput(string label, string folder = "");
         ofxDatGuiColorPicker* getColorPicker(string label, string folder = "");
@@ -136,6 +139,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         void onInternalEventCallback(ofxDatGuiInternalEvent e);
         void onButtonEventCallback(ofxDatGuiButtonEvent e);
         void onSliderEventCallback(ofxDatGuiSliderEvent e);
+        void onIntSliderEventCallback(ofxDatGuiIntSliderEvent e);
         void onTextInputEventCallback(ofxDatGuiTextInputEvent e);
         void onDropdownEventCallback(ofxDatGuiDropdownEvent e);
         void on2dPadEventCallback(ofxDatGui2dPadEvent e);

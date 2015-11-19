@@ -257,6 +257,21 @@ ofxDatGuiSlider* ofxDatGui::addSlider(string label, float min, float max, float 
     return slider;
 }
 
+ofxDatGuiIntSlider* ofxDatGui::addIntSlider(string label, int min, int max)
+{
+    // default to halfway between min & max values //
+    ofxDatGuiIntSlider* slider = addIntSlider(label, min, max, (max+min)/2);
+    return slider;
+}
+
+ofxDatGuiIntSlider* ofxDatGui::addIntSlider(string label, int min, int max, int val)
+{
+    ofxDatGuiIntSlider* slider = new ofxDatGuiIntSlider(label, min, max, val, mTemplate);
+    slider->onIntSliderEvent(this, &ofxDatGui::onIntSliderEventCallback);
+    attachItem(slider);
+    return slider;
+}
+
 ofxDatGuiTextInput* ofxDatGui::addTextInput(string label, string value)
 {
     ofxDatGuiTextInput* input = new ofxDatGuiTextInput(label, value, mTemplate);
@@ -338,6 +353,7 @@ ofxDatGuiFolder* ofxDatGui::addFolder(string label, ofColor color)
     ofxDatGuiFolder* folder = new ofxDatGuiFolder(label, color, mTemplate);
     folder->onButtonEvent(this, &ofxDatGui::onButtonEventCallback);
     folder->onSliderEvent(this, &ofxDatGui::onSliderEventCallback);
+    folder->onIntSliderEvent(this, &ofxDatGui::onIntSliderEventCallback);
     folder->on2dPadEvent(this, &ofxDatGui::on2dPadEventCallback);
     folder->onMatrixEvent(this, &ofxDatGui::onMatrixEventCallback);
     folder->onTextInputEvent(this, &ofxDatGui::onTextInputEventCallback);
@@ -390,6 +406,23 @@ ofxDatGuiSlider* ofxDatGui::getSlider(string sl, string fl)
     }
     if (o==nullptr){
         o = ofxDatGuiSlider::getInstance();
+        ofxDatGuiLog::write(ofxDatGuiMsg::COMPONENT_NOT_FOUND, fl!="" ? fl+"-"+sl : sl);
+        trash.push_back(o);
+    }
+    return o;
+}
+
+ofxDatGuiIntSlider* ofxDatGui::getIntSlider(string sl, string fl)
+{
+    ofxDatGuiIntSlider* o = nullptr;
+    if (fl != ""){
+        ofxDatGuiFolder* f = static_cast<ofxDatGuiFolder*>(getComponent(ofxDatGuiType::FOLDER, fl));
+        if (f) o = static_cast<ofxDatGuiIntSlider*>(f->getComponent(ofxDatGuiType::INTSLIDER, sl));
+    }   else{
+        o = static_cast<ofxDatGuiIntSlider*>(getComponent(ofxDatGuiType::INTSLIDER, sl));
+    }
+    if (o==nullptr){
+        o = ofxDatGuiIntSlider::getInstance();
         ofxDatGuiLog::write(ofxDatGuiMsg::COMPONENT_NOT_FOUND, fl!="" ? fl+"-"+sl : sl);
         trash.push_back(o);
     }
@@ -577,6 +610,15 @@ void ofxDatGui::onSliderEventCallback(ofxDatGuiSliderEvent e)
 {
     if (sliderEventCallback != nullptr) {
         sliderEventCallback(e);
+    }   else{
+        ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+    }
+}
+
+void ofxDatGui::onIntSliderEventCallback(ofxDatGuiIntSliderEvent e)
+{
+    if (intSliderEventCallback != nullptr) {
+        intSliderEventCallback(e);
     }   else{
         ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
     }
