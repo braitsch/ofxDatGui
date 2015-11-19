@@ -33,6 +33,7 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
             mMin = min;
             mMax = max;
             mVal = val;
+            mPrecision = 2;
             mType = ofxDatGuiType::SLIDER;
             mStripeColor = mTemplate->slider.color.stripe;
             input = new ofxDatGuiTextInputField(mRow.height-(mRow.padding*2), mTemplate);
@@ -53,6 +54,14 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
         static ofxDatGuiSlider* getInstance()
         {
             return new ofxDatGuiSlider("X", 0, 100);
+        }
+    
+        void setPrecision(int precision)
+        {
+            mPrecision = precision;
+    // max precision is currently four decimal places //
+            if (mPrecision > 4) mPrecision = 4;
+            calcScale();
         }
     
         void onInputChanged(ofxDatGuiInternalEvent e)
@@ -198,13 +207,13 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
         {
             if (mFocused && mInputActive == false){
                 float s = (m.x-x-mRow.inputX)/mSlider.width;
-                if (s > .99) s = 1;
-                if (s < .01) s = 0;
+                if (s > .999) s = 1;
+                if (s < .001) s = 0;
         // don't dispatch an event if scale hasn't changed //
                 if (s == mScale) return;
                 mScale = s;
-                mVal = ((mMax-mMin) * mScale) + mMin;
-                input->setText(ofToString(mVal, 2));
+                mVal = round((((mMax-mMin) * mScale) + mMin), mPrecision);
+                setTextInput();
                 dispatchSliderChangedEvent();
             }
         }
@@ -256,6 +265,7 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
         float   mMax;
         float   mVal;
         float   mScale;
+        int     mPrecision;
         bool    mChanged;
         bool    mInputActive;
         ofxDatGuiTextInputField* input;
@@ -279,7 +289,27 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
             }   else{
                 mScale = ofxDatGuiScale(mVal, mMin, mMax);
             }
-            input->setText(ofToString(mVal, 2));
+            mVal = round(mVal, mPrecision);
+            setTextInput();
+        }
+    
+        void setTextInput()
+        {
+            string v = ofToString(mVal);
+            if (mVal != mMin && mVal != mMax){
+                int p = v.find('.');
+                if (p == -1 && mPrecision != 0){
+                    v+='.';
+                    p = v.find('.');
+                }
+                while(v.length() - p < (mPrecision+1)) v+='0';
+            }
+            input->setText(v);
+        }
+    
+        float round(float num, int precision)
+        {
+            return floorf(num * pow(10.0f, precision) + .5f)/pow(10.0f, precision);
         }
         
 };

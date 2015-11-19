@@ -12,6 +12,11 @@ void ofApp::setup()
 // instantiate a slider with a default value of 20 //
     slider = new ofxDatGuiSlider("BACKGROUND BRIGHTNESS", 0, 100, 20);
     
+// slider values are floats that by default have a two decimal place precision //
+// if you want the slider to work with integers simply set the precision to zero //
+// the maximum precision that is currently supported is four decimal places //
+// slider->setPrecision(0);
+    
 // let's make it BIG //
     mTemplate.row.width = ofGetWidth();
     mTemplate.row.label.maxAreaWidth = 340;
@@ -30,6 +35,7 @@ void ofApp::setup()
 void ofApp::onSliderEvent(ofxDatGuiSliderEvent e)
 {
     ofSetBackgroundColor(ofColor::white*e.scale);
+    cout << "value = " << e.value << " : scale = " << e.scale << endl;
 }
 
 void ofApp::update()
