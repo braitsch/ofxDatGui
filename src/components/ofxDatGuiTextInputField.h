@@ -190,7 +190,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
 				mCursorPos = max( (int) mCursorPos - 1, 0);
 			}
 			else if (key == OF_KEY_RIGHT) {
-				mCursorPos = min( (int) mCursorPos + 1, 0);
+				mCursorPos = min( mCursorPos + 1, (unsigned int) mText.size());
 			} else {
 				//mText += key;
 				mText = mText.substr(0, mCursorPos) + (char)key + mText.substr(mCursorPos);
