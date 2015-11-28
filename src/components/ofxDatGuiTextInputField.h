@@ -42,6 +42,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             mHighlightText = false;
             mMaxCharacters = 99;
             mType = ALPHA_NUMERIC;
+			mFocused = false;
         }
     
         void setWidth(int w)
@@ -75,6 +76,19 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
                 ofDrawRectangle(mRect);
                 mTextColor = mHighlightText ? mTextActiveColor : mTextInactiveColor;
                 mFont->drawText(mType==COLORPICKER ? "#"+mText : mText, mTextColor, mRect.x+tx, mRect.y+mRect.height/2, mHighlightText);
+
+				//draw cursor
+				if (mFocused) {
+					float xPos = mRect.x + tx;
+					if (mText.size() == 0) {
+						xPos = mRect.getCenter().x;
+					} else if (mCursorPos > 0) {
+						ofRectangle bbox = mFont->getStringBoundingBox(mText.substr(0, mCursorPos), mRect.x + tx, mRect.y);
+						xPos = bbox.getRight();
+					}
+					ofSetColor(mTextColor);
+					ofLine(ofPoint(xPos, mRect.getBottom()), ofPoint(xPos, mRect.getTop()));
+				}
             ofPopStyle();
         }
     
@@ -141,6 +155,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             mFocused = true;
             mTextChanged = false;
             mHighlightText = true;
+			mCursorPos = mText.size();
             if (mType != COLORPICKER) mBkgdColor = mTemplate->row.color.mouseOver;
         }
     
@@ -159,11 +174,28 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
         void onKeyPressed(int key)
         {
             if (!keyIsValid(key)) return;
-            if (mHighlightText) mText = "";
-            if (key!=OF_KEY_BACKSPACE){
-                mText += key;
-            }   else {
-                if (mText.size() > 0) mText.resize(mText.size()-1);
+            if (key==OF_KEY_BACKSPACE){
+				if (mCursorPos > 0) {
+					if (mHighlightText) {
+						mText = "";
+						mCursorPos = 0;
+					}
+					else {
+						mText = mText.substr(0, mCursorPos - 1) + mText.substr(mCursorPos);
+						mCursorPos--;
+					}
+				}
+			}
+			else if (key == OF_KEY_LEFT) {
+				mCursorPos = max( (int) mCursorPos - 1, 0);
+			}
+			else if (key == OF_KEY_RIGHT) {
+				mCursorPos = min( (int) mCursorPos + 1, 0);
+			} else {
+				//mText += key;
+				mText = mText.substr(0, mCursorPos) + (char)key + mText.substr(mCursorPos);
+				mCursorPos++;
+
             }
             mHighlightText = false;
             setText(mText);
@@ -171,7 +203,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
     
         bool keyIsValid(int key)
         {
-            if (key==OF_KEY_BACKSPACE){
+            if (key==OF_KEY_BACKSPACE || key == OF_KEY_LEFT || key == OF_KEY_RIGHT){
                 return true;
             }   else if (mType == COLORPICKER){
             // limit string length to six hex characters //
@@ -213,6 +245,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
         }
     
     private:
+		unsigned int mCursorPos;
         string mText;
         bool mFocused;
         bool mTextChanged;
