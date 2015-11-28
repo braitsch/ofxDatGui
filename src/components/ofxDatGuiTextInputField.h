@@ -174,22 +174,22 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
         void onKeyPressed(int key)
         {
             if (!keyIsValid(key)) return;
-            if (key==OF_KEY_BACKSPACE){
-				if (mCursorPos > 0) {
-					if (mHighlightText) {
-						mText = "";
-						mCursorPos = 0;
-					}
-					else {
-						mText = mText.substr(0, mCursorPos - 1) + mText.substr(mCursorPos);
-						mCursorPos--;
-					}
+			if (mHighlightText) {
+				//if key is printable or delete
+				if (key >= 32 && key <= 255 || key == OF_KEY_BACKSPACE || key == OF_KEY_DEL) {
+					mText = "";
+					mCursorPos = 0;
 				}
 			}
-			else if (key == OF_KEY_LEFT) {
+            if (key==OF_KEY_BACKSPACE){
+				if (mCursorPos > 0) {
+					mText = mText.substr(0, mCursorPos - 1) + mText.substr(mCursorPos);
+					mCursorPos--;
+					
+				}
+			} else if (key == OF_KEY_LEFT) {
 				mCursorPos = max( (int) mCursorPos - 1, 0);
-			}
-			else if (key == OF_KEY_RIGHT) {
+			} else if (key == OF_KEY_RIGHT) {
 				mCursorPos = min( mCursorPos + 1, (unsigned int) mText.size());
 			} else {
 				//mText += key;
