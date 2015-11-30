@@ -42,7 +42,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             mHighlightText = false;
             mMaxCharacters = 99;
             mType = ALPHA_NUMERIC;
-			mFocused = false;
+            mFocused = false;
         }
     
         void setWidth(int w)
@@ -76,11 +76,11 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
                 ofDrawRectangle(mRect);
                 mTextColor = mHighlightText ? mTextActiveColor : mTextInactiveColor;
                 mFont->drawText(mType==COLORPICKER ? "#"+mText : mText, mTextColor, mRect.x+tx, mRect.y+mRect.height/2, mHighlightText);
-				if (mFocused) {
+                if (mFocused) {
                 // draw the cursor //
-					ofSetColor(mTextColor);
+                    ofSetColor(mTextColor);
                     ofDrawLine(ofPoint(mRect.x+tx+mCursorX, mRect.getBottom()), ofPoint(mRect.x+tx+mCursorX, mRect.getTop()));
-				}
+                }
             ofPopStyle();
         }
     
@@ -147,7 +147,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             mFocused = true;
             mTextChanged = false;
             mHighlightText = true;
-			setCursorIndex(mText.size());
+            setCursorIndex(mText.size());
             if (mType != COLORPICKER) mBkgdColor = mTemplate->row.color.mouseOver;
         }
     
@@ -166,27 +166,27 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
         void onKeyPressed(int key)
         {
             if (!keyIsValid(key)) return;
-			if (mHighlightText) {
+            if (mHighlightText) {
             // if key is printable or delete
-				if ((key >= 32 && key <= 255) || key == OF_KEY_BACKSPACE || key == OF_KEY_DEL) {
-					mText = "";
+                if ((key >= 32 && key <= 255) || key == OF_KEY_BACKSPACE || key == OF_KEY_DEL) {
+                    mText = "";
                     setCursorIndex(0);
-				}
-			}
+                }
+            }
             if (key == OF_KEY_BACKSPACE){
             // delete character at cursor position //
-				if (mCursorIndex > 0) {
-					mText = mText.substr(0, mCursorIndex - 1) + mText.substr(mCursorIndex);
+                if (mCursorIndex > 0) {
+                    mText = mText.substr(0, mCursorIndex - 1) + mText.substr(mCursorIndex);
                     setCursorIndex(mCursorIndex - 1);
-				}
-			} else if (key == OF_KEY_LEFT) {
+                }
+            } else if (key == OF_KEY_LEFT) {
                 setCursorIndex(max( (int) mCursorIndex - 1, 0));
-			} else if (key == OF_KEY_RIGHT) {
-				setCursorIndex(min( mCursorIndex + 1, (unsigned int) mText.size()));
-			} else {
+            } else if (key == OF_KEY_RIGHT) {
+                setCursorIndex(min( mCursorIndex + 1, (unsigned int) mText.size()));
+            } else {
             // insert character at cursor position //
-				mText = mText.substr(0, mCursorIndex) + (char)key + mText.substr(mCursorIndex);
-				setCursorIndex(mCursorIndex + 1);
+                mText = mText.substr(0, mCursorIndex) + (char)key + mText.substr(mCursorIndex);
+                setCursorIndex(mCursorIndex + 1);
             }
             mHighlightText = false;
             setText(mText);
@@ -254,7 +254,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
         bool mHighlightText;
         bool mUpperCaseText;
         float mCursorX;
-		unsigned int mCursorIndex;
+        unsigned int mCursorIndex;
         unsigned int mMaxCharacters;
         ofRectangle mRect;
         ofRectangle mTextRect;
