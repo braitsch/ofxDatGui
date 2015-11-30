@@ -115,9 +115,7 @@ class ofxDatGuiTextInput : public ofxDatGuiComponent {
     
         void onKeyPressed(int key)
         {
-            if (key != OF_KEY_LEFT &&
-                key != OF_KEY_RIGHT &&
-                key != OF_KEY_UP &&
+            if (key != OF_KEY_UP &&
                 key != OF_KEY_DOWN)
             input->onKeyPressed(key);
         }
