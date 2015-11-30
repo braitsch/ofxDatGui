@@ -35,6 +35,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         void draw();
         void focus();
         void update();
+        void onFocusLost();
     
         bool isMoving();
         void setWidth(int width);

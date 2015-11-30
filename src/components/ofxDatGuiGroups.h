@@ -391,6 +391,20 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
             mOption = 0;
             mType = ofxDatGuiType::DROPDOWN;
             mStripeColor = mTemplate->dropdown.color.stripe;
+            setOptions(options);
+        }
+
+        ~ofxDatGuiDropdown() {
+            clearOptions();
+        }
+    
+        static ofxDatGuiDropdown* getInstance()
+        {
+            return new ofxDatGuiDropdown("X");
+        }
+
+        void setOptions(const vector<string>& options) {
+            clearOptions();
             for(int i=0; i<options.size(); i++){
                 ofxDatGuiDropdownOption* opt = new ofxDatGuiDropdownOption(options[i], mTemplate);
                 opt->setIndex(children.size());
@@ -398,10 +412,35 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
                 children.push_back(opt);
             }
         }
-    
-        static ofxDatGuiDropdown* getInstance()
-        {
-            return new ofxDatGuiDropdown("X");
+
+        void clearOptions() {
+            if (children.size() > 0) {
+                for (int i=0; i<children.size(); i++) {
+                    delete children[i];
+                }
+                children.clear();
+            }
+            mOption = 0;
+        }
+
+        void selectOption(const string& option) {
+            if (children.size() > 0) {
+                int optionIndex = -1;
+                for (int i = 0; i < children.size(); i++) {
+                    if (getChildAt(i)->getName().compare(option) == 0) {
+                        optionIndex = i;
+                        break;
+                    }
+                }
+                if (optionIndex != -1) {
+                    select(optionIndex);
+                } else {
+                    select(mOption);
+                }
+            } else {
+                mOption = 0;
+                setLabel(mName);
+            }
         }
     
         void setTemplate(ofxDatGuiTemplate* tmplt)
@@ -418,6 +457,7 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
                 ofLogError() << "ofxDatGuiDropdown->select("<<cIndex<<") is out of range";
             }   else{
                 setLabel(children[cIndex]->getLabel());
+                mOption = cIndex;
             }
         }
 
