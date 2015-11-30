@@ -80,7 +80,6 @@ class ofxDatGuiFont{
             }
         }
     
-        int size;
         int labelX;
         int labelHeight;
         int highlightPadding;

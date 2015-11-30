@@ -76,18 +76,10 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
                 ofDrawRectangle(mRect);
                 mTextColor = mHighlightText ? mTextActiveColor : mTextInactiveColor;
                 mFont->drawText(mType==COLORPICKER ? "#"+mText : mText, mTextColor, mRect.x+tx, mRect.y+mRect.height/2, mHighlightText);
-
-				//draw cursor
 				if (mFocused) {
-					float xPos = mRect.x + tx;
-					if (mText.size() == 0) {
-						xPos = mRect.getCenter().x;
-					} else if (mCursorPos > 0) {
-						ofRectangle bbox = mFont->getStringBoundingBox(mText.substr(0, mCursorPos), mRect.x + tx, mRect.y);
-						xPos = bbox.getRight();
-					}
+                // draw the cursor //
 					ofSetColor(mTextColor);
-					ofLine(ofPoint(xPos, mRect.getBottom()), ofPoint(xPos, mRect.getTop()));
+                    ofDrawLine(ofPoint(mRect.x+tx+mCursorX, mRect.getBottom()), ofPoint(mRect.x+tx+mCursorX, mRect.getTop()));
 				}
             ofPopStyle();
         }
@@ -145,7 +137,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             mBkgdColor = color;
         }
     
-        void setMaxNumOfCharacters(int max)
+        void setMaxNumOfCharacters(unsigned int max)
         {
             mMaxCharacters = max;
         }
@@ -155,7 +147,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             mFocused = true;
             mTextChanged = false;
             mHighlightText = true;
-			mCursorPos = mText.size();
+			setCursorIndex(mText.size());
             if (mType != COLORPICKER) mBkgdColor = mTemplate->row.color.mouseOver;
         }
     
@@ -175,35 +167,46 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
         {
             if (!keyIsValid(key)) return;
 			if (mHighlightText) {
-				//if key is printable or delete
-				if (key >= 32 && key <= 255 || key == OF_KEY_BACKSPACE || key == OF_KEY_DEL) {
+            // if key is printable or delete
+				if ((key >= 32 && key <= 255) || key == OF_KEY_BACKSPACE || key == OF_KEY_DEL) {
 					mText = "";
-					mCursorPos = 0;
+                    setCursorIndex(0);
 				}
 			}
-            if (key==OF_KEY_BACKSPACE){
-				if (mCursorPos > 0) {
-					mText = mText.substr(0, mCursorPos - 1) + mText.substr(mCursorPos);
-					mCursorPos--;
-					
+            if (key == OF_KEY_BACKSPACE){
+            // delete character at cursor position //
+				if (mCursorIndex > 0) {
+					mText = mText.substr(0, mCursorIndex - 1) + mText.substr(mCursorIndex);
+                    setCursorIndex(mCursorIndex - 1);
 				}
 			} else if (key == OF_KEY_LEFT) {
-				mCursorPos = max( (int) mCursorPos - 1, 0);
+                setCursorIndex(max( (int) mCursorIndex - 1, 0));
 			} else if (key == OF_KEY_RIGHT) {
-				mCursorPos = min( mCursorPos + 1, (unsigned int) mText.size());
+				setCursorIndex(min( mCursorIndex + 1, (unsigned int) mText.size()));
 			} else {
-				//mText += key;
-				mText = mText.substr(0, mCursorPos) + (char)key + mText.substr(mCursorPos);
-				mCursorPos++;
-
+            // insert character at cursor position //
+				mText = mText.substr(0, mCursorIndex) + (char)key + mText.substr(mCursorIndex);
+				setCursorIndex(mCursorIndex + 1);
             }
             mHighlightText = false;
             setText(mText);
         }
     
+        void setCursorIndex(int index)
+        {
+            if (index == 0) {
+                mCursorX = mFont->getStringBoundingBox(mText.substr(0, index), 0, 0).getLeft();
+            } else if (index > 0) {
+                mCursorX = mFont->getStringBoundingBox(mText.substr(0, index), 0, 0).getRight();
+            // if we're at a space append the width the font's 'p' character //
+                if (mText.at(index - 1) == ' ') mCursorX+=mFont->getStringBoundingBox("p", 0, 0).width;
+            }
+            mCursorIndex = index;
+        }
+    
         bool keyIsValid(int key)
         {
-            if (key==OF_KEY_BACKSPACE || key == OF_KEY_LEFT || key == OF_KEY_RIGHT){
+            if (key == OF_KEY_BACKSPACE || key == OF_KEY_LEFT || key == OF_KEY_RIGHT){
                 return true;
             }   else if (mType == COLORPICKER){
             // limit string length to six hex characters //
@@ -245,13 +248,14 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
         }
     
     private:
-		unsigned int mCursorPos;
         string mText;
         bool mFocused;
         bool mTextChanged;
         bool mHighlightText;
         bool mUpperCaseText;
-        int mMaxCharacters;
+        float mCursorX;
+		unsigned int mCursorIndex;
+        unsigned int mMaxCharacters;
         ofRectangle mRect;
         ofRectangle mTextRect;
         ofColor mBkgdColor;
