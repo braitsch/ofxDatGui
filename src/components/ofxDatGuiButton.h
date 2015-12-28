@@ -30,8 +30,8 @@ class ofxDatGuiButton : public ofxDatGuiComponent {
         ofxDatGuiButton(string label, ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiComponent(label, tmplt)
         {
             mType = ofxDatGuiType::BUTTON;
-            mStripeColor = mTemplate->button.color.stripe;
-            setWidth(mRow.width);
+            mStyle.stripe.color = mTemplate->button.color.stripe;
+            setWidth(mStyle.width);
         }
     
         static ofxDatGuiButton* getInstance()
@@ -42,7 +42,7 @@ class ofxDatGuiButton : public ofxDatGuiComponent {
         void setOrigin(int x, int y)
         {
             ofxDatGuiComponent::setOrigin(x, y);
-            mLabelAreaWidth = mRow.width;
+            mLabel.width = mStyle.width;
         }
     
         void draw()
@@ -58,13 +58,17 @@ class ofxDatGuiButton : public ofxDatGuiComponent {
         void drawBkgd()
         {
         // anything that extends ofxDatGuiButton has the same rollover effect //
-            if (mFocused && mMouseDown){
-                ofxDatGuiComponent::drawBkgd(mTemplate->row.color.mouseDown, 255);
-            }   else if (mMouseOver){
-                ofxDatGuiComponent::drawBkgd(mTemplate->row.color.mouseOver, 255);
-            }   else{
-                ofxDatGuiComponent::drawBkgd();
-            }
+            ofPushStyle();
+                ofFill();
+                if (mFocused && mMouseDown){
+                    ofSetColor(mStyle.color.onMouseDown, mStyle.opacity);
+                }   else if (mMouseOver){
+                    ofSetColor(mStyle.color.onMouseOver, mStyle.opacity);
+                }   else{
+                    ofSetColor(mStyle.color.background, mStyle.opacity);
+                }
+                ofDrawRectangle(x, y, mStyle.width, mStyle.height);
+            ofPopStyle();
         }
     
         void onMouseRelease(ofPoint m)
@@ -93,7 +97,7 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
         ofxDatGuiToggle(string label, bool enabled, ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiButton(label, tmplt)
         {
             mEnabled = enabled;
-            mStripeColor = mTemplate->toggle.color.stripe;
+            mStyle.stripe.color = mTemplate->toggle.color.stripe;
             if (!radioOn.isAllocated()) radioOn.load(OFXDG_ASSET_DIR+"/icon-radio-on.png");
             if (!radioOff.isAllocated()) radioOff.load(OFXDG_ASSET_DIR+"/icon-radio-off.png");
         }
@@ -101,13 +105,13 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
         void setOrigin(int x, int y)
         {
             ofxDatGuiButton::setOrigin(x, y);
-            mLabelMarginRight = mLabelAreaWidth - mIcon.x;
+            mLabel.marginRight = mLabel.width - mIcon.x;
         }
     
         void setTemplate(ofxDatGuiTemplate* tmplt)
         {
             ofxDatGuiButton::setTemplate(tmplt);
-            setWidth(mRow.width);
+            setWidth(mStyle.width);
         }
     
         void toggle()

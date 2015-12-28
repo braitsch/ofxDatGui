@@ -31,7 +31,7 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
         {
             mColor = color;
             mType = ofxDatGuiType::COLOR_PICKER;
-            mStripeColor = mTemplate->colorPicker.color.stripe;
+            mStyle.stripe.color = mTemplate->colorPicker.color.stripe;
             
         // center the text input field //
             input->setTextInputFieldType(ofxDatGuiTextInputField::COLORPICKER);
@@ -39,11 +39,11 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
             
         // attach the picker //
             mShowPicker = false;
-            pickerRect = ofRectangle(0, 0, input->getWidth(), (mRow.height+mRow.padding) * 3);
+            pickerRect = ofRectangle(0, 0, input->getWidth(), (mStyle.height+mStyle.padding) * 3);
             rainbowWidth = 20;
-            rainbowHeight = pickerRect.height -(mRow.padding*2);
+            rainbowHeight = pickerRect.height -(mStyle.padding*2);
             rainbowRect = ofRectangle(0, 0, rainbowWidth, rainbowHeight);
-            gradientRect = ofRectangle(0, 0, pickerRect.width-rainbowRect.width-(mRow.padding*3), rainbowHeight);
+            gradientRect = ofRectangle(0, 0, pickerRect.width-rainbowRect.width-(mStyle.padding*3), rainbowHeight);
             if (rainbow.isAllocated() == false) rainbow.load(OFXDG_ASSET_DIR+"/picker-rainbow.png");
             
         // setup the vbo that draws the gradient //
@@ -118,14 +118,14 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
             ofPushStyle();
                 ofxDatGuiTextInput::draw();
                 if (mShowPicker) {
-                    pickerRect.x = this->x + mRow.inputX;
-                    pickerRect.y = this->y + mRow.padding + input->getHeight();
+                    pickerRect.x = this->x + mLabel.width;
+                    pickerRect.y = this->y + mStyle.padding + input->getHeight();
                     pickerRect.width = input->getWidth();
-                    rainbowRect.x = pickerRect.x+pickerRect.width-rainbowWidth-mRow.padding;
-                    rainbowRect.y = pickerRect.y+mRow.padding;
-                    gradientRect.x = pickerRect.x + mRow.padding;
-                    gradientRect.y = pickerRect.y + mRow.padding;
-                    gradientRect.width = pickerRect.width-rainbowRect.width-(mRow.padding*3);
+                    rainbowRect.x = pickerRect.x+pickerRect.width-rainbowWidth-mStyle.padding;
+                    rainbowRect.y = pickerRect.y+mStyle.padding;
+                    gradientRect.x = pickerRect.x + mStyle.padding;
+                    gradientRect.y = pickerRect.y + mStyle.padding;
+                    gradientRect.width = pickerRect.width-rainbowRect.width-(mStyle.padding*3);
                     gPoints[0] = ofVec2f(gradientRect.x, gradientRect.y);
                     gPoints[1] = ofVec2f(gradientRect.x+ gradientRect.width, gradientRect.y);
                     gPoints[2] = ofVec2f(gradientRect.x+ gradientRect.width, gradientRect.y+gradientRect.height);

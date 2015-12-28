@@ -54,7 +54,7 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
         void setWidth(int w)
         {
             ofxDatGuiComponent::setWidth(w);
-            mLabelMarginRight = mRow.width-mIcon.x;
+            mLabel.marginRight = mStyle.width-mIcon.x;
         }
     
         void setOrigin(int x, int y)
@@ -73,16 +73,16 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
                 ofSetColor(mTemplate->row.color.label);
                 mImage.draw(x+mIcon.x, y+mIcon.y, mIcon.size, mIcon.size);
             if (mIsExpanded) {
-                int mHeight = mRow.height;
-                ofSetColor(mTemplate->gui.color.bkgd, mAlpha);
-                ofDrawRectangle(x, y+mHeight, mRow.width, mRow.spacing);
+                int mHeight = mStyle.height;
+                ofSetColor(mTemplate->gui.color.bkgd, mStyle.opacity);
+                ofDrawRectangle(x, y+mHeight, mStyle.width, mStyle.vMargin);
                 for(int i=0; i<children.size(); i++) {
-                    mHeight += mRow.spacing;
+                    mHeight += mStyle.vMargin;
                     children[i]->draw();
                     mHeight += children[i]->getHeight();
                     if (i == children.size()-1) break;
-                    ofSetColor(mTemplate->gui.color.bkgd, mAlpha);
-                    ofDrawRectangle(x, y+mHeight, mRow.width, mRow.spacing);
+                    ofSetColor(mTemplate->gui.color.bkgd, mStyle.opacity);
+                    ofDrawRectangle(x, y+mHeight, mStyle.width, mStyle.vMargin);
                 }
                 for(int i=0; i<children.size(); i++) children[i]->drawColorPicker();
             }
@@ -118,14 +118,14 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
     
         void layout()
         {
-            mHeight = mRow.height + mRow.spacing;
+            mHeight = mStyle.height + mStyle.vMargin;
             for (int i=0; i<children.size(); i++) {
                 if (children[i]->getVisible() == false) continue;
                 if (mIsExpanded == false){
                     children[i]->setOrigin(x, y + mHeight);
                 }   else{
                     children[i]->setOrigin(x, y + mHeight);
-                    mHeight += children[i]->getHeight() + mRow.spacing;
+                    mHeight += children[i]->getHeight() + mStyle.vMargin;
                 }
             }
         }
@@ -151,7 +151,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
         ofxDatGuiFolder(string label, ofColor color=ofColor::white, ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiGroup(label, tmplt)
         {
     // all items within a folder share the same stripe color //
-            mStripeColor = color;
+            mStyle.stripe.color = color;
             mType = ofxDatGuiType::FOLDER;
         }
     
@@ -164,7 +164,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
         {
             ofxDatGuiGroup::setTemplate(tmplt);
             for (int i=0; i<children.size(); i++) children[i]->setTemplate(mTemplate);
-            setWidth(mRow.width);
+            setWidth(mStyle.width);
         }
     
         void drawColorPicker()
@@ -233,7 +233,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
         ofxDatGuiLabel* addLabel(string label)
         {
             ofxDatGuiLabel* lbl = new ofxDatGuiLabel(label, mTemplate);
-            lbl->setStripeColor(mStripeColor);
+            lbl->setStripeColor(mStyle.stripe.color);
             attachItem(lbl);
             return lbl;
         }
@@ -241,7 +241,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
         ofxDatGuiButton* addButton(string label)
         {
             ofxDatGuiButton* button = new ofxDatGuiButton(label, mTemplate);
-            button->setStripeColor(mStripeColor);
+            button->setStripeColor(mStyle.stripe.color);
             button->onButtonEvent(this, &ofxDatGuiFolder::dispatchButtonEvent);
             attachItem(button);
             return button;
@@ -250,7 +250,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
         ofxDatGuiButton* addToggle(string label, bool enabled = false)
         {
             ofxDatGuiToggle* toggle = new ofxDatGuiToggle(label, enabled, mTemplate);
-            toggle->setStripeColor(mStripeColor);
+            toggle->setStripeColor(mStyle.stripe.color);
             toggle->onButtonEvent(this, &ofxDatGuiFolder::dispatchButtonEvent);
             attachItem(toggle);
             return toggle;
@@ -266,7 +266,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
         ofxDatGuiSlider* addSlider(string label, float min, float max, float val)
         {
             ofxDatGuiSlider* slider = new ofxDatGuiSlider(label, min, max, val, mTemplate);
-            slider->setStripeColor(mStripeColor);
+            slider->setStripeColor(mStyle.stripe.color);
             slider->onSliderEvent(this, &ofxDatGuiFolder::dispatchSliderEvent);
             attachItem(slider);
             return slider;
@@ -275,7 +275,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
         ofxDatGuiTextInput* addTextInput(string label, string value)
         {
             ofxDatGuiTextInput* input = new ofxDatGuiTextInput(label, value, mTemplate);
-            input->setStripeColor(mStripeColor);
+            input->setStripeColor(mStyle.stripe.color);
             input->onTextInputEvent(this, &ofxDatGuiFolder::dispatchTextInputEvent);
             attachItem(input);
             return input;
@@ -284,7 +284,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
         ofxDatGuiColorPicker* addColorPicker(string label, ofColor color = ofColor::black)
         {
             shared_ptr<ofxDatGuiColorPicker> picker(new ofxDatGuiColorPicker(label, color, mTemplate));
-            picker->setStripeColor(mStripeColor);
+            picker->setStripeColor(mStyle.stripe.color);
             picker->onColorPickerEvent(this, &ofxDatGuiFolder::dispatchColorPickerEvent);
             attachItem(picker.get());
             pickers.push_back(picker);
@@ -294,7 +294,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
         ofxDatGuiFRM* addFRM(float refresh = 1.0f)
         {
             ofxDatGuiFRM* monitor = new ofxDatGuiFRM(refresh, mTemplate);
-            monitor->setStripeColor(mStripeColor);
+            monitor->setStripeColor(mStyle.stripe.color);
             attachItem(monitor);
             return monitor;
         }
@@ -309,7 +309,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
         ofxDatGui2dPad* add2dPad(string label)
         {
             ofxDatGui2dPad* pad = new ofxDatGui2dPad(label, mTemplate);
-            pad->setStripeColor(mStripeColor);
+            pad->setStripeColor(mStyle.stripe.color);
             pad->on2dPadEvent(this, &ofxDatGuiFolder::dispatch2dPadEvent);
             attachItem(pad);
             return pad;
@@ -318,7 +318,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
         ofxDatGuiMatrix* addMatrix(string label, int numButtons, bool showLabels = false)
         {
             ofxDatGuiMatrix* matrix = new ofxDatGuiMatrix(label, numButtons, showLabels, mTemplate);
-            matrix->setStripeColor(mStripeColor);
+            matrix->setStripeColor(mStyle.stripe.color);
             matrix->onMatrixEvent(this, &ofxDatGuiFolder::dispatchMatrixEvent);
             attachItem(matrix);
             return matrix;
@@ -327,7 +327,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
         ofxDatGuiWaveMonitor* addWaveMonitor(string label, float frequency, float amplitude)
         {
             ofxDatGuiWaveMonitor* monitor = new ofxDatGuiWaveMonitor(label, frequency, amplitude, mTemplate);
-            monitor->setStripeColor(mStripeColor);
+            monitor->setStripeColor(mStyle.stripe.color);
             attachItem(monitor);
             return monitor;
         }
@@ -335,7 +335,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
         ofxDatGuiValuePlotter* addValuePlotter(string label, float min, float max)
         {
             ofxDatGuiValuePlotter* plotter = new ofxDatGuiValuePlotter(label, min, max, mTemplate);
-            plotter->setStripeColor(mStripeColor);
+            plotter->setStripeColor(mStyle.stripe.color);
             attachItem(plotter);
             return plotter;
         }
@@ -369,14 +369,14 @@ class ofxDatGuiDropdownOption : public ofxDatGuiButton {
     
         ofxDatGuiDropdownOption(string label, ofxDatGuiTemplate* tmplt) : ofxDatGuiButton(label, tmplt)
         {
-            mLabelRect = mFont->getStringBoundingBox("* "+mLabel, 0, 0);
-            mStripeColor = mTemplate->dropdown.color.stripe;
+            mLabel.rect = mFont->getStringBoundingBox("* "+mLabel.text, 0, 0);
+            mStyle.stripe.color = mTemplate->dropdown.color.stripe;
         }
     
         void draw()
         {
             ofxDatGuiButton::drawBkgd();
-            ofxDatGuiComponent::drawLabel("* "+mLabel);
+            ofxDatGuiComponent::drawLabel("* "+mLabel.text);
             ofxDatGuiComponent::drawStripe();
         }
 
@@ -390,7 +390,7 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
         {
             mOption = 0;
             mType = ofxDatGuiType::DROPDOWN;
-            mStripeColor = mTemplate->dropdown.color.stripe;
+            mStyle.stripe.color = mTemplate->dropdown.color.stripe;
             for(int i=0; i<options.size(); i++){
                 ofxDatGuiDropdownOption* opt = new ofxDatGuiDropdownOption(options[i], mTemplate);
                 opt->setIndex(children.size());
@@ -408,7 +408,7 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
         {
             ofxDatGuiGroup::setTemplate(tmplt);
             for (int i=0; i<children.size(); i++) children[i]->setTemplate(mTemplate);
-            setWidth(mRow.width);
+            setWidth(mStyle.width);
         }
     
         void select(int cIndex)

@@ -30,8 +30,8 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
         ofxDatGuiHeader(string label, bool draggable = true, ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiButton(label, tmplt)
         {
             mDraggable = draggable;
-            mRow.height = mRow.height*.8;
-            mLabelAlignment = ofxDatGuiAlignment::CENTER;
+            mStyle.height = mStyle.height*.8;
+            mLabel.alignment = ofxDatGuiAlignment::CENTER;
         }
     
         void draw()
@@ -46,7 +46,7 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
         void setTemplate(ofxDatGuiTemplate* tmplt)
         {
             ofxDatGuiButton::setTemplate(tmplt);
-            mRow.height = mRow.height*.8;
+            mStyle.height = mStyle.height*.8;
         }
     
         void setDraggable(bool draggable)
@@ -100,14 +100,14 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
             mGuiCollapsed = false;
             mLabelCollapsed = "expand controls";
             mLabelExpanded = "collapse controls";
-            mRow.height = mRow.height*.8;
-            mLabelAlignment = ofxDatGuiAlignment::CENTER;
+            mStyle.height = mStyle.height*.8;
+            mLabel.alignment = ofxDatGuiAlignment::CENTER;
         }
     
         void setTemplate(ofxDatGuiTemplate* tmplt)
         {
             ofxDatGuiButton::setTemplate(tmplt);
-            mRow.height = mRow.height*.8;
+            mStyle.height = mStyle.height*.8;
         }
     
         void setLabelWhenExpanded(string label)

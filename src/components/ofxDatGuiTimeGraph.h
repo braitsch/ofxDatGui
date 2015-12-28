@@ -46,11 +46,11 @@ class ofxDatGuiTimeGraph : public ofxDatGuiComponent {
         ofxDatGuiTimeGraph(string label, ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiComponent(label, tmplt)
         {
             mDrawFunc = &ofxDatGuiTimeGraph::drawFilled;
-            mRow.height = mTemplate->graph.height;
+            mStyle.height = mTemplate->graph.height;
             mPointSize = mTemplate->graph.pointSize;
             mLineWeight = mTemplate->graph.lineWeight;
-            mStripeColor = mTemplate->graph.color.stripe;
-            setWidth(mRow.width);
+            mStyle.stripe.color = mTemplate->graph.color.stripe;
+            setWidth(mStyle.width);
         }
     
         void draw()
@@ -121,20 +121,20 @@ class ofxDatGuiTimeGraph : public ofxDatGuiComponent {
         void setTemplate(ofxDatGuiTemplate* tmplt)
         {
             ofxDatGuiComponent::setTemplate(tmplt);
-            mRow.height = mTemplate->graph.height;
+            mStyle.height = mTemplate->graph.height;
             mPointSize = mTemplate->graph.pointSize;
             mLineWeight = mTemplate->graph.lineWeight;
-            mStripeColor = mTemplate->graph.color.stripe;
-            setWidth(mRow.width);
+            mStyle.stripe.color = mTemplate->graph.color.stripe;
+            setWidth(mStyle.width);
         }
     
         void setWidth(int w)
         {
             ofxDatGuiComponent::setWidth(w);
-            mPlotterRect.x = mRow.inputX;
-            mPlotterRect.y = mRow.padding;
-            mPlotterRect.width = mRow.width - mRow.padding - mRow.inputX;
-            mPlotterRect.height = mRow.height - (mRow.padding*2);
+            mPlotterRect.x = mLabel.width;
+            mPlotterRect.y = mStyle.padding;
+            mPlotterRect.width = mStyle.width - mStyle.padding - mLabel.width;
+            mPlotterRect.height = mStyle.height - (mStyle.padding*2);
         }
 
         int mPointSize;

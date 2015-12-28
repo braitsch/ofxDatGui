@@ -128,10 +128,10 @@ class ofxDatGuiMatrix : public ofxDatGuiComponent {
             mNumButtons = numButtons;
             mShowLabels = showLabels;
             mType = ofxDatGuiType::MATRIX;
-            mStripeColor = mTemplate->matrix.color.stripe;
+            mStyle.stripe.color = mTemplate->matrix.color.stripe;
             mButtonSize  = mTemplate->matrix.buttonSize;
             setButtons();
-            setWidth(mRow.width);
+            setWidth(mStyle.width);
         }
     
         static ofxDatGuiMatrix* getInstance()
@@ -142,17 +142,17 @@ class ofxDatGuiMatrix : public ofxDatGuiComponent {
         void setOrigin(int x, int y)
         {
             ofxDatGuiComponent::setOrigin(x, y);
-            mMatrixRect.x = x + mRow.inputX;
-            mMatrixRect.y = y + mRow.padding;
+            mMatrixRect.x = x + mLabel.width;
+            mMatrixRect.y = y + mStyle.padding;
         }
     
         void setTemplate(ofxDatGuiTemplate* tmplt)
         {
             ofxDatGuiComponent::setTemplate(tmplt);
             mButtonSize  = mTemplate->matrix.buttonSize;
-            mStripeColor = mTemplate->matrix.color.stripe;
+            mStyle.stripe.color = mTemplate->matrix.color.stripe;
             setButtons();
-            setWidth(mRow.width);
+            setWidth(mStyle.width);
         }
     
         void setButtons()
@@ -173,19 +173,19 @@ class ofxDatGuiMatrix : public ofxDatGuiComponent {
         void setWidth(int w)
         {
             ofxDatGuiComponent::setWidth(w);
-            mMatrixRect.x = x + mRow.inputX;
-            mMatrixRect.y = y + mRow.padding;
-            mMatrixRect.width = mRow.width - mRow.padding - mRow.inputX;
+            mMatrixRect.x = x + mLabel.width;
+            mMatrixRect.y = y + mStyle.padding;
+            mMatrixRect.width = mStyle.width - mStyle.padding - mLabel.width;
             int nCols = floor(mMatrixRect.width/(mButtonSize+mMinPadding));
             int nRows = ceil(btns.size()/float(nCols));
             float padding = (mMatrixRect.width-(mButtonSize*nCols))/(nCols-1);
             for(int i=0; i<btns.size(); i++){
                 float bx = (mButtonSize+padding)*(i%nCols);
                 float by = (mButtonSize+padding)*(floor(i/nCols));
-                btns[i].setOrigin(bx, by + mRow.padding);
+                btns[i].setOrigin(bx, by + mStyle.padding);
             }
-            mRow.height = (mRow.padding*2) + ((mButtonSize+padding)*(nRows-1)) + mButtonSize;
-            mMatrixRect.height = mRow.height - (mRow.padding*2);
+            mStyle.height = (mStyle.padding*2) + ((mButtonSize+padding)*(nRows-1)) + mButtonSize;
+            mMatrixRect.height = mStyle.height - (mStyle.padding*2);
         }
     
         bool hitTest(ofPoint m)
@@ -208,7 +208,7 @@ class ofxDatGuiMatrix : public ofxDatGuiComponent {
                 ofxDatGuiComponent::drawStripe();
                 ofSetColor(mTemplate->row.color.inputArea);
                 ofDrawRectangle(mMatrixRect);
-                for(int i=0; i<btns.size(); i++) btns[i].draw(x+mRow.inputX, y);
+                for(int i=0; i<btns.size(); i++) btns[i].draw(x+mLabel.width, y);
             ofPopStyle();
         }
     

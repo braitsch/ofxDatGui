@@ -62,10 +62,10 @@ class ofxDatGui2dPad : public ofxDatGuiComponent {
         {
             reset();
             mType = ofxDatGuiType::PAD2D;
-            mStripeColor = mTemplate->pad2d.color.stripe;
-            mRow.height = mTemplate->pad2d.height;
-            mPad = ofRectangle(0, 0, mRow.width-mRow.padding-mRow.inputX, mRow.height-(mRow.padding*2));
-            setWidth(mRow.width);
+            mStyle.stripe.color = mTemplate->pad2d.color.stripe;
+            mStyle.height = mTemplate->pad2d.height;
+            mPad = ofRectangle(0, 0, mStyle.width-mStyle.padding-mLabel.width, mStyle.height-(mStyle.padding*2));
+            setWidth(mStyle.width);
         }
     
         void reset()
@@ -89,18 +89,18 @@ class ofxDatGui2dPad : public ofxDatGuiComponent {
         void setTemplate(ofxDatGuiTemplate* tmplt)
         {
             ofxDatGuiComponent::setTemplate(tmplt);
-            mRow.height = mTemplate->pad2d.height;
-            mPad = ofRectangle(0, 0, mRow.width-mRow.padding-mRow.inputX, mRow.height-(mRow.padding*2));
-            setWidth(mRow.width);
+            mStyle.height = mTemplate->pad2d.height;
+            mPad = ofRectangle(0, 0, mStyle.width-mStyle.padding-mLabel.width, mStyle.height-(mStyle.padding*2));
+            setWidth(mStyle.width);
         }
     
         void draw()
         {
             if (!mVisible) return;
             ofPushStyle();
-                mPad.x = x + mRow.inputX;
-                mPad.y = y + mRow.padding;
-                mPad.width = mRow.width-mRow.padding-mRow.inputX;
+                mPad.x = x + mLabel.width;
+                mPad.y = y + mStyle.padding;
+                mPad.width = mStyle.width-mStyle.padding-mLabel.width;
                 pLocal.x = mPad.x + mPad.width * mx;
                 pLocal.y = mPad.y + mPad.height * my;
                 ofxDatGuiComponent::drawBkgd();

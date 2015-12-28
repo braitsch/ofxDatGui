@@ -27,18 +27,19 @@ bool ofxDatGuiLog::mQuiet = false;
 
 ofxDatGuiComponent::ofxDatGuiComponent(string label, ofxDatGuiTemplate* tmplt)
 {
-    mAlpha = 255;
     mName = label;
-    mLabel = label;
     mVisible = true;
     mEnabled = true;
     mFocused = false;
     mMouseOver = false;
     mMouseDown = false;
-    mLabelMarginRight = 0;
+    mStyle.opacity = 255;
+    mStyle.stripe.visible = true;
     mRetinaEnabled = ofxDatGuiIsRetina();
     mAnchor = ofxDatGuiAnchor::NO_ANCHOR;
-    mLabelAlignment = ofxDatGuiAlignment::LEFT;
+    mLabel.text = label;
+    mLabel.marginRight = 0;
+    mLabel.alignment = ofxDatGuiAlignment::LEFT;
     if (tmplt == nullptr){
 // load a default layout template //
         if (mRetinaEnabled){
@@ -70,17 +71,6 @@ int ofxDatGuiComponent::getIndex()
     return mIndex;
 }
 
-void ofxDatGuiComponent::setLabel(string label)
-{
-    if (mTemplate->row.label.forceUpperCase) label = ofToUpper(label);
-    mLabel = label;
-    mLabelRect = mFont->getStringBoundingBox(mLabel, 0, 0);
-}
-
-string ofxDatGuiComponent::getLabel()
-{
-    return mLabel;
-}
 
 void ofxDatGuiComponent::setName(string name)
 {
@@ -94,7 +84,6 @@ string ofxDatGuiComponent::getName()
 
 bool ofxDatGuiComponent::is(string name)
 {
-// convenience method to perform a case insensitive lookup //
     return ofToLower(mName) == ofToLower(name);
 }
 
@@ -105,40 +94,40 @@ ofxDatGuiType ofxDatGuiComponent::getType()
 
 int ofxDatGuiComponent::getWidth()
 {
-    return mRow.width;
+    return mStyle.width;
 }
 
 int ofxDatGuiComponent::getHeight()
 {
-    return mRow.height;
+    return mStyle.height;
 }
 
 void ofxDatGuiComponent::setTemplate(ofxDatGuiTemplate* tmplt)
 {
     mTemplate = tmplt;
-    mRow.width = mTemplate->row.width;
-    mRow.height = mTemplate->row.height;
-    mRow.padding = mTemplate->row.padding;
-    mRow.spacing = mTemplate->row.spacing;
-    mRow.stripeWidth = mTemplate->row.stripeWidth;
-    mIcon.y = mRow.height * .33;
+    mStyle.color.background = tmplt->row.color.bkgd;
+    mStyle.color.onMouseOver = tmplt->row.color.mouseOver;
+    mStyle.color.onMouseDown = tmplt->row.color.mouseDown;
+    mStyle.width = mTemplate->row.width;
+    mStyle.height = mTemplate->row.height;
+    mStyle.padding = mTemplate->row.padding;
+    mStyle.vMargin = mTemplate->row.spacing;
+    mStyle.stripe.width = mTemplate->row.stripeWidth;
+    mIcon.y = mStyle.height * .33;
     mIcon.size = mRetinaEnabled ? 20 : 10;
     mFont = mTemplate->font.ttf;
-    setLabel(mLabel);
+    setLabel(mLabel.text);
 }
 
 void ofxDatGuiComponent::setWidth(int w)
 {
-    mRow.width = w;
-    mRow.lWidth=mRow.width*.35;
-    if (mRow.lWidth > mTemplate->row.label.maxAreaWidth) mRow.lWidth = mTemplate->row.label.maxAreaWidth;
-    mRow.inputX=mRow.lWidth;
-    mRow.rWidth=mRow.width-mRow.inputX;
-    mFont->labelX=(mRow.width*.03)+10;
-    mIcon.x=mRow.width-(mRow.width*.05)-20;
-    mSlider.width=mRow.rWidth*.7;
-    mSlider.inputX=mRow.inputX+mSlider.width+mRow.padding;
-    mSlider.inputWidth=mRow.rWidth-mSlider.width-(mRow.padding*2);
+    mStyle.width = w;
+    mLabel.width = mStyle.width * .35;
+    if (mLabel.width > mTemplate->row.label.maxAreaWidth) mLabel.width = mTemplate->row.label.maxAreaWidth;
+
+    mFont->labelX=(mStyle.width*.03)+10;
+    mIcon.x=mStyle.width-(mStyle.width*.05)-20;
+    
     for (int i=0; i<children.size(); i++) children[i]->setWidth(w);
 }
 
@@ -158,7 +147,7 @@ bool ofxDatGuiComponent::getVisible()
 
 void ofxDatGuiComponent::setOpacity(float opacity)
 {
-    mAlpha = opacity*255;
+    mStyle.opacity = opacity*255;
     for (int i=0; i<children.size(); i++) children[i]->setOpacity(opacity);
 }
 
@@ -210,8 +199,7 @@ void ofxDatGuiComponent::setOrigin(int x, int y)
 {
     this->x = x;
     this->y = y;
-    mLabelAreaWidth = mRow.lWidth;
-    for(int i=0; i<children.size(); i++) children[i]->setOrigin(x, this->y + (mRow.height+mRow.spacing)*(i+1));
+    for(int i=0; i<children.size(); i++) children[i]->setOrigin(x, this->y + (mStyle.height+mStyle.vMargin)*(i+1));
 }
 
 void ofxDatGuiComponent::setAnchor(ofxDatGuiAnchor anchor)
@@ -227,18 +215,83 @@ void ofxDatGuiComponent::setAnchor(ofxDatGuiAnchor anchor)
 
 void ofxDatGuiComponent::setAlignment(ofxDatGuiAlignment align)
 {
-    mLabelAlignment = align;
+    mLabel.alignment = align;
     for (int i=0; i<children.size(); i++) children[i]->setAlignment(align);
-}
-
-void ofxDatGuiComponent::setStripeColor(ofColor color)
-{
-    mStripeColor = color;
 }
 
 bool ofxDatGuiComponent::getIsExpanded()
 {
 	return false;
+}
+
+/*
+    visual customization
+*/
+
+void ofxDatGuiComponent::setLabel(string label)
+{
+    if (mTemplate->row.label.forceUpperCase) label = ofToUpper(label);
+    mLabel.text = label;
+    mLabel.rect = mFont->getStringBoundingBox(mLabel.text, 0, 0);
+}
+
+string ofxDatGuiComponent::getLabel()
+{
+    return mLabel.text;
+}
+
+void ofxDatGuiComponent::setLabelColor(ofColor c)
+{
+    mLabel.color = c;
+}
+
+void ofxDatGuiComponent::setColor(ofColor c1, ofColor c2, ofColor c3)
+{
+    mStyle.color.background = c1;
+    mStyle.color.onMouseOver = c2;
+    mStyle.color.onMouseDown = c3;
+}
+
+void ofxDatGuiComponent::setBackgroundColor(ofColor c)
+{
+    mStyle.color.background = c;
+}
+
+void ofxDatGuiComponent::setOnMouseOverColor(ofColor c)
+{
+    mStyle.color.onMouseOver = c;
+}
+
+void ofxDatGuiComponent::setOnMouseDownColor(ofColor c)
+{
+    mStyle.color.onMouseDown = c;
+}
+
+void ofxDatGuiComponent::setStroke(ofColor c, int w)
+{
+    mStyle.stroke.color = c;
+    mStyle.stroke.width = w;
+}
+
+void ofxDatGuiComponent::setStripe(ofColor color, int width)
+{
+    mStyle.stripe.color = color;
+    mStyle.stripe.width = width;
+}
+
+void ofxDatGuiComponent::setStripeColor(ofColor color)
+{
+    mStyle.stripe.color = color;
+}
+
+void ofxDatGuiComponent::setStripeWidth(int width)
+{
+    mStyle.stripe.width = width;
+}
+
+void ofxDatGuiComponent::setStripeVisible(bool visible)
+{
+    mStyle.stripe.visible = visible;
 }
 
 /*
@@ -291,42 +344,39 @@ void ofxDatGuiComponent::update(bool acceptEvents)
 
 void ofxDatGuiComponent::drawBkgd()
 {
-    drawBkgd(mTemplate->row.color.bkgd, mAlpha);
-}
-
-void ofxDatGuiComponent::drawBkgd(ofColor color, int alpha)
-{
     ofPushStyle();
         ofFill();
-        ofSetColor(color, alpha);
-        ofDrawRectangle(x, y, mRow.width, mRow.height);
+        ofSetColor(mStyle.color.background, mStyle.opacity);
+        ofDrawRectangle(x, y, mStyle.width, mStyle.height);
     ofPopStyle();
 }
 
 void ofxDatGuiComponent::drawLabel()
 {
-    drawLabel(mLabel);
+    drawLabel(mLabel.text);
 }
 
 void ofxDatGuiComponent::drawLabel(string label)
 {
     int lx;
-    if (mLabelAlignment == ofxDatGuiAlignment::LEFT){
+    if (mLabel.alignment == ofxDatGuiAlignment::LEFT){
         lx = mFont->labelX;
-    }   else if (mLabelAlignment == ofxDatGuiAlignment::CENTER){
-        lx = mLabelAreaWidth/2-mLabelRect.width/2;
-    }   else if (mLabelAlignment == ofxDatGuiAlignment::RIGHT){
-        lx = mLabelAreaWidth-mLabelRect.width-mFont->labelX-mLabelMarginRight;
+    }   else if (mLabel.alignment == ofxDatGuiAlignment::CENTER){
+        lx = (mLabel.width / 2) - (mLabel.rect.width / 2);
+    }   else if (mLabel.alignment == ofxDatGuiAlignment::RIGHT){
+        lx = mLabel.width - mLabel.rect.width - mFont->labelX - mLabel.marginRight;
     }
-    mFont->drawLabel(label, x+lx, y+mRow.height/2-mLabelRect.height/2);
+    mFont->drawLabel(label, x+lx, y+mStyle.height/2-mLabel.rect.height/2);
 }
 
 void ofxDatGuiComponent::drawStripe()
 {
-    ofPushStyle();
-        ofSetColor(mStripeColor);
-        ofDrawRectangle(x, y, mRow.stripeWidth, mRow.height);
-    ofPopStyle();
+    if (mStyle.stripe.visible){
+        ofPushStyle();
+            ofSetColor(mStyle.stripe.color);
+            ofDrawRectangle(x, y, mStyle.stripe.width, mStyle.height);
+        ofPopStyle();
+    }
 }
 
 void ofxDatGuiComponent::drawColorPicker() { }
@@ -337,7 +387,7 @@ void ofxDatGuiComponent::drawColorPicker() { }
 
 bool ofxDatGuiComponent::hitTest(ofPoint m)
 {
-    return (m.x>=x && m.x<= x+mRow.width && m.y>=y && m.y<= y+mRow.height);
+    return (m.x>=x && m.x<= x+mStyle.width && m.y>=y && m.y<= y+mStyle.height);
 }
 
 void ofxDatGuiComponent::onMouseEnter(ofPoint m)
@@ -390,7 +440,7 @@ void ofxDatGuiComponent::onWindowResized()
     if (mAnchor == ofxDatGuiAnchor::TOP_LEFT){
         setOrigin(0, 0);
     }   else if (mAnchor == ofxDatGuiAnchor::TOP_RIGHT){
-        setOrigin(ofGetWidth()-mRow.width, 0);
+        setOrigin(ofGetWidth()-mStyle.width, 0);
     }
 }
 
