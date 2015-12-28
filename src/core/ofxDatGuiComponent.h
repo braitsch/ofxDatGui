@@ -27,8 +27,7 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
 {
     public:
     
-        ofxDatGuiComponent(string label, ofxDatGuiFont* font=nullptr);
-        ofxDatGuiComponent(string label, ofxDatGuiTemplate* font=nullptr);
+        ofxDatGuiComponent(string label);
         virtual ~ofxDatGuiComponent();
     
         vector<ofxDatGuiComponent*> children;
@@ -79,6 +78,8 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         virtual void setWidth(int w);
         virtual void setOrigin(int x, int y);
         virtual void setTemplate(ofxDatGuiTemplate* t);
+        virtual void onTemplateSet(ofxDatGuiTemplate* t);
+    
         virtual void setAlignment(ofxDatGuiAlignment align);
         virtual int  getWidth();
         virtual int  getHeight();
@@ -97,6 +98,9 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         void onKeyPressed(ofKeyEventArgs &e);
         void onWindowResized(ofResizeEventArgs &e);
     
+        static std::unique_ptr<ofxDatGuiTemplate> theme;
+        static std::unique_ptr<ofxDatGuiTemplate> getTheme();
+    
     protected:
     
         int x;
@@ -112,7 +116,6 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         ofxDatGuiType mType;
         ofxDatGuiFont* mFont;
         ofxDatGuiAnchor mAnchor;
-        ofxDatGuiTemplate* mTemplate;
     
         struct{
             float width;
@@ -121,12 +124,14 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
             float vMargin;
             float opacity;
             struct{
+                ofColor inputArea;
                 ofColor background;
                 ofColor onMouseOver;
                 ofColor onMouseDown;
             } color;
             struct{
                 int width;
+                bool visible;
                 ofColor color;
             } stroke;
             struct{
@@ -135,15 +140,18 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
                 ofColor color;
             } stripe;
             ofTrueTypeFont* font;
+            ofColor guiBackground;
         } mStyle;
     
         struct{
             string text;
-            float width;
             bool visible;
             ofColor color;
+            float width;
+            float maxWidth;
             int marginRight;
             ofRectangle rect;
+            bool forceUpperCase;
             ofxDatGuiAlignment alignment;
         } mLabel;
     
@@ -151,6 +159,7 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
             int x;
             int y;
             int size;
+            ofColor color;
         } mIcon;
     
         struct {

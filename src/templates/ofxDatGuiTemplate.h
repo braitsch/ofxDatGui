@@ -125,6 +125,7 @@ class ofxDatGuiTemplate{
             int height = 164;
             struct{
                 ofColor stripe = ofColor::fromHex(0x9AF398);
+                ofColor fill = ofColor::fromHex(0x303030);
                 ofColor lines = ofColor::fromHex(0xEEEEEE);
                 ofColor circle = ofColor::fromHex(0xEEEEEE);
             } color;
@@ -135,6 +136,7 @@ class ofxDatGuiTemplate{
             int buttonSize = 47;
             struct {
                 ofColor stripe = ofColor::fromHex(0xB2770D);
+                ofColor fill = ofColor::fromHex(0x303030);
                 struct{
                     ofColor label = ofColor::fromHex(0x303030);
                     ofColor button = ofColor::fromHex(0xEEEEEE);

@@ -22,9 +22,6 @@
 
 #include "ofxDatGuiTemplate.h"
 
-unique_ptr<ofxDatGui1440x900> ofxDatGui1440x900::tmplt = nullptr;
-unique_ptr<ofxDatGui2880x1800> ofxDatGui2880x1800::tmplt = nullptr;
-
 ofxDatGui2880x1800::ofxDatGui2880x1800()
 {
     row.width   = 540;
@@ -42,20 +39,4 @@ ofxDatGui1440x900::ofxDatGui1440x900()
 {
 // just inherent all defaults //
     init();
-}
-
-ofxDatGuiTemplate* ofxDatGui1440x900::get()
-{
-    if (tmplt == nullptr) {
-        tmplt = unique_ptr<ofxDatGui1440x900>(new ofxDatGui1440x900());
-    }
-    return tmplt.get();
-}
-
-ofxDatGuiTemplate* ofxDatGui2880x1800::get()
-{
-    if (tmplt == nullptr) {
-        tmplt = unique_ptr<ofxDatGui2880x1800>(new ofxDatGui2880x1800());
-    }
-    return tmplt.get();
 }

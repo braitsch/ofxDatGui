@@ -24,8 +24,9 @@
 #include "ofxDatGuiTemplate.h"
 
 bool ofxDatGuiLog::mQuiet = false;
+std::unique_ptr<ofxDatGuiTemplate> ofxDatGuiComponent::theme;
 
-ofxDatGuiComponent::ofxDatGuiComponent(string label, ofxDatGuiTemplate* tmplt)
+ofxDatGuiComponent::ofxDatGuiComponent(string label)
 {
     mName = label;
     mVisible = true;
@@ -40,15 +41,15 @@ ofxDatGuiComponent::ofxDatGuiComponent(string label, ofxDatGuiTemplate* tmplt)
     mLabel.text = label;
     mLabel.marginRight = 0;
     mLabel.alignment = ofxDatGuiAlignment::LEFT;
-    if (tmplt == nullptr){
+    if (theme == nullptr){
 // load a default layout template //
         if (mRetinaEnabled){
-            tmplt = ofxDatGui2880x1800::get();
+            theme = make_unique<ofxDatGui2880x1800>();
         } else {
-            tmplt = ofxDatGui1440x900::get();
+            theme = make_unique<ofxDatGui1440x900>();
         }
     }
-    setTemplate(tmplt);
+    setTemplate(theme.get());
 }
 
 ofxDatGuiComponent::~ofxDatGuiComponent()
@@ -70,7 +71,6 @@ int ofxDatGuiComponent::getIndex()
 {
     return mIndex;
 }
-
 
 void ofxDatGuiComponent::setName(string name)
 {
@@ -104,29 +104,44 @@ int ofxDatGuiComponent::getHeight()
 
 void ofxDatGuiComponent::setTemplate(ofxDatGuiTemplate* tmplt)
 {
-    mTemplate = tmplt;
+    mStyle.width = tmplt->row.width;
+    mStyle.height = tmplt->row.height;
+    mStyle.padding = tmplt->row.padding;
+    mStyle.vMargin = tmplt->row.spacing;
     mStyle.color.background = tmplt->row.color.bkgd;
+    mStyle.color.inputArea = tmplt->row.color.inputArea;
     mStyle.color.onMouseOver = tmplt->row.color.mouseOver;
     mStyle.color.onMouseDown = tmplt->row.color.mouseDown;
-    mStyle.width = mTemplate->row.width;
-    mStyle.height = mTemplate->row.height;
-    mStyle.padding = mTemplate->row.padding;
-    mStyle.vMargin = mTemplate->row.spacing;
-    mStyle.stripe.width = mTemplate->row.stripeWidth;
+    mStyle.stripe.width = tmplt->row.stripeWidth;
+    mStyle.guiBackground = tmplt->gui.color.bkgd;
     mIcon.y = mStyle.height * .33;
     mIcon.size = mRetinaEnabled ? 20 : 10;
-    mFont = mTemplate->font.ttf;
+    mIcon.color = tmplt->row.color.label;
+    mFont = tmplt->font.ttf;
+    mLabel.maxWidth = tmplt->row.label.maxAreaWidth;
+    mLabel.forceUpperCase = tmplt->row.label.forceUpperCase;
     setLabel(mLabel.text);
+    onTemplateSet(tmplt);
+}
+
+std::unique_ptr<ofxDatGuiTemplate> ofxDatGuiComponent::getTheme()
+{
+
+}
+
+void ofxDatGuiComponent::onTemplateSet(ofxDatGuiTemplate* tmplt)
+{
+
 }
 
 void ofxDatGuiComponent::setWidth(int w)
 {
     mStyle.width = w;
     mLabel.width = mStyle.width * .35;
-    if (mLabel.width > mTemplate->row.label.maxAreaWidth) mLabel.width = mTemplate->row.label.maxAreaWidth;
+    if (mLabel.width > mLabel.maxWidth) mLabel.width = mLabel.maxWidth;
 
-    mFont->labelX=(mStyle.width*.03)+10;
-    mIcon.x=mStyle.width-(mStyle.width*.05)-20;
+    mFont->labelX = (mStyle.width * .03) + 10;
+    mIcon.x = mStyle.width - (mStyle.width * .05) - 20;
     
     for (int i=0; i<children.size(); i++) children[i]->setWidth(w);
 }
@@ -230,7 +245,7 @@ bool ofxDatGuiComponent::getIsExpanded()
 
 void ofxDatGuiComponent::setLabel(string label)
 {
-    if (mTemplate->row.label.forceUpperCase) label = ofToUpper(label);
+    if (mLabel.forceUpperCase) label = ofToUpper(label);
     mLabel.text = label;
     mLabel.rect = mFont->getStringBoundingBox(mLabel.text, 0, 0);
 }

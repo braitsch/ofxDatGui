@@ -27,11 +27,11 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
 
     public:
     
-        ofxDatGuiColorPicker(string label, ofColor color=ofColor::black, ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiTextInput(label, "XXXXXX", tmplt)
+        ofxDatGuiColorPicker(string label, ofColor color=ofColor::black) : ofxDatGuiTextInput(label, "XXXXXX")
         {
             mColor = color;
             mType = ofxDatGuiType::COLOR_PICKER;
-            mStyle.stripe.color = mTemplate->colorPicker.color.stripe;
+            mStyle.stripe.color = ofxDatGuiComponent::theme->colorPicker.color.stripe;
             
         // center the text input field //
             input->setTextInputFieldType(ofxDatGuiTextInputField::COLORPICKER);
@@ -84,6 +84,7 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
         void setTemplate(ofxDatGuiTemplate* tmplt)
         {
             ofxDatGuiTextInput::setTemplate(tmplt);
+            pickerBorder = tmplt->row.color.label;
             setTextFieldInputColor();
         }
     
@@ -121,17 +122,17 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
                     pickerRect.x = this->x + mLabel.width;
                     pickerRect.y = this->y + mStyle.padding + input->getHeight();
                     pickerRect.width = input->getWidth();
-                    rainbowRect.x = pickerRect.x+pickerRect.width-rainbowWidth-mStyle.padding;
-                    rainbowRect.y = pickerRect.y+mStyle.padding;
+                    rainbowRect.x = pickerRect.x + pickerRect.width - rainbowWidth - mStyle.padding;
+                    rainbowRect.y = pickerRect.y + mStyle.padding;
                     gradientRect.x = pickerRect.x + mStyle.padding;
                     gradientRect.y = pickerRect.y + mStyle.padding;
-                    gradientRect.width = pickerRect.width-rainbowRect.width-(mStyle.padding*3);
+                    gradientRect.width = pickerRect.width - rainbowRect.width - (mStyle.padding * 3);
                     gPoints[0] = ofVec2f(gradientRect.x, gradientRect.y);
                     gPoints[1] = ofVec2f(gradientRect.x+ gradientRect.width, gradientRect.y);
-                    gPoints[2] = ofVec2f(gradientRect.x+ gradientRect.width, gradientRect.y+gradientRect.height);
+                    gPoints[2] = ofVec2f(gradientRect.x+ gradientRect.width, gradientRect.y + gradientRect.height);
                     gPoints[3] = ofVec2f(gradientRect.x, gradientRect.y+gradientRect.height);
                     vbo.setVertexData(&gPoints[0], 4, GL_DYNAMIC_DRAW );
-                    ofSetColor(mTemplate->row.color.label);
+                    ofSetColor(pickerBorder);
                     ofDrawRectangle(pickerRect);
                     ofSetColor(ofColor::white);
                     rainbow.draw(rainbowRect);
@@ -144,7 +145,7 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
         {
             if (mShowPicker){
                 ofPushStyle();
-                    ofSetColor(mTemplate->row.color.label);
+                    ofSetColor(pickerBorder);
                     ofDrawRectangle(pickerRect);
                     ofSetColor(ofColor::white);
                     rainbow.draw(rainbowRect);
@@ -228,6 +229,7 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
         int rainbowWidth;
         int rainbowHeight;
         bool mShowPicker;
+        ofColor pickerBorder;
     
         ofVbo vbo;
         vector<ofVec2f> gPoints;

@@ -27,10 +27,10 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
 
     public:
 
-        ofxDatGuiHeader(string label, bool draggable = true, ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiButton(label, tmplt)
+        ofxDatGuiHeader(string label, bool draggable = true) : ofxDatGuiButton(label)
         {
             mDraggable = draggable;
-            mStyle.height = mStyle.height*.8;
+            mStyle.height = mStyle.height * .8;
             mLabel.alignment = ofxDatGuiAlignment::CENTER;
         }
     
@@ -95,7 +95,7 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
 
     public:
     
-        ofxDatGuiFooter(ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiButton("collapse controls", tmplt)
+        ofxDatGuiFooter() : ofxDatGuiButton("collapse controls")
         {
             mGuiCollapsed = false;
             mLabelCollapsed = "expand controls";

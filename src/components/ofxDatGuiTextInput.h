@@ -27,13 +27,13 @@
 class ofxDatGuiTextInput : public ofxDatGuiComponent {
 
     public:
-        ofxDatGuiTextInput(string label, string text = "", ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiComponent(label, tmplt)
+        ofxDatGuiTextInput(string label, string text = "") : ofxDatGuiComponent(label)
         {
             mType = ofxDatGuiType::TEXT_INPUT;
-            mStyle.stripe.color = mTemplate->textInput.color.stripe;
-            input = new ofxDatGuiTextInputField(mStyle.height-(mStyle.padding*2), mTemplate);
+            mStyle.stripe.color = ofxDatGuiComponent::theme->textInput.color.stripe;
+            input = new ofxDatGuiTextInputField(mStyle.height - (mStyle.padding * 2));
             input->setText(text);
-            input->setTextInactiveColor(mTemplate->textInput.color.text);
+            input->setTextInactiveColor(ofxDatGuiComponent::theme->textInput.color.text);
             input->onInternalEvent(this, &ofxDatGuiTextInput::onInputChanged);
             setWidth(mStyle.width);
         }
@@ -69,7 +69,7 @@ class ofxDatGuiTextInput : public ofxDatGuiComponent {
         {
             ofxDatGuiComponent::setTemplate(tmplt);
             input->setTemplate(tmplt);
-            input->setTextInactiveColor(mTemplate->textInput.color.text);
+            input->setTextInactiveColor(tmplt->textInput.color.text);
             setWidth(mStyle.width);
         }
     

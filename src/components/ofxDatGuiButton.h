@@ -27,10 +27,10 @@ class ofxDatGuiButton : public ofxDatGuiComponent {
 
     public:
     
-        ofxDatGuiButton(string label, ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiComponent(label, tmplt)
+        ofxDatGuiButton(string label) : ofxDatGuiComponent(label)
         {
             mType = ofxDatGuiType::BUTTON;
-            mStyle.stripe.color = mTemplate->button.color.stripe;
+            mStyle.stripe.color = ofxDatGuiComponent::theme->button.color.stripe;
             setWidth(mStyle.width);
         }
     
@@ -94,10 +94,10 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
     
     public:
     
-        ofxDatGuiToggle(string label, bool enabled, ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiButton(label, tmplt)
+        ofxDatGuiToggle(string label, bool enabled) : ofxDatGuiButton(label)
         {
             mEnabled = enabled;
-            mStyle.stripe.color = mTemplate->toggle.color.stripe;
+            mStyle.stripe.color = ofxDatGuiComponent::theme->toggle.color.stripe;
             if (!radioOn.isAllocated()) radioOn.load(OFXDG_ASSET_DIR+"/icon-radio-on.png");
             if (!radioOff.isAllocated()) radioOff.load(OFXDG_ASSET_DIR+"/icon-radio-off.png");
         }
@@ -135,7 +135,7 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
             ofxDatGuiComponent::drawLabel();
             ofxDatGuiComponent::drawStripe();
             ofPushStyle();
-                ofSetColor(mTemplate->row.color.label);
+                ofSetColor(mIcon.color);
                 if (mEnabled == true){
                     radioOn.draw(x+mIcon.x, y+mIcon.y, mIcon.size, mIcon.size);
                 }   else{
