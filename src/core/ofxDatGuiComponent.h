@@ -77,7 +77,7 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         virtual void setY(int y);
         virtual void setWidth(int w);
         virtual void setOrigin(int x, int y);
-        virtual void setTemplate(ofxDatGuiTemplate* t);
+        virtual void setTheme(ofxDatGuiTheme* t);
     
         virtual void setAlignment(ofxDatGuiAlignment align);
         virtual int  getWidth();
@@ -97,7 +97,7 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         void onKeyPressed(ofKeyEventArgs &e);
         void onWindowResized(ofResizeEventArgs &e);
 
-        static const ofxDatGuiTemplate* getTheme();
+        static const ofxDatGuiTheme* getTheme();
     
     protected:
     
@@ -114,7 +114,7 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         ofxDatGuiType mType;
         ofxDatGuiFont* mFont;
         ofxDatGuiAnchor mAnchor;
-        static std::unique_ptr<ofxDatGuiTemplate> theme;
+        static std::unique_ptr<ofxDatGuiTheme> theme;
     
         struct{
             float width;
@@ -165,7 +165,7 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         void drawBkgd();
         void drawStripe();
     
-        virtual void onTemplateSet(const ofxDatGuiTemplate* t);
+        virtual void onThemeSet(const ofxDatGuiTheme* t);
     
 };
 

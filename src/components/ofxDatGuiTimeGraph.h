@@ -46,11 +46,7 @@ class ofxDatGuiTimeGraph : public ofxDatGuiComponent {
         ofxDatGuiTimeGraph(string label) : ofxDatGuiComponent(label)
         {
             mDrawFunc = &ofxDatGuiTimeGraph::drawFilled;
-            mStyle.height = ofxDatGuiComponent::theme->graph.height;
-            mPointSize = ofxDatGuiComponent::theme->graph.pointSize;
-            mLineWeight = ofxDatGuiComponent::theme->graph.lineWeight;
-            mStyle.stripe.color = ofxDatGuiComponent::theme->graph.color.stripe;
-            setWidth(mStyle.width);
+            onThemeSet(ofxDatGuiComponent::getTheme());
         }
     
         void draw()
@@ -61,7 +57,7 @@ class ofxDatGuiTimeGraph : public ofxDatGuiComponent {
                 ofxDatGuiComponent::drawLabel();
                 ofxDatGuiComponent::drawStripe();
                 ofSetColor(mStyle.color.inputArea);
-                ofDrawRectangle(x+mPlotterRect.x, y+mPlotterRect.y, mPlotterRect.width, mPlotterRect.height);
+                ofDrawRectangle(x + mPlotterRect.x, y + mPlotterRect.y, mPlotterRect.width, mPlotterRect.height);
                 glColor3ub(210, 210, 210);
                 (*this.*mDrawFunc)();
             ofPopStyle();
@@ -118,16 +114,6 @@ class ofxDatGuiTimeGraph : public ofxDatGuiComponent {
             ofxDatGuiComponent::setOrigin(x, y);
         }
     
-        void setTemplate(ofxDatGuiTemplate* tmplt)
-        {
-            ofxDatGuiComponent::setTemplate(tmplt);
-            mStyle.height = tmplt->graph.height;
-            mPointSize = tmplt->graph.pointSize;
-            mLineWeight = tmplt->graph.lineWeight;
-            mStyle.stripe.color = tmplt->graph.color.stripe;
-            setWidth(mStyle.width);
-        }
-    
         void setWidth(int w)
         {
             ofxDatGuiComponent::setWidth(w);
@@ -135,6 +121,15 @@ class ofxDatGuiTimeGraph : public ofxDatGuiComponent {
             mPlotterRect.y = mStyle.padding;
             mPlotterRect.width = mStyle.width - mStyle.padding - mLabel.width;
             mPlotterRect.height = mStyle.height - (mStyle.padding*2);
+        }
+    
+        void onThemeSet(const ofxDatGuiTheme* tmplt)
+        {
+            mStyle.height = tmplt->layout.graph.height;
+            mStyle.stripe.color = tmplt->stripe.graph;
+            mPointSize = tmplt->layout.graph.pointSize;
+            mLineWeight = tmplt->layout.graph.lineWeight;
+            setWidth(mStyle.width);
         }
 
         int mPointSize;
@@ -186,9 +181,9 @@ class ofxDatGuiWaveMonitor : public ofxDatGuiTimeGraph {
             setFrequency(mFrequency);
         }
     
-        void setTemplate(ofxDatGuiTemplate* tmplt)
+        void setTheme(ofxDatGuiTheme* tmplt)
         {
-            ofxDatGuiTimeGraph::setTemplate(tmplt);
+            ofxDatGuiTimeGraph::setTheme(tmplt);
             graph();
         }
     

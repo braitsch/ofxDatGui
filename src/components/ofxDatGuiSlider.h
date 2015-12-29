@@ -35,15 +35,10 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
             mVal = val;
             mPrecision = 2;
             mType = ofxDatGuiType::SLIDER;
-            mSliderFill = ofxDatGuiComponent::theme->slider.color.fill;
-            mBackgroundFill = ofxDatGuiComponent::theme->row.color.inputArea;
-            mStyle.stripe.color = ofxDatGuiComponent::theme->slider.color.stripe;
             input = new ofxDatGuiTextInputField(mStyle.height - (mStyle.padding * 2));
-            input->setTextInactiveColor(ofxDatGuiComponent::theme->slider.color.text);
             input->setTextInputFieldType(ofxDatGuiTextInputField::NUMERIC);
             input->onInternalEvent(this, &ofxDatGuiSlider::onInputChanged);
-            calcScale();
-            setWidth(mStyle.width);
+            onThemeSet(ofxDatGuiComponent::getTheme());
         }
     
         ofxDatGuiSlider(string label, float min, float max) : ofxDatGuiSlider(label, min, max, (max+min)/2) {}
@@ -53,29 +48,18 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
             delete input;
         }
     
-        static ofxDatGuiSlider* getInstance()
-        {
-            return new ofxDatGuiSlider("X", 0, 100);
-        }
-    
         void setPrecision(int precision)
         {
             mPrecision = precision;
     // max precision is currently four decimal places //
             if (mPrecision > 4) mPrecision = 4;
-            calcScale();
-        }
-    
-        void onInputChanged(ofxDatGuiInternalEvent e)
-        {
-            setValue(ofToFloat(input->getText()));
-            dispatchSliderChangedEvent();
+            calculateScale();
         }
     
         void setValue(float value)
         {
             mVal = value;
-            calcScale();
+            calculateScale();
         }
     
         float getValue()
@@ -114,14 +98,6 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
             ofxDatGuiComponent::setOrigin(x, y);
             input->setOrigin(x + mInputX, y + mStyle.padding);
         }
-    
-        void setTemplate(ofxDatGuiTemplate* tmplt)
-        {
-            ofxDatGuiComponent::setTemplate(tmplt);
-            input->setTemplate(tmplt);
-            input->setTextInactiveColor(tmplt->slider.color.text);
-            setWidth(mStyle.width);
-        }
 
     /*
         data binding - experiemental feature
@@ -142,7 +118,7 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
             mBoundf = val;
             mBoundi = nullptr;
         }
-
+    
         inline void getBoundf()
         {
             if (*mBoundf != pVal) {
@@ -166,7 +142,6 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
         void draw()
         {
             if (!mVisible) return;
-
         // experimental - check for bound variables //
             if (mBoundf != nullptr) {
                 getBoundf();
@@ -191,11 +166,22 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
             ofPopStyle();
         }
     
-        void onFocusLost()
+        bool hitTest(ofPoint m)
         {
-            ofxDatGuiComponent::onFocusLost();
-            if (mInputActive) input->onFocusLost();
+            if (!mEnabled){
+                return false;
+            }   else if (m.x>=x+mLabel.width && m.x<= x+mLabel.width+mSliderWidth && m.y>=y+mStyle.padding && m.y<= y+mStyle.height-mStyle.padding){
+                return true;
+            }   else if (input->hitTest(m)){
+                return true;
+            }   else{
+                return false;
+            }
         }
+    
+        static ofxDatGuiSlider* getInstance() { return new ofxDatGuiSlider("X", 0, 100); }
+    
+    protected:
     
         void onMousePress(ofPoint m)
         {
@@ -230,6 +216,18 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
             if (input->hitTest(m) == false) onFocusLost();
         }
     
+        void onFocusLost()
+        {
+            ofxDatGuiComponent::onFocusLost();
+            if (mInputActive) input->onFocusLost();
+        }
+    
+        void onInputChanged(ofxDatGuiInternalEvent e)
+        {
+            setValue(ofToFloat(input->getText()));
+            dispatchSliderChangedEvent();
+        }
+    
         void dispatchSliderChangedEvent()
         {
          // experimental - check for bound variables //
@@ -253,20 +251,19 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
             if (mInputActive) input->onKeyPressed(key);
         }
     
-        bool hitTest(ofPoint m)
+        void onThemeSet(const ofxDatGuiTheme* tmplt)
         {
-            if (!mEnabled){
-                return false;
-            }   else if (m.x>=x+mLabel.width && m.x<= x+mLabel.width+mSliderWidth && m.y>=y+mStyle.padding && m.y<= y+mStyle.height-mStyle.padding){
-                return true;
-            }   else if (input->hitTest(m)){
-                return true;
-            }   else{
-                return false;
-            }
+            mSliderFill = tmplt->color.slider.fill;
+            mBackgroundFill = tmplt->color.inputAreaBackground;
+            mStyle.stripe.color = tmplt->stripe.slider;
+            input->setTheme(tmplt);
+            input->setTextInactiveColor(tmplt->color.slider.text);
+            calculateScale();
+            setWidth(mStyle.width);
         }
-    
+
     private:
+    
         float   mMin;
         float   mMax;
         float   mVal;
@@ -285,7 +282,7 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
         int*    mBoundi = nullptr;
         float*  mBoundf = nullptr;
     
-        void calcScale()
+        void calculateScale()
         {
             if (mMax <= mMin || mMin >= mMax){
                 ofLogError() << "row #" << mIndex << " : invalid min & max values" << " [setting to 50%]";

@@ -21,10 +21,9 @@
 */
 
 #include "ofxDatGuiComponent.h"
-#include "ofxDatGuiTemplate.h"
 
 bool ofxDatGuiLog::mQuiet = false;
-std::unique_ptr<ofxDatGuiTemplate> ofxDatGuiComponent::theme;
+std::unique_ptr<ofxDatGuiTheme> ofxDatGuiComponent::theme;
 
 ofxDatGuiComponent::ofxDatGuiComponent(string label)
 {
@@ -35,21 +34,20 @@ ofxDatGuiComponent::ofxDatGuiComponent(string label)
     mMouseOver = false;
     mMouseDown = false;
     mStyle.opacity = 255;
-    mStyle.stripe.visible = true;
     mRetinaEnabled = ofxDatGuiIsRetina();
     mAnchor = ofxDatGuiAnchor::NO_ANCHOR;
     mLabel.text = label;
     mLabel.marginRight = 0;
     mLabel.alignment = ofxDatGuiAlignment::LEFT;
     if (theme == nullptr){
-// load a default layout template //
+    // load a default theme //
         if (mRetinaEnabled){
             theme = make_unique<ofxDatGui2880x1800>();
         } else {
             theme = make_unique<ofxDatGui1440x900>();
         }
     }
-    setTemplate(theme.get());
+    setTheme(theme.get());
 }
 
 ofxDatGuiComponent::~ofxDatGuiComponent()
@@ -102,28 +100,29 @@ int ofxDatGuiComponent::getHeight()
     return mStyle.height;
 }
 
-void ofxDatGuiComponent::setTemplate(ofxDatGuiTemplate* tmplt)
+void ofxDatGuiComponent::setTheme(ofxDatGuiTheme* tmplt)
 {
-    mStyle.width = tmplt->row.width;
-    mStyle.height = tmplt->row.height;
-    mStyle.padding = tmplt->row.padding;
-    mStyle.vMargin = tmplt->row.spacing;
-    mStyle.color.background = tmplt->row.color.bkgd;
-    mStyle.color.inputArea = tmplt->row.color.inputArea;
-    mStyle.color.onMouseOver = tmplt->row.color.mouseOver;
-    mStyle.color.onMouseDown = tmplt->row.color.mouseDown;
-    mStyle.stripe.width = tmplt->row.stripeWidth;
-    mStyle.guiBackground = tmplt->gui.background;
+    mStyle.width = tmplt->layout.width;
+    mStyle.height = tmplt->layout.height;
+    mStyle.padding = tmplt->layout.padding;
+    mStyle.vMargin = tmplt->layout.vMargin;
+    mStyle.color.background = tmplt->color.background;
+    mStyle.color.inputArea = tmplt->color.inputAreaBackground;
+    mStyle.color.onMouseOver = tmplt->color.backgroundOnMouseOver;
+    mStyle.color.onMouseDown = tmplt->color.backgroundOnMouseDown;
+    mStyle.stripe.width = tmplt->stripe.width;
+    mStyle.stripe.visible = tmplt->stripe.visible;
+    mStyle.guiBackground = tmplt->color.guiBackground;
     mIcon.y = mStyle.height * .33;
     mIcon.size = mRetinaEnabled ? 20 : 10;
-    mIcon.color = tmplt->icon.color;
+    mIcon.color = tmplt->color.icons;
     mFont = tmplt->font.ttf;
-    mLabel.maxWidth = tmplt->row.label.maxAreaWidth;
-    mLabel.forceUpperCase = tmplt->row.label.forceUpperCase;
+    mLabel.maxWidth = tmplt->layout.label.maxWidth;
+    mLabel.forceUpperCase = tmplt->layout.label.forceUpperCase;
     setLabel(mLabel.text);
     setWidth(mStyle.width);
-    for (int i=0; i<children.size(); i++) children[i]->setTemplate(tmplt);
-    onTemplateSet(tmplt);
+    for (int i=0; i<children.size(); i++) children[i]->setTheme(tmplt);
+    onThemeSet(tmplt);
 }
 
 void ofxDatGuiComponent::setWidth(int w)
@@ -139,11 +138,11 @@ void ofxDatGuiComponent::setWidth(int w)
 
 // methods to be overridden in derived classes after component has been updated //
 //void ofxDatGuiComponent::onWidthSet(int width) {}
-void ofxDatGuiComponent::onTemplateSet(const ofxDatGuiTemplate* tmplt) {
+void ofxDatGuiComponent::onThemeSet(const ofxDatGuiTheme* tmplt) {
 
 }
 
-const ofxDatGuiTemplate* ofxDatGuiComponent::getTheme()
+const ofxDatGuiTheme* ofxDatGuiComponent::getTheme()
 {
     return theme.get();
 }

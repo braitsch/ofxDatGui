@@ -30,7 +30,7 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
         ofxDatGuiHeader(string label, bool draggable = true) : ofxDatGuiButton(label)
         {
             mDraggable = draggable;
-            onTemplateSet(ofxDatGuiComponent::getTheme());
+            onThemeSet(ofxDatGuiComponent::getTheme());
         }
     
         void draw()
@@ -78,9 +78,9 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
             ofxDatGuiComponent::onMouseRelease(m);
         }
     
-        void onTemplateSet(const ofxDatGuiTemplate* tmplt)
+        void onThemeSet(const ofxDatGuiTheme* tmplt)
         {
-            ofxDatGuiButton::onTemplateSet(tmplt);
+            ofxDatGuiButton::onThemeSet(tmplt);
             mStyle.height = mStyle.height * .8;
             mLabel.alignment = ofxDatGuiAlignment::CENTER;
         }
@@ -105,7 +105,7 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
             mGuiCollapsed = false;
             mLabelCollapsed = "expand controls";
             mLabelExpanded = "collapse controls";
-            onTemplateSet(ofxDatGuiComponent::getTheme());
+            onThemeSet(ofxDatGuiComponent::getTheme());
         }
     
         void setLabelWhenExpanded(string label)
@@ -145,9 +145,9 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
             }
         }
     
-        void onTemplateSet(const ofxDatGuiTemplate* tmplt)
+        void onThemeSet(const ofxDatGuiTheme* tmplt)
         {
-            ofxDatGuiButton::onTemplateSet(tmplt);
+            ofxDatGuiButton::onThemeSet(tmplt);
             mStyle.height = mStyle.height * .8;
             mLabel.alignment = ofxDatGuiAlignment::CENTER;
         }

@@ -23,7 +23,7 @@
 #pragma once
 #include "ofxDatGuiEvents.h"
 #include "ofxDatGuiConstants.h"
-#include "ofxDatGuiTemplates.h"
+#include "ofxDatGuiMyThemes.h"
 
 namespace ofxDatGuiMsg
 {

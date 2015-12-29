@@ -42,7 +42,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         void setVisible(bool visible);
         void setEnabled(bool enabled);
         void setOpacity(float opacity);
-        void setTemplate(ofxDatGuiTemplate* t);
+        void setTheme(ofxDatGuiTheme* t);
         void setAlignment(ofxDatGuiAlignment align);
         void setAutoDraw(bool autodraw, int priority = 0);
     
@@ -108,13 +108,13 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofxDatGuiAnchor mAnchor;
         ofxDatGuiHeader* mGuiHeader;
         ofxDatGuiFooter* mGuiFooter;
-        ofxDatGuiTemplate* mTheme;
+        ofxDatGuiTheme* mTheme;
         ofxDatGuiAlignment mAlignment;
         vector<ofxDatGuiComponent*> items;
         vector<ofxDatGuiComponent*> trash;
         static ofxDatGui* mActiveGui;
         static vector<ofxDatGui*> mGuis;
-        static std::unique_ptr<ofxDatGuiTemplate> theme;
+        static std::unique_ptr<ofxDatGuiTheme> theme;
     
         void init();
         void layoutGui();

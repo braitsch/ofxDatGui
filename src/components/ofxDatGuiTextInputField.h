@@ -36,13 +36,13 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
     
         ofxDatGuiTextInputField(float height)
         {
-            setTemplate(ofxDatGuiComponent::getTheme());
             mRect.height = height;
+            mFocused = false;
             mTextChanged = false;
             mHighlightText = false;
             mMaxCharacters = 99;
             mType = ALPHA_NUMERIC;
-            mFocused = false;
+            setTheme(ofxDatGuiComponent::getTheme());
         }
     
         void setWidth(int w)
@@ -56,31 +56,35 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             mRect.y = y;
         }
     
-        void setTemplate(const ofxDatGuiTemplate* tmplt)
+        void setTheme(const ofxDatGuiTheme* tmplt)
         {
             mFont = tmplt->font.ttf;
-            mTextColor = tmplt->textInput.color.stripe;
-            mBkgdColor = tmplt->row.color.inputArea;
-            mTextActiveColor = tmplt->row.color.label;
-            mTextInactiveColor = tmplt->textInput.color.stripe;
-            mOnFocusColor = tmplt->row.color.mouseOver;
-            mOnFocusLostColor = tmplt->row.color.inputArea;
-            mUpperCaseText = tmplt->textInput.forceUpperCase;
+            color.active.background = tmplt->color.backgroundOnMouseOver;
+            color.inactive.background = tmplt->color.inputAreaBackground;
+            color.active.text = tmplt->color.label;
+            color.inactive.text = tmplt->color.textInput.text;
+            mUpperCaseText = tmplt->layout.textInput.forceUpperCase;
         }
     
         void draw()
         {
         // center the text //
-            int tx = mRect.width/2 - mTextRect.width/2;
+            int tx = mRect.width / 2 - mTextRect.width / 2;
             ofPushStyle();
-                ofSetColor(mBkgdColor);
+            // draw the input field background //
+                if (mFocused && mType != COLORPICKER){
+                    ofSetColor(color.active.background);
+                }   else {
+                    ofSetColor(color.inactive.background);
+                }
                 ofDrawRectangle(mRect);
-                mTextColor = mHighlightText ? mTextActiveColor : mTextInactiveColor;
-                mFont->drawText(mType==COLORPICKER ? "#"+mText : mText, mTextColor, mRect.x+tx, mRect.y+mRect.height/2, mHighlightText);
+            // draw the text //
+                ofColor tColor = mHighlightText ? color.active.text : color.inactive.text;
+                mFont->drawText(mType == COLORPICKER ? "#" + mText : mText, tColor, mRect.x + tx, mRect.y + mRect.height / 2, mHighlightText);
                 if (mFocused) {
-                // draw the cursor //
-                    ofSetColor(mTextColor);
-                    ofDrawLine(ofPoint(mRect.x+tx+mCursorX, mRect.getBottom()), ofPoint(mRect.x+tx+mCursorX, mRect.getTop()));
+            // draw the cursor //
+                    ofSetColor(tColor);
+                    ofDrawLine(ofPoint(mRect.x + tx + mCursorX, mRect.getBottom()), ofPoint(mRect.x + tx + mCursorX, mRect.getTop()));
                 }
             ofPopStyle();
         }
@@ -118,14 +122,14 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             return mText;
         }
     
-        void setTextActiveColor(ofColor color)
+        void setTextActiveColor(ofColor c)
         {
-            mTextActiveColor = color;
+            color.active.text = c;
         }
     
-        void setTextInactiveColor(ofColor color)
+        void setTextInactiveColor(ofColor c)
         {
-            mTextInactiveColor = color;
+            color.inactive.text = c;
         }
     
         void setTextInputFieldType(ofxDatGuiTextInputFieldType type)
@@ -133,9 +137,9 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             mType = type;
         }
     
-        void setBackgroundColor(ofColor color)
+        void setBackgroundColor(ofColor c)
         {
-            mBkgdColor = color;
+            color.inactive.background = c;
         }
     
         void setMaxNumOfCharacters(unsigned int max)
@@ -149,7 +153,6 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             mTextChanged = false;
             mHighlightText = true;
             setCursorIndex(mText.size());
-            if (mType != COLORPICKER) mBkgdColor = mOnFocusColor;
         }
     
         void onFocusLost()
@@ -161,7 +164,6 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
                 ofxDatGuiInternalEvent e(ofxDatGuiEventType::INPUT_CHANGED, 0);
                 internalEventCallback(e);
             }
-            if (mType != COLORPICKER) mBkgdColor = mOnFocusLostColor;
         }
     
         void onKeyPressed(int key)
@@ -204,6 +206,8 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             }
             mCursorIndex = index;
         }
+    
+    protected:
     
         bool keyIsValid(int key)
         {
@@ -249,6 +253,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
         }
     
     private:
+    
         string mText;
         bool mFocused;
         bool mTextChanged;
@@ -259,13 +264,18 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
         unsigned int mMaxCharacters;
         ofRectangle mRect;
         ofRectangle mTextRect;
-        ofColor mBkgdColor;
-        ofColor mTextColor;
-        ofColor mHighLightColor;
-        ofColor mTextActiveColor;
-        ofColor mTextInactiveColor;
-        ofColor mOnFocusColor;
-        ofColor mOnFocusLostColor;
+        struct{
+            struct {
+                ofColor text;
+                ofColor background;
+            } active;
+            struct {
+                ofColor text;
+                ofColor background;
+            } inactive;
+            ofColor cursor;
+            ofColor highlight;
+        } color;
         ofxDatGuiFont* mFont;
         ofxDatGuiTextInputFieldType mType;
 };

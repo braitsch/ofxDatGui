@@ -21,22 +21,27 @@
 */
 
 #pragma once
-#include "ofxDatGuiTemplate.h"
+#include "ofxDatGuiTheme.h"
 
 /*
-    Add your custom templates here and ensure they extend ofxDatGuiTemplate
+    Add your custom themes here and ensure they extend ofxDatGuiTheme
 */
 
-class ofxDatGuiExampleCustomTemplate : public ofxDatGui2880x1800{
+class ofxDatGuiExampleCustomTheme : public ofxDatGui2880x1800{
 
     public:
     
-        ofxDatGuiExampleCustomTemplate()
+        ofxDatGuiExampleCustomTheme()
         {
-    // look inside of ofxDatGuiTemplate for a full list of settings you can override //
-            row.color.bkgd = ofColor::fromHex(0xff0000);
-            row.color.label = ofColor::fromHex(0x111111);
-            
+    // look inside of ofxDatGuiTheme for a full list of settings you can override //
+            stripe.visible = false;
+            color.label = ofColor::fromHex(0xF8F3F0);
+            color.background = ofColor::fromHex(0x4C4743);
+            color.inputAreaBackground = ofColor::fromHex(0xB5BCB2);
+            color.slider.fill = ofColor::fromHex(0xFFB230);
+            color.slider.text = ofColor::fromHex(0xF8F3F0);
+            color.textInput.text = ofColor::fromHex(0xF8F3F0);
+            color.colorPicker.border = ofColor::fromHex(0xEEEEEE);
     // and don't forget to call init when you're done //
             init();
         }

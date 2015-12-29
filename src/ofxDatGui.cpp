@@ -21,11 +21,11 @@
 */
 
 #include "ofxDatGui.h"
-#include "ofxDatGuiTemplate.h"
+#include "ofxDatGuiTheme.h"
 
 ofxDatGui* ofxDatGui::mActiveGui;
 vector<ofxDatGui*> ofxDatGui::mGuis;
-std::unique_ptr<ofxDatGuiTemplate> ofxDatGui::theme;
+std::unique_ptr<ofxDatGuiTheme> ofxDatGui::theme;
 
 ofxDatGui::ofxDatGui(int x, int y)
 {
@@ -56,7 +56,7 @@ void ofxDatGui::init()
     mAlignmentChanged = false;
     mAlignment = ofxDatGuiAlignment::LEFT;
     if (theme == nullptr){
-// load a default layout template //
+    // load a default theme //
         if (ofxDatGuiIsRetina()){
             theme = make_unique<ofxDatGui2880x1800>();
         } else {
@@ -64,9 +64,9 @@ void ofxDatGui::init()
         }
     }
     mAlpha = 1.0f;
-    mWidth = theme->row.width;
-    mRowSpacing = theme->row.spacing;
-    mGuiBackground = theme->gui.background;
+    mWidth = theme->layout.width;
+    mRowSpacing = theme->layout.vMargin;
+    mGuiBackground = theme->color.guiBackground;
     
 // enable autodraw by default //
     setAutoDraw(true);
@@ -126,12 +126,12 @@ void ofxDatGui::setWidth(int width)
     if (mAnchor != ofxDatGuiAnchor::NO_ANCHOR) anchorGui();
 }
 
-void ofxDatGui::setTemplate(ofxDatGuiTemplate* t)
+void ofxDatGui::setTheme(ofxDatGuiTheme* t)
 {
     mTheme = t;
-    setWidth(t->row.width);
-    mRowSpacing = t->row.spacing;
-    mGuiBackground = t->gui.background;
+    setWidth(t->layout.width);
+    mRowSpacing = t->layout.vMargin;
+    mGuiBackground = t->color.guiBackground;
     mThemeChanged = true;
 }
 
@@ -716,7 +716,7 @@ void ofxDatGui::update()
     for (int i=0; i<items.size(); i++) {
         if (mAlphaChanged) items[i]->setOpacity(mAlpha);
         if (mWidthChanged) items[i]->setWidth(mWidth);
-        if (mThemeChanged) items[i]->setTemplate(mTheme);
+        if (mThemeChanged) items[i]->setTheme(mTheme);
         if (mAlignmentChanged) items[i]->setAlignment(mAlignment);
     }
    if (mThemeChanged || mWidthChanged) layoutGui();

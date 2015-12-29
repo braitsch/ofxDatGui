@@ -33,7 +33,7 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
             mType = ofxDatGuiType::COLOR_PICKER;
             mShowPicker = false;
             rainbow.image.load(OFXDG_ASSET_DIR + "/picker-rainbow.png");
-            onTemplateSet(ofxDatGuiComponent::getTheme());
+            onThemeSet(ofxDatGuiComponent::getTheme());
             
         // center the text input field //
             input->setTextInputFieldType(ofxDatGuiTextInputField::COLORPICKER);
@@ -170,13 +170,13 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
             if (input->hitTest(mouse)) input->onFocus();
         }
     
-        void onTemplateSet(const ofxDatGuiTemplate* tmplt)
+        void onThemeSet(const ofxDatGuiTheme* tmplt)
         {
-            mStyle.stripe.color = tmplt->colorPicker.color.stripe;
+            mStyle.stripe.color = tmplt->stripe.colorPicker;
             pickerRect = ofRectangle(0, 0, input->getWidth(), (mStyle.height + mStyle.padding) * 3);
             rainbow.rect = ofRectangle(0, 0, 20, pickerRect.height - (mStyle.padding * 2));
             gradientRect = ofRectangle(0, 0, pickerRect.width - rainbow.rect.width - (mStyle.padding * 3), rainbow.rect.height);
-            pickerBorder = tmplt->colorPicker.color.border;
+            pickerBorder = tmplt->color.colorPicker.border;
             setTextFieldInputColor();
         }
     

@@ -20,18 +20,18 @@
     SOFTWARE.
 */
 
-#include "ofxDatGuiTemplate.h"
+#include "ofxDatGuiTheme.h"
 
 ofxDatGui2880x1800::ofxDatGui2880x1800()
 {
-    row.width   = 540;
-    row.height  *= 2;
-    row.padding *= 2;
-    row.spacing *= 2;
-    row.stripeWidth *= 2;
-    font.size   *= 2;
-    font.highlightPadding *= 2;
-    matrix.buttonSize = 47;
+    font.size *= 2;
+    stripe.width *= 2;
+    layout.width = 540;
+    layout.height *= 2;
+    layout.padding *= 2;
+    layout.vMargin *= 2;
+    layout.matrix.buttonSize = 47;
+    layout.textInput.highlightPadding *= 2;
     init();
 }
 

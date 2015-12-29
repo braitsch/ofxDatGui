@@ -26,22 +26,13 @@
 class ofxDatGuiMatrixButton : public ofxDatGuiInteractiveObject {
 
     public:
+    
         ofxDatGuiMatrixButton(int size, int index, bool showLabels)
         {
             mIndex = index;
             mSelected = false;
             mShowLabels = showLabels;
             mRect = ofRectangle(0, 0, size, size);
-            mFont = ofxDatGuiComponent::getTheme()->font.ttf;
-            mBkgdColor = ofxDatGuiComponent::getTheme()->matrix.color.normal.button;
-            mLabelColor = ofxDatGuiComponent::getTheme()->matrix.color.normal.label;
-            colors.normal.label = ofxDatGuiComponent::getTheme()->matrix.color.normal.label;
-            colors.normal.button = ofxDatGuiComponent::getTheme()->matrix.color.normal.button;
-            colors.hover.label = ofxDatGuiComponent::getTheme()->matrix.color.hover.label;
-            colors.hover.button = ofxDatGuiComponent::getTheme()->matrix.color.hover.button;
-            colors.selected.label = ofxDatGuiComponent::getTheme()->matrix.color.selected.label;
-            colors.selected.button = ofxDatGuiComponent::getTheme()->matrix.color.selected.button;
-            mFontRect = mFont->getStringBoundingBox(ofToString(mIndex+1), 0, 0);
         }
     
         void setOrigin(float x, float y)
@@ -107,6 +98,20 @@ class ofxDatGuiMatrixButton : public ofxDatGuiInteractiveObject {
             }
         }
     
+        void setTheme(const ofxDatGuiTheme* tmplt)
+        {
+            mFont = tmplt->font.ttf;
+            mFontRect = mFont->getStringBoundingBox(ofToString(mIndex+1), 0, 0);
+            mBkgdColor = tmplt->color.matrix.normal.button;
+            mLabelColor = tmplt->color.matrix.normal.label;
+            colors.normal.label = tmplt->color.matrix.normal.label;
+            colors.normal.button = tmplt->color.matrix.normal.button;
+            colors.hover.label = tmplt->color.matrix.hover.label;
+            colors.hover.button = tmplt->color.matrix.hover.button;
+            colors.selected.label = tmplt->color.matrix.selected.label;
+            colors.selected.button = tmplt->color.matrix.selected.button;
+        }
+    
     private:
         int x;
         int y;
@@ -139,22 +144,13 @@ class ofxDatGuiMatrix : public ofxDatGuiComponent {
 
     public:
     
-        ofxDatGuiMatrix(string label, int numButtons, bool showLabels=false) : ofxDatGuiComponent(label)
+        ofxDatGuiMatrix(string label, int numButtons, bool showLabels = false) : ofxDatGuiComponent(label)
         {
             mRadioMode = false;
             mNumButtons = numButtons;
             mShowLabels = showLabels;
             mType = ofxDatGuiType::MATRIX;
-            mFillColor = ofxDatGuiComponent::theme->matrix.color.fill;
-            mButtonSize  = ofxDatGuiComponent::theme->matrix.buttonSize;
-            mStyle.stripe.color = ofxDatGuiComponent::theme->matrix.color.stripe;
-            setButtons();
-            setWidth(mStyle.width);
-        }
-    
-        static ofxDatGuiMatrix* getInstance()
-        {
-            return new ofxDatGuiMatrix("X", 0);
+            onThemeSet(ofxDatGuiComponent::getTheme());
         }
 
         void setOrigin(int x, int y)
@@ -162,26 +158,6 @@ class ofxDatGuiMatrix : public ofxDatGuiComponent {
             ofxDatGuiComponent::setOrigin(x, y);
             mMatrixRect.x = x + mLabel.width;
             mMatrixRect.y = y + mStyle.padding;
-        }
-    
-        void setTemplate(ofxDatGuiTemplate* tmplt)
-        {
-            ofxDatGuiComponent::setTemplate(tmplt);
-            mFillColor = tmplt->matrix.color.fill;
-            mButtonSize  = tmplt->matrix.buttonSize;
-            mStyle.stripe.color = tmplt->matrix.color.stripe;
-            setButtons();
-            setWidth(mStyle.width);
-        }
-    
-        void setButtons()
-        {
-            btns.clear();
-            for(int i=0; i<mNumButtons; i++) {
-                ofxDatGuiMatrixButton btn(mButtonSize, i, mShowLabels);
-                btn.onInternalEvent(this, &ofxDatGuiMatrix::onButtonSelected);
-                btns.push_back(btn);
-            }
         }
     
         void setRadioMode(bool enabled)
@@ -254,6 +230,19 @@ class ofxDatGuiMatrix : public ofxDatGuiComponent {
             return &btns[index];
         }
     
+        static ofxDatGuiMatrix* getInstance() { return new ofxDatGuiMatrix("X", 0); }
+    
+    protected:
+    
+        void onThemeSet(const ofxDatGuiTheme* tmplt)
+        {
+            mFillColor = tmplt->color.inputAreaBackground;
+            mButtonSize = tmplt->layout.matrix.buttonSize;
+            mStyle.stripe.color = tmplt->stripe.matrix;
+            attachButtons(tmplt);
+            setWidth(mStyle.width);
+        }
+    
         void onMouseRelease(ofPoint m)
         {
             ofxDatGuiComponent::onFocusLost();
@@ -272,6 +261,17 @@ class ofxDatGuiMatrix : public ofxDatGuiComponent {
                 matrixEventCallback(ev);
             }   else{
                 ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+            }
+        }
+    
+        void attachButtons(const ofxDatGuiTheme* tmplt)
+        {
+            btns.clear();
+            for(int i=0; i < mNumButtons; i++) {
+                ofxDatGuiMatrixButton btn(mButtonSize, i, mShowLabels);
+                btn.setTheme(tmplt);
+                btn.onInternalEvent(this, &ofxDatGuiMatrix::onButtonSelected);
+                btns.push_back(btn);
             }
         }
     
