@@ -113,10 +113,10 @@ void ofxDatGuiComponent::setTemplate(ofxDatGuiTemplate* tmplt)
     mStyle.color.onMouseOver = tmplt->row.color.mouseOver;
     mStyle.color.onMouseDown = tmplt->row.color.mouseDown;
     mStyle.stripe.width = tmplt->row.stripeWidth;
-    mStyle.guiBackground = tmplt->gui.color.bkgd;
+    mStyle.guiBackground = tmplt->gui.background;
     mIcon.y = mStyle.height * .33;
     mIcon.size = mRetinaEnabled ? 20 : 10;
-    mIcon.color = tmplt->row.color.label;
+    mIcon.color = tmplt->icon.color;
     mFont = tmplt->font.ttf;
     mLabel.maxWidth = tmplt->row.label.maxAreaWidth;
     mLabel.forceUpperCase = tmplt->row.label.forceUpperCase;
@@ -134,14 +134,15 @@ void ofxDatGuiComponent::setWidth(int w)
     mFont->labelX = (mStyle.width * .03) + 10;
     mIcon.x = mStyle.width - (mStyle.width * .05) - 20;
     for (int i=0; i<children.size(); i++) children[i]->setWidth(w);
-    onWidthSet(w);
+  //  onWidthSet(w);
 }
 
 // methods to be overridden in derived classes after component has been updated //
-void ofxDatGuiComponent::onWidthSet(int width) {}
-void ofxDatGuiComponent::onTemplateSet(ofxDatGuiTemplate* tmplt) {}
+//void ofxDatGuiComponent::onWidthSet(int width) {}
+void ofxDatGuiComponent::onTemplateSet(const ofxDatGuiTemplate* tmplt) {
 
-//const AClass* p
+}
+
 const ofxDatGuiTemplate* ofxDatGuiComponent::getTheme()
 {
     return theme.get();
@@ -150,7 +151,7 @@ const ofxDatGuiTemplate* ofxDatGuiComponent::getTheme()
 void ofxDatGuiComponent::setVisible(bool visible)
 {
     mVisible = visible;
-    if (internalEventCallback!=nullptr){
+    if (internalEventCallback != nullptr){
         ofxDatGuiInternalEvent e(ofxDatGuiEventType::VISIBILITY_CHANGED, mIndex);
         internalEventCallback(e);
     }

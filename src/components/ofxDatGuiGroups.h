@@ -38,17 +38,7 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
         ofxDatGuiGroup(string label) : ofxDatGuiButton(label)
         {
             mIsExpanded = false;
-            if (mImage.isAllocated() == false) mImage.load(OFXDG_ASSET_DIR+"/icon-dropdown.png");
-        }
-    
-        int getHeight()
-        {
-            return mHeight;
-        }
-    
-        bool getIsExpanded()
-        {
-            return mIsExpanded;
+            mImage.load(OFXDG_ASSET_DIR+"/icon-dropdown.png");
         }
     
         void setWidth(int w)
@@ -63,6 +53,28 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
             layout();
         }
     
+        void expand()
+        {
+            mIsExpanded = true;
+            layout();
+        }
+    
+        void collapse()
+        {
+            mIsExpanded = false;
+            layout();
+        }
+    
+        int getHeight()
+        {
+            return mHeight;
+        }
+    
+        bool getIsExpanded()
+        {
+            return mIsExpanded;
+        }
+    
         void draw()
         {
             if (!mVisible) return;
@@ -72,21 +84,37 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
                 ofxDatGuiComponent::drawStripe();
                 ofSetColor(mLabel.color);
                 mImage.draw(x+mIcon.x, y+mIcon.y, mIcon.size, mIcon.size);
-            if (mIsExpanded) {
-                int mHeight = mStyle.height;
-                ofSetColor(mStyle.guiBackground, mStyle.opacity);
-                ofDrawRectangle(x, y+mHeight, mStyle.width, mStyle.vMargin);
-                for(int i=0; i<children.size(); i++) {
-                    mHeight += mStyle.vMargin;
-                    children[i]->draw();
-                    mHeight += children[i]->getHeight();
-                    if (i == children.size()-1) break;
+                if (mIsExpanded) {
+                    int mHeight = mStyle.height;
                     ofSetColor(mStyle.guiBackground, mStyle.opacity);
                     ofDrawRectangle(x, y+mHeight, mStyle.width, mStyle.vMargin);
+                    for(int i=0; i<children.size(); i++) {
+                        mHeight += mStyle.vMargin;
+                        children[i]->draw();
+                        mHeight += children[i]->getHeight();
+                        if (i == children.size()-1) break;
+                        ofSetColor(mStyle.guiBackground, mStyle.opacity);
+                        ofDrawRectangle(x, y+mHeight, mStyle.width, mStyle.vMargin);
+                    }
+                    for(int i=0; i<children.size(); i++) children[i]->drawColorPicker();
                 }
-                for(int i=0; i<children.size(); i++) children[i]->drawColorPicker();
-            }
             ofPopStyle();
+        }
+    
+    protected:
+    
+        void layout()
+        {
+            mHeight = mStyle.height + mStyle.vMargin;
+            for (int i=0; i<children.size(); i++) {
+                if (children[i]->getVisible() == false) continue;
+                if (mIsExpanded == false){
+                    children[i]->setOrigin(x, y + mHeight);
+                }   else{
+                    children[i]->setOrigin(x, y + mHeight);
+                    mHeight += children[i]->getHeight() + mStyle.vMargin;
+                }
+            }
         }
     
         void onMouseRelease(ofPoint m)
@@ -104,39 +132,11 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
             }
         }
     
-        void expand()
-        {
-            mIsExpanded = true;
-            layout();
-        }
-    
-        void collapse()
-        {
-            mIsExpanded = false;
-            layout();
-        }
-    
-        void layout()
-        {
-            mHeight = mStyle.height + mStyle.vMargin;
-            for (int i=0; i<children.size(); i++) {
-                if (children[i]->getVisible() == false) continue;
-                if (mIsExpanded == false){
-                    children[i]->setOrigin(x, y + mHeight);
-                }   else{
-                    children[i]->setOrigin(x, y + mHeight);
-                    mHeight += children[i]->getHeight() + mStyle.vMargin;
-                }
-            }
-        }
-    
         void dispatchInternalEvent(ofxDatGuiInternalEvent e)
         {
             if (e.type == ofxDatGuiEventType::VISIBILITY_CHANGED) layout();
             internalEventCallback(e);
         }
-    
-    protected:
     
         int mHeight;
         ofImage mImage;
@@ -148,16 +148,12 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
 
     public:
     
-        ofxDatGuiFolder(string label, ofColor color=ofColor::white) : ofxDatGuiGroup(label)
+        ofxDatGuiFolder(string label, ofColor color = ofColor::white) : ofxDatGuiGroup(label)
         {
     // all items within a folder share the same stripe color //
             mStyle.stripe.color = color;
             mType = ofxDatGuiType::FOLDER;
-        }
-    
-        static ofxDatGuiFolder* getInstance()
-        {
-            return new ofxDatGuiFolder("X");
+            onTemplateSet(ofxDatGuiComponent::getTheme());
         }
     
         void drawColorPicker()
@@ -350,6 +346,8 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
             return NULL;
         }
 
+        static ofxDatGuiFolder* getInstance() { return new ofxDatGuiFolder("X"); }
+
     private:
         vector<shared_ptr<ofxDatGuiColorPicker>> pickers;
     
@@ -361,8 +359,7 @@ class ofxDatGuiDropdownOption : public ofxDatGuiButton {
     
         ofxDatGuiDropdownOption(string label) : ofxDatGuiButton(label)
         {
-            mLabel.rect = mFont->getStringBoundingBox("* "+mLabel.text, 0, 0);
-            mStyle.stripe.color = ofxDatGuiComponent::theme->dropdown.color.stripe;
+            onTemplateSet(ofxDatGuiComponent::getTheme());
         }
     
         void draw()
@@ -370,6 +367,13 @@ class ofxDatGuiDropdownOption : public ofxDatGuiButton {
             ofxDatGuiButton::drawBkgd();
             ofxDatGuiComponent::drawLabel("* "+mLabel.text);
             ofxDatGuiComponent::drawStripe();
+        }
+    
+        void onTemplateSet(const ofxDatGuiTemplate* tmplt)
+        {
+            ofxDatGuiButton::onTemplateSet(tmplt);
+            mStyle.stripe.color = tmplt->dropdown.color.stripe;
+            mLabel.rect = mFont->getStringBoundingBox("* "+mLabel.text, 0, 0);
         }
 
 };
@@ -382,13 +386,13 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
         {
             mOption = 0;
             mType = ofxDatGuiType::DROPDOWN;
-            mStyle.stripe.color = ofxDatGuiComponent::theme->dropdown.color.stripe;
             for(int i=0; i<options.size(); i++){
                 ofxDatGuiDropdownOption* opt = new ofxDatGuiDropdownOption(options[i]);
                 opt->setIndex(children.size());
                 opt->onButtonEvent(this, &ofxDatGuiDropdown::onOptionSelected);
                 children.push_back(opt);
             }
+            onTemplateSet(ofxDatGuiComponent::getTheme());
         }
     
         static ofxDatGuiDropdown* getInstance()
@@ -421,6 +425,14 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
             return static_cast<ofxDatGuiDropdownOption*>(children[mOption]);
         }
     
+    private:
+    
+        void onTemplateSet(const ofxDatGuiTemplate* tmplt)
+        {
+            ofxDatGuiButton::onTemplateSet(tmplt);
+            mStyle.stripe.color = tmplt->dropdown.color.stripe;
+        }
+    
         void onOptionSelected(ofxDatGuiButtonEvent e)
         {
             for(int i=0; i<children.size(); i++) if (e.target == children[i]) mOption = i;
@@ -434,7 +446,6 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
             }
         }
     
-    private:
         int mOption;
     
 };

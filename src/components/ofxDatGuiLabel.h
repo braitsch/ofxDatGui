@@ -53,7 +53,7 @@ class ofxDatGuiBreak : public ofxDatGuiComponent{
     
     protected:
     
-        void onTemplateSet(ofxDatGuiTemplate* tmplt)
+        void onTemplateSet(const ofxDatGuiTemplate* tmplt)
         {
             mStyle.height = tmplt->row.height * .1;
         }
@@ -66,7 +66,7 @@ class ofxDatGuiLabel : public ofxDatGuiComponent{
         
         ofxDatGuiLabel(string label) : ofxDatGuiComponent(label)
         {
-            mStyle.stripe.color = ofxDatGuiComponent::theme->label.color.stripe;
+            onTemplateSet(ofxDatGuiComponent::getTheme());
         }
     
         void draw()
@@ -74,6 +74,14 @@ class ofxDatGuiLabel : public ofxDatGuiComponent{
             ofxDatGuiComponent::drawBkgd();
             ofxDatGuiComponent::drawLabel();
             ofxDatGuiComponent::drawStripe();
+        }
+    
+    protected:
+    
+        void onTemplateSet(const ofxDatGuiTemplate* tmplt)
+        {
+            cout << "ok" << endl;
+            mStyle.stripe.color = tmplt->label.color.stripe;
         }
 
 

@@ -33,7 +33,7 @@ class ofxDatGui2dPad : public ofxDatGuiComponent {
             mScaleOnResize = true;
             mBounds = ofRectangle(0, 0, ofGetWidth(), ofGetHeight());
             mType = ofxDatGuiType::PAD2D;
-            onTemplateSet(ofxDatGuiComponent::theme.get());
+            onTemplateSet(ofxDatGuiComponent::getTheme());
         }
     
         ofxDatGui2dPad(string label, ofRectangle bounds) : ofxDatGuiComponent(label)
@@ -42,24 +42,7 @@ class ofxDatGui2dPad : public ofxDatGuiComponent {
             mBounds = bounds;
             mScaleOnResize = false;
             mType = ofxDatGuiType::PAD2D;
-            onTemplateSet(ofxDatGuiComponent::theme.get());
-        }
-    
-        static ofxDatGui2dPad* getInstance()
-        {
-            return new ofxDatGui2dPad("X");
-        }
-    
-        ofPoint getPosition()
-        {
-            return pWorld;
-        }
-    
-        void setBounds(ofRectangle bounds)
-        {
-            mBounds = bounds;
-            reset();
-            mScaleOnResize = false;
+            onTemplateSet(ofxDatGuiComponent::getTheme());
         }
     
         void reset()
@@ -68,6 +51,13 @@ class ofxDatGui2dPad : public ofxDatGuiComponent {
             my = 0.5f;
             pWorld.x = mBounds.x + (mBounds.width*mx);
             pWorld.y = mBounds.y + (mBounds.height*my);
+        }
+    
+        void setBounds(ofRectangle bounds)
+        {
+            mBounds = bounds;
+            reset();
+            mScaleOnResize = false;
         }
     
         void setOrigin(int x, int y)
@@ -80,16 +70,9 @@ class ofxDatGui2dPad : public ofxDatGuiComponent {
             }
         }
     
-        void onTemplateSet(ofxDatGuiTemplate* tmplt)
+        ofPoint getPosition()
         {
-            cout << "onTemplateSet " << mName << endl;
-            mStyle.height = tmplt->pad2d.height;
-            mStyle.stripe.color = tmplt->pad2d.color.stripe;
-            mFillColor = tmplt->pad2d.color.fill;
-            mLineColor = tmplt->pad2d.color.lines;
-            mCircleColor = tmplt->pad2d.color.circle;
-            mPad = ofRectangle(0, 0, mStyle.width - mStyle.padding - mLabel.width, mStyle.height - (mStyle.padding * 2));
-            setWidth(mStyle.width);
+            return pWorld;
         }
     
         void draw()
@@ -104,16 +87,20 @@ class ofxDatGui2dPad : public ofxDatGuiComponent {
                 ofxDatGuiComponent::drawBkgd();
                 ofxDatGuiComponent::drawLabel();
                 ofxDatGuiComponent::drawStripe();
-                ofSetColor(mFillColor);
+                ofSetColor(mColors.fill);
                 ofDrawRectangle(mPad);
                 ofSetLineWidth(2);
-                ofSetColor(mLineColor);
+                ofSetColor(mColors.line);
                 ofDrawLine(mPad.x, pLocal.y, mPad.x + mPad.width, pLocal.y);
                 ofDrawLine(pLocal.x, mPad.y, pLocal.x, mPad.y + mPad.height);
-                ofSetColor(mCircleColor);
+                ofSetColor(mColors.ball);
                 ofDrawCircle(pLocal, 10);
             ofPopStyle();
         }
+    
+        static ofxDatGui2dPad* getInstance() { return new ofxDatGui2dPad("X"); }
+    
+    protected:
     
         void onMouseDrag(ofPoint m)
         {
@@ -132,6 +119,16 @@ class ofxDatGui2dPad : public ofxDatGuiComponent {
             }
         }
     
+        void onTemplateSet(const ofxDatGuiTemplate* tmplt)
+        {
+            mStyle.height = tmplt->pad2d.height;
+            mStyle.stripe.color = tmplt->pad2d.color.stripe;
+            mColors.fill = tmplt->pad2d.color.fill;
+            mColors.line = tmplt->pad2d.color.lines;
+            mColors.ball = tmplt->pad2d.color.circle;
+            mPad = ofRectangle(0, 0, mStyle.width - mStyle.padding - mLabel.width, mStyle.height - (mStyle.padding * 2));
+        }
+    
     private:
         float mx;
         float my;
@@ -140,9 +137,11 @@ class ofxDatGui2dPad : public ofxDatGuiComponent {
         ofPoint pWorld;
         ofRectangle mPad;
         ofRectangle mBounds;
-        ofColor mFillColor;
-        ofColor mLineColor;
-        ofColor mCircleColor;
+        struct{
+            ofColor fill;
+            ofColor line;
+            ofColor ball;
+        } mColors;
     
 };
     

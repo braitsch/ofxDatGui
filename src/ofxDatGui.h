@@ -101,7 +101,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         bool mWidthChanged;
         bool mThemeChanged;
         bool mAlignmentChanged;
-        ofColor mBackgroundColor;
+        ofColor mGuiBackground;
     
         ofPoint mPosition;
         ofRectangle mGuiBounds;

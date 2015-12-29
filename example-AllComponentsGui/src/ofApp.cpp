@@ -10,7 +10,7 @@ void ofApp::setup()
 // instantiate and position the gui //
     gui = new ofxDatGui( ofxDatGuiAnchor::TOP_RIGHT );
     
-//  gui->setTemplate(new ofxDatGuiExampleCustomTemplate());
+    gui->setTemplate(new ofxDatGuiExampleCustomTemplate());
     
 // add some components //
     gui->addTextInput("message", "# open frameworks #");
@@ -74,10 +74,10 @@ void ofApp::setup()
     gui->onMatrixEvent(this, &ofApp::onMatrixEvent);
 
     gui->setOpacity(gui->getSlider("datgui opacity")->getScale());
-//    gui->setAlignment(ofxDatGuiAlignment::RIGHT);
+    gui->setAlignment(ofxDatGuiAlignment::RIGHT);
     
 // let's launch the app fullscreen //
-    mFullscreen = true;
+//    mFullscreen = true;
     refreshWindow();
 }
 

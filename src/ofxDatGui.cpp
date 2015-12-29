@@ -66,7 +66,7 @@ void ofxDatGui::init()
     mAlpha = 1.0f;
     mWidth = theme->row.width;
     mRowSpacing = theme->row.spacing;
-    mBackgroundColor = theme->gui.color.bkgd;
+    mGuiBackground = theme->gui.background;
     
 // enable autodraw by default //
     setAutoDraw(true);
@@ -131,7 +131,7 @@ void ofxDatGui::setTemplate(ofxDatGuiTemplate* t)
     mTheme = t;
     setWidth(t->row.width);
     mRowSpacing = t->row.spacing;
-    mBackgroundColor = t->gui.color.bkgd;
+    mGuiBackground = t->gui.background;
     mThemeChanged = true;
 }
 
@@ -757,7 +757,7 @@ void ofxDatGui::update()
                 // track that we're moving to force preserve focus //
                         mMoving = true;
                         ofPoint mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
-                        moveGui(mouse - mGuiHeader->dragOffset);
+                        moveGui(mouse - mGuiHeader->getDragOffset());
                     }
                     break;
                 }   else if (items[i]->getIsExpanded()){
@@ -793,7 +793,7 @@ void ofxDatGui::draw()
     ofPushStyle();
         ofFill();
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-        ofSetColor(mBackgroundColor, mAlpha * 255);
+        ofSetColor(mGuiBackground, mAlpha * 255);
         if (mExpanded == false){
             ofDrawRectangle(mPosition.x, mPosition.y, mWidth, mGuiFooter->getHeight());
             mGuiFooter->draw();

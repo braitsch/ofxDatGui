@@ -165,8 +165,7 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         void drawBkgd();
         void drawStripe();
     
-        virtual void onWidthSet(int w);
-        virtual void onTemplateSet(ofxDatGuiTemplate* t);
+        virtual void onTemplateSet(const ofxDatGuiTemplate* t);
     
 };
 

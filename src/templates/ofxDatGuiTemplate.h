@@ -43,9 +43,7 @@ class ofxDatGuiTemplate{
         }
     
         struct {
-            struct {
-                ofColor bkgd = ofColor::fromHex(0x303030);
-            } color;
+            ofColor background = ofColor::fromHex(0x303030);
         } gui;
     
         struct {
@@ -73,6 +71,10 @@ class ofxDatGuiTemplate{
             string file = "font-verdana.ttf";
             ofxDatGuiFont* ttf;
         } font;
+    
+        struct {
+            ofColor color = ofColor::fromHex(0xEEEEEE);
+        } icon;
 
         struct{
             struct{
@@ -109,6 +111,7 @@ class ofxDatGuiTemplate{
         struct{
             struct{
                 ofColor stripe = ofColor::fromHex(0xFFD00B);
+                ofColor border = ofColor::fromHex(0xEEEEEE);
             } color;
         } colorPicker;
     

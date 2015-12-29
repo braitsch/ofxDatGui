@@ -30,8 +30,7 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
         ofxDatGuiHeader(string label, bool draggable = true) : ofxDatGuiButton(label)
         {
             mDraggable = draggable;
-            mStyle.height = mStyle.height * .8;
-            mLabel.alignment = ofxDatGuiAlignment::CENTER;
+            onTemplateSet(ofxDatGuiComponent::getTheme());
         }
     
         void draw()
@@ -43,12 +42,6 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
             ofPopStyle();
         }
     
-        void setTemplate(ofxDatGuiTemplate* tmplt)
-        {
-            ofxDatGuiButton::setTemplate(tmplt);
-            mStyle.height = mStyle.height*.8;
-        }
-    
         void setDraggable(bool draggable)
         {
             mDraggable = draggable;
@@ -58,6 +51,13 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
         {
             return mDraggable;
         }
+    
+        ofPoint getDragOffset()
+        {
+            return mDragOffset;
+        }
+    
+    protected:
 
         void onMouseEnter(ofPoint m)
         {
@@ -67,31 +67,36 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
     
         void onMousePress(ofPoint m)
         {
-            dragOffset = ofPoint(m.x-this->x,m.y-this->y);
+            mDragOffset = ofPoint(m.x-this->x,m.y-this->y);
             ofxDatGuiComponent::onMousePress(m);
         }
     
         void onMouseRelease(ofPoint m)
         {
-            dragOffset = m;
+            mDragOffset = m;
             ofxDatGuiComponent::onFocusLost();
             ofxDatGuiComponent::onMouseRelease(m);
         }
-
-    // we override this to allow the panel to be dragged around //
-        void onFocusLost() { }
-
-        void setAlignment(ofxDatGuiAlignment align) {}
     
-        ofPoint dragOffset;
+        void onTemplateSet(const ofxDatGuiTemplate* tmplt)
+        {
+            ofxDatGuiButton::onTemplateSet(tmplt);
+            mStyle.height = mStyle.height * .8;
+            mLabel.alignment = ofxDatGuiAlignment::CENTER;
+        }
+    
+    // allow panel to be dragged around //
+        void onFocusLost() {}
+    // force header label to always be centered //
+        void setAlignment(ofxDatGuiAlignment align) {}
     
     private:
         bool mDraggable;
+        ofPoint mDragOffset;
 
 };
 
 class ofxDatGuiFooter : public ofxDatGuiButton {
-
 
     public:
     
@@ -100,14 +105,7 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
             mGuiCollapsed = false;
             mLabelCollapsed = "expand controls";
             mLabelExpanded = "collapse controls";
-            mStyle.height = mStyle.height*.8;
-            mLabel.alignment = ofxDatGuiAlignment::CENTER;
-        }
-    
-        void setTemplate(ofxDatGuiTemplate* tmplt)
-        {
-            ofxDatGuiButton::setTemplate(tmplt);
-            mStyle.height = mStyle.height*.8;
+            onTemplateSet(ofxDatGuiComponent::getTheme());
         }
     
         void setLabelWhenExpanded(string label)
@@ -131,6 +129,8 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
             ofPopStyle();
         }
     
+    protected:
+    
         void onMouseRelease(ofPoint m)
         {
             mGuiCollapsed = !mGuiCollapsed;
@@ -143,6 +143,13 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
             }   else{
                 setLabel(mLabelCollapsed);
             }
+        }
+    
+        void onTemplateSet(const ofxDatGuiTemplate* tmplt)
+        {
+            ofxDatGuiButton::onTemplateSet(tmplt);
+            mStyle.height = mStyle.height * .8;
+            mLabel.alignment = ofxDatGuiAlignment::CENTER;
         }
     
     // force footer label to always be centered //
