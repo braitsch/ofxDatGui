@@ -30,18 +30,18 @@ class ofxDatGui2dPad : public ofxDatGuiComponent {
         ofxDatGui2dPad(string label) : ofxDatGuiComponent(label)
         {
             reset();
-            mType = ofxDatGuiType::PAD2D;
             mScaleOnResize = true;
             mBounds = ofRectangle(0, 0, ofGetWidth(), ofGetHeight());
+            mType = ofxDatGuiType::PAD2D;
             onTemplateSet(ofxDatGuiComponent::theme.get());
         }
     
         ofxDatGui2dPad(string label, ofRectangle bounds) : ofxDatGuiComponent(label)
         {
             reset();
-            mType = ofxDatGuiType::PAD2D;
             mBounds = bounds;
             mScaleOnResize = false;
+            mType = ofxDatGuiType::PAD2D;
             onTemplateSet(ofxDatGuiComponent::theme.get());
         }
     
@@ -80,14 +80,9 @@ class ofxDatGui2dPad : public ofxDatGuiComponent {
             }
         }
     
-        void setTemplate(ofxDatGuiTemplate* tmplt)
-        {
-            ofxDatGuiComponent::setTemplate(tmplt);
-            onTemplateSet(tmplt);
-        }
-    
         void onTemplateSet(ofxDatGuiTemplate* tmplt)
         {
+            cout << "onTemplateSet " << mName << endl;
             mStyle.height = tmplt->pad2d.height;
             mStyle.stripe.color = tmplt->pad2d.color.stripe;
             mFillColor = tmplt->pad2d.color.fill;

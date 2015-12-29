@@ -32,15 +32,15 @@ class ofxDatGuiMatrixButton : public ofxDatGuiInteractiveObject {
             mSelected = false;
             mShowLabels = showLabels;
             mRect = ofRectangle(0, 0, size, size);
-            mFont = ofxDatGuiComponent::theme->font.ttf;
-            mBkgdColor = ofxDatGuiComponent::theme->matrix.color.normal.button;
-            mLabelColor = ofxDatGuiComponent::theme->matrix.color.normal.label;
-            colors.normal.label = ofxDatGuiComponent::theme->matrix.color.normal.label;
-            colors.normal.button = ofxDatGuiComponent::theme->matrix.color.normal.button;
-            colors.hover.label = ofxDatGuiComponent::theme->matrix.color.hover.label;
-            colors.hover.button = ofxDatGuiComponent::theme->matrix.color.hover.button;
-            colors.selected.label = ofxDatGuiComponent::theme->matrix.color.selected.label;
-            colors.selected.button = ofxDatGuiComponent::theme->matrix.color.selected.button;
+            mFont = ofxDatGuiComponent::getTheme()->font.ttf;
+            mBkgdColor = ofxDatGuiComponent::getTheme()->matrix.color.normal.button;
+            mLabelColor = ofxDatGuiComponent::getTheme()->matrix.color.normal.label;
+            colors.normal.label = ofxDatGuiComponent::getTheme()->matrix.color.normal.label;
+            colors.normal.button = ofxDatGuiComponent::getTheme()->matrix.color.normal.button;
+            colors.hover.label = ofxDatGuiComponent::getTheme()->matrix.color.hover.label;
+            colors.hover.button = ofxDatGuiComponent::getTheme()->matrix.color.hover.button;
+            colors.selected.label = ofxDatGuiComponent::getTheme()->matrix.color.selected.label;
+            colors.selected.button = ofxDatGuiComponent::getTheme()->matrix.color.selected.button;
             mFontRect = mFont->getStringBoundingBox(ofToString(mIndex+1), 0, 0);
         }
     

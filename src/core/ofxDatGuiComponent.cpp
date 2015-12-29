@@ -121,17 +121,9 @@ void ofxDatGuiComponent::setTemplate(ofxDatGuiTemplate* tmplt)
     mLabel.maxWidth = tmplt->row.label.maxAreaWidth;
     mLabel.forceUpperCase = tmplt->row.label.forceUpperCase;
     setLabel(mLabel.text);
+    setWidth(mStyle.width);
+    for (int i=0; i<children.size(); i++) children[i]->setTemplate(tmplt);
     onTemplateSet(tmplt);
-}
-
-std::unique_ptr<ofxDatGuiTemplate> ofxDatGuiComponent::getTheme()
-{
-
-}
-
-void ofxDatGuiComponent::onTemplateSet(ofxDatGuiTemplate* tmplt)
-{
-
 }
 
 void ofxDatGuiComponent::setWidth(int w)
@@ -139,11 +131,20 @@ void ofxDatGuiComponent::setWidth(int w)
     mStyle.width = w;
     mLabel.width = mStyle.width * .35;
     if (mLabel.width > mLabel.maxWidth) mLabel.width = mLabel.maxWidth;
-
     mFont->labelX = (mStyle.width * .03) + 10;
     mIcon.x = mStyle.width - (mStyle.width * .05) - 20;
-    
     for (int i=0; i<children.size(); i++) children[i]->setWidth(w);
+    onWidthSet(w);
+}
+
+// methods to be overridden in derived classes after component has been updated //
+void ofxDatGuiComponent::onWidthSet(int width) {}
+void ofxDatGuiComponent::onTemplateSet(ofxDatGuiTemplate* tmplt) {}
+
+//const AClass* p
+const ofxDatGuiTemplate* ofxDatGuiComponent::getTheme()
+{
+    return theme.get();
 }
 
 void ofxDatGuiComponent::setVisible(bool visible)

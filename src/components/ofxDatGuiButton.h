@@ -31,7 +31,6 @@ class ofxDatGuiButton : public ofxDatGuiComponent {
         {
             mType = ofxDatGuiType::BUTTON;
             mStyle.stripe.color = ofxDatGuiComponent::theme->button.color.stripe;
-            setWidth(mStyle.width);
         }
     
         static ofxDatGuiButton* getInstance()
@@ -73,6 +72,7 @@ class ofxDatGuiButton : public ofxDatGuiComponent {
     
         void onMouseRelease(ofPoint m)
         {
+            cout << "onMouseRelease " << mName << endl;
             ofxDatGuiComponent::onFocusLost();
             ofxDatGuiComponent::onMouseRelease(m);
         // dispatch event out to main application //
@@ -97,9 +97,10 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
         ofxDatGuiToggle(string label, bool enabled) : ofxDatGuiButton(label)
         {
             mEnabled = enabled;
+            mType = ofxDatGuiType::TOGGLE;
+            radioOn.load(OFXDG_ASSET_DIR + "/icon-radio-on.png");
+            radioOff.load(OFXDG_ASSET_DIR + "/icon-radio-off.png");
             mStyle.stripe.color = ofxDatGuiComponent::theme->toggle.color.stripe;
-            if (!radioOn.isAllocated()) radioOn.load(OFXDG_ASSET_DIR+"/icon-radio-on.png");
-            if (!radioOff.isAllocated()) radioOff.load(OFXDG_ASSET_DIR+"/icon-radio-off.png");
         }
     
         void setOrigin(int x, int y)
@@ -108,15 +109,9 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
             mLabel.marginRight = mLabel.width - mIcon.x;
         }
     
-        void setTemplate(ofxDatGuiTemplate* tmplt)
-        {
-            ofxDatGuiButton::setTemplate(tmplt);
-            setWidth(mStyle.width);
-        }
-    
         void toggle()
         {
-            mEnabled =!mEnabled;
+            mEnabled = !mEnabled;
         }
     
         void setEnabled(bool enable)

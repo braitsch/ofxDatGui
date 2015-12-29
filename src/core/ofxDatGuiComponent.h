@@ -30,8 +30,6 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         ofxDatGuiComponent(string label);
         virtual ~ofxDatGuiComponent();
     
-        vector<ofxDatGuiComponent*> children;
-    
         int     getX();
         int     getY();
         void    setIndex(int index);
@@ -70,6 +68,8 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         bool    getPressed();
         ofxDatGuiType getType();
     
+        vector<ofxDatGuiComponent*> children;
+    
         virtual void draw() = 0;
         virtual void update(bool acceptEvents = true);
         virtual bool hitTest(ofPoint m);
@@ -78,7 +78,6 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         virtual void setWidth(int w);
         virtual void setOrigin(int x, int y);
         virtual void setTemplate(ofxDatGuiTemplate* t);
-        virtual void onTemplateSet(ofxDatGuiTemplate* t);
     
         virtual void setAlignment(ofxDatGuiAlignment align);
         virtual int  getWidth();
@@ -97,9 +96,8 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         virtual void onMouseRelease(ofPoint m);
         void onKeyPressed(ofKeyEventArgs &e);
         void onWindowResized(ofResizeEventArgs &e);
-    
-        static std::unique_ptr<ofxDatGuiTemplate> theme;
-        static std::unique_ptr<ofxDatGuiTemplate> getTheme();
+
+        static const ofxDatGuiTemplate* getTheme();
     
     protected:
     
@@ -116,6 +114,7 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         ofxDatGuiType mType;
         ofxDatGuiFont* mFont;
         ofxDatGuiAnchor mAnchor;
+        static std::unique_ptr<ofxDatGuiTemplate> theme;
     
         struct{
             float width;
@@ -139,7 +138,6 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
                 bool visible;
                 ofColor color;
             } stripe;
-            ofTrueTypeFont* font;
             ofColor guiBackground;
         } mStyle;
     
@@ -162,15 +160,13 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
             ofColor color;
         } mIcon;
     
-        struct {
-            int width;
-            int height;
-        } mWindow;
-    
         void drawLabel();
         void drawLabel(string label);
         void drawBkgd();
         void drawStripe();
+    
+        virtual void onWidthSet(int w);
+        virtual void onTemplateSet(ofxDatGuiTemplate* t);
     
 };
 

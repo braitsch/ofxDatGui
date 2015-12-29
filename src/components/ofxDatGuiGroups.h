@@ -160,13 +160,6 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
             return new ofxDatGuiFolder("X");
         }
     
-        void setTemplate(ofxDatGuiTemplate* tmplt)
-        {
-            ofxDatGuiGroup::setTemplate(tmplt);
-            for (int i=0; i<children.size(); i++) children[i]->setTemplate(tmplt);
-            setWidth(mStyle.width);
-        }
-    
         void drawColorPicker()
         {
             for(int i=0; i<pickers.size(); i++) pickers[i]->drawColorPicker();
@@ -358,7 +351,6 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
         }
 
     private:
-    
         vector<shared_ptr<ofxDatGuiColorPicker>> pickers;
     
 };
@@ -402,13 +394,6 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
         static ofxDatGuiDropdown* getInstance()
         {
             return new ofxDatGuiDropdown("X");
-        }
-    
-        void setTemplate(ofxDatGuiTemplate* tmplt)
-        {
-            ofxDatGuiGroup::setTemplate(tmplt);
-            for (int i=0; i<children.size(); i++) children[i]->setTemplate(tmplt);
-            setWidth(mStyle.width);
         }
     
         void select(int cIndex)

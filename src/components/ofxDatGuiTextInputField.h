@@ -36,7 +36,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
     
         ofxDatGuiTextInputField(float height)
         {
-            setTemplate(ofxDatGuiComponent::theme.get());
+            setTemplate(ofxDatGuiComponent::getTheme());
             mRect.height = height;
             mTextChanged = false;
             mHighlightText = false;
@@ -56,7 +56,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             mRect.y = y;
         }
     
-        void setTemplate(ofxDatGuiTemplate* tmplt)
+        void setTemplate(const ofxDatGuiTemplate* tmplt)
         {
             mFont = tmplt->font.ttf;
             mTextColor = tmplt->textInput.color.stripe;

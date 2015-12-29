@@ -99,6 +99,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         bool mAutoDraw;
         bool mAlphaChanged;
         bool mWidthChanged;
+        bool mThemeChanged;
         bool mAlignmentChanged;
         ofColor mBackgroundColor;
     
@@ -107,6 +108,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofxDatGuiAnchor mAnchor;
         ofxDatGuiHeader* mGuiHeader;
         ofxDatGuiFooter* mGuiFooter;
+        ofxDatGuiTemplate* mTheme;
         ofxDatGuiAlignment mAlignment;
         vector<ofxDatGuiComponent*> items;
         vector<ofxDatGuiComponent*> trash;
@@ -122,9 +124,6 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         void moveGui(ofPoint pt);
         bool hitTest(ofPoint pt);
         void attachItem(ofxDatGuiComponent* item);
-        void setGuiAlpha();
-        void setGuiWidth();
-        void setGuiAlignment();
     
         void onDraw(ofEventArgs &e);
         void onUpdate(ofEventArgs &e);

@@ -52,6 +52,7 @@ void ofxDatGui::init()
     mGuiFooter = nullptr;
     mAlphaChanged = false;
     mWidthChanged = false;
+    mThemeChanged = false;
     mAlignmentChanged = false;
     mAlignment = ofxDatGuiAlignment::LEFT;
     if (theme == nullptr){
@@ -127,11 +128,11 @@ void ofxDatGui::setWidth(int width)
 
 void ofxDatGui::setTemplate(ofxDatGuiTemplate* t)
 {
+    mTheme = t;
     setWidth(t->row.width);
     mRowSpacing = t->row.spacing;
     mBackgroundColor = t->gui.color.bkgd;
-    for (int i=0; i<items.size(); i++) items[i]->setTemplate(t);
-    layoutGui();
+    mThemeChanged = true;
 }
 
 void ofxDatGui::setOrigin(int x, int y)
@@ -703,25 +704,6 @@ void ofxDatGui::collapseGui()
     mGuiFooter->setY(mPosition.y);
 }
 
-void ofxDatGui::setGuiAlpha()
-{
-    for (int i=0; i<items.size(); i++) items[i]->setOpacity(mAlpha);
-    mAlphaChanged = false;
-}
-
-void ofxDatGui::setGuiWidth()
-{
-    for (int i=0; i<items.size(); i++) items[i]->setWidth(mWidth);
-    layoutGui();
-    mWidthChanged = false;
-}
-
-void ofxDatGui::setGuiAlignment()
-{
-    for (int i=0; i<items.size(); i++) items[i]->setAlignment(mAlignment);
-    mAlignmentChanged = false;
-}
-
 /* 
     update & draw loop
 */
@@ -730,11 +712,22 @@ void ofxDatGui::update()
 {
     if (!mVisible) return;
 
-    if (mAlphaChanged) setGuiAlpha();
-    if (mWidthChanged) setGuiWidth();
-    if (mAlignmentChanged) setGuiAlignment();
+    // check if we need to update components //
+    for (int i=0; i<items.size(); i++) {
+        if (mAlphaChanged) items[i]->setOpacity(mAlpha);
+        if (mWidthChanged) items[i]->setWidth(mWidth);
+        if (mThemeChanged) items[i]->setTemplate(mTheme);
+        if (mAlignmentChanged) items[i]->setAlignment(mAlignment);
+    }
+   if (mThemeChanged || mWidthChanged) layoutGui();
+
+    mTheme = nullptr;
+    mAlphaChanged = false;
+    mWidthChanged = false;
+    mThemeChanged = false;
+    mAlignmentChanged = false;
     
-    // first check for gui focus change //
+    // check for gui focus change //
     if (ofGetMousePressed() && mActiveGui->isMoving() == false){
         ofPoint mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
         for (int i=mGuis.size()-1; i>-1; i--){
