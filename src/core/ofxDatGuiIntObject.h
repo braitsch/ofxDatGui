@@ -68,6 +68,36 @@ inline static bool ofxDatGuiIsRetina()
     return (ofGetScreenWidth()>=OFXDG_RETINA_MIN_WIDTH && ofGetScreenHeight()>=OFXDG_RETINA_MIN_HEIGHT);
 }
 
+class ofxDatGuiFont{
+
+    public:
+    
+        ofxDatGuiFont()
+        {
+            mIsRetina = ofxDatGuiIsRetina();
+        }
+    
+        void draw(string s, int x, int y)
+        {
+            if (mIsRetina){
+                ttf->drawString(s, x, y);
+            }   else{
+                ofDrawBitmapString(s, x, y - 2);
+            }
+        }
+    
+        ofRectangle getRect(string s, int x = 0, int y = 0)
+        {
+            return ttf->getStringBoundingBox(s, x, y);
+        }
+    
+        const ofTrueTypeFont* ttf;
+    
+    private:
+        bool mIsRetina;
+    
+};
+
 class ofxDatGuiInteractiveObject{
 
     public:

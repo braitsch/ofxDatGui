@@ -52,6 +52,7 @@ enum class ofxDatGuiAlignment
 enum class ofxDatGuiType
 {
     LABEL = 0,
+    BREAK,
     BUTTON,
     TOGGLE,
     PAD2D,

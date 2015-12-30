@@ -34,6 +34,7 @@ class ofxDatGuiBreak : public ofxDatGuiComponent{
             }   else {
                 mStyle.height = ofxDatGuiComponent::theme->layout.height * .1;
             }
+            onThemeSet(ofxDatGuiComponent::theme.get());
         }
     
         void draw()

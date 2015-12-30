@@ -112,7 +112,7 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         bool mMouseDown;
         bool mRetinaEnabled;
         ofxDatGuiType mType;
-        ofxDatGuiFont* mFont;
+        ofxDatGuiFont mFont;
         ofxDatGuiAnchor mAnchor;
         static std::unique_ptr<ofxDatGuiTheme> theme;
     
@@ -122,6 +122,8 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
             float padding;
             float vMargin;
             float opacity;
+            float labelArea;
+            float labelMargin;
             struct{
                 ofColor inputArea;
                 ofColor background;
@@ -146,7 +148,7 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
             bool visible;
             ofColor color;
             float width;
-            float maxWidth;
+            int marginLeft;
             int marginRight;
             ofRectangle rect;
             bool forceUpperCase;

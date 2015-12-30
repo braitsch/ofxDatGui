@@ -378,7 +378,7 @@ class ofxDatGuiDropdownOption : public ofxDatGuiButton {
         {
             ofxDatGuiButton::onThemeSet(tmplt);
             mStyle.stripe.color = tmplt->stripe.dropdown;
-            mLabel.rect = mFont->getStringBoundingBox("* "+mLabel.text, 0, 0);
+            mLabel.rect = mFont.getRect("* "+mLabel.text);
         }
 
 };

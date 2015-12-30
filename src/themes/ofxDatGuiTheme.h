@@ -21,7 +21,8 @@
 */
 
 #pragma once
-#include "ofxDatGuiFont.h"
+#include "ofColor.h"
+#include "ofTrueTypeFont.h"
 
 class ofxDatGuiTheme{
 
@@ -32,14 +33,9 @@ class ofxDatGuiTheme{
         The properites here can be overridden by any class that extends this class.
     */
     
-        ~ofxDatGuiTheme()
-        {
-            delete font.ttf;
-        }
-    
         void init()
         {
-            font.ttf = new ofxDatGuiFont(font.file, font.size, layout.textInput.highlightPadding, color.label, color.textInput.highlight);
+            font.ttf.load(font.file, font.size);
         }
     
     /*
@@ -130,12 +126,13 @@ class ofxDatGuiTheme{
             float width = 320.0f;
             float height = 26.0f;
             float padding = 2.0f;
-            float vMargin = 1.0f;
+            float vMargin = 1.0f; // vertical spacing between gui components //
+            float labelAreaPercentage = 0.35f; // % of total component width //
+            float labelMarginPercentage = 0.04f; // % of total component width //
             
         // component specific rules & settings //
         
             struct {
-                float maxWidth = 240.0f;
                 bool forceUpperCase = true;
             } label;
         
@@ -167,10 +164,9 @@ class ofxDatGuiTheme{
     
         struct {
             int size = 6;
-            string file = "font-verdana.ttf";
-            ofxDatGuiFont* ttf;
+            string file = "ofxdatgui_assets/font-verdana.ttf";
+            ofTrueTypeFont ttf;
         } font;
-
 
 };
 

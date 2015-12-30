@@ -43,13 +43,16 @@ class ofxDatGuiMatrixButton : public ofxDatGuiInteractiveObject {
     
         void draw(int x, int y)
         {
-            mRect.x = x+origin.x;
-            mRect.y = y+origin.y;
+            mRect.x = x + origin.x;
+            mRect.y = y + origin.y;
             ofPushStyle();
                 ofFill();
                 ofSetColor(mBkgdColor);
                 ofDrawRectangle(mRect);
-                if (mShowLabels) mFont->drawText(ofToString(mIndex+1), mLabelColor, mRect.x+mRect.width/2-mFontRect.width/2, mRect.y+mRect.height/2);
+                if (mShowLabels) {
+                    ofSetColor(mLabelColor);
+                    mFont.draw(ofToString(mIndex+1), mRect.x + mRect.width/2 - mFontRect.width/2, mRect.y + mRect.height/2 + mFontRect.height/2);
+                }
             ofPopStyle();
         }
     
@@ -100,8 +103,8 @@ class ofxDatGuiMatrixButton : public ofxDatGuiInteractiveObject {
     
         void setTheme(const ofxDatGuiTheme* tmplt)
         {
-            mFont = tmplt->font.ttf;
-            mFontRect = mFont->getStringBoundingBox(ofToString(mIndex+1), 0, 0);
+            mFont.ttf = &tmplt->font.ttf;
+            mFontRect = mFont.getRect(ofToString(mIndex+1));
             mBkgdColor = tmplt->color.matrix.normal.button;
             mLabelColor = tmplt->color.matrix.normal.label;
             colors.normal.label = tmplt->color.matrix.normal.label;
@@ -123,7 +126,7 @@ class ofxDatGuiMatrixButton : public ofxDatGuiInteractiveObject {
         bool mSelected;
         bool mShowLabels;
         ofRectangle mFontRect;
-        ofxDatGuiFont* mFont;
+        ofxDatGuiFont mFont;
         struct {
             struct{
                 ofColor label;

@@ -106,6 +106,8 @@ void ofxDatGuiComponent::setTheme(ofxDatGuiTheme* tmplt)
     mStyle.height = tmplt->layout.height;
     mStyle.padding = tmplt->layout.padding;
     mStyle.vMargin = tmplt->layout.vMargin;
+    mStyle.labelArea = tmplt->layout.labelAreaPercentage;
+    mStyle.labelMargin = tmplt->layout.labelMarginPercentage;
     mStyle.color.background = tmplt->color.background;
     mStyle.color.inputArea = tmplt->color.inputAreaBackground;
     mStyle.color.onMouseOver = tmplt->color.backgroundOnMouseOver;
@@ -116,8 +118,7 @@ void ofxDatGuiComponent::setTheme(ofxDatGuiTheme* tmplt)
     mIcon.y = mStyle.height * .33;
     mIcon.size = mRetinaEnabled ? 20 : 10;
     mIcon.color = tmplt->color.icons;
-    mFont = tmplt->font.ttf;
-    mLabel.maxWidth = tmplt->layout.label.maxWidth;
+    mFont.ttf = &tmplt->font.ttf;
     mLabel.forceUpperCase = tmplt->layout.label.forceUpperCase;
     setLabel(mLabel.text);
     setWidth(mStyle.width);
@@ -128,19 +129,22 @@ void ofxDatGuiComponent::setTheme(ofxDatGuiTheme* tmplt)
 void ofxDatGuiComponent::setWidth(int w)
 {
     mStyle.width = w;
-    mLabel.width = mStyle.width * .35;
-    if (mLabel.width > mLabel.maxWidth) mLabel.width = mLabel.maxWidth;
-    mFont->labelX = (mStyle.width * .03) + 10;
+    mLabel.width = mStyle.width * mStyle.labelArea;
+    mLabel.marginLeft = mStyle.width * mStyle.labelMargin;
+    mLabel.marginRight = mStyle.width * mStyle.labelMargin;
     mIcon.x = mStyle.width - (mStyle.width * .05) - 20;
+    if (mType == ofxDatGuiType::BUTTON || mType == ofxDatGuiType::TOGGLE ||
+        mType == ofxDatGuiType::DROPDOWN || mType == ofxDatGuiType::FOLDER){
+        mLabel.width = mStyle.width;
+        if (mType != ofxDatGuiType::BUTTON){
+            mLabel.marginRight = mStyle.width - mIcon.x + (mStyle.width * mStyle.labelMargin);
+        }
+    }
     for (int i=0; i<children.size(); i++) children[i]->setWidth(w);
-  //  onWidthSet(w);
 }
 
 // methods to be overridden in derived classes after component has been updated //
-//void ofxDatGuiComponent::onWidthSet(int width) {}
-void ofxDatGuiComponent::onThemeSet(const ofxDatGuiTheme* tmplt) {
-
-}
+void ofxDatGuiComponent::onThemeSet(const ofxDatGuiTheme* tmplt) {}
 
 const ofxDatGuiTheme* ofxDatGuiComponent::getTheme()
 {
@@ -248,7 +252,7 @@ void ofxDatGuiComponent::setLabel(string label)
 {
     if (mLabel.forceUpperCase) label = ofToUpper(label);
     mLabel.text = label;
-    mLabel.rect = mFont->getStringBoundingBox(mLabel.text, 0, 0);
+    mLabel.rect = mFont.getRect(mLabel.text);
 }
 
 string ofxDatGuiComponent::getLabel()
@@ -374,15 +378,18 @@ void ofxDatGuiComponent::drawLabel()
 
 void ofxDatGuiComponent::drawLabel(string label)
 {
-    int lx;
+    float lx;
     if (mLabel.alignment == ofxDatGuiAlignment::LEFT){
-        lx = mFont->labelX;
+        lx = mLabel.marginLeft;
     }   else if (mLabel.alignment == ofxDatGuiAlignment::CENTER){
         lx = (mLabel.width / 2) - (mLabel.rect.width / 2);
     }   else if (mLabel.alignment == ofxDatGuiAlignment::RIGHT){
-        lx = mLabel.width - mLabel.rect.width - mFont->labelX - mLabel.marginRight;
+        lx = mLabel.width - mLabel.rect.width - mLabel.marginRight;
     }
-    mFont->drawLabel(label, x+lx, y+mStyle.height/2-mLabel.rect.height/2);
+    ofPushStyle();
+        ofSetColor(mLabel.color);
+        mFont.draw(mLabel.text, x+lx, y+mStyle.height/2 + mLabel.rect.height/2);
+    ofPopStyle();
 }
 
 void ofxDatGuiComponent::drawStripe()
