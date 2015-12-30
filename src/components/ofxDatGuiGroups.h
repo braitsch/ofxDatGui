@@ -119,6 +119,7 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
                     children[i]->setOrigin(x, y + mHeight);
                     mHeight += children[i]->getHeight() + mStyle.vMargin;
                 }
+                if (i == children.size()-1) mHeight -= mStyle.vMargin;
             }
         }
     
