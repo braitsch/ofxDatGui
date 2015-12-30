@@ -47,7 +47,6 @@ ofxDatGuiComponent::ofxDatGuiComponent(string label)
             theme = make_unique<ofxDatGui1440x900>();
         }
     }
-    setTheme(theme.get());
 }
 
 ofxDatGuiComponent::~ofxDatGuiComponent()
@@ -100,30 +99,29 @@ int ofxDatGuiComponent::getHeight()
     return mStyle.height;
 }
 
-void ofxDatGuiComponent::setTheme(ofxDatGuiTheme* tmplt)
+void ofxDatGuiComponent::setComponentStyle(ofxDatGuiTheme* theme)
 {
-    mStyle.width = tmplt->layout.width;
-    mStyle.height = tmplt->layout.height;
-    mStyle.padding = tmplt->layout.padding;
-    mStyle.vMargin = tmplt->layout.vMargin;
-    mStyle.labelArea = tmplt->layout.labelAreaPercentage;
-    mStyle.labelMargin = tmplt->layout.labelMarginPercentage;
-    mStyle.color.background = tmplt->color.background;
-    mStyle.color.inputArea = tmplt->color.inputAreaBackground;
-    mStyle.color.onMouseOver = tmplt->color.backgroundOnMouseOver;
-    mStyle.color.onMouseDown = tmplt->color.backgroundOnMouseDown;
-    mStyle.stripe.width = tmplt->stripe.width;
-    mStyle.stripe.visible = tmplt->stripe.visible;
-    mStyle.guiBackground = tmplt->color.guiBackground;
+    mStyle.width = theme->layout.width;
+    mStyle.height = theme->layout.height;
+    mStyle.padding = theme->layout.padding;
+    mStyle.vMargin = theme->layout.vMargin;
+    mStyle.labelArea = theme->layout.labelAreaPercentage;
+    mStyle.labelMargin = theme->layout.labelMarginPercentage;
+    mStyle.color.background = theme->color.background;
+    mStyle.color.inputArea = theme->color.inputAreaBackground;
+    mStyle.color.onMouseOver = theme->color.backgroundOnMouseOver;
+    mStyle.color.onMouseDown = theme->color.backgroundOnMouseDown;
+    mStyle.stripe.width = theme->stripe.width;
+    mStyle.stripe.visible = theme->stripe.visible;
+    mStyle.guiBackground = theme->color.guiBackground;
     mIcon.y = mStyle.height * .33;
     mIcon.size = mRetinaEnabled ? 20 : 10;
-    mIcon.color = tmplt->color.icons;
-    mFont.ttf = &tmplt->font.ttf;
-    mLabel.forceUpperCase = tmplt->layout.label.forceUpperCase;
+    mIcon.color = theme->color.icons;
+    mFont.ttf = &theme->font.ttf;
+    mLabel.forceUpperCase = theme->layout.label.forceUpperCase;
     setLabel(mLabel.text);
     setWidth(mStyle.width);
-    for (int i=0; i<children.size(); i++) children[i]->setTheme(tmplt);
-    onThemeSet(tmplt);
+    for (int i=0; i<children.size(); i++) children[i]->setTheme(theme);
 }
 
 void ofxDatGuiComponent::setWidth(int w)
@@ -142,9 +140,6 @@ void ofxDatGuiComponent::setWidth(int w)
     }
     for (int i=0; i<children.size(); i++) children[i]->setWidth(w);
 }
-
-// methods to be overridden in derived classes after component has been updated //
-void ofxDatGuiComponent::onThemeSet(const ofxDatGuiTheme* tmplt) {}
 
 const ofxDatGuiTheme* ofxDatGuiComponent::getTheme()
 {
@@ -167,7 +162,7 @@ bool ofxDatGuiComponent::getVisible()
 
 void ofxDatGuiComponent::setOpacity(float opacity)
 {
-    mStyle.opacity = opacity*255;
+    mStyle.opacity = opacity * 255;
     for (int i=0; i<children.size(); i++) children[i]->setOpacity(opacity);
 }
 

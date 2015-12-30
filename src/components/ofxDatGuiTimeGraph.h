@@ -46,7 +46,16 @@ class ofxDatGuiTimeGraph : public ofxDatGuiComponent {
         ofxDatGuiTimeGraph(string label) : ofxDatGuiComponent(label)
         {
             mDrawFunc = &ofxDatGuiTimeGraph::drawFilled;
-            onThemeSet(ofxDatGuiComponent::getTheme());
+        }
+    
+        void setTheme(ofxDatGuiTheme* theme)
+        {
+            setComponentStyle(theme);
+            mStyle.height = theme->layout.graph.height;
+            mStyle.stripe.color = theme->stripe.graph;
+            mPointSize = theme->layout.graph.pointSize;
+            mLineWeight = theme->layout.graph.lineWeight;
+            setWidth(mStyle.width);
         }
     
         void draw()
@@ -122,15 +131,6 @@ class ofxDatGuiTimeGraph : public ofxDatGuiComponent {
             mPlotterRect.width = mStyle.width - mStyle.padding - mLabel.width;
             mPlotterRect.height = mStyle.height - (mStyle.padding*2);
         }
-    
-        void onThemeSet(const ofxDatGuiTheme* tmplt)
-        {
-            mStyle.height = tmplt->layout.graph.height;
-            mStyle.stripe.color = tmplt->stripe.graph;
-            mPointSize = tmplt->layout.graph.pointSize;
-            mLineWeight = tmplt->layout.graph.lineWeight;
-            setWidth(mStyle.width);
-        }
 
         int mPointSize;
         int mLineWeight;
@@ -149,6 +149,7 @@ class ofxDatGuiWaveMonitor : public ofxDatGuiTimeGraph {
             setAmplitude(amplitude);
             setFrequency(frequency);
             mType = ofxDatGuiType::WAVE_MONITOR;
+            setTheme(ofxDatGuiComponent::theme.get());
         }
     
         static ofxDatGuiWaveMonitor* getInstance()

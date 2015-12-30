@@ -30,7 +30,14 @@ class ofxDatGuiButton : public ofxDatGuiComponent {
         ofxDatGuiButton(string label) : ofxDatGuiComponent(label)
         {
             mType = ofxDatGuiType::BUTTON;
-            onThemeSet(ofxDatGuiComponent::getTheme());
+            setTheme(ofxDatGuiComponent::theme.get());
+        }
+    
+        void setTheme(ofxDatGuiTheme* theme)
+        {
+            setComponentStyle(theme);
+            mLabel.width = mStyle.width;
+            mStyle.stripe.color = theme->stripe.button;
         }
     
         void draw()
@@ -80,12 +87,6 @@ class ofxDatGuiButton : public ofxDatGuiComponent {
             }
         }
     
-        void onThemeSet(const ofxDatGuiTheme* tmplt)
-        {
-            mLabel.width = mStyle.width;
-            mStyle.stripe.color = ofxDatGuiComponent::theme->stripe.button;
-        }
-    
 };
 
 class ofxDatGuiToggle : public ofxDatGuiButton {
@@ -98,7 +99,14 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
             mType = ofxDatGuiType::TOGGLE;
             radioOn.load(OFXDG_ASSET_DIR + "/icon-radio-on.png");
             radioOff.load(OFXDG_ASSET_DIR + "/icon-radio-off.png");
-            onThemeSet(ofxDatGuiComponent::getTheme());
+            setTheme(ofxDatGuiComponent::theme.get());
+        }
+    
+        void setTheme(ofxDatGuiTheme* theme)
+        {
+            setComponentStyle(theme);
+            mLabel.marginRight = mLabel.width - mIcon.x;
+            mStyle.stripe.color = theme->stripe.toggle;
         }
     
         void toggle()
@@ -145,12 +153,6 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
             }   else{
                 ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
             }
-        }
-    
-        void onThemeSet(const ofxDatGuiTheme* tmplt)
-        {
-            mLabel.marginRight = mLabel.width - mIcon.x;
-            mStyle.stripe.color = ofxDatGuiComponent::theme->stripe.toggle;
         }
     
     private:

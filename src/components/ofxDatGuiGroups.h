@@ -41,6 +41,11 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
             mImage.load(OFXDG_ASSET_DIR+"/icon-dropdown.png");
         }
     
+        void setTheme(ofxDatGuiTheme* theme)
+        {
+            setComponentStyle(theme);
+        }
+    
         void setWidth(int w)
         {
             ofxDatGuiComponent::setWidth(w);
@@ -364,7 +369,14 @@ class ofxDatGuiDropdownOption : public ofxDatGuiButton {
     
         ofxDatGuiDropdownOption(string label) : ofxDatGuiButton(label)
         {
-            onThemeSet(ofxDatGuiComponent::getTheme());
+            setTheme(ofxDatGuiComponent::theme.get());
+        }
+    
+        void setTheme(ofxDatGuiTheme* theme)
+        {
+            ofxDatGuiButton::setTheme(theme);
+            mStyle.stripe.color = theme->stripe.dropdown;
+            mLabel.rect = mFont.getRect("* "+mLabel.text);
         }
     
         void draw()
@@ -372,13 +384,6 @@ class ofxDatGuiDropdownOption : public ofxDatGuiButton {
             ofxDatGuiButton::drawBkgd();
             ofxDatGuiComponent::drawLabel("* "+mLabel.text);
             ofxDatGuiComponent::drawStripe();
-        }
-    
-        void onThemeSet(const ofxDatGuiTheme* tmplt)
-        {
-            ofxDatGuiButton::onThemeSet(tmplt);
-            mStyle.stripe.color = tmplt->stripe.dropdown;
-            mLabel.rect = mFont.getRect("* "+mLabel.text);
         }
 
 };
@@ -397,12 +402,14 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
                 opt->onButtonEvent(this, &ofxDatGuiDropdown::onOptionSelected);
                 children.push_back(opt);
             }
-            onThemeSet(ofxDatGuiComponent::getTheme());
+            setTheme(ofxDatGuiComponent::theme.get());
         }
     
-        static ofxDatGuiDropdown* getInstance()
+        void setTheme(ofxDatGuiTheme* theme)
         {
-            return new ofxDatGuiDropdown("X");
+            setComponentStyle(theme);
+            mLabel.marginRight = mLabel.width - mIcon.x;
+            mStyle.stripe.color = theme->stripe.dropdown;
         }
     
         void select(int cIndex)
@@ -430,13 +437,9 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
             return static_cast<ofxDatGuiDropdownOption*>(children[mOption]);
         }
     
-    private:
+        static ofxDatGuiDropdown* getInstance() { return new ofxDatGuiDropdown("X"); }
     
-        void onThemeSet(const ofxDatGuiTheme* tmplt)
-        {
-            mLabel.marginRight = mLabel.width - mIcon.x;
-            mStyle.stripe.color = tmplt->stripe.dropdown;
-        }
+    private:
     
         void onOptionSelected(ofxDatGuiButtonEvent e)
         {

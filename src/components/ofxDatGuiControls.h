@@ -30,7 +30,14 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
         ofxDatGuiHeader(string label, bool draggable = true) : ofxDatGuiButton(label)
         {
             mDraggable = draggable;
-            onThemeSet(ofxDatGuiComponent::getTheme());
+            setTheme(ofxDatGuiComponent::theme.get());
+        }
+    
+        void setTheme(ofxDatGuiTheme* theme)
+        {
+            setComponentStyle(theme);
+            mStyle.height = mStyle.height * .8;
+            mLabel.alignment = ofxDatGuiAlignment::CENTER;
         }
     
         void draw()
@@ -78,13 +85,6 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
             ofxDatGuiComponent::onMouseRelease(m);
         }
     
-        void onThemeSet(const ofxDatGuiTheme* tmplt)
-        {
-            ofxDatGuiButton::onThemeSet(tmplt);
-            mStyle.height = mStyle.height * .8;
-            mLabel.alignment = ofxDatGuiAlignment::CENTER;
-        }
-    
     // allow panel to be dragged around //
         void onFocusLost() {}
     // force header label to always be centered //
@@ -105,7 +105,14 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
             mGuiCollapsed = false;
             mLabelCollapsed = "expand controls";
             mLabelExpanded = "collapse controls";
-            onThemeSet(ofxDatGuiComponent::getTheme());
+            setTheme(ofxDatGuiComponent::theme.get());
+        }
+    
+        void setTheme(ofxDatGuiTheme* theme)
+        {
+            setComponentStyle(theme);
+            mStyle.height = mStyle.height * .8;
+            mLabel.alignment = ofxDatGuiAlignment::CENTER;
         }
     
         void setLabelWhenExpanded(string label)
@@ -143,13 +150,6 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
             }   else{
                 setLabel(mLabelCollapsed);
             }
-        }
-    
-        void onThemeSet(const ofxDatGuiTheme* tmplt)
-        {
-            ofxDatGuiButton::onThemeSet(tmplt);
-            mStyle.height = mStyle.height * .8;
-            mLabel.alignment = ofxDatGuiAlignment::CENTER;
         }
     
     // force footer label to always be centered //

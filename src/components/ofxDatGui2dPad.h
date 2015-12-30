@@ -33,7 +33,7 @@ class ofxDatGui2dPad : public ofxDatGuiComponent {
             mScaleOnResize = true;
             mBounds = ofRectangle(0, 0, ofGetWidth(), ofGetHeight());
             mType = ofxDatGuiType::PAD2D;
-            onThemeSet(ofxDatGuiComponent::getTheme());
+            setTheme(ofxDatGuiComponent::theme.get());
         }
     
         ofxDatGui2dPad(string label, ofRectangle bounds) : ofxDatGuiComponent(label)
@@ -42,15 +42,18 @@ class ofxDatGui2dPad : public ofxDatGuiComponent {
             mBounds = bounds;
             mScaleOnResize = false;
             mType = ofxDatGuiType::PAD2D;
-            onThemeSet(ofxDatGuiComponent::getTheme());
+            setTheme(ofxDatGuiComponent::theme.get());
         }
     
-        void reset()
+        void setTheme(ofxDatGuiTheme* theme)
         {
-            mx = 0.5f;
-            my = 0.5f;
-            pWorld.x = mBounds.x + (mBounds.width*mx);
-            pWorld.y = mBounds.y + (mBounds.height*my);
+            setComponentStyle(theme);
+            mStyle.height = theme->layout.pad2d.height;
+            mStyle.stripe.color = theme->stripe.pad2d;
+            mColors.line = theme->color.pad2d.line;
+            mColors.ball = theme->color.pad2d.ball;
+            mColors.fill = theme->color.inputAreaBackground;
+            mPad = ofRectangle(0, 0, mStyle.width - mStyle.padding - mLabel.width, mStyle.height - (mStyle.padding * 2));
         }
     
         void setBounds(ofRectangle bounds)
@@ -73,6 +76,14 @@ class ofxDatGui2dPad : public ofxDatGuiComponent {
         ofPoint getPosition()
         {
             return pWorld;
+        }
+    
+        void reset()
+        {
+            mx = 0.5f;
+            my = 0.5f;
+            pWorld.x = mBounds.x + (mBounds.width*mx);
+            pWorld.y = mBounds.y + (mBounds.height*my);
         }
     
         void draw()
@@ -117,16 +128,6 @@ class ofxDatGui2dPad : public ofxDatGuiComponent {
                     ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
                 }
             }
-        }
-    
-        void onThemeSet(const ofxDatGuiTheme* tmplt)
-        {
-            mStyle.height = tmplt->layout.pad2d.height;
-            mStyle.stripe.color = tmplt->stripe.pad2d;
-            mColors.line = tmplt->color.pad2d.line;
-            mColors.ball = tmplt->color.pad2d.ball;
-            mColors.fill = tmplt->color.inputAreaBackground;
-            mPad = ofRectangle(0, 0, mStyle.width - mStyle.padding - mLabel.width, mStyle.height - (mStyle.padding * 2));
         }
     
     private:

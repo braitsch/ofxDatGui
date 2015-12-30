@@ -31,10 +31,10 @@ class ofxDatGuiTextInput : public ofxDatGuiComponent {
         ofxDatGuiTextInput(string label, string text = "") : ofxDatGuiComponent(label)
         {
             mType = ofxDatGuiType::TEXT_INPUT;
-            input = new ofxDatGuiTextInputField(mStyle.height - (mStyle.padding * 2));
+            input = new ofxDatGuiTextInputField();
             input->setText(text);
             input->onInternalEvent(this, &ofxDatGuiTextInput::onInputChanged);
-            onThemeSet(ofxDatGuiComponent::getTheme());
+            setTheme(ofxDatGuiComponent::theme.get());
         }
     
         ~ofxDatGuiTextInput()
@@ -42,19 +42,12 @@ class ofxDatGuiTextInput : public ofxDatGuiComponent {
             delete input;
         }
     
-        static ofxDatGuiTextInput* getInstance()
+        void setTheme(ofxDatGuiTheme* theme)
         {
-            return new ofxDatGuiTextInput("X");
-        }
-    
-        string getText()
-        {
-            return input->getText();
-        }
-    
-        void setText(string text)
-        {
-            return input->setText(text);
+            setComponentStyle(theme);
+            mStyle.stripe.color = theme->stripe.textInput;
+            input->setTheme(theme);
+            setWidth(mStyle.width);
         }
     
         void setWidth(int w)
@@ -68,6 +61,16 @@ class ofxDatGuiTextInput : public ofxDatGuiComponent {
         {
             ofxDatGuiComponent::setOrigin(x, y);
             input->setOrigin(x + mLabel.width, y + mStyle.padding);
+        }
+    
+        string getText()
+        {
+            return input->getText();
+        }
+    
+        void setText(string text)
+        {
+            return input->setText(text);
         }
     
         void draw()
@@ -85,6 +88,8 @@ class ofxDatGuiTextInput : public ofxDatGuiComponent {
         {
             return input->hitTest(m);
         }
+    
+        static ofxDatGuiTextInput* getInstance(){ return new ofxDatGuiTextInput("X"); }
     
     protected:
 
@@ -116,13 +121,6 @@ class ofxDatGuiTextInput : public ofxDatGuiComponent {
             }   else{
                 ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
             }
-        }
-    
-        void onThemeSet(const ofxDatGuiTheme* tmplt)
-        {
-            mStyle.stripe.color = tmplt->stripe.textInput;
-            input->setTheme(tmplt);
-            setWidth(mStyle.width);
         }
     
         ofxDatGuiTextInputField* input;

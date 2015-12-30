@@ -78,7 +78,7 @@ void ofApp::setup()
 //  gui->setAlignment(ofxDatGuiAlignment::RIGHT);
     
 // let's launch the app fullscreen //
-    mFullscreen = true;
+//    mFullscreen = true;
     refreshWindow();
 }
 

@@ -35,10 +35,10 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
             mVal = val;
             mPrecision = 2;
             mType = ofxDatGuiType::SLIDER;
-            input = new ofxDatGuiTextInputField(mStyle.height - (mStyle.padding * 2));
+            input = new ofxDatGuiTextInputField();
             input->setTextInputFieldType(ofxDatGuiTextInputField::NUMERIC);
             input->onInternalEvent(this, &ofxDatGuiSlider::onInputChanged);
-            onThemeSet(ofxDatGuiComponent::getTheme());
+            setTheme(ofxDatGuiComponent::theme.get());
         }
     
         ofxDatGuiSlider(string label, float min, float max) : ofxDatGuiSlider(label, min, max, (max+min)/2) {}
@@ -46,6 +46,35 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
         ~ofxDatGuiSlider()
         {
             delete input;
+        }
+    
+        void setTheme(ofxDatGuiTheme* theme)
+        {
+            setComponentStyle(theme);
+            mSliderFill = theme->color.slider.fill;
+            mBackgroundFill = theme->color.inputAreaBackground;
+            mStyle.stripe.color = theme->stripe.slider;
+            input->setTheme(theme);
+            input->setTextInactiveColor(theme->color.slider.text);
+            calculateScale();
+            setWidth(mStyle.width);
+        }
+    
+        void setWidth(int w)
+        {
+            ofxDatGuiComponent::setWidth(w);
+            float totalWidth = mStyle.width - mLabel.width;
+            mSliderWidth = totalWidth * .7;
+            mInputX = mLabel.width + mSliderWidth + mStyle.padding;
+            mInputWidth = totalWidth - mSliderWidth - (mStyle.padding * 2);
+            input->setWidth(mInputWidth);
+            input->setOrigin(x + mInputX, y + mStyle.padding);
+        }
+    
+        void setOrigin(int x, int y)
+        {
+            ofxDatGuiComponent::setOrigin(x, y);
+            input->setOrigin(x + mInputX, y + mStyle.padding);
         }
     
         void setPrecision(int precision)
@@ -80,23 +109,6 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
         float getScale()
         {
             return mScale;
-        }
-    
-        void setWidth(int w)
-        {
-            ofxDatGuiComponent::setWidth(w);
-            float totalWidth = mStyle.width - mLabel.width;
-            mSliderWidth = totalWidth * .7;
-            mInputX = mLabel.width + mSliderWidth + mStyle.padding;
-            mInputWidth = totalWidth - mSliderWidth - (mStyle.padding * 2);
-            input->setWidth(mInputWidth);
-            input->setOrigin(x + mInputX, y + mStyle.padding);
-        }
-    
-        void setOrigin(int x, int y)
-        {
-            ofxDatGuiComponent::setOrigin(x, y);
-            input->setOrigin(x + mInputX, y + mStyle.padding);
         }
 
     /*
@@ -249,17 +261,6 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
         void onKeyPressed(int key)
         {
             if (mInputActive) input->onKeyPressed(key);
-        }
-    
-        void onThemeSet(const ofxDatGuiTheme* tmplt)
-        {
-            mSliderFill = tmplt->color.slider.fill;
-            mBackgroundFill = tmplt->color.inputAreaBackground;
-            mStyle.stripe.color = tmplt->stripe.slider;
-            input->setTheme(tmplt);
-            input->setTextInactiveColor(tmplt->color.slider.text);
-            calculateScale();
-            setWidth(mStyle.width);
         }
 
     private:

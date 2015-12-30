@@ -153,19 +153,17 @@ class ofxDatGuiMatrix : public ofxDatGuiComponent {
             mNumButtons = numButtons;
             mShowLabels = showLabels;
             mType = ofxDatGuiType::MATRIX;
-            onThemeSet(ofxDatGuiComponent::getTheme());
-        }
-
-        void setOrigin(int x, int y)
-        {
-            ofxDatGuiComponent::setOrigin(x, y);
-            mMatrixRect.x = x + mLabel.width;
-            mMatrixRect.y = y + mStyle.padding;
+            setTheme(ofxDatGuiComponent::theme.get());
         }
     
-        void setRadioMode(bool enabled)
+        void setTheme(ofxDatGuiTheme* theme)
         {
-            mRadioMode = enabled;
+            setComponentStyle(theme);
+            mFillColor = theme->color.inputAreaBackground;
+            mButtonSize = theme->layout.matrix.buttonSize;
+            mStyle.stripe.color = theme->stripe.matrix;
+            attachButtons(theme);
+            setWidth(mStyle.width);
         }
     
         void setWidth(int w)
@@ -184,6 +182,18 @@ class ofxDatGuiMatrix : public ofxDatGuiComponent {
             }
             mStyle.height = (mStyle.padding*2) + ((mButtonSize + padding) * (nRows - 1)) + mButtonSize;
             mMatrixRect.height = mStyle.height - (mStyle.padding * 2);
+        }
+    
+        void setOrigin(int x, int y)
+        {
+            ofxDatGuiComponent::setOrigin(x, y);
+            mMatrixRect.x = x + mLabel.width;
+            mMatrixRect.y = y + mStyle.padding;
+        }
+    
+        void setRadioMode(bool enabled)
+        {
+            mRadioMode = enabled;
         }
     
         bool hitTest(ofPoint m)
@@ -236,15 +246,6 @@ class ofxDatGuiMatrix : public ofxDatGuiComponent {
         static ofxDatGuiMatrix* getInstance() { return new ofxDatGuiMatrix("X", 0); }
     
     protected:
-    
-        void onThemeSet(const ofxDatGuiTheme* tmplt)
-        {
-            mFillColor = tmplt->color.inputAreaBackground;
-            mButtonSize = tmplt->layout.matrix.buttonSize;
-            mStyle.stripe.color = tmplt->stripe.matrix;
-            attachButtons(tmplt);
-            setWidth(mStyle.width);
-        }
     
         void onMouseRelease(ofPoint m)
         {

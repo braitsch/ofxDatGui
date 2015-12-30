@@ -34,9 +34,8 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             COLORPICKER
         };
     
-        ofxDatGuiTextInputField(float height)
+        ofxDatGuiTextInputField()
         {
-            mInputRect.height = height;
             mFocused = false;
             mTextChanged = false;
             mHighlightText = false;
@@ -59,6 +58,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
         void setTheme(const ofxDatGuiTheme* tmplt)
         {
             mFont.ttf = &tmplt->font.ttf;
+            mInputRect.height = tmplt->layout.height - (tmplt->layout.padding * 2);
             color.active.background = tmplt->color.backgroundOnMouseOver;
             color.inactive.background = tmplt->color.inputAreaBackground;
             color.active.text = tmplt->color.label;
