@@ -11,7 +11,7 @@ void ofApp::setup()
     gui = new ofxDatGui( ofxDatGuiAnchor::TOP_RIGHT );
     
 //  uncomment this line to assign a custom theme //
-    gui->setTheme(new ofxDatGuiExampleCustomTheme());
+    gui->setTheme(new ofxDatGuiTheme2());
     
 // add some components //
     gui->addTextInput("message", "# open frameworks #");
@@ -78,7 +78,7 @@ void ofApp::setup()
 //  gui->setAlignment(ofxDatGuiAlignment::RIGHT);
     
 // let's launch the app fullscreen //
-//    mFullscreen = true;
+    mFullscreen = true;
     refreshWindow();
 }
 

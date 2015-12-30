@@ -127,6 +127,7 @@ class ofxDatGuiTheme{
             float height = 26.0f;
             float padding = 2.0f;
             float vMargin = 1.0f; // vertical spacing between gui components //
+            float iconSize = 10.0f;
             float labelAreaPercentage = 0.35f; // % of total component width //
             float labelMarginPercentage = 0.04f; // % of total component width //
             
@@ -167,6 +168,8 @@ class ofxDatGuiTheme{
             string file = "ofxdatgui_assets/font-verdana.ttf";
             ofTrueTypeFont ttf;
         } font;
+    
+        static ofColor hex(int n) { return ofColor::fromHex(n); }
 
 };
 

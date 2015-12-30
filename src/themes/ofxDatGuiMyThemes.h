@@ -27,22 +27,43 @@
     Add your custom themes here and ensure they extend ofxDatGuiTheme
 */
 
-class ofxDatGuiExampleCustomTheme : public ofxDatGui2880x1800{
+class ofxDatGuiTheme1 : public ofxDatGui2880x1800{
 
     public:
     
-        ofxDatGuiExampleCustomTheme()
+        ofxDatGuiTheme1()
         {
-    // look inside of ofxDatGuiTheme for a full list of settings you can override //
             stripe.visible = false;
-            color.label = ofColor::fromHex(0xF8F3F0);
-            color.background = ofColor::fromHex(0x4C4743);
-            color.inputAreaBackground = ofColor::fromHex(0xB5BCB2);
-            color.slider.fill = ofColor::fromHex(0xFFB230);
-            color.slider.text = ofColor::fromHex(0xF8F3F0);
-            color.textInput.text = ofColor::fromHex(0xF8F3F0);
-            color.colorPicker.border = ofColor::fromHex(0xEEEEEE);
-    // and don't forget to call init when you're done //
+            color.label = hex(0xF8F3F0);
+            color.background = hex(0x4C4743);
+            color.inputAreaBackground = hex(0xB5BCB2);
+            color.slider.fill = hex(0xFFB230);
+            color.slider.text = hex(0xFFFFFF);
+            color.textInput.text = hex(0xFFFFFF);
+            color.colorPicker.border = hex(0xF8F3F0);
+            color.matrix.hover.button = hex(0xC3A279);
+            color.matrix.selected.button = hex(0x4C4743);
+            init();
+        }
+};
+
+class ofxDatGuiTheme2 : public ofxDatGui2880x1800{
+
+    public:
+    
+        ofxDatGuiTheme2()
+        {
+            stripe.visible = false;
+            color.guiBackground = hex(0x001727);
+            color.label = hex(0xF8F3F0);
+            color.background = hex(0x162C3A);
+            color.inputAreaBackground = hex(0x61717D);
+            color.slider.fill = hex(0xF8F3F0);
+            color.slider.text = hex(0xFFFFFF);
+            color.textInput.text = hex(0xFFFFFF);
+            color.colorPicker.border = hex(0xF8F3F0);
+            color.matrix.hover.button = hex(0x55666F);
+            color.matrix.selected.button = hex(0x334553);
             init();
         }
 };

@@ -753,7 +753,7 @@ void ofxDatGui::update()
                 items[i]->update();
                 if (items[i]->getFocused()) {
                     activeItemIndex = i;
-                    if (mGuiHeader != nullptr && mGuiHeader->getDraggable() && mGuiHeader->getPressed()){
+                    if (mGuiHeader != nullptr && mGuiHeader->getDraggable() && mGuiHeader->getFocused()){
                 // track that we're moving to force preserve focus //
                         mMoving = true;
                         ofPoint mouse = ofPoint(ofGetMouseX(), ofGetMouseY());

@@ -34,14 +34,12 @@ ofxDatGuiComponent::ofxDatGuiComponent(string label)
     mMouseOver = false;
     mMouseDown = false;
     mStyle.opacity = 255;
-    mRetinaEnabled = ofxDatGuiIsRetina();
     mAnchor = ofxDatGuiAnchor::NO_ANCHOR;
     mLabel.text = label;
-    mLabel.marginRight = 0;
     mLabel.alignment = ofxDatGuiAlignment::LEFT;
     if (theme == nullptr){
     // load a default theme //
-        if (mRetinaEnabled){
+        if (ofxDatGuiIsRetina()){
             theme = make_unique<ofxDatGui2880x1800>();
         } else {
             theme = make_unique<ofxDatGui1440x900>();
@@ -114,10 +112,10 @@ void ofxDatGuiComponent::setComponentStyle(ofxDatGuiTheme* theme)
     mStyle.stripe.width = theme->stripe.width;
     mStyle.stripe.visible = theme->stripe.visible;
     mStyle.guiBackground = theme->color.guiBackground;
-    mIcon.y = mStyle.height * .33;
-    mIcon.size = mRetinaEnabled ? 20 : 10;
-    mIcon.color = theme->color.icons;
     mFont.ttf = &theme->font.ttf;
+    mIcon.y = mStyle.height * .33;
+    mIcon.color = theme->color.icons;
+    mIcon.size = theme->layout.iconSize;
     mLabel.forceUpperCase = theme->layout.label.forceUpperCase;
     setLabel(mLabel.text);
     setWidth(mStyle.width);
@@ -186,11 +184,6 @@ void ofxDatGuiComponent::setFocused(bool focused)
 }
 
 bool ofxDatGuiComponent::getFocused()
-{
-    return mFocused;
-}
-
-bool ofxDatGuiComponent::getPressed()
 {
     return mFocused;
 }

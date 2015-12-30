@@ -30,6 +30,7 @@ ofxDatGui2880x1800::ofxDatGui2880x1800()
     layout.height *= 2;
     layout.padding *= 2;
     layout.vMargin *= 2;
+    layout.iconSize *= 2;
     layout.matrix.buttonSize = 47;
     layout.textInput.highlightPadding *= 2;
     init();
