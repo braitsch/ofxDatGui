@@ -30,47 +30,41 @@ class ofxDatGuiTextInput : public ofxDatGuiComponent {
     
         ofxDatGuiTextInput(string label, string text = "") : ofxDatGuiComponent(label)
         {
+            mInput.setText(text);
+            mInput.onInternalEvent(this, &ofxDatGuiTextInput::onInputChanged);
             mType = ofxDatGuiType::TEXT_INPUT;
-            input = new ofxDatGuiTextInputField();
-            input->setText(text);
-            input->onInternalEvent(this, &ofxDatGuiTextInput::onInputChanged);
             setTheme(ofxDatGuiComponent::theme.get());
-        }
-    
-        ~ofxDatGuiTextInput()
-        {
-            delete input;
         }
     
         void setTheme(ofxDatGuiTheme* theme)
         {
             setComponentStyle(theme);
             mStyle.stripe.color = theme->stripe.textInput;
-            input->setTheme(theme);
+            mInput.setTheme(theme);
             setWidth(mStyle.width);
         }
     
         void setWidth(int w)
         {
             ofxDatGuiComponent::setWidth(w);
-            input->setOrigin(x + mLabel.width, y + mStyle.padding);
-            input->setWidth(mStyle.width-mStyle.padding-mLabel.width);
+            mInput.setOrigin(x + mLabel.width, y + mStyle.padding);
+            mInput.setWidth(mStyle.width-mStyle.padding-mLabel.width);
         }
     
         void setOrigin(int x, int y)
         {
             ofxDatGuiComponent::setOrigin(x, y);
-            input->setOrigin(x + mLabel.width, y + mStyle.padding);
+            mInput.setOrigin(x + mLabel.width, y + mStyle.padding);
         }
     
         string getText()
         {
-            return input->getText();
+            return mInput.getText();
         }
     
         void setText(string text)
         {
-            return input->setText(text);
+            return mInput.setText(text);
         }
     
         void draw()
@@ -80,13 +74,13 @@ class ofxDatGuiTextInput : public ofxDatGuiComponent {
                 ofxDatGuiComponent::drawBkgd();
                 ofxDatGuiComponent::drawLabel();
                 ofxDatGuiComponent::drawStripe();
-                input->draw();
+                mInput.draw();
             ofPopStyle();
         }
     
         bool hitTest(ofPoint m)
         {
-            return input->hitTest(m);
+            return mInput.hitTest(m);
         }
     
         static ofxDatGuiTextInput* getInstance(){ return new ofxDatGuiTextInput("X"); }
@@ -95,13 +89,13 @@ class ofxDatGuiTextInput : public ofxDatGuiComponent {
 
         void onFocus()
         {
-            input->onFocus();
+            mInput.onFocus();
             ofxDatGuiComponent::onFocus();
         }
     
         void onFocusLost()
         {
-            input->onFocusLost();
+            mInput.onFocusLost();
             ofxDatGuiComponent::onFocusLost();
         }
     
@@ -109,21 +103,21 @@ class ofxDatGuiTextInput : public ofxDatGuiComponent {
         {
             if (key != OF_KEY_UP &&
                 key != OF_KEY_DOWN)
-            input->onKeyPressed(key);
+            mInput.onKeyPressed(key);
         }
     
         virtual void onInputChanged(ofxDatGuiInternalEvent e)
         {
         // dispatch event out to main application //
             if (textInputEventCallback != nullptr) {
-                ofxDatGuiTextInputEvent ev(this, input->getText());
+                ofxDatGuiTextInputEvent ev(this, mInput.getText());
                 textInputEventCallback(ev);
             }   else{
                 ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
             }
         }
     
-        ofxDatGuiTextInputField* input;
+        ofxDatGuiTextInputField mInput;
     
 };
 

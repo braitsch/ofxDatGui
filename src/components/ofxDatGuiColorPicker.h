@@ -30,13 +30,13 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
         ofxDatGuiColorPicker(string label, ofColor color=ofColor::black) : ofxDatGuiTextInput(label, "XXXXXX")
         {
             mColor = color;
-            mType = ofxDatGuiType::COLOR_PICKER;
             mShowPicker = false;
+            mType = ofxDatGuiType::COLOR_PICKER;
             rainbow.image.load(OFXDG_ASSET_DIR + "/picker-rainbow.png");
             setTheme(ofxDatGuiComponent::theme.get());
             
         // center the text input field //
-            input->setTextInputFieldType(ofxDatGuiTextInputField::COLORPICKER);
+            mInput.setTextInputFieldType(ofxDatGuiTextInputField::COLORPICKER);
             setTextFieldInputColor();
             
         // setup the vbo that draws the gradient //
@@ -55,7 +55,7 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
         {
             setComponentStyle(theme);
             mStyle.stripe.color = theme->stripe.colorPicker;
-            pickerRect = ofRectangle(0, 0, input->getWidth(), (mStyle.height + mStyle.padding) * 3);
+            pickerRect = ofRectangle(0, 0, mInput.getWidth(), (mStyle.height + mStyle.padding) * 3);
             rainbow.rect = ofRectangle(0, 0, 20, pickerRect.height - (mStyle.padding * 2));
             gradientRect = ofRectangle(0, 0, pickerRect.width - rainbow.rect.width - (mStyle.padding * 3), rainbow.rect.height);
             pickerBorder = theme->color.colorPicker.border;
@@ -92,8 +92,8 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
                 ofxDatGuiTextInput::draw();
                 if (mShowPicker) {
                     pickerRect.x = this->x + mLabel.width;
-                    pickerRect.y = this->y + mStyle.padding + input->getHeight();
-                    pickerRect.width = input->getWidth();
+                    pickerRect.y = this->y + mStyle.padding + mInput.getHeight();
+                    pickerRect.width = mInput.getWidth();
                     rainbow.rect.x = pickerRect.x + pickerRect.width - rainbow.rect.width - mStyle.padding;
                     rainbow.rect.y = pickerRect.y + mStyle.padding;
                     gradientRect.x = pickerRect.x + mStyle.padding;
@@ -128,7 +128,7 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
     
         bool hitTest(ofPoint m)
         {
-            if (input->hitTest(m)){
+            if (mInput.hitTest(m)){
                 return true;
             }   else if (mShowPicker && pickerRect.inside(m)){
                 unsigned char p[3];
@@ -172,21 +172,21 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
         {
             mShowPicker = false;
             ofxDatGuiTextInput::onMouseLeave(mouse);
-            if (!input->hasFocus()) ofxDatGuiComponent::onFocusLost();
+            if (!mInput.hasFocus()) ofxDatGuiComponent::onFocusLost();
         }
     
         void onMousePress(ofPoint mouse)
         {
             ofxDatGuiComponent::onMousePress(mouse);
-            if (input->hitTest(mouse)) input->onFocus();
+            if (mInput.hitTest(mouse)) mInput.onFocus();
         }
     
         void onInputChanged(ofxDatGuiInternalEvent e)
         {
-            mColor = ofColor::fromHex(ofHexToInt(input->getText()));
+            mColor = ofColor::fromHex(ofHexToInt(mInput.getText()));
         // set the input field text & background colors //
-            input->setBackgroundColor(mColor);
-            input->setTextInactiveColor(mColor.getBrightness() < BRIGHTNESS_THRESHOLD ? ofColor::white : ofColor::black);
+            mInput.setBackgroundColor(mColor);
+            mInput.setTextInactiveColor(mColor.getBrightness() < BRIGHTNESS_THRESHOLD ? ofColor::white : ofColor::black);
         // update the gradient picker //
             gColors[1] = mColor;
             vbo.setColorData(&gColors[0], 4, GL_DYNAMIC_DRAW );
@@ -206,9 +206,9 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
             ss<< std::hex << mColor.getHex();
             std::string res ( ss.str() );
             while(res.size() < 6) res+="0";
-            input->setText(ofToUpper(res));
-            input->setBackgroundColor(mColor);
-            input->setTextInactiveColor(mColor.getBrightness() < BRIGHTNESS_THRESHOLD ? ofColor::white : ofColor::black);
+            mInput.setText(ofToUpper(res));
+            mInput.setBackgroundColor(mColor);
+            mInput.setTextInactiveColor(mColor.getBrightness() < BRIGHTNESS_THRESHOLD ? ofColor::white : ofColor::black);
         }
     
     private:
