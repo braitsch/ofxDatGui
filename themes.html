@@ -72,19 +72,26 @@
 	</nav>
 
 	<div class="container">
-		<div class="jumbotron">
+		<div class="well" style='margin-top:80px;'>
 			<h2>Themes</h2>
-			<h4>ofxDatGui is easily customizeable via <b>themes</b> that you can apply to individual components or entire guis.</h4>
-			<h4>Themes are created by simply extending the <a href='https://raw.githubusercontent.com/braitsch/ofxDatGui/master/src/templates/ofxDatGuiTheme.h'>ofxDatGuiTheme</a> class and are applied to components by calling <code>ofxDatGuiComponent::setTheme(ofxDatGuiTheme* myTheme)</code> and passing in a reference to your theme.</h4>
+			<h4>ofxDatGui is easily customizeable via <b>themes</b> that you can apply to individual components or entire Guis.</h4>
+
+			<p>Themes allow you to customize both the color palette and layout characteristics of components and are easily created by simply extending the <a href='https://raw.githubusercontent.com/braitsch/ofxDatGui/master/src/templates/ofxDatGuiTheme.h'>ofxDatGuiTheme</a> class which exposes the properties that can be changed.</p> 
+
+			<p>Themes can be applied to any component or Gui by calling <code>setTheme</code> and passing in a reference to your theme.</p>
+			<pre class="prettyprint">ofxDatGui* myGui = new ofxDatGui( ofxDatGuiAnchor::TOP_RIGHT );
+myGui->setTheme(new ofxDatGuiTheme1());</pre>
 		</div>
+
+	<!-- theme 1 -->
 
 		<div class='theme'>
 			<h4>Theme 1</h4>
-<pre class="prettyprint" style="height:396px;">
+<pre class="prettyprint" style="height:401px;">
 #pragma once
 #include "ofxDatGuiTheme.h"
 
-class ofxDatGuiTheme1 : public ofxDatGuiTheme {
+class ofxDatGuiTheme1 : public ofxDatGuiTheme{
 
     public:
         ofxDatGuiTheme1()
@@ -99,18 +106,19 @@ class ofxDatGuiTheme1 : public ofxDatGuiTheme {
             color.colorPicker.border = hex(0xF8F3F0);
             color.matrix.hover.button = hex(0xC3A279);
             color.matrix.selected.button = hex(0x4C4743);
-            init();
+            font.load();
         }
 };
 </pre>
 		<img src="img/themes/theme-01.png"/>
 		</div>
-
 		<hr>
+
+	<!-- theme 2 -->
 
 		<div class='theme'>
 			<h4>Theme 2</h4>
-<pre class="prettyprint">
+<pre class="prettyprint" style="height:421px;">
 #pragma once
 #include "ofxDatGuiTheme.h"
 
@@ -130,13 +138,17 @@ class ofxDatGuiTheme2 : public ofxDatGuiTheme{
             color.colorPicker.border = hex(0xF8F3F0);
             color.matrix.hover.button = hex(0x55666F);
             color.matrix.selected.button = hex(0x334553);
-            init();
+            font.load();
         }
 };
 </pre>
 		<img src="img/themes/theme-02.png"/>
 		</div>
+		<hr>
 
+	<!-- theme 3 -->
+
+	<!-- end container -->
 	</div>
 	
 	<footer class="site-footer">
