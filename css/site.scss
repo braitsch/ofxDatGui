@@ -68,12 +68,13 @@ pre.prettyprint{
 
 .theme, pre{
 	clear: both;
+	overflow:hidden;
 	pre{
-		width:75%;
+		width:76%;
 		float:left;
 	}
 	img{
-		width:24%;
+		width:23.684210526316%;
 		float:right;
 	}
 }

@@ -53,12 +53,13 @@ pre.prettyprint {
   color: #888; }
 
 .theme, pre {
-  clear: both; }
+  clear: both;
+  overflow: hidden; }
   .theme pre, pre pre {
-    width: 75%;
+    width: 76%;
     float: left; }
   .theme img, pre img {
-    width: 24%;
+    width: 23.684210526316%;
     float: right; }
 
 /*# sourceMappingURL=site.css.map */

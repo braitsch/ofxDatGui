@@ -78,11 +78,9 @@
 			<h4>Themes are created by simply extending the <a href='https://raw.githubusercontent.com/braitsch/ofxDatGui/master/src/templates/ofxDatGuiTheme.h'>ofxDatGuiTheme</a> class and are applied to components by calling <code>ofxDatGuiComponent::setTheme(ofxDatGuiTheme* myTheme)</code> and passing in a reference to your theme.</h4>
 		</div>
 
-
 		<div class='theme'>
 			<h4>Theme 1</h4>
-			<hr>	
-<pre class="prettyprint">
+<pre class="prettyprint" style="height:396px;">
 #pragma once
 #include "ofxDatGuiTheme.h"
 
@@ -108,14 +106,15 @@ class ofxDatGuiTheme1 : public ofxDatGuiTheme {
 		<img src="img/themes/theme-01.png"/>
 		</div>
 
+		<hr>
+
 		<div class='theme'>
 			<h4>Theme 2</h4>
-			<hr>	
 <pre class="prettyprint">
 #pragma once
 #include "ofxDatGuiTheme.h"
 
-class ofxDatGuiTheme2 : public ofxDatGui2880x1800{
+class ofxDatGuiTheme2 : public ofxDatGuiTheme{
 
     public:
         ofxDatGuiTheme2()
@@ -135,7 +134,7 @@ class ofxDatGuiTheme2 : public ofxDatGui2880x1800{
         }
 };
 </pre>
-		<img src="img/themes/theme-01.png"/>
+		<img src="img/themes/theme-02.png"/>
 		</div>
 
 	</div>
