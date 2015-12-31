@@ -21,9 +21,9 @@
 */
 
 #pragma once
+#include "ofxDatGuiMyThemes.h"
 #include "ofxDatGuiEvents.h"
 #include "ofxDatGuiConstants.h"
-#include "ofxDatGuiMyThemes.h"
 
 namespace ofxDatGuiMsg
 {
@@ -61,11 +61,6 @@ inline static float ofxDatGuiScale(float val, float min, float max)
     }   else{
         return (val-min)/(max-min);
     }
-}
-
-inline static bool ofxDatGuiIsRetina()
-{
-    return (ofGetScreenWidth()>=OFXDG_RETINA_MIN_WIDTH && ofGetScreenHeight()>=OFXDG_RETINA_MIN_HEIGHT);
 }
 
 class ofxDatGuiFont{

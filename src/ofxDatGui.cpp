@@ -55,14 +55,8 @@ void ofxDatGui::init()
     mThemeChanged = false;
     mAlignmentChanged = false;
     mAlignment = ofxDatGuiAlignment::LEFT;
-    if (theme == nullptr){
-    // load a default theme //
-        if (ofxDatGuiIsRetina()){
-            theme = make_unique<ofxDatGui2880x1800>();
-        } else {
-            theme = make_unique<ofxDatGui1440x900>();
-        }
-    }
+// load a default theme //
+    if (theme == nullptr) theme = make_unique<ofxDatGuiTheme>(true);
     mAlpha = 1.0f;
     mWidth = theme->layout.width;
     mRowSpacing = theme->layout.vMargin;

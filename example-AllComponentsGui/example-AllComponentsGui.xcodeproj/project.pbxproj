@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8A8DBFA31C33A02B0022544D /* ofxDatGuiTheme.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A8DBFA11C33A02B0022544D /* ofxDatGuiTheme.cpp */; };
 		8AB357521BB2302E002AC802 /* ofxDatGuiComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8AB357471BB2302E002AC802 /* ofxDatGuiComponent.cpp */; };
 		8AB357531BB2302E002AC802 /* ofxDatGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8AB3574D1BB2302E002AC802 /* ofxDatGui.cpp */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
@@ -47,7 +46,6 @@
 /* Begin PBXFileReference section */
 		8A1D66EC1BC7570800D30189 /* ofxDatGuiTimeGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiTimeGraph.h; sourceTree = "<group>"; };
 		8A8DBFA01C33A02B0022544D /* ofxDatGuiMyThemes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiMyThemes.h; sourceTree = "<group>"; };
-		8A8DBFA11C33A02B0022544D /* ofxDatGuiTheme.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxDatGuiTheme.cpp; sourceTree = "<group>"; };
 		8A8DBFA21C33A02B0022544D /* ofxDatGuiTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiTheme.h; sourceTree = "<group>"; };
 		8AB3573B1BB2302E002AC802 /* ofxDatGui2dPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGui2dPad.h; sourceTree = "<group>"; };
 		8AB3573C1BB2302E002AC802 /* ofxDatGuiButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiButton.h; sourceTree = "<group>"; };
@@ -92,9 +90,8 @@
 		8A8DBF9F1C33A02B0022544D /* themes */ = {
 			isa = PBXGroup;
 			children = (
-				8A8DBFA01C33A02B0022544D /* ofxDatGuiMyThemes.h */,
-				8A8DBFA11C33A02B0022544D /* ofxDatGuiTheme.cpp */,
 				8A8DBFA21C33A02B0022544D /* ofxDatGuiTheme.h */,
+				8A8DBFA01C33A02B0022544D /* ofxDatGuiMyThemes.h */,
 			);
 			name = themes;
 			path = ../src/themes;
@@ -283,7 +280,6 @@
 				8AB357531BB2302E002AC802 /* ofxDatGui.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
 				8AB357521BB2302E002AC802 /* ofxDatGuiComponent.cpp in Sources */,
-				8A8DBFA31C33A02B0022544D /* ofxDatGuiTheme.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

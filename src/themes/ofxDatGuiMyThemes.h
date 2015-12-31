@@ -27,7 +27,7 @@
     Add your custom themes here and ensure they extend ofxDatGuiTheme
 */
 
-class ofxDatGuiTheme1 : public ofxDatGui2880x1800{
+class ofxDatGuiTheme1 : public ofxDatGuiTheme{
 
     public:
     
@@ -43,11 +43,11 @@ class ofxDatGuiTheme1 : public ofxDatGui2880x1800{
             color.colorPicker.border = hex(0xF8F3F0);
             color.matrix.hover.button = hex(0xC3A279);
             color.matrix.selected.button = hex(0x4C4743);
-            init();
+            font.load();
         }
 };
 
-class ofxDatGuiTheme2 : public ofxDatGui2880x1800{
+class ofxDatGuiTheme2 : public ofxDatGuiTheme{
 
     public:
     
@@ -64,7 +64,7 @@ class ofxDatGuiTheme2 : public ofxDatGui2880x1800{
             color.colorPicker.border = hex(0xF8F3F0);
             color.matrix.hover.button = hex(0x55666F);
             color.matrix.selected.button = hex(0x334553);
-            init();
+            font.load();
         }
 };
 

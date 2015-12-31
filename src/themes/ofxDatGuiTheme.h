@@ -21,8 +21,15 @@
 */
 
 #pragma once
-#include "ofColor.h"
-#include "ofTrueTypeFont.h"
+#include "ofMain.h"
+
+#define RETINA_MIN_WIDTH 2560
+#define RETINA_MIN_HEIGHT 1600
+
+inline static bool ofxDatGuiIsRetina()
+{
+    return (ofGetScreenWidth() >= RETINA_MIN_WIDTH && ofGetScreenHeight() >= RETINA_MIN_HEIGHT);
+}
 
 class ofxDatGuiTheme{
 
@@ -33,9 +40,25 @@ class ofxDatGuiTheme{
         The properites here can be overridden by any class that extends this class.
     */
     
-        void init()
+        ofxDatGuiTheme(bool autoInitialize = false)
         {
-            font.ttf.load(font.file, font.size);
+            if (ofxDatGuiIsRetina()){
+                font.size *= 2;
+                stripe.width *= 2;
+                layout.width = 540;
+                layout.height *= 2;
+                layout.padding *= 2;
+                layout.vMargin *= 2;
+                layout.iconSize *= 2;
+                layout.graph.height *=2;
+                layout.pad2d.height *=2;
+                layout.pad2d.ballSize *=2;
+                layout.pad2d.lineWeight *=2;
+                layout.matrix.height *=2;
+                layout.matrix.buttonSize = 47;
+                layout.textInput.highlightPadding *= 2;
+            }
+            if (autoInitialize) font.load();
         }
     
     /*
@@ -169,36 +192,11 @@ class ofxDatGuiTheme{
             int size = 6;
             string file = "ofxdatgui_assets/font-verdana.ttf";
             ofTrueTypeFont ttf;
+            void load(){ ttf.load(file, size); }
         } font;
     
         static ofColor hex(int n) { return ofColor::fromHex(n); }
 
-};
-
-/*
-    15" RETINA MACBOOK PRO
-*/
-
-class ofxDatGui2880x1800 : public ofxDatGuiTheme
-{
-    public:
-        ofxDatGui2880x1800();
-        static ofxDatGuiTheme* get();
-    private:
-        static unique_ptr<ofxDatGui2880x1800> tmplt;
-};
-
-/*
-    15" NON-RETINA MACBOOK PRO
-*/
-
-class ofxDatGui1440x900 : public ofxDatGuiTheme
-{
-    public:
-        ofxDatGui1440x900();
-        static ofxDatGuiTheme* get();
-    private:
-        static unique_ptr<ofxDatGui1440x900> tmplt;
 };
 
 
