@@ -44,6 +44,8 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
         void setTheme(ofxDatGuiTheme* theme)
         {
             setComponentStyle(theme);
+            mLabel.width = mStyle.width;
+            mLabel.marginRight = mStyle.width - mIcon.x + (mStyle.width * mStyle.labelMargin);
         }
     
         void setWidth(int w)
@@ -159,7 +161,6 @@ class ofxDatGuiFolder : public ofxDatGuiGroup {
     // all items within a folder share the same stripe color //
             mStyle.stripe.color = color;
             mType = ofxDatGuiType::FOLDER;
-            onThemeSet(ofxDatGuiComponent::getTheme());
         }
     
         void drawColorPicker()
@@ -354,11 +355,6 @@ class ofxDatGuiFolder : public ofxDatGuiGroup {
         static ofxDatGuiFolder* getInstance() { return new ofxDatGuiFolder("X"); }
 
     protected:
-
-        void onThemeSet(const ofxDatGuiTheme* tmplt)
-        {
-            mLabel.marginRight = mLabel.width - mIcon.x;
-        }
     
         vector<shared_ptr<ofxDatGuiColorPicker>> pickers;
     
@@ -409,8 +405,9 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
         void setTheme(ofxDatGuiTheme* theme)
         {
             setComponentStyle(theme);
-            mLabel.marginRight = mLabel.width - mIcon.x;
+            mLabel.width = mStyle.width;
             mStyle.stripe.color = theme->stripe.dropdown;
+            mLabel.marginRight = mStyle.width - mIcon.x + (mStyle.width * mStyle.labelMargin);
         }
     
         void select(int cIndex)

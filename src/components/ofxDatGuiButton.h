@@ -105,8 +105,9 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
         void setTheme(ofxDatGuiTheme* theme)
         {
             setComponentStyle(theme);
-            mLabel.marginRight = mLabel.width - mIcon.x;
             mStyle.stripe.color = theme->stripe.toggle;
+            mLabel.width = mStyle.width;
+            mLabel.marginRight = mStyle.width - mIcon.x + (mStyle.width * mStyle.labelMargin);
         }
     
         void toggle()

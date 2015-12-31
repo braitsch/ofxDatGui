@@ -123,13 +123,9 @@ void ofxDatGuiComponent::setWidth(int w)
     mLabel.marginLeft = mStyle.width * mStyle.labelMargin;
     mLabel.marginRight = mStyle.width * mStyle.labelMargin;
     mIcon.x = mStyle.width - (mStyle.width * .05) - 20;
-    if (mType == ofxDatGuiType::BUTTON || mType == ofxDatGuiType::TOGGLE ||
-        mType == ofxDatGuiType::DROPDOWN || mType == ofxDatGuiType::FOLDER){
-        mLabel.width = mStyle.width;
-        if (mType != ofxDatGuiType::BUTTON){
-            mLabel.marginRight = mStyle.width - mIcon.x + (mStyle.width * mStyle.labelMargin);
-        }
-    }
+//    if (mType == ofxDatGuiType::BUTTON || mType == ofxDatGuiType::TOGGLE ||
+//        mType == ofxDatGuiType::DROPDOWN || mType == ofxDatGuiType::FOLDER){
+//    }
     for (int i=0; i<children.size(); i++) children[i]->setWidth(w);
 }
 

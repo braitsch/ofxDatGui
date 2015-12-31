@@ -64,14 +64,12 @@ class ofxDatGuiLabel : public ofxDatGuiComponent{
 
     public:
         
-        ofxDatGuiLabel(string label) : ofxDatGuiComponent(label)
-        {
-            onThemeSet(ofxDatGuiComponent::getTheme());
-        }
+        ofxDatGuiLabel(string label) : ofxDatGuiComponent(label) { }
     
         void setTheme(ofxDatGuiTheme* theme)
         {
             setComponentStyle(theme);
+            mStyle.stripe.color = theme->stripe.label;
         }
     
         void draw()
@@ -79,13 +77,6 @@ class ofxDatGuiLabel : public ofxDatGuiComponent{
             ofxDatGuiComponent::drawBkgd();
             ofxDatGuiComponent::drawLabel();
             ofxDatGuiComponent::drawStripe();
-        }
-    
-    protected:
-    
-        void onThemeSet(const ofxDatGuiTheme* tmplt)
-        {
-            mStyle.stripe.color = tmplt->stripe.label;
         }
 
 

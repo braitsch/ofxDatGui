@@ -37,6 +37,7 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
         {
             setComponentStyle(theme);
             mStyle.height = mStyle.height * .8;
+            mLabel.width = mStyle.width;
             mLabel.alignment = ofxDatGuiAlignment::CENTER;
         }
     
@@ -112,6 +113,7 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
         {
             setComponentStyle(theme);
             mStyle.height = mStyle.height * .8;
+            mLabel.width = mStyle.width;
             mLabel.alignment = ofxDatGuiAlignment::CENTER;
         }
     
