@@ -211,10 +211,10 @@ void ofxDatGuiComponent::setAnchor(ofxDatGuiAnchor anchor)
     onWindowResized();
 }
 
-void ofxDatGuiComponent::setAlignment(ofxDatGuiAlignment align)
+void ofxDatGuiComponent::setLabelAlignment(ofxDatGuiAlignment align)
 {
     mLabel.alignment = align;
-    for (int i=0; i<children.size(); i++) children[i]->setAlignment(align);
+    for (int i=0; i<children.size(); i++) children[i]->setLabelAlignment(align);
 }
 
 bool ofxDatGuiComponent::getIsExpanded()

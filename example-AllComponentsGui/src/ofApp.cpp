@@ -11,7 +11,7 @@ void ofApp::setup()
     gui = new ofxDatGui( ofxDatGuiAnchor::TOP_RIGHT );
     
 //  uncomment this line to assign a custom theme //
-    gui->setTheme(new ofxDatGuiTheme2());
+    gui->setTheme(new ofxDatGuiTheme1());
     
 // add some components //
     gui->addTextInput("message", "# open frameworks #");

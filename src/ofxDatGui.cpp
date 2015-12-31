@@ -166,7 +166,7 @@ bool ofxDatGui::getAutoDraw()
     return mAutoDraw;
 }
 
-void ofxDatGui::setAlignment(ofxDatGuiAlignment align)
+void ofxDatGui::setLabelAlignment(ofxDatGuiAlignment align)
 {
     mAlignment = align;
     mAlignmentChanged = true;
@@ -711,7 +711,7 @@ void ofxDatGui::update()
         if (mAlphaChanged) items[i]->setOpacity(mAlpha);
         if (mWidthChanged) items[i]->setWidth(mWidth);
         if (mThemeChanged) items[i]->setTheme(mTheme);
-        if (mAlignmentChanged) items[i]->setAlignment(mAlignment);
+        if (mAlignmentChanged) items[i]->setLabelAlignment(mAlignment);
     }
    if (mThemeChanged || mWidthChanged) layoutGui();
 

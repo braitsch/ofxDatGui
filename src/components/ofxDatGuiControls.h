@@ -89,7 +89,7 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
     // allow panel to be dragged around //
         void onFocusLost() {}
     // force header label to always be centered //
-        void setAlignment(ofxDatGuiAlignment align) {}
+        void setLabelAlignment(ofxDatGuiAlignment align) {}
     
     private:
         bool mDraggable;
@@ -155,7 +155,7 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
         }
     
     // force footer label to always be centered //
-        void setAlignment(ofxDatGuiAlignment align) {}
+        void setLabelAlignment(ofxDatGuiAlignment align) {}
     
     private:
         bool mGuiCollapsed;

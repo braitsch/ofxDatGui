@@ -78,7 +78,7 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         virtual void setOrigin(int x, int y);
         virtual void setTheme(ofxDatGuiTheme* theme) = 0;
     
-        virtual void setAlignment(ofxDatGuiAlignment align);
+        virtual void setLabelAlignment(ofxDatGuiAlignment align);
         virtual int  getWidth();
         virtual int  getHeight();
         virtual bool getIsExpanded();
