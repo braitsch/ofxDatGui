@@ -53,6 +53,8 @@ class ofxDatGui2dPad : public ofxDatGuiComponent {
             mColors.line = theme->color.pad2d.line;
             mColors.ball = theme->color.pad2d.ball;
             mColors.fill = theme->color.inputAreaBackground;
+            mBallSize = theme->layout.pad2d.ballSize;
+            mLineWeight = theme->layout.pad2d.lineWeight;
             mPad = ofRectangle(0, 0, mStyle.width - mStyle.padding - mLabel.width, mStyle.height - (mStyle.padding * 2));
         }
     
@@ -100,12 +102,12 @@ class ofxDatGui2dPad : public ofxDatGuiComponent {
                 ofxDatGuiComponent::drawStripe();
                 ofSetColor(mColors.fill);
                 ofDrawRectangle(mPad);
-                ofSetLineWidth(2);
+                ofSetLineWidth(mLineWeight);
                 ofSetColor(mColors.line);
                 ofDrawLine(mPad.x, pLocal.y, mPad.x + mPad.width, pLocal.y);
                 ofDrawLine(pLocal.x, mPad.y, pLocal.x, mPad.y + mPad.height);
                 ofSetColor(mColors.ball);
-                ofDrawCircle(pLocal, 10);
+                ofDrawCircle(pLocal, mBallSize);
             ofPopStyle();
         }
     
@@ -138,6 +140,8 @@ class ofxDatGui2dPad : public ofxDatGuiComponent {
         ofPoint pWorld;
         ofRectangle mPad;
         ofRectangle mBounds;
+        int mBallSize;
+        int mLineWeight;
         struct{
             ofColor fill;
             ofColor line;

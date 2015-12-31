@@ -143,18 +143,20 @@ class ofxDatGuiTheme{
             } textInput;
         
             struct {
-                int height = 164;
+                int height = 82;
+                int ballSize = 5;
+                int lineWeight = 1;
             } pad2d;
         
             struct {
-                int height = 140;
+                int height = 70;
                 int pointSize = 2;
                 int lineWeight = 2;
             } graph;
         
             struct {
-                int height = 164;
-                int buttonSize = 47;
+                int height = 82;
+                int buttonSize = 27;
             } matrix;
             
         } layout;

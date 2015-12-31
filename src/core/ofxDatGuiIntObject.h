@@ -71,19 +71,10 @@ inline static bool ofxDatGuiIsRetina()
 class ofxDatGuiFont{
 
     public:
-    
-        ofxDatGuiFont()
-        {
-            mIsRetina = ofxDatGuiIsRetina();
-        }
-    
+
         void draw(string s, int x, int y)
         {
-            if (mIsRetina){
-                ttf->drawString(s, x, y);
-            }   else{
-                ofDrawBitmapString(s, x, y - 2);
-            }
+            ttf->drawString(s, x, y);
         }
     
         ofRectangle getRect(string s, int x = 0, int y = 0)
@@ -92,9 +83,6 @@ class ofxDatGuiFont{
         }
     
         const ofTrueTypeFont* ttf;
-    
-    private:
-        bool mIsRetina;
     
 };
 
