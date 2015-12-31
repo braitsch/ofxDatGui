@@ -58,12 +58,12 @@
 						<ul class="dropdown-menu">
 							<li><a href="./index.html#component-search">Component Search</a></li>
 							<li><a href="./index.html#variable-binding">Variable Binding</a></li>
-							<li><a href="./index.html#customization">Customization</a></li>
 							<li><a href="./index.html#auto-rendering">Auto Rendering</a></li>
 							<li><a href="./index.html#logging">Logging</a></li>
 							<li><a href="./index.html#save-load-settings">Save/Load Settings</a></li>
 						</ul>
 					</li>
+					<li><a href="./themes.html">Themes</a></li>
 					<li><a href="./gallery.html">Gallery</a></li>
 					<li><a href="https://github.com/braitsch/ofxDatGui">Source</a></li>
 				</ul>
@@ -305,13 +305,29 @@ myInput-&gt;setText("Freddy");
 
 			<p>Every <strong>ofxDatGuiComponent</strong> has a mutable name & label that can easily be retrieved or changed via:</p>
 
-<pre class="prettyprint">item-&gt;getName();
+<pre class="prettyprint">
+item-&gt;getName();
 item-&gt;setName(string name);
 item-&gt;getLabel();
 item-&gt;setLabel(string label);
 </pre>
 
-			<p>In addition some components have methods (typically getters &amp; setters) that allow for the retrieval and manipulation of its unique properties. <strong>Take a look at the included example for each component for a more detailed description of its API.</strong></p>
+			<p>As well as the following methods that allow you to affect its visual state:</p> 
+
+<pre class="prettyprint">
+item-&gt;setWidth(int width);
+item-&gt;setOrigin(int x, int y);
+item-&gt;setOpacity(float opacity); // a value between 0 &amp; 1 //
+item-&gt;setVisible(bool visible);
+item-&gt;setEnabled(bool enabled);
+item-&gt;setTheme(ofxDatGuiTheme* theme);
+item-&gt;setLabelAlignment(ofxDatGuiAlignment alignment); // left, right, or center //
+</pre>
+
+			<hr>
+			<h2>Component Methods</h2>
+
+			<p>In addition to the above some components also have methods (typically getters &amp; setters) that allow for the retrieval and manipulation of its unique properties. <strong>Take a look at the included example for each component for a more detailed description of its API.</strong></p>
 
 			<p><strong>Text Input</strong></p>
 
@@ -575,80 +591,6 @@ bool e.enabled // enabled state of the selected button
 <pre class="prettyprint">ofxDatGuiSliderEvent e
 float value = e.target-&gt;getValue();
 float scale = e.target-&gt;getScale();
-</pre>
-
-		</div>
-
-	<!-- customization -->
-
-		<div class='well'>
-
-			<h2><a id="customization" class="anchor" href="#customization" aria-hidden="true"></a>Customization</h2>
-
-			<p>Just about every aspect of <strong>ofxDatGui's</strong> appearance can be tailored to meet your needs.<br>Customization is accomplished via extensible themes or templates where you define how you want <strong>ofxDatGui</strong> to render.</p>
-			
-			<p>Just create a class that extends <code>ofxDatGuiTemplate</code> and pass it to <strong>ofxDatGui</strong> or any component via <code>gui-&gt;setTemplate()</code></p>
-
-<pre class="prettyprint">class myCustomTemplate : public ofxDatGuiTemplate
-{
-    public:
-        myCustomTemplate() {
-        // row characteristics //
-            row.width   = 540;
-            row.height  = 52;
-            row.padding = 4;
-            row.spacing = 2;
-            row.stripeWidth = 4;
-        // font characteristics //
-            font.file   = "PillGothic-Light.ttf"
-            font.size   = 12;
-            font.highlightPadding = 4;
-        // gui / component colors //
-            row.color.bkgd = ofColor::fromHex(0x1A1A1A);
-            row.color.label = ofColor::fromHex(0xEEEEEE);
-            row.color.mouseOver = ofColor::fromHex(0x777777);
-            row.color.mouseDown = ofColor::fromHex(0x222222);
-            row.color.inputArea = ofColor::fromHex(0x303030);
-        // after everything is setup initialize the template // 
-            init();
-        }
-};
-// assign this template to a gui instance //
-    gui = new ofxDatGui();
-    gui-&gt;setTemplate(new myCustomTemplate());
-</pre>
-
-			<p>Take a look at the <a href="https://raw.githubusercontent.com/braitsch/ofxDatGui/master/src/templates/ofxDatGuiTemplate.h">ofxDatGuiTemplate</a> base class for a list of everything that can be customized.</p>
-
-			<hr>
-
-			<p>Additionally all components and gui instances provide the following instance methods.</p>
-
-<pre class="prettyprint">setWidth(int width);
-setOrigin(int x, int y);
-setOpacity(float opacity); // a value between 0 &amp; 1 //
-setVisible(bool visible);
-setEnabled(bool enabled);
-setAlignment(ofxDatGuiAlignment alignment);
-</pre>
-
-		</div>
-
-	<!-- label-alignment -->
-
-		<div class='well'>
-
-			<h2><a id="label-alignment" class="anchor" href="#label-alignment" aria-hidden="true"></a>Label Alignment</h2>
-
-			<p>You can set the label alignment for each component or on <strong>ofxDatGui</strong> itself via:</p>
-
-<pre class="prettyprint">gui-&gt;setAlignment(ofxDatGuiAlignment alignment);</pre>
-
-			<p>Valid values are:</p>
-
-<pre class="prettyprint">ofxDatGuiAlignment::LEFT
-ofxDatGuiAlignment::CENTER
-ofxDatGuiAlignment::RIGHT
 </pre>
 
 		</div>

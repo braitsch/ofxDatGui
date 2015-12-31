@@ -66,3 +66,15 @@ pre.prettyprint{
 	color:#888;
 }
 
+.theme, pre{
+	clear: both;
+	pre{
+		width:75%;
+		float:left;
+	}
+	img{
+		width:24%;
+		float:right;
+	}
+}
+
