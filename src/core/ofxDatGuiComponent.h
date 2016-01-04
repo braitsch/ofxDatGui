@@ -74,9 +74,9 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         virtual bool hitTest(ofPoint m);
 
         virtual void setY(int y);
-        virtual void setWidth(int w);
         virtual void setOrigin(int x, int y);
         virtual void setTheme(ofxDatGuiTheme* theme) = 0;
+        virtual void setWidth(int width, float labelWidth);
     
         virtual void setLabelAlignment(ofxDatGuiAlignment align);
         virtual int  getWidth();
@@ -120,7 +120,6 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
             float padding;
             float vMargin;
             float opacity;
-            float labelArea;
             float labelMargin;
             struct{
                 ofColor inputArea;

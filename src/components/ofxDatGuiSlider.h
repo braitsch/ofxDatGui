@@ -57,12 +57,12 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
             input->setTheme(theme);
             input->setTextInactiveColor(theme->color.slider.text);
             calculateScale();
-            setWidth(mStyle.width);
+            setWidth(theme->layout.width, theme->layout.labelWidth);
         }
     
-        void setWidth(int w)
+        void setWidth(int width, float labelWidth)
         {
-            ofxDatGuiComponent::setWidth(w);
+            ofxDatGuiComponent::setWidth(width, labelWidth);
             float totalWidth = mStyle.width - mLabel.width;
             mSliderWidth = totalWidth * .7;
             mInputX = mLabel.width + mSliderWidth + mStyle.padding;

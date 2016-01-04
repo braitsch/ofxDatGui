@@ -93,11 +93,9 @@ int ofxDatGuiComponent::getHeight()
 
 void ofxDatGuiComponent::setComponentStyle(ofxDatGuiTheme* theme)
 {
-    mStyle.width = theme->layout.width;
     mStyle.height = theme->layout.height;
     mStyle.padding = theme->layout.padding;
     mStyle.vMargin = theme->layout.vMargin;
-    mStyle.labelArea = theme->layout.labelAreaPercentage;
     mStyle.labelMargin = theme->layout.labelMarginPercentage;
     mStyle.color.background = theme->color.background;
     mStyle.color.inputArea = theme->color.inputAreaBackground;
@@ -113,18 +111,24 @@ void ofxDatGuiComponent::setComponentStyle(ofxDatGuiTheme* theme)
     mLabel.color = theme->color.label;
     mLabel.forceUpperCase = theme->layout.label.forceUpperCase;
     setLabel(mLabel.text);
-    setWidth(mStyle.width);
+    setWidth(theme->layout.width, theme->layout.labelWidth);
     for (int i=0; i<children.size(); i++) children[i]->setTheme(theme);
 }
 
-void ofxDatGuiComponent::setWidth(int w)
+void ofxDatGuiComponent::setWidth(int width, float labelWidth)
 {
-    mStyle.width = w;
-    mLabel.width = mStyle.width * mStyle.labelArea;
+    mStyle.width = width;
+    if (labelWidth > 1){
+// we received a pixel value //
+        mLabel.width = labelWidth;
+    }   else{
+// we received a percentage //
+        mLabel.width = mStyle.width * labelWidth;
+    }
+    mIcon.x = mStyle.width - (mStyle.width * .05) - 20;
     mLabel.marginLeft = mStyle.width * mStyle.labelMargin;
     mLabel.marginRight = mStyle.width * mStyle.labelMargin;
-    mIcon.x = mStyle.width - (mStyle.width * .05) - 20;
-    for (int i=0; i<children.size(); i++) children[i]->setWidth(w);
+    for (int i=0; i<children.size(); i++) children[i]->setWidth(width, labelWidth);
 }
 
 const ofxDatGuiTheme* ofxDatGuiComponent::getTheme()

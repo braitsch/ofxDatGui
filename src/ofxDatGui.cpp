@@ -113,9 +113,10 @@ bool ofxDatGui::getFocused()
     return mActiveGui == this;
 }
 
-void ofxDatGui::setWidth(int width)
+void ofxDatGui::setWidth(int width, float labelWidth)
 {
     mWidth = width;
+    mLabelWidth = labelWidth;
     mWidthChanged = true;
     if (mAnchor != ofxDatGuiAnchor::NO_ANCHOR) anchorGui();
 }
@@ -123,7 +124,7 @@ void ofxDatGui::setWidth(int width)
 void ofxDatGui::setTheme(ofxDatGuiTheme* t)
 {
     mTheme = t;
-    setWidth(t->layout.width);
+    setWidth(t->layout.width, t->layout.labelWidth);
     mRowSpacing = t->layout.vMargin;
     mGuiBackground = t->color.guiBackground;
     mThemeChanged = true;
@@ -714,8 +715,8 @@ void ofxDatGui::update()
     // check if we need to update components //
     for (int i=0; i<items.size(); i++) {
         if (mAlphaChanged) items[i]->setOpacity(mAlpha);
-        if (mWidthChanged) items[i]->setWidth(mWidth);
         if (mThemeChanged) items[i]->setTheme(mTheme);
+        if (mWidthChanged) items[i]->setWidth(mWidth, mLabelWidth);
         if (mAlignmentChanged) items[i]->setLabelAlignment(mAlignment);
     }
    if (mThemeChanged || mWidthChanged) layoutGui();

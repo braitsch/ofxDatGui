@@ -37,7 +37,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         void update();
     
         bool isMoving();
-        void setWidth(int width);
+        void setWidth(int width, float labelWidth = 0.35f);
         void setOrigin(int x, int y);
         void setVisible(bool visible);
         void setEnabled(bool enabled);
@@ -93,6 +93,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         int mHeight;
         int mRowSpacing;
         float mAlpha;
+        float mLabelWidth;
         bool mMoving;
         bool mVisible;
         bool mEnabled;

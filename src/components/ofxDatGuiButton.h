@@ -36,8 +36,14 @@ class ofxDatGuiButton : public ofxDatGuiComponent {
         void setTheme(ofxDatGuiTheme* theme)
         {
             setComponentStyle(theme);
-            mLabel.width = mStyle.width;
             mStyle.stripe.color = theme->stripe.button;
+            setWidth(theme->layout.width, theme->layout.labelWidth);
+        }
+    
+        void setWidth(int width, float labelWidth)
+        {
+            ofxDatGuiComponent::setWidth(width, labelWidth);
+            mLabel.width = mStyle.width;
         }
     
         void draw()
@@ -106,6 +112,12 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
         {
             setComponentStyle(theme);
             mStyle.stripe.color = theme->stripe.toggle;
+            setWidth(theme->layout.width, theme->layout.labelWidth);
+        }
+    
+        void setWidth(int width, float labelWidth)
+        {
+            ofxDatGuiComponent::setWidth(width, labelWidth);
             mLabel.width = mStyle.width;
             mLabel.marginRight = mStyle.width - mIcon.x + (mStyle.width * mStyle.labelMargin);
         }

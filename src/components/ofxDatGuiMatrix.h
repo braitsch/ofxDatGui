@@ -163,12 +163,12 @@ class ofxDatGuiMatrix : public ofxDatGuiComponent {
             mButtonSize = theme->layout.matrix.buttonSize;
             mStyle.stripe.color = theme->stripe.matrix;
             attachButtons(theme);
-            setWidth(mStyle.width);
+            setWidth(theme->layout.width, theme->layout.labelWidth);
         }
     
-        void setWidth(int w)
+        void setWidth(int width, float labelWidth)
         {
-            ofxDatGuiComponent::setWidth(w);
+            ofxDatGuiComponent::setWidth(width, labelWidth);
             mMatrixRect.x = x + mLabel.width;
             mMatrixRect.y = y + mStyle.padding;
             mMatrixRect.width = mStyle.width - mStyle.padding - mLabel.width;

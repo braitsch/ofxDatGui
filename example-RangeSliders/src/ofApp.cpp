@@ -17,10 +17,8 @@ void ofApp::setup()
 // the maximum precision that is currently supported is four decimal places //
 // slider->setPrecision(0);
    
-    slider->setWidth(ofGetWidth());
 // let's make it BIG //
-//    mTemplate.row.width = ofGetWidth();
-  //  mTemplate.row.label.maxAreaWidth = 340;
+    slider->setWidth(ofGetWidth(), .2);
     
 // and position it verticaly centered on the screen //
     slider->setOrigin(0, ofGetHeight()/2 - slider->getHeight()/2);

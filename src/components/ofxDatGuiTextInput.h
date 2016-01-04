@@ -41,14 +41,14 @@ class ofxDatGuiTextInput : public ofxDatGuiComponent {
             setComponentStyle(theme);
             mStyle.stripe.color = theme->stripe.textInput;
             mInput.setTheme(theme);
-            setWidth(mStyle.width);
+            setWidth(theme->layout.width, theme->layout.labelWidth);
         }
     
-        void setWidth(int w)
+        void setWidth(int width, float labelWidth)
         {
-            ofxDatGuiComponent::setWidth(w);
+            ofxDatGuiComponent::setWidth(width, labelWidth);
             mInput.setOrigin(x + mLabel.width, y + mStyle.padding);
-            mInput.setWidth(mStyle.width-mStyle.padding-mLabel.width);
+            mInput.setWidth(mStyle.width - mStyle.padding - mLabel.width);
         }
     
         void setOrigin(int x, int y)

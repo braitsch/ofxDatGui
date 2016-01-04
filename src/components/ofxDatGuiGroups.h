@@ -41,19 +41,6 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
             mImage.load(OFXDG_ASSET_DIR+"/icon-dropdown.png");
         }
     
-        void setTheme(ofxDatGuiTheme* theme)
-        {
-            setComponentStyle(theme);
-            mLabel.width = mStyle.width;
-            mLabel.marginRight = mStyle.width - mIcon.x + (mStyle.width * mStyle.labelMargin);
-        }
-    
-        void setWidth(int w)
-        {
-            ofxDatGuiComponent::setWidth(w);
-            mLabel.marginRight = mStyle.width-mIcon.x;
-        }
-    
         void setOrigin(int x, int y)
         {
             ofxDatGuiComponent::setOrigin(x, y);
@@ -161,6 +148,20 @@ class ofxDatGuiFolder : public ofxDatGuiGroup {
     // all items within a folder share the same stripe color //
             mStyle.stripe.color = color;
             mType = ofxDatGuiType::FOLDER;
+            setTheme(ofxDatGuiComponent::theme.get());
+        }
+    
+        void setTheme(ofxDatGuiTheme* theme)
+        {
+            setComponentStyle(theme);
+            setWidth(theme->layout.width, theme->layout.labelWidth);
+        }
+    
+        void setWidth(int width, float labelWidth)
+        {
+            ofxDatGuiComponent::setWidth(width, labelWidth);
+            mLabel.width = mStyle.width;
+            mLabel.marginRight = mStyle.width - mIcon.x + (mStyle.width * mStyle.labelMargin);
         }
     
         void drawColorPicker()
@@ -405,8 +406,14 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
         void setTheme(ofxDatGuiTheme* theme)
         {
             setComponentStyle(theme);
-            mLabel.width = mStyle.width;
             mStyle.stripe.color = theme->stripe.dropdown;
+            setWidth(theme->layout.width, theme->layout.labelWidth);
+        }
+    
+        void setWidth(int width, float labelWidth)
+        {
+            ofxDatGuiComponent::setWidth(width, labelWidth);
+            mLabel.width = mStyle.width;
             mLabel.marginRight = mStyle.width - mIcon.x + (mStyle.width * mStyle.labelMargin);
         }
     

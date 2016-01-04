@@ -58,7 +58,16 @@ class ofxDatGuiTimeGraph : public ofxDatGuiComponent {
             mColor.fills = theme->color.graph.fills;
             mPointSize = theme->layout.graph.pointSize;
             mLineWeight = theme->layout.graph.lineWeight;
-            setWidth(mStyle.width);
+            setWidth(theme->layout.width, theme->layout.labelWidth);
+        }
+    
+        void setWidth(int width, float labelWidth)
+        {
+            ofxDatGuiComponent::setWidth(width, labelWidth);
+            mPlotterRect.x = mLabel.width;
+            mPlotterRect.y = mStyle.padding;
+            mPlotterRect.width = mStyle.width - mStyle.padding - mLabel.width;
+            mPlotterRect.height = mStyle.height - (mStyle.padding*2);
         }
     
         void draw()
@@ -125,15 +134,6 @@ class ofxDatGuiTimeGraph : public ofxDatGuiComponent {
         {
             ofxDatGuiComponent::setOrigin(x, y);
         }
-    
-        void setWidth(int w)
-        {
-            ofxDatGuiComponent::setWidth(w);
-            mPlotterRect.x = mLabel.width;
-            mPlotterRect.y = mStyle.padding;
-            mPlotterRect.width = mStyle.width - mStyle.padding - mLabel.width;
-            mPlotterRect.height = mStyle.height - (mStyle.padding*2);
-        }
 
         int mPointSize;
         int mLineWeight;
@@ -195,9 +195,9 @@ class ofxDatGuiWaveMonitor : public ofxDatGuiTimeGraph {
             graph();
         }
     
-        void setWidth(int w)
+        void setWidth(int width, float labelWidth)
         {
-            ofxDatGuiTimeGraph::setWidth(w);
+            ofxDatGuiTimeGraph::setWidth(width, labelWidth);
             graph();
         }
     

@@ -55,6 +55,7 @@ class ofxDatGuiTheme{
                 layout.padding *= 2;
                 layout.vMargin *= 2;
                 layout.iconSize *= 2;
+                layout.labelWidth = 190;
                 layout.graph.height *=2;
                 layout.pad2d.height *=2;
                 layout.pad2d.ballSize *=2;
@@ -157,7 +158,7 @@ class ofxDatGuiTheme{
             float padding = 2.0f;
             float vMargin = 1.0f; // vertical spacing between gui components //
             float iconSize = 10.0f;
-            float labelAreaPercentage = 0.35f; // % of total component width //
+            float labelWidth = 115;
             float labelMarginPercentage = 0.04f; // % of total component width //
             
         // component specific rules & settings //
