@@ -110,6 +110,7 @@ void ofxDatGuiComponent::setComponentStyle(ofxDatGuiTheme* theme)
     mIcon.y = mStyle.height * .33;
     mIcon.color = theme->color.icons;
     mIcon.size = theme->layout.iconSize;
+    mLabel.color = theme->color.label;
     mLabel.forceUpperCase = theme->layout.label.forceUpperCase;
     setLabel(mLabel.text);
     setWidth(mStyle.width);

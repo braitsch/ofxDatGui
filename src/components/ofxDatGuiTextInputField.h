@@ -59,7 +59,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
         {
             mFont.ttf = &tmplt->font.ttf;
             mInputRect.height = tmplt->layout.height - (tmplt->layout.padding * 2);
-            color.active.background = tmplt->color.backgroundOnMouseOver;
+            color.active.background = tmplt->color.textInput.backgroundOnActive;
             color.inactive.background = tmplt->color.inputAreaBackground;
             color.active.text = tmplt->color.label;
             color.inactive.text = tmplt->color.textInput.text;

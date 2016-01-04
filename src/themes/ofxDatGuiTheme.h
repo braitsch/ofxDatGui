@@ -42,6 +42,11 @@ class ofxDatGuiTheme{
     
         ofxDatGuiTheme(bool autoInitialize = false)
         {
+            if (autoInitialize) init();
+        }
+    
+        void init()
+        {
             if (ofxDatGuiIsRetina()){
                 font.size *= 2;
                 stripe.width *= 2;
@@ -58,7 +63,7 @@ class ofxDatGuiTheme{
                 layout.matrix.buttonSize = 47;
                 layout.textInput.highlightPadding *= 2;
             }
-            if (autoInitialize) font.load();
+            font.load();
         }
     
     /*
@@ -87,6 +92,7 @@ class ofxDatGuiTheme{
             struct {
                 ofColor text = ofColor::fromHex(0x00FF00);
                 ofColor highlight = ofColor::fromHex(0x688EB5);
+                ofColor backgroundOnActive = ofColor::fromHex(0x777777);
             } textInput;
             
             struct {
@@ -161,7 +167,7 @@ class ofxDatGuiTheme{
             } label;
         
             struct {
-                int highlightPadding = 3;
+                int highlightPadding = 5;
                 bool forceUpperCase = true;
             } textInput;
         

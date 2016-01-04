@@ -53,6 +53,8 @@ class ofxDatGuiTimeGraph : public ofxDatGuiComponent {
             setComponentStyle(theme);
             mStyle.height = theme->layout.graph.height;
             mStyle.stripe.color = theme->stripe.graph;
+            mColor.lines = theme->color.graph.lines;
+            mColor.fills = theme->color.graph.fills;
             mPointSize = theme->layout.graph.pointSize;
             mLineWeight = theme->layout.graph.lineWeight;
             setWidth(mStyle.width);
@@ -67,7 +69,7 @@ class ofxDatGuiTimeGraph : public ofxDatGuiComponent {
                 ofxDatGuiComponent::drawStripe();
                 ofSetColor(mStyle.color.inputArea);
                 ofDrawRectangle(x + mPlotterRect.x, y + mPlotterRect.y, mPlotterRect.width, mPlotterRect.height);
-                glColor3ub(210, 210, 210);
+                glColor3ub(mColor.fills.r, mColor.fills.g, mColor.fills.b);
                 (*this.*mDrawFunc)();
             ofPopStyle();
         }
@@ -134,6 +136,10 @@ class ofxDatGuiTimeGraph : public ofxDatGuiComponent {
 
         int mPointSize;
         int mLineWeight;
+        struct{
+            ofColor lines;
+            ofColor fills;
+        } mColor;
         vector<ofVec2f> pts;
         ofRectangle mPlotterRect;
         void (ofxDatGuiTimeGraph::*mDrawFunc)() = nullptr;

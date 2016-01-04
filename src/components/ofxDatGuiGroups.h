@@ -89,7 +89,7 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
                 ofxDatGuiButton::drawBkgd();
                 ofxDatGuiComponent::drawLabel();
                 ofxDatGuiComponent::drawStripe();
-                ofSetColor(mLabel.color);
+                ofSetColor(mIcon.color);
                 mImage.draw(x+mIcon.x, y+mIcon.y, mIcon.size, mIcon.size);
                 if (mIsExpanded) {
                     int mHeight = mStyle.height;

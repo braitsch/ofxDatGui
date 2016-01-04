@@ -129,6 +129,11 @@ void ofxDatGui::setTheme(ofxDatGuiTheme* t)
     mThemeChanged = true;
 }
 
+ofxDatGuiTheme* ofxDatGui::getDefaultTheme()
+{
+    return theme.get();
+}
+
 void ofxDatGui::setOrigin(int x, int y)
 {
     moveGui(ofPoint(x, y));

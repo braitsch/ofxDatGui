@@ -52,6 +52,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         bool getVisible();
         bool getAutoDraw();
         ofPoint getPosition();
+        ofxDatGuiTheme* getDefaultTheme();
     
         ofxDatGuiHeader* addHeader(string label = "", bool draggable = true);
         ofxDatGuiFooter* addFooter();

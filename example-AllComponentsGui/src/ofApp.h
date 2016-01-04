@@ -23,5 +23,8 @@ class ofApp : public ofBaseApp{
         void onDropdownEvent(ofxDatGuiDropdownEvent e);
         void onColorPickerEvent(ofxDatGuiColorPickerEvent e);
         void onMatrixEvent(ofxDatGuiMatrixEvent e);
+    
+        uint tIndex;
+        vector<ofxDatGuiTheme*> themes;
 
 };
