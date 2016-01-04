@@ -46,6 +46,7 @@ class ofxDatGuiTimeGraph : public ofxDatGuiComponent {
         ofxDatGuiTimeGraph(string label) : ofxDatGuiComponent(label)
         {
             mDrawFunc = &ofxDatGuiTimeGraph::drawFilled;
+            setTheme(ofxDatGuiComponent::theme.get());
         }
     
         void setTheme(ofxDatGuiTheme* theme)

@@ -27,7 +27,6 @@
     Stock Themes
 */
 
-
 class ofxDatGuiThemeSmoke : public ofxDatGuiTheme{
 
     public:
@@ -211,7 +210,6 @@ class ofxDatGuiThemeCandy : public ofxDatGuiTheme{
             init();
         }
 };
-
 
 
 

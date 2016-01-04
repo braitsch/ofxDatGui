@@ -14,7 +14,7 @@ void ofApp::setup()
 // setup our gui //
     gui = new ofxDatGui();
     gui->setWidth(1200);
-    gui->setAlignment(ofxDatGuiAlignment::CENTER);
+    gui->setLabelAlignment(ofxDatGuiAlignment::CENTER);
     gui->addHeader("wave monitor & value plotter example");
     gui->addFooter();
     
