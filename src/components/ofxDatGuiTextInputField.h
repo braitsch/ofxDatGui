@@ -217,6 +217,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             // if we're at a space append the width the font's 'p' character //
                 if (mText.at(index - 1) == ' ') mCursorX += mFont.getRect("p").width;
             }
+            if (mType == COLORPICKER) mCursorX += mFont.getRect("#").width*1.5;
             mCursorIndex = index;
         }
     
