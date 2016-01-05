@@ -47,14 +47,14 @@ class ofxDatGuiTextInput : public ofxDatGuiComponent {
         void setWidth(int width, float labelWidth)
         {
             ofxDatGuiComponent::setWidth(width, labelWidth);
-            mInput.setOrigin(x + mLabel.width, y + mStyle.padding);
+            mInput.setPosition(x + mLabel.width, y + mStyle.padding);
             mInput.setWidth(mStyle.width - mStyle.padding - mLabel.width);
         }
     
-        void setOrigin(int x, int y)
+        void setPosition(int x, int y)
         {
-            ofxDatGuiComponent::setOrigin(x, y);
-            mInput.setOrigin(x + mLabel.width, y + mStyle.padding);
+            ofxDatGuiComponent::setPosition(x, y);
+            mInput.setPosition(x + mLabel.width, y + mStyle.padding);
         }
     
         string getText()

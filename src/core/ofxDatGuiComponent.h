@@ -38,19 +38,14 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         string  getName();
         bool    is(string name);
     
-        void    setColor(ofColor c1, ofColor c2, ofColor c3);
-        void    setBackgroundColor(ofColor c);
-        void    setOnMouseOverColor(ofColor c);
-        void    setOnMouseDownColor(ofColor c);
-
         void    setLabel(string label);
-        void    setLabelColor(ofColor c);
+        void    setLabelColor(ofColor color);
         string  getLabel();
     
-        void    setStroke(ofColor c, int width);
-        void    setStrokeColor(ofColor c);
-        void    setStrokeWidth(int width);
-        void    setStrokeVisible(bool visible);
+        void    setBackgroundColor(ofColor color);
+        void    setBackgroundColor(ofColor bkgd, ofColor mOver, ofColor mDown);
+        void    setBackgroundColorOnMouseOver(ofColor color);
+        void    setBackgroundColorOnMouseDown(ofColor color);
     
         void    setStripe(ofColor color, int width);
         void    setStripeWidth(int width);
@@ -73,12 +68,11 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         virtual void update(bool acceptEvents = true);
         virtual bool hitTest(ofPoint m);
 
-        virtual void setY(int y);
-        virtual void setOrigin(int x, int y);
+        virtual void setPosition(int x, int y);
         virtual void setTheme(ofxDatGuiTheme* theme) = 0;
         virtual void setWidth(int width, float labelWidth);
-    
         virtual void setLabelAlignment(ofxDatGuiAlignment align);
+    
         virtual int  getWidth();
         virtual int  getHeight();
         virtual bool getIsExpanded();
@@ -127,11 +121,6 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
                 ofColor onMouseOver;
                 ofColor onMouseDown;
             } color;
-            struct{
-                int width;
-                bool visible;
-                ofColor color;
-            } stroke;
             struct{
                 int width;
                 bool visible;

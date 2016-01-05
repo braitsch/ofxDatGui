@@ -35,7 +35,7 @@ class ofxDatGuiMatrixButton : public ofxDatGuiInteractiveObject {
             mRect = ofRectangle(0, 0, size, size);
         }
     
-        void setOrigin(float x, float y)
+        void setPosition(float x, float y)
         {
             origin.x = x;
             origin.y = y;
@@ -51,7 +51,7 @@ class ofxDatGuiMatrixButton : public ofxDatGuiInteractiveObject {
                 ofDrawRectangle(mRect);
                 if (mShowLabels) {
                     ofSetColor(mLabelColor);
-                    mFont.draw(ofToString(mIndex+1), mRect.x + mRect.width/2 - mFontRect.width/2, mRect.y + mRect.height/2 + mFontRect.height/2);
+                    mFont.draw(ofToString(mIndex+1), mRect.x + mRect.width/2 - mFontRect.width/2, mRect.y + mRect.height/2 - mFontRect.height/2);
                 }
             ofPopStyle();
         }
@@ -103,7 +103,7 @@ class ofxDatGuiMatrixButton : public ofxDatGuiInteractiveObject {
     
         void setTheme(const ofxDatGuiTheme* tmplt)
         {
-            mFont.ttf = &tmplt->font.ttf;
+            mFont.set(&tmplt->font.ttf);
             mFontRect = mFont.getRect(ofToString(mIndex+1));
             mBkgdColor = tmplt->color.matrix.normal.button;
             mLabelColor = tmplt->color.matrix.normal.label;
@@ -178,15 +178,15 @@ class ofxDatGuiMatrix : public ofxDatGuiComponent {
             for(int i=0; i<btns.size(); i++){
                 float bx = (mButtonSize + padding) * (i % nCols);
                 float by = (mButtonSize + padding) * (floor(i/nCols));
-                btns[i].setOrigin(bx, by + mStyle.padding);
+                btns[i].setPosition(bx, by + mStyle.padding);
             }
             mStyle.height = (mStyle.padding*2) + ((mButtonSize + padding) * (nRows - 1)) + mButtonSize;
             mMatrixRect.height = mStyle.height - (mStyle.padding * 2);
         }
     
-        void setOrigin(int x, int y)
+        void setPosition(int x, int y)
         {
-            ofxDatGuiComponent::setOrigin(x, y);
+            ofxDatGuiComponent::setPosition(x, y);
             mMatrixRect.x = x + mLabel.width;
             mMatrixRect.y = y + mStyle.padding;
         }

@@ -135,15 +135,15 @@ ofxDatGuiTheme* ofxDatGui::getDefaultTheme()
     return theme.get();
 }
 
-void ofxDatGui::setOrigin(int x, int y)
-{
-    moveGui(ofPoint(x, y));
-}
-
 void ofxDatGui::setOpacity(float opacity)
 {
     mAlpha = opacity;
     mAlphaChanged = true;
+}
+
+void ofxDatGui::setPosition(int x, int y)
+{
+    moveGui(ofPoint(x, y));
 }
 
 void ofxDatGui::setVisible(bool visible)
@@ -684,7 +684,7 @@ void ofxDatGui::layoutGui()
         items[i]->setIndex(i);
     // skip over any components that are currently invisible //
         if (items[i]->getVisible() == false) continue;
-        items[i]->setOrigin(mPosition.x, mPosition.y + mHeight);
+        items[i]->setPosition(mPosition.x, mPosition.y + mHeight);
         mHeight += items[i]->getHeight() + mRowSpacing;
     }
     // move the footer back to the top of the gui //

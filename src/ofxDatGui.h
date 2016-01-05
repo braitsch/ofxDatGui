@@ -38,10 +38,10 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
     
         bool isMoving();
         void setWidth(int width, float labelWidth = 0.35f);
-        void setOrigin(int x, int y);
         void setVisible(bool visible);
         void setEnabled(bool enabled);
         void setOpacity(float opacity);
+        void setPosition(int x, int y);
         void setTheme(ofxDatGuiTheme* t);
         void setAutoDraw(bool autodraw, int priority = 0);
         void setLabelAlignment(ofxDatGuiAlignment align);

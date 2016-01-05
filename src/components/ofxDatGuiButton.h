@@ -40,7 +40,7 @@ class ofxDatGuiButton : public ofxDatGuiComponent {
             setWidth(theme->layout.width, theme->layout.labelWidth);
         }
     
-        void setWidth(int width, float labelWidth)
+        void setWidth(int width, float labelWidth = 1)
         {
             ofxDatGuiComponent::setWidth(width, labelWidth);
             mLabel.width = mStyle.width;
@@ -115,7 +115,7 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
             setWidth(theme->layout.width, theme->layout.labelWidth);
         }
     
-        void setWidth(int width, float labelWidth)
+        void setWidth(int width, float labelWidth = 1)
         {
             ofxDatGuiComponent::setWidth(width, labelWidth);
             mLabel.width = mStyle.width;

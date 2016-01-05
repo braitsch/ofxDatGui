@@ -41,9 +41,9 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
             mImage.load(OFXDG_ASSET_DIR+"/icon-dropdown.png");
         }
     
-        void setOrigin(int x, int y)
+        void setPosition(int x, int y)
         {
-            ofxDatGuiComponent::setOrigin(x, y);
+            ofxDatGuiComponent::setPosition(x, y);
             layout();
         }
     
@@ -103,9 +103,9 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
             for (int i=0; i<children.size(); i++) {
                 if (children[i]->getVisible() == false) continue;
                 if (mIsExpanded == false){
-                    children[i]->setOrigin(x, y + mHeight);
+                    children[i]->setPosition(x, y + mHeight);
                 }   else{
-                    children[i]->setOrigin(x, y + mHeight);
+                    children[i]->setPosition(x, y + mHeight);
                     mHeight += children[i]->getHeight() + mStyle.vMargin;
                 }
                 if (i == children.size()-1) mHeight -= mStyle.vMargin;
@@ -157,7 +157,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup {
             setWidth(theme->layout.width, theme->layout.labelWidth);
         }
     
-        void setWidth(int width, float labelWidth)
+        void setWidth(int width, float labelWidth = 1)
         {
             ofxDatGuiComponent::setWidth(width, labelWidth);
             mLabel.width = mStyle.width;
@@ -410,7 +410,7 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
             setWidth(theme->layout.width, theme->layout.labelWidth);
         }
     
-        void setWidth(int width, float labelWidth)
+        void setWidth(int width, float labelWidth = 1)
         {
             ofxDatGuiComponent::setWidth(width, labelWidth);
             mLabel.width = mStyle.width;

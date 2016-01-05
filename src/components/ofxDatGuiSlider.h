@@ -68,13 +68,13 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
             mInputX = mLabel.width + mSliderWidth + mStyle.padding;
             mInputWidth = totalWidth - mSliderWidth - (mStyle.padding * 2);
             input->setWidth(mInputWidth);
-            input->setOrigin(x + mInputX, y + mStyle.padding);
+            input->setPosition(x + mInputX, y + mStyle.padding);
         }
     
-        void setOrigin(int x, int y)
+        void setPosition(int x, int y)
         {
-            ofxDatGuiComponent::setOrigin(x, y);
-            input->setOrigin(x + mInputX, y + mStyle.padding);
+            ofxDatGuiComponent::setPosition(x, y);
+            input->setPosition(x + mInputX, y + mStyle.padding);
         }
     
         void setPrecision(int precision)

@@ -21,7 +21,7 @@ void ofApp::setup()
     slider->setWidth(ofGetWidth(), .2);
     
 // and position it verticaly centered on the screen //
-    slider->setOrigin(0, ofGetHeight()/2 - slider->getHeight()/2);
+    slider->setPosition(0, ofGetHeight()/2 - slider->getHeight()/2);
 
 // listen for change events //
     slider->onSliderEvent(this, &ofApp::onSliderEvent);

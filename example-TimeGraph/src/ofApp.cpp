@@ -13,7 +13,7 @@ void ofApp::setup()
     
 // setup our gui //
     gui = new ofxDatGui();
-    gui->setWidth(1200);
+    gui->setWidth(1200, .2);
     gui->setLabelAlignment(ofxDatGuiAlignment::CENTER);
     gui->addHeader("wave monitor & value plotter example");
     gui->addFooter();
@@ -46,7 +46,7 @@ void ofApp::setup()
     
     p1->setSpeed(gui->getSlider("sweep speed")->getValue());
     
-    gui->setOrigin(ofGetWidth()/2 - gui->getWidth()/2, 140);
+    gui->setPosition(ofGetWidth()/2 - gui->getWidth()/2, 140);
     gui->onSliderEvent(this, &ofApp::onGuiSliderEvent);
     gui->onDropdownEvent(this, &ofApp::onGuiDropdownEvent);
 }

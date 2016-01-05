@@ -67,9 +67,15 @@ class ofxDatGuiFont{
 
     public:
 
+        void set(const ofTrueTypeFont* ttf)
+        {
+            this->ttf = ttf;
+            this->yOffset = this->getRect("XXX123456789").height;
+        }
+
         void draw(string s, int x, int y)
         {
-            ttf->drawString(s, x, y);
+            ttf->drawString(s, x, y + yOffset);
         }
     
         ofRectangle getRect(string s, int x = 0, int y = 0)
@@ -77,6 +83,8 @@ class ofxDatGuiFont{
             return ttf->getStringBoundingBox(s, x, y);
         }
     
+    private:
+        int yOffset;
         const ofTrueTypeFont* ttf;
     
 };

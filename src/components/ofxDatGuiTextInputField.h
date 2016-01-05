@@ -49,7 +49,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             mInputRect.width = w;
         }
     
-        void setOrigin(int x, int y)
+        void setPosition(int x, int y)
         {
             mInputRect.x = x;
             mInputRect.y = y;
@@ -57,7 +57,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
     
         void setTheme(const ofxDatGuiTheme* tmplt)
         {
-            mFont.ttf = &tmplt->font.ttf;
+            mFont.set(&tmplt->font.ttf);
             mInputRect.height = tmplt->layout.height - (tmplt->layout.padding * 2);
             color.active.background = tmplt->color.textInput.backgroundOnActive;
             color.inactive.background = tmplt->color.inputAreaBackground;
@@ -94,7 +94,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             // draw the text //
                 ofColor tColor = mHighlightText ? color.active.text : color.inactive.text;
                 ofSetColor(tColor);
-                mFont.draw(mType == COLORPICKER ? "#" + mText : mText, tx, ty + mTextRect.height);
+                mFont.draw(mType == COLORPICKER ? "#" + mText : mText, tx, ty);
                 if (mFocused) {
             // draw the cursor //
                     ofDrawLine(ofPoint(tx + mCursorX, mInputRect.getTop()), ofPoint(tx + mCursorX, mInputRect.getBottom()));

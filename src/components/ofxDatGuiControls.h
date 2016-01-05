@@ -128,6 +128,11 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
             mLabelCollapsed = label;
             if (mGuiCollapsed) setLabel(mLabelCollapsed);
         }
+    
+        void setY(int y)
+        {
+            this->y = y;
+        }
 
         void draw()
         {

@@ -63,8 +63,8 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
 
 void ofApp::positionButtons()
 {
-    button->setOrigin(ofGetWidth()/2 - button->getWidth()/2, ofGetHeight()/2 - button->getHeight());
-    toggle->setOrigin(button->getX(), button->getY() + button->getHeight() + 20);
+    button->setPosition(ofGetWidth()/2 - button->getWidth()/2, ofGetHeight()/2 - button->getHeight());
+    toggle->setPosition(button->getX(), button->getY() + button->getHeight() + 20);
 }
 
 

@@ -65,9 +65,9 @@ class ofxDatGui2dPad : public ofxDatGuiComponent {
             mScaleOnResize = false;
         }
     
-        void setOrigin(int x, int y)
+        void setPosition(int x, int y)
         {
-            ofxDatGuiComponent::setOrigin(x, y);
+            ofxDatGuiComponent::setPosition(x, y);
             if (mScaleOnResize){
         // scale the bounds to the resized window //
                 mBounds.width *= (ofGetWidth()/mBounds.width);

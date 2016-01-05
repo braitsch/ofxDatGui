@@ -20,11 +20,11 @@ void ofApp::setup()
     f1->addMatrix("matrix", 14);
     f1->addColorPicker("color picker", ofColor::fromHex(0x2FA1D6));
     f1->addWaveMonitor("wave monitor", 3, .5);
-    f1->setOrigin(x, y);
+    f1->setPosition(x, y);
     f1->expand();
     
     f2 = new ofxDatGuiFolder("folder 2", ofColor::fromHex(0x1ED36F));
-    f2->setOrigin(x + f1->getWidth()+40, y);
+    f2->setPosition(x + f1->getWidth()+40, y);
     f2->addButton("button");
     f2->addTextInput("text input", "enter a message");
     f2->addBreak();

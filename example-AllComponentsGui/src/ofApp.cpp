@@ -75,7 +75,7 @@ void ofApp::setup()
     gui->onMatrixEvent(this, &ofApp::onMatrixEvent);
 
     gui->setOpacity(gui->getSlider("datgui opacity")->getScale());
-    gui->setLabelAlignment(ofxDatGuiAlignment::RIGHT);
+//  gui->setLabelAlignment(ofxDatGuiAlignment::RIGHT);
     
 // finally let's load up the stock themes, press spacebar to cycle through them //
     themes = {  new ofxDatGuiThemeSmoke(),

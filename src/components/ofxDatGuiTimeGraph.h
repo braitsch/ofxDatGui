@@ -130,9 +130,9 @@ class ofxDatGuiTimeGraph : public ofxDatGuiComponent {
             glEnd();
         }
     
-        void setOrigin(int x, int y)
+        void setPosition(int x, int y)
         {
-            ofxDatGuiComponent::setOrigin(x, y);
+            ofxDatGuiComponent::setPosition(x, y);
         }
 
         int mPointSize;

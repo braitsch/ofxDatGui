@@ -13,7 +13,7 @@ void ofApp::setup()
     pad = new ofxDatGui2dPad("2D PAD");
     
 // position the component in the middle of the screen //
-    pad->setOrigin(ofGetWidth()/2 - pad->getWidth()/2, ofGetHeight()/2 - pad->getHeight()/2);
+    pad->setPosition(ofGetWidth()/2 - pad->getWidth()/2, ofGetHeight()/2 - pad->getHeight()/2);
     
 // adjust the component's opacity to help us see the circle behind it //
     pad->setOpacity(.75);
