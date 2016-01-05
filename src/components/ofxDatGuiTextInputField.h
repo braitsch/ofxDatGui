@@ -58,6 +58,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
         void setTheme(const ofxDatGuiTheme* tmplt)
         {
             mFont.set(&tmplt->font.ttf);
+            mTextRect = mFont.getRect(mType == COLORPICKER ? "#" + mText : mText);
             mInputRect.height = tmplt->layout.height - (tmplt->layout.padding * 2);
             color.active.background = tmplt->color.textInput.backgroundOnActive;
             color.inactive.background = tmplt->color.inputAreaBackground;
@@ -127,7 +128,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             mText = text;
             mTextChanged = true;
             if (mUpperCaseText) mText = ofToUpper(mText);
-            mTextRect = mFont.getRect(mType==COLORPICKER ? "#"+mText : mText);
+            mTextRect = mFont.getRect(mType == COLORPICKER ? "#" + mText : mText);
         }
     
         string getText()
