@@ -74,79 +74,94 @@
 	<div class="container">
 		<div class="well" style='margin-top:80px;'>
 			<h2>Themes</h2>
-			<h4>ofxDatGui is easily customizeable via <b>themes</b> that you can apply to individual components or entire Guis.</h4>
+			<h4>ofxDatGui is easily customizeable via <b>themes</b> that you can apply to individual components or your entire Gui.</h4>
 
-			<p>Themes allow you to customize both the color palette and layout characteristics of components and are easily created by simply extending the <a href='https://raw.githubusercontent.com/braitsch/ofxDatGui/master/src/templates/ofxDatGuiTheme.h'>ofxDatGuiTheme</a> class which exposes the properties that can be changed.</p> 
+			<p>Themes allow you to customize both the color palette and layout characteristics of components and are easily created by simply extending the <a href='https://raw.githubusercontent.com/braitsch/ofxDatGui/master/src/themes/ofxDatGuiTheme.h'>ofxDatGuiTheme</a> class which exposes the properties that can be changed.</p> 
 
-			<p>Themes can be applied to any component or Gui by calling <code>setTheme</code> and passing in a reference to your theme.</p>
+			<p>Themes can be applied to any component or ofxDatGui instance by calling <code>setTheme</code> and passing in a reference to your theme.</p>
 			<pre class="prettyprint">ofxDatGui* myGui = new ofxDatGui( ofxDatGuiAnchor::TOP_RIGHT );
-myGui->setTheme(new ofxDatGuiTheme1());</pre>
+myGui->setTheme(new ofxDatGuiThemeSmoke());</pre>
+
+			<p>ofxDatGui currently ships with the following <a href='https://raw.githubusercontent.com/braitsch/ofxDatGui/master/src/themes/ofxDatGuiThemes.h'>built-in themes</a> with more on the way.</p>
 		</div>
 
-	<!-- theme 1 -->
+		<div class='themes'>
 
-		<div class='theme'>
-			<h4>Theme 1</h4>
-<pre class="prettyprint" style="height:401px;">
-#pragma once
-#include "ofxDatGuiTheme.h"
+			<div class="theme">
+				<div class="well">
+					<h4>DEFAULT</h4>
+					<div class="img-wrap">
+						<img src="./img/themes/default.png">
+					</div>
+				</div>
+			</div>
 
-class ofxDatGuiTheme1 : public ofxDatGuiTheme{
+			<div class="theme">
+				<div class="well">
+					<h4>SMOKE</h4>
+					<div class="img-wrap">
+						<img src="./img/themes/smoke.png">
+					</div>
+				</div>
+			</div>
 
-    public:
-        ofxDatGuiTheme1()
-        {
-            stripe.visible = false;
-            color.label = hex(0xF8F3F0);
-            color.background = hex(0x4C4743);
-            color.inputAreaBackground = hex(0xB5BCB2);
-            color.slider.fill = hex(0xFFB230);
-            color.slider.text = hex(0xFFFFFF);
-            color.textInput.text = hex(0xFFFFFF);
-            color.colorPicker.border = hex(0xF8F3F0);
-            color.matrix.hover.button = hex(0xC3A279);
-            color.matrix.selected.button = hex(0x4C4743);
-            font.load();
-        }
-};
-</pre>
-		<img src="img/themes/theme-01.png"/>
+			<div class="theme">
+				<div class="well">
+					<h4>WIREFRAME</h4>
+					<div class="img-wrap" style="border-top: 1px solid #ddd;">
+						<img src="./img/themes/wireframe.png">
+					</div>
+				</div>
+			</div>
+
+			<div class="theme">
+				<div class="well">
+					<h4>MIGNIGHT</h4>
+					<div class="img-wrap">
+						<img src="./img/themes/midnight.png">
+					</div>
+				</div>
+			</div>
+
+			<div class="theme">
+				<div class="well">
+					<h4>AQUA</h4>
+					<div class="img-wrap">
+						<img src="./img/themes/aqua.png">
+					</div>
+				</div>
+			</div>
+
+			<div class="theme">
+				<div class="well">
+					<h4>CHARCOAL</h4>
+					<div class="img-wrap">
+						<img src="./img/themes/charcoal.png">
+					</div>
+				</div>
+			</div>
+
+			<div class="theme">
+				<div class="well">
+					<h4>AUTUMN</h4>
+					<div class="img-wrap">
+						<img src="./img/themes/autumn.png">
+					</div>
+				</div>
+			</div>
+
+			<div class="theme">
+				<div class="well">
+					<h4>CANDY</h4>
+					<div class="img-wrap">
+						<img src="./img/themes/candy.png">
+					</div>
+				</div>
+			</div>
+
+
+		<!-- end themes -->
 		</div>
-		<hr>
-
-	<!-- theme 2 -->
-
-		<div class='theme'>
-			<h4>Theme 2</h4>
-<pre class="prettyprint" style="height:421px;">
-#pragma once
-#include "ofxDatGuiTheme.h"
-
-class ofxDatGuiTheme2 : public ofxDatGuiTheme{
-
-    public:
-        ofxDatGuiTheme2()
-        {
-            stripe.visible = false;
-            color.guiBackground = hex(0x001727);
-            color.label = hex(0xF8F3F0);
-            color.background = hex(0x162C3A);
-            color.inputAreaBackground = hex(0x61717D);
-            color.slider.fill = hex(0xF8F3F0);
-            color.slider.text = hex(0xFFFFFF);
-            color.textInput.text = hex(0xFFFFFF);
-            color.colorPicker.border = hex(0xF8F3F0);
-            color.matrix.hover.button = hex(0x55666F);
-            color.matrix.selected.button = hex(0x334553);
-            font.load();
-        }
-};
-</pre>
-		<img src="img/themes/theme-02.png"/>
-		</div>
-		<hr>
-
-	<!-- theme 3 -->
 
 	<!-- end container -->
 	</div>

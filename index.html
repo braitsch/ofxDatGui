@@ -224,9 +224,9 @@ plotter-&gt;setDrawMode(ofxDatGuiGraph::POINTS);</pre>
 
 			<p><a id="padded-breaks" class="anchor" href="#padded-breaks" aria-hidden="true"></a><strong>Padded Break</strong></p>
 			<pre class="prettyprint">gui-&gt;addLabel("Above");
-gui-&gt;addBreak(float height = 10.0f);
+gui-&gt;addBreak()->setHeight(10.0f);
 gui-&gt;addLabel("Stuck in the Middle");
-gui-&gt;addBreak(float height = 10.0f);
+gui-&gt;addBreak()->setHeight(10.0f);
 gui-&gt;addLabel("Below");</pre>
 
 			<img src="./img/ofxdatgui_break.png?raw=true" alt="ofxDatGui">
@@ -303,25 +303,32 @@ myInput = gui-&gt;addTextInput("Name:", "Stephen");
 myInput-&gt;setText("Freddy");
 </pre>
 
-			<p>Every <strong>ofxDatGuiComponent</strong> has a mutable name & label that can easily be retrieved or changed via:</p>
+			<p>Once you have a pointer to a component you can call any of the following methods to change its state:</p>
 
 <pre class="prettyprint">
-item-&gt;getName();
-item-&gt;setName(string name);
-item-&gt;getLabel();
-item-&gt;setLabel(string label);
+myInput-&gt;setName(string name);
+myInput-&gt;setLabel(string label);
+myInput-&gt;setPosition(int x, int y);
+myInput-&gt;setWidth(int width, float labelWidth); // labelWidth is either a pixel value or percentage of the component width //
+myInput-&gt;setOpacity(float opacity); // a value between 0 &amp; 1 //
+myInput-&gt;setVisible(bool visible);
+myInput-&gt;setEnabled(bool enabled);
+myInput-&gt;setTheme(ofxDatGuiTheme* theme);
+myInput-&gt;setLabelAlignment(ofxDatGuiAlignment alignment); // left, right, or center //
 </pre>
 
-			<p>As well as the following methods that allow you to affect its visual state:</p> 
+			<p><strong>ofxDatGuiComponents</strong> also offer the following convenience methods to set their color palette as an alternative to assigning a <a href='http://braitsch.github.io/ofxDatGui/themes.html'>theme:</a></p>
 
 <pre class="prettyprint">
-item-&gt;setWidth(int width);
-item-&gt;setOrigin(int x, int y);
-item-&gt;setOpacity(float opacity); // a value between 0 &amp; 1 //
-item-&gt;setVisible(bool visible);
-item-&gt;setEnabled(bool enabled);
-item-&gt;setTheme(ofxDatGuiTheme* theme);
-item-&gt;setLabelAlignment(ofxDatGuiAlignment alignment); // left, right, or center //
+myInput-&gt;setLabelColor(ofColor color);
+myInput-&gt;setBackgroundColor(ofColor color);
+myInput-&gt;setBackgroundColorOnMouseOver(ofColor color);
+myInput-&gt;setBackgroundColorOnMouseDown(ofColor color);
+myInput-&gt;setBackgroundColors(ofColor background, ofColor mouseOver, ofColor mouseDown);
+myInput-&gt;setStripe(ofColor color, int width);
+myInput-&gt;setStripeWidth(int width);
+myInput-&gt;setStripeColor(ofColor color);
+myInput-&gt;setStripeVisible(bool visible);
 </pre>
 
 			<hr>

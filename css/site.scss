@@ -66,31 +66,70 @@ pre.prettyprint{
 	color:#888;
 }
 
-.theme, pre{
-	clear: both;
-	overflow:hidden;
-	pre{
-		width:76%;
-		float:left;
+/*
+	themes
+*/
+
+.theme{
+	width: 270px;
+	float: left;
+	.well{
+		padding: 0px;
+	}
+	h4{
+		margin: 14px 0 14px 0;
+		text-align: center;
 	}
 	img{
-		width:23.684210526316%;
-		float:right;
+		width: 270px;
 	}
+	.img-wrap{
+		width: 270px;
+		margin: 0 auto;
+	}
+	margin-bottom:10px;
 }
 
-@media screen and (max-width: 1199px){
+@media screen and (max-width: 599px){
 	.theme{
-		pre{
-			width: 100%;
-		}
-	 	img{
-			display: none;
+		width:100%;
+		.well{
+			padding-bottom: 20px;
 		}
 	}
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (min-width: 600px) and (max-width: 991px){
+	.theme{
+		width:49%;
+		.well{
+			padding-bottom: 20px;
+		}
+	}
+	.theme:nth-child(2n){
+		margin-left:2%;
+	}
+}
+
+@media screen and (min-width: 992px) and (max-width: 1199px){
+	.theme{
+		margin-right:65px;
+	}
+	.theme:nth-child(3n){
+		margin-right:0px;
+	}
+}
+
+@media screen and (min-width: 1200px){
+	.theme{
+		margin-right:20px;
+	}
+	.theme:nth-child(4n){
+		margin-right:0px;
+	}
+}
+
+@media screen and (max-width: 991px) {
 	/*	collapse nav to avoid dropping to two rows */
 	.navbar-header {
 		float: none;
