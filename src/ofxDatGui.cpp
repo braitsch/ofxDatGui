@@ -792,7 +792,6 @@ void ofxDatGui::draw()
     if (mVisible == false) return;
     ofPushStyle();
         ofFill();
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         ofSetColor(mGuiBackground, mAlpha * 255);
         if (mExpanded == false){
             ofDrawRectangle(mPosition.x, mPosition.y, mWidth, mGuiFooter->getHeight());
