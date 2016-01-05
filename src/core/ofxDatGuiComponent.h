@@ -43,9 +43,9 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         string  getLabel();
     
         void    setBackgroundColor(ofColor color);
-        void    setBackgroundColor(ofColor bkgd, ofColor mOver, ofColor mDown);
         void    setBackgroundColorOnMouseOver(ofColor color);
         void    setBackgroundColorOnMouseDown(ofColor color);
+        void    setBackgroundColors(ofColor bkgd, ofColor mOver, ofColor mDown);
     
         void    setStripe(ofColor color, int width);
         void    setStripeWidth(int width);
@@ -114,7 +114,6 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
             float padding;
             float vMargin;
             float opacity;
-            float labelMargin;
             struct{
                 ofColor inputArea;
                 ofColor background;
@@ -134,8 +133,8 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
             bool visible;
             ofColor color;
             float width;
-            int marginLeft;
-            int marginRight;
+            int margin;
+            int rightAlignedXpos;
             ofRectangle rect;
             bool forceUpperCase;
             ofxDatGuiAlignment alignment;

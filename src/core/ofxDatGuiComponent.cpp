@@ -91,7 +91,6 @@ void ofxDatGuiComponent::setComponentStyle(ofxDatGuiTheme* theme)
     mStyle.height = theme->layout.height;
     mStyle.padding = theme->layout.padding;
     mStyle.vMargin = theme->layout.vMargin;
-    mStyle.labelMargin = theme->layout.labelMarginPercentage;
     mStyle.color.background = theme->color.background;
     mStyle.color.inputArea = theme->color.inputAreaBackground;
     mStyle.color.onMouseOver = theme->color.backgroundOnMouseOver;
@@ -104,7 +103,8 @@ void ofxDatGuiComponent::setComponentStyle(ofxDatGuiTheme* theme)
     mIcon.color = theme->color.icons;
     mIcon.size = theme->layout.iconSize;
     mLabel.color = theme->color.label;
-    mLabel.forceUpperCase = theme->layout.label.forceUpperCase;
+    mLabel.margin = theme->layout.labelMargin;
+    mLabel.forceUpperCase = theme->layout.upperCaseLabels;
     setLabel(mLabel.text);
     setWidth(theme->layout.width, theme->layout.labelWidth);
     for (int i=0; i<children.size(); i++) children[i]->setTheme(theme);
@@ -120,9 +120,8 @@ void ofxDatGuiComponent::setWidth(int width, float labelWidth)
 // we received a percentage //
         mLabel.width = mStyle.width * labelWidth;
     }
+    mLabel.rightAlignedXpos = mLabel.width - mLabel.margin;
     mIcon.x = mStyle.width - (mStyle.width * .05) - 20;
-    mLabel.marginLeft = mStyle.width * mStyle.labelMargin;
-    mLabel.marginRight = mStyle.width * mStyle.labelMargin;
     for (int i=0; i<children.size(); i++) children[i]->setWidth(width, labelWidth);
 }
 
@@ -240,13 +239,6 @@ void ofxDatGuiComponent::setLabelColor(ofColor c)
     mLabel.color = c;
 }
 
-void ofxDatGuiComponent::setBackgroundColor(ofColor c1, ofColor c2, ofColor c3)
-{
-    mStyle.color.background = c1;
-    mStyle.color.onMouseOver = c2;
-    mStyle.color.onMouseDown = c3;
-}
-
 void ofxDatGuiComponent::setBackgroundColor(ofColor color)
 {
     mStyle.color.background = color;
@@ -260,6 +252,13 @@ void ofxDatGuiComponent::setBackgroundColorOnMouseOver(ofColor color)
 void ofxDatGuiComponent::setBackgroundColorOnMouseDown(ofColor color)
 {
     mStyle.color.onMouseDown = color;
+}
+
+void ofxDatGuiComponent::setBackgroundColors(ofColor c1, ofColor c2, ofColor c3)
+{
+    mStyle.color.background = c1;
+    mStyle.color.onMouseOver = c2;
+    mStyle.color.onMouseDown = c3;
 }
 
 void ofxDatGuiComponent::setStripe(ofColor color, int width)
@@ -349,15 +348,15 @@ void ofxDatGuiComponent::drawLabel(string label)
 {
     float lx;
     if (mLabel.alignment == ofxDatGuiAlignment::LEFT){
-        lx = mLabel.marginLeft;
+        lx = mLabel.margin;
     }   else if (mLabel.alignment == ofxDatGuiAlignment::CENTER){
         lx = (mLabel.width / 2) - (mLabel.rect.width / 2);
     }   else if (mLabel.alignment == ofxDatGuiAlignment::RIGHT){
-        lx = mLabel.width - mLabel.rect.width - mLabel.marginRight;
+        lx = mLabel.rightAlignedXpos - mLabel.rect.width;
     }
     ofPushStyle();
         ofSetColor(mLabel.color);
-        mFont.draw(mLabel.text, x+lx, y+mStyle.height/2 - mLabel.rect.height/2);
+        mFont.draw(label, x+lx, y+mStyle.height/2 - mLabel.rect.height/2);
     ofPopStyle();
 }
 

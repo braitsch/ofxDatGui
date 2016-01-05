@@ -161,7 +161,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup {
         {
             ofxDatGuiComponent::setWidth(width, labelWidth);
             mLabel.width = mStyle.width;
-            mLabel.marginRight = mStyle.width - mIcon.x + (mStyle.width * mStyle.labelMargin);
+            mLabel.rightAlignedXpos = mIcon.x - mLabel.margin;
         }
     
         void drawColorPicker()
@@ -295,9 +295,9 @@ class ofxDatGuiFolder : public ofxDatGuiGroup {
             return monitor;
         }
 
-        ofxDatGuiBreak* addBreak(int height = 0)
+        ofxDatGuiBreak* addBreak()
         {
-            ofxDatGuiBreak* brk = new ofxDatGuiBreak(height);
+            ofxDatGuiBreak* brk = new ofxDatGuiBreak();
             attachItem(brk);
             return brk;
         }
@@ -377,6 +377,13 @@ class ofxDatGuiDropdownOption : public ofxDatGuiButton {
             mLabel.rect = mFont.getRect("* "+mLabel.text);
         }
     
+        void setWidth(int width, float labelWidth = 1)
+        {
+            ofxDatGuiComponent::setWidth(width, labelWidth);
+            mLabel.width = mStyle.width;
+            mLabel.rightAlignedXpos = mIcon.x - mLabel.margin;
+        }
+    
         void draw()
         {
             ofxDatGuiButton::drawBkgd();
@@ -414,7 +421,7 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
         {
             ofxDatGuiComponent::setWidth(width, labelWidth);
             mLabel.width = mStyle.width;
-            mLabel.marginRight = mStyle.width - mIcon.x + (mStyle.width * mStyle.labelMargin);
+            mLabel.rightAlignedXpos = mIcon.x - mLabel.margin;
         }
     
         void select(int cIndex)

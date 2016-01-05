@@ -3,9 +3,12 @@
 **v1.00** –– 01-04-16
 
 * style templates rewritten into much simpler [themes](http://braitsch.github.io/ofxDatGui/themes.html)
+* setOrigin -> setPosition
 * setAlignment -> setLabelAlignment
+* setWidth now also takes a value for the label width
 * eliminating resolution specific themes
 * textfields & fonts are now created on the stack
+* adding component styling convenience methods
 
 --
 **v0.90** –– 11-29-15

@@ -26,7 +26,7 @@ void ofApp::setup()
 // we'll animate it on a sine wave so let's disable user input //
     s2->setEnabled(false);
     
-    gui->addBreak(20);
+    gui->addBreak()->setHeight(20);
     
 // add a couple value plotters with a range of 0 - 100 //
     p1 = gui->addValuePlotter("value plotter", 0, 100);
@@ -34,7 +34,7 @@ void ofApp::setup()
     p2->setDrawMode(ofxDatGuiGraph::POINTS);
     gui->addSlider("multiplier", 0, 1, .10);
     gui->addSlider("sweep speed", 0, 30, 10);
-    gui->addBreak(20);
+    gui->addBreak()->setHeight(20);
     
 // add a dropdown to select between the four draw modes //
     vector<string> drawModes = {"lines", "filled", "points", "outline"};

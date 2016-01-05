@@ -27,20 +27,20 @@ class ofxDatGuiBreak : public ofxDatGuiComponent{
 
     public:
     
-        ofxDatGuiBreak(int height = 0) : ofxDatGuiComponent("break")
+        ofxDatGuiBreak() : ofxDatGuiComponent("break")
         {
-            if (height > 0){
-                mStyle.height = height;
-            }   else {
-                mStyle.height = ofxDatGuiComponent::theme->layout.height * .1;
-            }
             setTheme(ofxDatGuiComponent::theme.get());
         }
     
         void setTheme(ofxDatGuiTheme* theme)
         {
             setComponentStyle(theme);
-            mStyle.height = theme->layout.height * .1;
+            mStyle.height = theme->layout.breakHeight;
+        }
+    
+        void setHeight(float height)
+        {
+            mStyle.height = height;
         }
     
         void draw()

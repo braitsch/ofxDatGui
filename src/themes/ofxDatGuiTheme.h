@@ -158,14 +158,12 @@ class ofxDatGuiTheme{
             float padding = 2.0f;
             float vMargin = 1.0f; // vertical spacing between gui components //
             float iconSize = 10.0f;
-            float labelWidth = 115;
-            float labelMarginPercentage = 0.04f; // % of total component width //
+            float labelWidth = 115.0f;
+            float labelMargin = 24.0f;
+            float breakHeight = 3.0f;
+            bool upperCaseLabels = true;
             
         // component specific rules & settings //
-        
-            struct {
-                bool forceUpperCase = true;
-            } label;
         
             struct {
                 int highlightPadding = 5;

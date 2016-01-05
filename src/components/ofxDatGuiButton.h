@@ -119,7 +119,7 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
         {
             ofxDatGuiComponent::setWidth(width, labelWidth);
             mLabel.width = mStyle.width;
-            mLabel.marginRight = mStyle.width - mIcon.x + (mStyle.width * mStyle.labelMargin);
+            mLabel.rightAlignedXpos = mIcon.x - mLabel.margin;
         }
     
         void toggle()

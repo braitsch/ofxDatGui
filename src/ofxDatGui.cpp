@@ -306,9 +306,9 @@ ofxDatGuiFRM* ofxDatGui::addFRM(float refresh)
     return monitor;
 }
 
-ofxDatGuiBreak* ofxDatGui::addBreak(int height)
+ofxDatGuiBreak* ofxDatGui::addBreak()
 {
-    ofxDatGuiBreak* brk = new ofxDatGuiBreak(height);
+    ofxDatGuiBreak* brk = new ofxDatGuiBreak();
     attachItem(brk);
     return brk;
 }

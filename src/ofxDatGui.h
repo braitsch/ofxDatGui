@@ -64,7 +64,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofxDatGuiTextInput* addTextInput(string label, string value = "");
         ofxDatGuiDropdown* addDropdown(string label, vector<string> options);
         ofxDatGuiFRM* addFRM(float refresh = 1.0f);
-        ofxDatGuiBreak* addBreak(int height = 0);
+        ofxDatGuiBreak* addBreak();
         ofxDatGui2dPad* add2dPad(string label);
         ofxDatGui2dPad* add2dPad(string label, ofRectangle bounds);
         ofxDatGuiWaveMonitor* addWaveMonitor(string label, float min, float max);
