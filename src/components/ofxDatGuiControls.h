@@ -36,18 +36,10 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
         void setTheme(ofxDatGuiTheme* theme)
         {
             setComponentStyle(theme);
-            mStyle.height = mStyle.height * .8;
             mLabel.width = mStyle.width;
-            mLabel.alignment = ofxDatGuiAlignment::CENTER;
-        }
-    
-        void draw()
-        {
-            if (!mVisible) return;
-            ofPushStyle();
-                ofxDatGuiButton::drawBkgd();
-                ofxDatGuiButton::drawLabel();
-            ofPopStyle();
+            mStyle.stripe.visible = false;
+            mStyle.height = mStyle.height * .8;
+            setLabelAlignment(ofxDatGuiAlignment::CENTER);
         }
     
         void setDraggable(bool draggable)
@@ -89,7 +81,10 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
     // allow panel to be dragged around //
         void onFocusLost() {}
     // force header label to always be centered //
-        void setLabelAlignment(ofxDatGuiAlignment align) {}
+        void setLabelAlignment(ofxDatGuiAlignment align)
+        {
+            ofxDatGuiComponent::setLabelAlignment(ofxDatGuiAlignment::CENTER);
+        }
     
     private:
         bool mDraggable;
@@ -112,9 +107,10 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
         void setTheme(ofxDatGuiTheme* theme)
         {
             setComponentStyle(theme);
-            mStyle.height = mStyle.height * .8;
             mLabel.width = mStyle.width;
-            mLabel.alignment = ofxDatGuiAlignment::CENTER;
+            mStyle.stripe.visible = false;
+            mStyle.height = mStyle.height * .8;
+            setLabelAlignment(ofxDatGuiAlignment::CENTER);
         }
     
         void setLabelWhenExpanded(string label)
@@ -132,15 +128,6 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
         void setY(int y)
         {
             this->y = y;
-        }
-
-        void draw()
-        {
-            if (!mVisible) return;
-            ofPushStyle();
-                ofxDatGuiButton::drawBkgd();
-                ofxDatGuiButton::drawLabel();
-            ofPopStyle();
         }
     
     protected:
@@ -160,7 +147,10 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
         }
     
     // force footer label to always be centered //
-        void setLabelAlignment(ofxDatGuiAlignment align) {}
+        void setLabelAlignment(ofxDatGuiAlignment align)
+        {
+            ofxDatGuiComponent::setLabelAlignment(ofxDatGuiAlignment::CENTER);
+        }
     
     private:
         bool mGuiCollapsed;

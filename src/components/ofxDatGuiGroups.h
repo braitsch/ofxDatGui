@@ -71,11 +71,9 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
     
         void draw()
         {
-            if (!mVisible) return;
-            ofPushStyle();
-                ofxDatGuiButton::drawBkgd();
-                ofxDatGuiComponent::drawLabel();
-                ofxDatGuiComponent::drawStripe();
+            if (mVisible){
+                ofPushStyle();
+                ofxDatGuiButton::draw();
                 ofSetColor(mIcon.color);
                 mImage.draw(x+mIcon.x, y+mIcon.y, mIcon.size, mIcon.size);
                 if (mIsExpanded) {
@@ -92,7 +90,8 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
                     }
                     for(int i=0; i<children.size(); i++) children[i]->drawColorPicker();
                 }
-            ofPopStyle();
+                ofPopStyle();
+            }
         }
     
     protected:
@@ -162,6 +161,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup {
             ofxDatGuiComponent::setWidth(width, labelWidth);
             mLabel.width = mStyle.width;
             mLabel.rightAlignedXpos = mIcon.x - mLabel.margin;
+            ofxDatGuiComponent::positionLabel();
         }
     
         void drawColorPicker()
@@ -368,13 +368,15 @@ class ofxDatGuiDropdownOption : public ofxDatGuiButton {
         ofxDatGuiDropdownOption(string label) : ofxDatGuiButton(label)
         {
             setTheme(ofxDatGuiComponent::theme.get());
+            setName(label);
+            setLabel("* " + label);
         }
     
         void setTheme(ofxDatGuiTheme* theme)
         {
             ofxDatGuiButton::setTheme(theme);
             mStyle.stripe.color = theme->stripe.dropdown;
-            mLabel.rect = mFont.getRect("* "+mLabel.text);
+            mLabel.rect = mFont.getRect(mLabel.text);
         }
     
         void setWidth(int width, float labelWidth = 1)
@@ -382,13 +384,7 @@ class ofxDatGuiDropdownOption : public ofxDatGuiButton {
             ofxDatGuiComponent::setWidth(width, labelWidth);
             mLabel.width = mStyle.width;
             mLabel.rightAlignedXpos = mIcon.x - mLabel.margin;
-        }
-    
-        void draw()
-        {
-            ofxDatGuiButton::drawBkgd();
-            ofxDatGuiComponent::drawLabel("* "+mLabel.text);
-            ofxDatGuiComponent::drawStripe();
+            ofxDatGuiComponent::positionLabel();
         }
 
 };
@@ -422,6 +418,7 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
             ofxDatGuiComponent::setWidth(width, labelWidth);
             mLabel.width = mStyle.width;
             mLabel.rightAlignedXpos = mIcon.x - mLabel.margin;
+            ofxDatGuiComponent::positionLabel();
         }
     
         void select(int cIndex)

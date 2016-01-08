@@ -26,6 +26,11 @@
 #define RETINA_MIN_WIDTH 2560
 #define RETINA_MIN_HEIGHT 1600
 
+inline static ofColor hex(int n)
+{
+    return ofColor::fromHex(n);
+}
+
 inline static bool ofxDatGuiIsRetina()
 {
     return (ofGetScreenWidth() >= RETINA_MIN_WIDTH && ofGetScreenHeight() >= RETINA_MIN_HEIGHT);
@@ -146,6 +151,17 @@ class ofxDatGuiTheme{
             ofColor colorPicker = ofColor::fromHex(0xFFD00B);
         } stripe;
     
+
+    /*
+        component border, disabled by default
+    */
+    
+        struct{
+            int width = 1.0f;
+            bool visible = false;
+            ofColor color = hex(0x000000);
+        } border;
+    
     /*
         layout, sizing and rendering rules
     */
@@ -199,8 +215,7 @@ class ofxDatGuiTheme{
             ofTrueTypeFont ttf;
             void load(){ ttf.load(file, size); }
         } font;
-    
-        static ofColor hex(int n) { return ofColor::fromHex(n); }
+
 
 };
 

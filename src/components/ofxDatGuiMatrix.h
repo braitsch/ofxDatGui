@@ -211,9 +211,7 @@ class ofxDatGuiMatrix : public ofxDatGuiComponent {
         {
             if (!mVisible) return;
             ofPushStyle();
-                ofxDatGuiComponent::drawBkgd();
-                ofxDatGuiComponent::drawLabel();
-                ofxDatGuiComponent::drawStripe();
+                ofxDatGuiComponent::draw();
                 ofSetColor(mFillColor);
                 ofDrawRectangle(mMatrixRect);
                 for(int i=0; i<btns.size(); i++) btns[i].draw(x+mLabel.width, y);

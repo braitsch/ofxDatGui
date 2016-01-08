@@ -97,9 +97,7 @@ class ofxDatGui2dPad : public ofxDatGuiComponent {
                 mPad.width = mStyle.width - mStyle.padding - mLabel.width;
                 pLocal.x = mPad.x + mPad.width * mx;
                 pLocal.y = mPad.y + mPad.height * my;
-                ofxDatGuiComponent::drawBkgd();
-                ofxDatGuiComponent::drawLabel();
-                ofxDatGuiComponent::drawStripe();
+                ofxDatGuiComponent::draw();
                 ofSetColor(mColors.fill);
                 ofDrawRectangle(mPad);
                 ofSetLineWidth(mLineWeight);

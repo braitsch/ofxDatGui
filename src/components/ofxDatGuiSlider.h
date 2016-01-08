@@ -162,9 +162,7 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
             }
             
             ofPushStyle();
-                ofxDatGuiComponent::drawBkgd();
-                ofxDatGuiComponent::drawLabel();
-                ofxDatGuiComponent::drawStripe();
+                ofxDatGuiComponent::draw();
             // slider bkgd //
                 ofSetColor(mBackgroundFill);
                 ofDrawRectangle(x+mLabel.width, y+mStyle.padding, mSliderWidth, mStyle.height-(mStyle.padding*2));

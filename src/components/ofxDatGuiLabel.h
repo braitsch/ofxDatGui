@@ -74,10 +74,7 @@ class ofxDatGuiLabel : public ofxDatGuiComponent{
     
         void draw()
         {
-            ofxDatGuiComponent::drawBkgd();
-            ofxDatGuiComponent::drawLabel();
-            ofxDatGuiComponent::drawStripe();
+            ofxDatGuiComponent::draw();
         }
-
 
 };

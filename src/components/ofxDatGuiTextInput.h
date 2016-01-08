@@ -69,13 +69,10 @@ class ofxDatGuiTextInput : public ofxDatGuiComponent {
     
         void draw()
         {
-            if (!mVisible) return;
-            ofPushStyle();
-                ofxDatGuiComponent::drawBkgd();
-                ofxDatGuiComponent::drawLabel();
-                ofxDatGuiComponent::drawStripe();
+            if (mVisible){
+                ofxDatGuiComponent::draw();
                 mInput.draw();
-            ofPopStyle();
+            }
         }
     
         bool hitTest(ofPoint m)

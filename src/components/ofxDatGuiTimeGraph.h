@@ -74,9 +74,7 @@ class ofxDatGuiTimeGraph : public ofxDatGuiComponent {
         {
             if (!mVisible) return;
             ofPushStyle();
-                ofxDatGuiComponent::drawBkgd();
-                ofxDatGuiComponent::drawLabel();
-                ofxDatGuiComponent::drawStripe();
+                ofxDatGuiComponent::draw();
                 ofSetColor(mStyle.color.inputArea);
                 ofDrawRectangle(x + mPlotterRect.x, y + mPlotterRect.y, mPlotterRect.width, mPlotterRect.height);
                 glColor3ub(mColor.fills.r, mColor.fills.g, mColor.fills.b);
