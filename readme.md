@@ -31,7 +31,7 @@
 
 Found a bug? [Open an issue.](https://github.com/braitsch/ofxDatGui/issues)<br>
 Have a feature request, need help or just have a general question?<br> 
-[Open an issue](https://github.com/braitsch/ofxDatGui/issues) or post on the [openFrameworks Forum](http://forum.openframeworks.cc/).
+[Open an issue](https://github.com/braitsch/ofxDatGui/issues) or join the conversation on this [openFrameworks thread](https://forum.openframeworks.cc/t/ofxdatgui-a-new-user-interface-for-of/20553).
 
 Made something cool that uses ofxDatGui? I'd love to see it!<br>
 [Ping me a link to it](https://twitter.com/braitsch) and I'll add it to the [gallery.](http://braitsch.github.io/ofxDatGui/gallery.html)

@@ -120,7 +120,7 @@ class ofxDatGuiThemeAqua : public ofxDatGuiTheme{
             color.slider.fill = hex(0xF8F3F0);
             color.slider.text = hex(0xFFFFFF);
             color.textInput.text = hex(0xFFFFFF);
-            color.textInput.highlight = hex(0xF8F3F0);
+            color.textInput.highlight = hex(0x445966);
             color.textInput.backgroundOnActive = hex(0x334553);
             color.backgroundOnMouseOver = hex(0x61717D);
             color.backgroundOnMouseDown = hex(0x334553);

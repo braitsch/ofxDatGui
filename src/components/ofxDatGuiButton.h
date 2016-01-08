@@ -100,14 +100,14 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
         {
             mEnabled = enabled;
             mType = ofxDatGuiType::TOGGLE;
-            radioOn.load(OFXDG_ASSET_DIR + "/icon-radio-on.png");
-            radioOff.load(OFXDG_ASSET_DIR + "/icon-radio-off.png");
             setTheme(ofxDatGuiComponent::theme.get());
         }
     
         void setTheme(ofxDatGuiTheme* theme)
         {
             setComponentStyle(theme);
+            radioOn.load(theme->icon.radioOn);
+            radioOff.load(theme->icon.radioOff);
             mStyle.stripe.color = theme->stripe.toggle;
             setWidth(theme->layout.width, theme->layout.labelWidth);
         }

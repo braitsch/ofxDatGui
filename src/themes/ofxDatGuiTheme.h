@@ -26,11 +26,6 @@
 #define RETINA_MIN_WIDTH 2560
 #define RETINA_MIN_HEIGHT 1600
 
-inline static ofColor hex(int n)
-{
-    return ofColor::fromHex(n);
-}
-
 inline static bool ofxDatGuiIsRetina()
 {
     return (ofGetScreenWidth() >= RETINA_MIN_WIDTH && ofGetScreenHeight() >= RETINA_MIN_HEIGHT);
@@ -204,18 +199,29 @@ class ofxDatGuiTheme{
             } matrix;
             
         } layout;
-
+    
     /*
-        the typography settings for this theme
+        typography & icons
     */
     
         struct {
             int size = 6;
-            string file = "ofxdatgui_assets/font-verdana.ttf";
+            string file = "ofxbraitsch/fonts/Verdana.ttf";
             ofTrueTypeFont ttf;
             void load(){ ttf.load(file, size); }
         } font;
+    
+        struct{
+            string rainbow = "ofxbraitsch/ofxdatgui/picker-rainbow.png";
+            string radioOn = "ofxbraitsch/ofxdatgui/icon-radio-on.png";
+            string radioOff = "ofxbraitsch/ofxdatgui/icon-radio-off.png";
+            string dropdown = "ofxbraitsch/ofxdatgui/icon-dropdown.png";
+        } icon;
 
+        static ofColor hex(int n)
+        {
+            return ofColor::fromHex(n);
+        }
 
 };
 

@@ -38,7 +38,6 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
         ofxDatGuiGroup(string label) : ofxDatGuiButton(label)
         {
             mIsExpanded = false;
-            mImage.load(OFXDG_ASSET_DIR+"/icon-dropdown.png");
         }
     
         void setPosition(int x, int y)
@@ -153,6 +152,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup {
         void setTheme(ofxDatGuiTheme* theme)
         {
             setComponentStyle(theme);
+            mImage.load(theme->icon.dropdown);
             setWidth(theme->layout.width, theme->layout.labelWidth);
         }
     
@@ -367,16 +367,14 @@ class ofxDatGuiDropdownOption : public ofxDatGuiButton {
     
         ofxDatGuiDropdownOption(string label) : ofxDatGuiButton(label)
         {
+            mType = ofxDatGuiType::DROPDOWN_OPTION;
             setTheme(ofxDatGuiComponent::theme.get());
-            setName(label);
-            setLabel("* " + label);
         }
     
         void setTheme(ofxDatGuiTheme* theme)
         {
             ofxDatGuiButton::setTheme(theme);
             mStyle.stripe.color = theme->stripe.dropdown;
-            mLabel.rect = mFont.getRect(mLabel.text);
         }
     
         void setWidth(int width, float labelWidth = 1)
@@ -409,6 +407,7 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
         void setTheme(ofxDatGuiTheme* theme)
         {
             setComponentStyle(theme);
+            mImage.load(theme->icon.dropdown);
             mStyle.stripe.color = theme->stripe.dropdown;
             setWidth(theme->layout.width, theme->layout.labelWidth);
         }

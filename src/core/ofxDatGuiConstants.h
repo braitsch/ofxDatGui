@@ -22,8 +22,6 @@
 
 #pragma once
 
-static const string OFXDG_ASSET_DIR = "ofxdatgui_assets";
-
 enum class ofxDatGuiAnchor
 {
     NO_ANCHOR = 0,
@@ -55,10 +53,11 @@ enum class ofxDatGuiType
     PAD2D,
     HEADER,
     FOOTER,
-    DROPDOWN,
     MATRIX,
     SLIDER,
     FOLDER,
+    DROPDOWN,
+    DROPDOWN_OPTION,
     TEXT_INPUT,
     FRAME_RATE,
     COLOR_PICKER,

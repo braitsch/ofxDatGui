@@ -14,7 +14,7 @@ void ofApp::setup()
     input->onTextInputEvent(this, &ofApp::onTextInputEvent);
     input->setPosition(100, 100);
     input->setWidth(800, .2);
-    font.load("ofxdatgui_assets/font-verdana.ttf", 24);
+    font.load("ofxbraitsch/fonts/Verdana.ttf", 24);
 }
 
 void ofApp::onTextInputEvent(ofxDatGuiTextInputEvent e)
