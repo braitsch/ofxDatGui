@@ -42,6 +42,8 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
         }
     
         ofxDatGuiSlider(string label, float min, float max) : ofxDatGuiSlider(label, min, max, (max+min)/2) {}
+        ofxDatGuiSlider(ofParameter<int> & p) : ofxDatGuiSlider(p.getName(), p.getMin(), p.getMax(), p.get()) { mParamI = &p; mPrecision = 0; calculateScale(); }
+        ofxDatGuiSlider(ofParameter<float> & p) : ofxDatGuiSlider(p.getName(), p.getMin(), p.getMax(), p.get()) { mParamF = &p; mPrecision = 2; calculateScale(); }
     
         ~ofxDatGuiSlider()
         {
@@ -247,6 +249,8 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
                 *mBoundi = mVal;
             }
             
+            if (mParamI != nullptr) mParamI->set(mVal);
+            if (mParamF != nullptr) mParamF->set(mVal);
         // dispatch event out to main application //
             if (sliderEventCallback != nullptr) {
                 ofxDatGuiSliderEvent e(this, mVal, mScale);
@@ -280,6 +284,8 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
         float   pVal;
         int*    mBoundi = nullptr;
         float*  mBoundf = nullptr;
+        ofParameter<int>* mParamI = nullptr;
+        ofParameter<float>* mParamF = nullptr;
     
         void calculateScale()
         {

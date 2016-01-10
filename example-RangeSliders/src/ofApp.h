@@ -11,6 +11,13 @@ class ofApp : public ofBaseApp{
 		void draw();
  
         ofxDatGuiSlider* slider;
-        void onSliderEvent(ofxDatGuiSliderEvent e);
+        ofxDatGuiSlider* sliderInt;
+        ofxDatGuiSlider* sliderFloat;
     
+        ofParameter<int> ofParamInt;
+        ofParameter<float> ofParamFloat;
+    
+        void onParamIntChanged(int & pInt);
+        void onParamFloatChanged(float & pFloat);
+        void onSliderEvent(ofxDatGuiSliderEvent e);
 };

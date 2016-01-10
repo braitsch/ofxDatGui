@@ -9,40 +9,73 @@ void ofApp::setup()
 {
     ofSetWindowPosition(0, 0);
     
-// instantiate a slider with a default value of 20 //
-    slider = new ofxDatGuiSlider("BACKGROUND BRIGHTNESS", 0, 100, 20);
+/*
+    instantiate a slider using an ofParameter<int> instance
+*/
     
-// slider values are floats that by default have a two decimal place precision //
-// if you want the slider to work with integers simply set the precision to zero //
-// the maximum precision that is currently supported is four decimal places //
-// slider->setPrecision(0);
+    sliderInt = new ofxDatGuiSlider(ofParamInt.set("of_Paramater<int>", 120, 0, 300));
+    sliderInt->setWidth(ofGetWidth(), .2); // make label area 20% of width //
+    sliderInt->setPosition(0, ofGetHeight()*.50 - sliderInt->getHeight()/2 - 100);
+    sliderInt->onSliderEvent(this, &ofApp::onSliderEvent);
+    ofParamInt.addListener(this, &ofApp::onParamIntChanged);
    
-// let's make it BIG //
-    slider->setWidth(ofGetWidth(), .2);
-    
-// and position it verticaly centered on the screen //
-    slider->setPosition(0, ofGetHeight()/2 - slider->getHeight()/2);
+/*
+    instantiate a slider using an ofParameter<float> instance
+*/
 
-// listen for change events //
-    slider->onSliderEvent(this, &ofApp::onSliderEvent);
+    sliderFloat = new ofxDatGuiSlider(ofParamFloat.set("of_Paramater<float>", 210.0f, 0.0f, 300.0f));
+    sliderFloat->setWidth(ofGetWidth(), .2); // make label area 20% of width //
+    sliderFloat->setPosition(0, ofGetHeight()*.50 - sliderFloat->getHeight()/2);
+    sliderFloat->onSliderEvent(this, &ofApp::onSliderEvent);
+    ofParamFloat.addListener(this, &ofApp::onParamFloatChanged);
     
-// and set the background color to the slider's default value //
-    ofSetBackgroundColor(ofColor::white*slider->getScale());
+/*
+    instantiate a slider with regular ol' floats or ints
+*/
+    
+    slider = new ofxDatGuiSlider("BACKGROUND BRIGHTNESS", 0, 100, 20);
+    slider->setPrecision(4);
+    slider->setWidth(ofGetWidth(), .2); // make label area 20% of width //
+    slider->setPosition(0, ofGetHeight()*.50 - slider->getHeight()/2 + 100);
+    slider->onSliderEvent(this, &ofApp::onSliderEvent);
+    ofSetBackgroundColor(ofColor::white * slider->getScale());
+}
+
+void ofApp::onParamIntChanged(int & n)
+{
+    cout << "onParamIntChanged "<< n << endl;
+}
+
+void ofApp::onParamFloatChanged(float & f)
+{
+    cout << "onParamFloatChanged "<< f << endl;
 }
 
 void ofApp::onSliderEvent(ofxDatGuiSliderEvent e)
 {
-    ofSetBackgroundColor(ofColor::white*e.scale);
-    cout << "value = " << e.value << " : scale = " << e.scale << endl;
+    if(e.target == slider){
+        ofSetBackgroundColor(ofColor::white*e.scale);
+        cout << "value = " << e.value << " : scale = " << e.scale << endl;
+    }   else if (e.target == sliderInt){
+    //  uncomment this to print the change event received from the int slider //
+    //  cout << "value = " << e.value << " : scale = " << e.scale << endl;
+    }   else if (e.target == sliderFloat){
+    //  uncomment this to print the change event received from the float slider //
+    //  cout << "value = " << e.value << " : scale = " << e.scale << endl;
+    }
 }
 
 void ofApp::update()
 {
     slider->update();
+    sliderInt->update();
+    sliderFloat->update();
 }
 
 void ofApp::draw()
 {
     slider->draw();
+    sliderInt->draw();
+    sliderFloat->draw();
 }
 

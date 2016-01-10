@@ -303,6 +303,7 @@ void ofxDatGuiComponent::setBorder(ofColor color, int width)
 {
     mStyle.border.color = color;
     mStyle.border.width = width;
+    mStyle.border.visible = true;
 }
 
 void ofxDatGuiComponent::setBorderVisible(bool visible)
