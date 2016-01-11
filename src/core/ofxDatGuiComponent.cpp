@@ -362,6 +362,7 @@ void ofxDatGuiComponent::update(bool acceptEvents)
 void ofxDatGuiComponent::draw()
 {
     ofPushStyle();
+        ofDisableDepthTest();
         if (mStyle.border.visible) drawBorder();
         drawBackground();
         drawLabel();
