@@ -246,6 +246,22 @@ ofxDatGuiToggle* ofxDatGui::addToggle(string label, bool enabled)
     return button;
 }
 
+ofxDatGuiSlider* ofxDatGui::addSlider(ofParameter<int>& p)
+{
+    ofxDatGuiSlider* slider = new ofxDatGuiSlider(p);
+    slider->onSliderEvent(this, &ofxDatGui::onSliderEventCallback);
+    attachItem(slider);
+    return slider;
+}
+
+ofxDatGuiSlider* ofxDatGui::addSlider(ofParameter<float>& p)
+{
+    ofxDatGuiSlider* slider = new ofxDatGuiSlider(p);
+    slider->onSliderEvent(this, &ofxDatGui::onSliderEventCallback);
+    attachItem(slider);
+    return slider;
+}
+
 ofxDatGuiSlider* ofxDatGui::addSlider(string label, float min, float max)
 {
 // default to halfway between min & max values //

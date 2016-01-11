@@ -42,8 +42,18 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
         }
     
         ofxDatGuiSlider(string label, float min, float max) : ofxDatGuiSlider(label, min, max, (max+min)/2) {}
-        ofxDatGuiSlider(ofParameter<int> & p) : ofxDatGuiSlider(p.getName(), p.getMin(), p.getMax(), p.get()) { mParamI = &p; mPrecision = 0; calculateScale(); }
-        ofxDatGuiSlider(ofParameter<float> & p) : ofxDatGuiSlider(p.getName(), p.getMin(), p.getMax(), p.get()) { mParamF = &p; mPrecision = 2; calculateScale(); }
+        ofxDatGuiSlider(ofParameter<int> & p) : ofxDatGuiSlider(p.getName(), p.getMin(), p.getMax(), p.get()) {
+            mParamI = &p;
+            mPrecision = 0;
+            calculateScale();
+            mParamI->addListener(this, &ofxDatGuiSlider::onParamI);
+        }
+        ofxDatGuiSlider(ofParameter<float> & p) : ofxDatGuiSlider(p.getName(), p.getMin(), p.getMax(), p.get()) {
+            mParamF = &p;
+            mPrecision = 2;
+            calculateScale();
+            mParamF->addListener(this, &ofxDatGuiSlider::onParamF);
+        }
     
         ~ofxDatGuiSlider()
         {
@@ -287,6 +297,9 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
         ofParameter<int>* mParamI = nullptr;
         ofParameter<float>* mParamF = nullptr;
     
+        void onParamI(int& n) { setValue(n); }
+        void onParamF(float& n) { setValue(n); }
+    
         void calculateScale()
         {
             if (mMax <= mMin || mMin >= mMax){
@@ -303,6 +316,11 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
                 mScale = ofxDatGuiScale(mVal, mMin, mMax);
             }
             mVal = round(mVal, mPrecision);
+            if (mParamI != nullptr){
+                mParamI->set(mVal);
+            }   else if (mParamF != nullptr){
+                mParamF->set(mVal);
+            }
             setTextInput();
         }
     

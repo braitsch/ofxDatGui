@@ -64,7 +64,10 @@ class ofxDatGuiLabel : public ofxDatGuiComponent{
 
     public:
         
-        ofxDatGuiLabel(string label) : ofxDatGuiComponent(label) { }
+        ofxDatGuiLabel(string label) : ofxDatGuiComponent(label)
+        {
+            setTheme(ofxDatGuiComponent::theme.get());
+        }
     
         void setTheme(ofxDatGuiTheme* theme)
         {
