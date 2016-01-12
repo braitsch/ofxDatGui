@@ -72,6 +72,7 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         virtual bool hitTest(ofPoint m);
 
         virtual void setPosition(int x, int y);
+        virtual void setParentPosition(int x, int y);
         virtual void setTheme(ofxDatGuiTheme* theme) = 0;
         virtual void setWidth(int width, float labelWidth);
         virtual void setLabelAlignment(ofxDatGuiAlignment align);
@@ -109,6 +110,7 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         ofxDatGuiType mType;
         ofxDatGuiFont mFont;
         ofxDatGuiAnchor mAnchor;
+        ofPoint mParentPosition;
         static std::unique_ptr<ofxDatGuiTheme> theme;
     
         struct{

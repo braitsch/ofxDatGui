@@ -53,7 +53,6 @@ class ofxDatGuiButton : public ofxDatGuiComponent {
             if (mVisible) {
             // anything that extends ofxDatGuiButton has the same rollover effect //
                 ofPushStyle();
-                    ofDisableDepthTest();
                     if (mStyle.border.visible) drawBorder();
                     ofFill();
                     if (mFocused && mMouseDown){

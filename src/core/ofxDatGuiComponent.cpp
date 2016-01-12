@@ -167,6 +167,11 @@ void ofxDatGuiComponent::setPosition(int x, int y)
     for(int i=0; i<children.size(); i++) children[i]->setPosition(x, this->y + (mStyle.height+mStyle.vMargin)*(i+1));
 }
 
+void ofxDatGuiComponent::setParentPosition(int x, int y)
+{
+    mParentPosition = ofPoint(x, y);
+}
+
 void ofxDatGuiComponent::setVisible(bool visible)
 {
     mVisible = visible;
@@ -319,7 +324,7 @@ void ofxDatGuiComponent::update(bool acceptEvents)
 {
     if (acceptEvents && mEnabled){
         bool mp = ofGetMousePressed();
-        ofPoint mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
+        ofPoint mouse = ofPoint(ofGetMouseX() - mParentPosition.x, ofGetMouseY() - mParentPosition.y);
         if (hitTest(mouse)){
             if (!mMouseOver){
                 onMouseEnter(mouse);
@@ -362,7 +367,6 @@ void ofxDatGuiComponent::update(bool acceptEvents)
 void ofxDatGuiComponent::draw()
 {
     ofPushStyle();
-        ofDisableDepthTest();
         if (mStyle.border.visible) drawBorder();
         drawBackground();
         drawLabel();
