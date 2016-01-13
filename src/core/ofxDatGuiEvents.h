@@ -29,6 +29,7 @@ class ofxDatGuiTextInput;
 class ofxDatGui2dPad;
 class ofxDatGuiColorPicker;
 class ofxDatGuiMatrix;
+class ofxDatGuiScrollView;
 
 enum ofxDatGuiEventType
 {

@@ -30,6 +30,7 @@
 #include "ofxDatGuiColorPicker.h"
 #include "ofxDatGuiMatrix.h"
 #include "ofxDatGuiTimeGraph.h"
+#include "ofxDatGuiScrollView.h"
 
 class ofxDatGuiGroup : public ofxDatGuiButton {
 

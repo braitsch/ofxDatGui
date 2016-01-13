@@ -88,7 +88,7 @@ void ofApp::setup()
     tIndex = 0;
     
 // launch the app //
-    mFullscreen = false;
+    mFullscreen = true;
     refreshWindow();
 }
 
