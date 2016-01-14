@@ -29,6 +29,7 @@ class ofxDatGuiScrollView : public ofxDatGuiComponent {
     
         ofxDatGuiScrollView(int nVisible = 6) : ofxDatGuiComponent("")
         {
+            mAutoHeight = true;
             mNumVisible = nVisible;
             setTheme(ofxDatGuiComponent::theme.get());
             ofAddListener(ofEvents().mouseScrolled, this, &ofxDatGuiScrollView::onMouseScrolled, OF_EVENT_ORDER_BEFORE_APP);
@@ -48,8 +49,8 @@ class ofxDatGuiScrollView : public ofxDatGuiComponent {
             children.back()->setPosition(0, y);
             children.back()->setParentPosition(mRect.x, mRect.y);
             children.back()->onButtonEvent(this, &ofxDatGuiScrollView::onButtonEvent);
-            cout << "ofxDatGuiScrollView :: total items = " << children.size() << endl;
-            setHeight();
+        //  cout << "ofxDatGuiScrollView :: total items = " << children.size() << endl;
+            if (mAutoHeight) autoSize();
         }
     
         ofxDatGuiComponent* get(int index)
@@ -70,6 +71,20 @@ class ofxDatGuiScrollView : public ofxDatGuiComponent {
         void remove(ofxDatGuiComponent* item)
         {
         
+        }
+   
+    /*
+        temporary getters until mRect is implemented in ofxDatGuiComponent
+    */
+    
+        int getX()
+        {
+            return mRect.x;
+        }
+    
+        int getY()
+        {
+            return mRect.y;
         }
     
         int getNumItems()
@@ -94,7 +109,14 @@ class ofxDatGuiScrollView : public ofxDatGuiComponent {
         {
             mRect.width = width;
             for (auto i:children) i->setWidth(mRect.width, labelWidth);
-            setHeight();
+            if (mAutoHeight) autoSize();
+        }
+    
+        void setHeight(int height)
+        {
+            mAutoHeight = false;
+            mRect.height = height;
+            mView.allocate( mRect.width, mRect.height );
         }
 
         void setPosition(int x, int y)
@@ -120,23 +142,24 @@ class ofxDatGuiScrollView : public ofxDatGuiComponent {
     
         void draw()
         {
-        // draw a background behind the fbo //
-            ofSetColor(ofColor::black);
-            ofDrawRectangle(mRect);
-        
-        // draw into the fbo //
-            mView.begin();
-            ofClear(255,255,255,0);
-            ofSetColor(mBackground);
-            ofDrawRectangle(0, 0, mRect.width, mRect.height);
-            for(auto i:children) i->draw();
-            mView.end();
+            ofPushStyle();
+                ofFill();
+            // draw a background behind the fbo //
+                ofSetColor(ofColor::black);
+                ofDrawRectangle(mRect);
+            // draw into the fbo //
+                mView.begin();
+                ofClear(255,255,255,0);
+                ofSetColor(mBackground);
+                ofDrawRectangle(0, 0, mRect.width, mRect.height);
+                for(auto i:children) i->draw();
+                mView.end();
 
-        // draw the fbo of list content //
-            ofSetColor(ofColor::white);
-            mView.draw(mRect.x, mRect.y);
+            // draw the fbo of list content //
+                ofSetColor(ofColor::white);
+                mView.draw(mRect.x, mRect.y);
+            ofPopStyle();
         }
-
 
     private:
     
@@ -147,8 +170,9 @@ class ofxDatGuiScrollView : public ofxDatGuiComponent {
     
         int mSpacing;
         int mNumVisible;
+        bool mAutoHeight;
     
-        void setHeight()
+        void autoSize()
         {
             mRect.height = ((mTheme->layout.height + mSpacing) * mNumVisible) - mSpacing;
             mView.allocate( mRect.width, mRect.height );
@@ -156,6 +180,7 @@ class ofxDatGuiScrollView : public ofxDatGuiComponent {
     
         void onMouseScrolled(ofMouseEventArgs &e)
         {
+            if (children.size() == 0) return;
             float sy = e.scrollY * 2;
             int topY = children.front()->getY();
             int btnH = children.front()->getHeight() + mSpacing;

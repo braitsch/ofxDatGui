@@ -75,6 +75,11 @@ class ofxDatGuiLabel : public ofxDatGuiComponent{
             mStyle.stripe.color = theme->stripe.label;
         }
     
+        void setWidth(int width, float labelWidth = 1)
+        {
+            ofxDatGuiComponent::setWidth(width, labelWidth);
+        }
+    
         void draw()
         {
             ofxDatGuiComponent::draw();
