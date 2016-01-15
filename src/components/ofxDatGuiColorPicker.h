@@ -35,7 +35,7 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
             setTheme(ofxDatGuiComponent::theme.get());
             
         // center the text input field //
-            mInput.setTextInputFieldType(ofxDatGuiTextInputField::COLORPICKER);
+            mInput.setTextInputFieldType(ofxDatGuiInputType::COLORPICKER);
             setTextFieldInputColor();
             
         // setup the vbo that draws the main gradient //

@@ -67,6 +67,11 @@ class ofxDatGuiTextInput : public ofxDatGuiComponent {
             return mInput.setText(text);
         }
     
+        void setInputType(ofxDatGuiInputType type)
+        {
+            mInput.setTextInputFieldType(type);
+        }
+    
         void draw()
         {
             if (mVisible){

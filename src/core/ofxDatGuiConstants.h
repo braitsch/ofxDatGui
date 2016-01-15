@@ -44,6 +44,13 @@ enum class ofxDatGuiAlignment
     RIGHT = 3
 };
 
+enum class ofxDatGuiInputType
+{
+    NUMERIC = 1,
+    ALPHA_NUMERIC = 2,
+    COLORPICKER = 3
+};
+
 enum class ofxDatGuiType
 {
     LABEL = 0,

@@ -27,20 +27,13 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
 
     public:
     
-        enum ofxDatGuiTextInputFieldType
-        {
-            NUMERIC = 1,
-            ALPHA_NUMERIC,
-            COLORPICKER
-        };
-    
         ofxDatGuiTextInputField()
         {
             mFocused = false;
             mTextChanged = false;
             mHighlightText = false;
             mMaxCharacters = 99;
-            mType = ALPHA_NUMERIC;
+            mType = ofxDatGuiInputType::ALPHA_NUMERIC;
             setTheme(ofxDatGuiComponent::getTheme());
         }
     
@@ -58,7 +51,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
         void setTheme(const ofxDatGuiTheme* tmplt)
         {
             mFont.set(&tmplt->font.ttf);
-            mTextRect = mFont.getRect(mType == COLORPICKER ? "#" + mText : mText);
+            mTextRect = mFont.getRect(mType == ofxDatGuiInputType::COLORPICKER ? "#" + mText : mText);
             mInputRect.height = tmplt->layout.height - (tmplt->layout.padding * 2);
             color.active.background = tmplt->color.textInput.backgroundOnActive;
             color.inactive.background = tmplt->color.inputAreaBackground;
@@ -76,7 +69,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             int ty = mInputRect.y + mInputRect.height / 2 - mTextRect.height / 2;
             ofPushStyle();
             // draw the input field background //
-                if (mFocused && mType != COLORPICKER){
+                if (mFocused && mType != ofxDatGuiInputType::COLORPICKER){
                     ofSetColor(color.active.background);
                 }   else {
                     ofSetColor(color.inactive.background);
@@ -95,7 +88,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             // draw the text //
                 ofColor tColor = mHighlightText ? color.active.text : color.inactive.text;
                 ofSetColor(tColor);
-                mFont.draw(mType == COLORPICKER ? "#" + mText : mText, tx, ty);
+                mFont.draw(mType == ofxDatGuiInputType::COLORPICKER ? "#" + mText : mText, tx, ty);
                 if (mFocused) {
             // draw the cursor //
                     ofDrawLine(ofPoint(tx + mCursorX, mInputRect.getTop()), ofPoint(tx + mCursorX, mInputRect.getBottom()));
@@ -128,7 +121,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             mText = text;
             mTextChanged = true;
             if (mUpperCaseText) mText = ofToUpper(mText);
-            mTextRect = mFont.getRect(mType == COLORPICKER ? "#" + mText : mText);
+            mTextRect = mFont.getRect(mType == ofxDatGuiInputType::COLORPICKER ? "#" + mText : mText);
         }
     
         string getText()
@@ -146,7 +139,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             color.inactive.text = c;
         }
     
-        void setTextInputFieldType(ofxDatGuiTextInputFieldType type)
+        void setTextInputFieldType(ofxDatGuiInputType type)
         {
             mType = type;
         }
@@ -218,7 +211,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             // if we're at a space append the width the font's 'p' character //
                 if (mText.at(index - 1) == ' ') mCursorX += mFont.getRect("p").width;
             }
-            if (mType == COLORPICKER) mCursorX += mFont.getRect("#").width*1.5;
+            if (mType == ofxDatGuiInputType::COLORPICKER) mCursorX += mFont.getRect("#").width*1.5;
             mCursorIndex = index;
         }
     
@@ -228,7 +221,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
         {
             if (key == OF_KEY_BACKSPACE || key == OF_KEY_LEFT || key == OF_KEY_RIGHT){
                 return true;
-            }   else if (mType == COLORPICKER){
+            }   else if (mType == ofxDatGuiInputType::COLORPICKER){
             // limit string length to six hex characters //
                 if (!mHighlightText && mText.size() == 6){
                     return false;
@@ -242,7 +235,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             // an invalid key was entered //
                     return false;
                 }
-            }   else if (mType == NUMERIC){
+            }   else if (mType == ofxDatGuiInputType::NUMERIC){
             // allow dash (-) or dot (.) //
                 if (key==45 || key==46){
                     return true;
@@ -253,7 +246,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             // an invalid key was entered //
                     return false;
                 }
-            }   else if (mType == ALPHA_NUMERIC){
+            }   else if (mType == ofxDatGuiInputType::ALPHA_NUMERIC){
             // limit range to printable characters http://www.ascii-code.com //
                 if (key >= 32 && key <= 255) {
                     return true;
@@ -293,6 +286,6 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             ofColor highlight;
         } color;
         ofxDatGuiFont mFont;
-        ofxDatGuiTextInputFieldType mType;
+        ofxDatGuiInputType mType;
 };
 
