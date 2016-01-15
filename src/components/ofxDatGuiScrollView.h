@@ -154,7 +154,6 @@ class ofxDatGuiScrollView : public ofxDatGuiComponent {
                 ofDrawRectangle(0, 0, mRect.width, mRect.height);
                 for(auto i:children) i->draw();
                 mView.end();
-
             // draw the fbo of list content //
                 ofSetColor(ofColor::white);
                 mView.draw(mRect.x, mRect.y);
@@ -180,34 +179,43 @@ class ofxDatGuiScrollView : public ofxDatGuiComponent {
     
         void onMouseScrolled(ofMouseEventArgs &e)
         {
-            if (children.size() == 0) return;
-            float sy = e.scrollY * 2;
-            int topY = children.front()->getY();
-            int btnH = children.front()->getHeight() + mSpacing;
-            int minY = mRect.height + mSpacing  - (children.size() * btnH);
-            bool allowScroll = false;
-            if (sy < 0){
-                if (topY > minY){
-                    topY += sy;
-                    if (topY < minY) topY = minY;
-                    allowScroll = true;
+            if (children.size() > 0 && mRect.inside(e.x, e.y) == true){
+                float sy = e.scrollY * 2;
+                int topY = children.front()->getY();
+                int btnH = children.front()->getHeight() + mSpacing;
+                int minY = mRect.height + mSpacing  - (children.size() * btnH);
+                bool allowScroll = false;
+                if (sy < 0){
+                    if (topY > minY){
+                        topY += sy;
+                        if (topY < minY) topY = minY;
+                        allowScroll = true;
+                    }
+                }   else if (sy > 0){
+                    if (topY < 0){
+                        topY += sy;
+                        if (topY > 0) topY = 0;
+                        allowScroll = true;
+                    }
                 }
-            }   else if (sy > 0){
-                if (topY < 0){
-                    topY += sy;
-                    if (topY > 0) topY = 0;
-                    allowScroll = true;
+                if (allowScroll){
+                    children.front()->setPosition(0, topY);
+                    for(int i=0; i<children.size(); i++) children[i]->setPosition(0, topY + (btnH * i));
                 }
-            }
-            if (allowScroll){
-                children.front()->setPosition(0, topY);
-                for(int i=0; i<children.size(); i++) children[i]->setPosition(0, topY + (btnH * i));
             }
         }
     
         void onButtonEvent(ofxDatGuiButtonEvent e)
         {
-            cout << "ofxDatGuiScrollView :: " << e.target->getName() << " clicked" << endl;
+            if (scrollViewEventCallback != nullptr) {
+                int i = 0;
+                for(i; i<children.size(); i++) if (children[i] == e.target) break;
+                ofxDatGuiScrollViewEvent e1(this, i);
+                scrollViewEventCallback(e1);
+            }   else{
+                ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+            }
+        //  cout << "ofxDatGuiScrollView :: " << e.target->getName() << " clicked" << endl;
         }
 
 };

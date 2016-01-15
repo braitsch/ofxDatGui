@@ -120,6 +120,18 @@ class ofxDatGuiDropdownEvent{
     ofxDatGuiDropdown* target;
 };
 
+class ofxDatGuiScrollViewEvent{
+
+    public:
+        ofxDatGuiScrollViewEvent(ofxDatGuiScrollView* t, int i)
+        {
+            index = i;
+            target = t;
+        }
+    int index;
+    ofxDatGuiScrollView* target;
+};
+
 class ofxDatGui2dPadEvent{
 
     public:

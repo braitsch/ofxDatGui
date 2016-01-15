@@ -169,6 +169,17 @@ class ofxDatGuiInteractiveObject{
             using namespace std::placeholders;
             matrixEventCallback = std::bind(listenerMethod, owner, _1);
         }
+    
+    // scrollview events //
+        typedef std::function<void(ofxDatGuiScrollViewEvent)> onScrollViewEventCallback;
+        onScrollViewEventCallback scrollViewEventCallback;
+    
+        template<typename T, typename args, class ListenerClass>
+        void onScrollViewEvent(T* owner, void (ListenerClass::*listenerMethod)(args))
+        {
+            using namespace std::placeholders;
+            scrollViewEventCallback = std::bind(listenerMethod, owner, _1);
+        }
 
     // internal events //
         typedef std::function<void(ofxDatGuiInternalEvent)> onInternalEventCallback;
