@@ -30,6 +30,7 @@
 #include "ofxDatGuiColorPicker.h"
 #include "ofxDatGuiMatrix.h"
 #include "ofxDatGuiTimeGraph.h"
+#include "ofxDatGuiImageMatrix.h"
 
 class ofxDatGuiGroup : public ofxDatGuiButton {
 
@@ -226,6 +227,16 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
             }
         }
 
+		void dispatchImageMatrixEvent(ofxDatGuiImageMatrixEvent e)
+		{
+			if (imageMatrixEventCallback != nullptr) {
+				imageMatrixEventCallback(e);
+			}
+			else {
+				ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+			}
+		}
+
     /*
         component add methods
     */
@@ -323,6 +334,15 @@ class ofxDatGuiFolder : public ofxDatGuiGroup{
             attachItem(matrix);
             return matrix;
         }
+
+		ofxDatGuiImageMatrix* addImageMatrix(string label, std::vector<std::string> imagePaths)
+		{
+			ofxDatGuiImageMatrix* matrix = new ofxDatGuiImageMatrix(label, imagePaths, mTemplate);
+			matrix->setStripeColor(mStripeColor);
+			matrix->onImageMatrixEvent(this, &ofxDatGuiFolder::dispatchImageMatrixEvent);
+			attachItem(matrix);
+			return matrix;
+		}
     
         ofxDatGuiWaveMonitor* addWaveMonitor(string label, float frequency, float amplitude)
         {
