@@ -50,7 +50,7 @@ void ofApp::setup()
     gui->addBreak();
 
 // add a 2d pad //
-    ofxDatGui2dPad* pad = gui->add2dPad("2d pad");
+    gui->add2dPad("2d pad");
 
 // a button matrix //
     gui->addMatrix("matrix", 21, true);

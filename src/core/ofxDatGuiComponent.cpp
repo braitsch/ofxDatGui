@@ -107,7 +107,7 @@ void ofxDatGuiComponent::setComponentStyle(ofxDatGuiTheme* theme)
     mLabel.forceUpperCase = theme->layout.upperCaseLabels;
     setLabel(mLabel.text);
     setWidth(theme->layout.width, theme->layout.labelWidth);
-    for (int i=0; i<children.size(); i++) children[i]->setTheme(theme);
+    for (int i=0; i<(int)children.size(); i++) children[i]->setTheme(theme);
 }
 
 void ofxDatGuiComponent::setWidth(int width, float labelWidth)
@@ -122,7 +122,7 @@ void ofxDatGuiComponent::setWidth(int width, float labelWidth)
     }
     mLabel.rightAlignedXpos = mLabel.width - mLabel.margin;
     mIcon.x = mStyle.width - (mStyle.width * .05) - 20;
-    for (int i=0; i<children.size(); i++) children[i]->setWidth(width, labelWidth);
+    for (int i=0; i<(int)children.size(); i++) children[i]->setWidth(width, labelWidth);
 }
 
 int ofxDatGuiComponent::getWidth()
@@ -149,7 +149,7 @@ void ofxDatGuiComponent::setPosition(int x, int y)
 {
     this->x = x;
     this->y = y;
-    for(int i=0; i<children.size(); i++) children[i]->setPosition(x, this->y + (mStyle.height+mStyle.vMargin)*(i+1));
+    for(int i=0; i<(int)children.size(); i++) children[i]->setPosition(x, this->y + (mStyle.height+mStyle.vMargin)*(i+1));
 }
 
 void ofxDatGuiComponent::setVisible(bool visible)
@@ -169,7 +169,7 @@ bool ofxDatGuiComponent::getVisible()
 void ofxDatGuiComponent::setOpacity(float opacity)
 {
     mStyle.opacity = opacity * 255;
-    for (int i=0; i<children.size(); i++) children[i]->setOpacity(opacity);
+    for (int i=0; i<(int)children.size(); i++) children[i]->setOpacity(opacity);
 }
 
 void ofxDatGuiComponent::setEnabled(bool enabled)
@@ -210,7 +210,7 @@ void ofxDatGuiComponent::setAnchor(ofxDatGuiAnchor anchor)
 void ofxDatGuiComponent::setLabelAlignment(ofxDatGuiAlignment align)
 {
     mLabel.alignment = align;
-    for (int i=0; i<children.size(); i++) children[i]->setLabelAlignment(align);
+    for (int i=0; i<(int)children.size(); i++) children[i]->setLabelAlignment(align);
 }
 
 bool ofxDatGuiComponent::getIsExpanded()
@@ -320,7 +320,7 @@ void ofxDatGuiComponent::update(bool acceptEvents)
     }
 // don't update children unless they're visible //
     if (this->getIsExpanded()) {
-        for(int i=0; i<children.size(); i++) {
+        for(int i=0; i<(int)children.size(); i++) {
             children[i]->update(acceptEvents);
             if (children[i]->getFocused()){
                 if (acceptEvents == false ) children[i]->setFocused(false);
@@ -346,7 +346,7 @@ void ofxDatGuiComponent::drawLabel()
 
 void ofxDatGuiComponent::drawLabel(string label)
 {
-    float lx;
+    float lx = 0;
     if (mLabel.alignment == ofxDatGuiAlignment::LEFT){
         lx = mLabel.margin;
     }   else if (mLabel.alignment == ofxDatGuiAlignment::CENTER){

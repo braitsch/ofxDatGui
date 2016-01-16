@@ -95,12 +95,12 @@ void ofApp::update()
 //    plotter->setValue(ofRandom(plotter->getMin()*.5, plotter->getMax()*.5));
     float v = ofRandom(plotter->getMin(), plotter->getMax());
     plotter->setValue(v);
-    for(int i=0; i<components.size(); i++) components[i]->update();
+    for(int i=0; i<(int)components.size(); i++) components[i]->update();
 }
 
 void ofApp::draw()
 {
-    for(int i=0; i<components.size(); i++) components[i]->draw();
+    for(int i=0; i<(int)components.size(); i++) components[i]->draw();
 }
 
 /*

@@ -90,7 +90,7 @@ class ofxDatGuiTimeGraph : public ofxDatGuiComponent {
             float py = this->y + mPlotterRect.y;
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
             glBegin(GL_TRIANGLE_STRIP);
-            for (int i=0; i<pts.size(); i++) {
+            for (int i=0; i<(int)pts.size(); i++) {
                 glVertex2f(px+ pts[i].x, py + mPlotterRect.height);
                 glVertex2f(px+ pts[i].x, py + pts[i].y);
             }
@@ -104,7 +104,7 @@ class ofxDatGuiTimeGraph : public ofxDatGuiComponent {
             glLineWidth(mLineWeight);
             glBegin(GL_LINE_LOOP);
             glVertex2f(px+mPlotterRect.width, py+mPlotterRect.height);
-            for (int i=0; i<pts.size(); i++) glVertex2f(px+pts[i].x, py+pts[i].y);
+            for (int i=0; i<(int)pts.size(); i++) glVertex2f(px+pts[i].x, py+pts[i].y);
             glVertex2f(px, py+mPlotterRect.height);
             glEnd();
         }
@@ -115,7 +115,7 @@ class ofxDatGuiTimeGraph : public ofxDatGuiComponent {
             float py = this->y + mPlotterRect.y;
             glLineWidth(mLineWeight);
             glBegin(GL_LINE_STRIP);
-            for (int i=0; i<pts.size(); i++) glVertex2f(px+pts[i].x, py+pts[i].y);
+            for (int i=0; i<(int)pts.size(); i++) glVertex2f(px+pts[i].x, py+pts[i].y);
             glEnd();
         }
     
@@ -126,7 +126,7 @@ class ofxDatGuiTimeGraph : public ofxDatGuiComponent {
             glPointSize(mLineWeight);
             glLineWidth(mLineWeight);
             glBegin(GL_POINTS);
-            for (int i=0; i<pts.size(); i++) glVertex2f(px+pts[i].x, py+pts[i].y);
+            for (int i=0; i<(int)pts.size(); i++) glVertex2f(px+pts[i].x, py+pts[i].y);
             glEnd();
         }
     
@@ -285,9 +285,9 @@ class ofxDatGuiValuePlotter : public ofxDatGuiTimeGraph {
         void update(bool ignoreMouseEvents)
         {
         // shift all points over before adding new value //
-            for (int i=0; i<pts.size(); i++) pts[i].x -= mSpeed;
+            for (int i=0; i<(int)pts.size(); i++) pts[i].x -= mSpeed;
             int i = 0;
-            while(i < pts.size())
+            while(i < (int)pts.size())
             {
                 if (pts[i].x <= 0) pts.erase(pts.end()-1);
                 if (pts[i].x <= mSpeed) pts[i].x = mLineWeight/2;

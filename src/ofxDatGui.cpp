@@ -89,13 +89,13 @@ void ofxDatGui::focus()
         mEnabled = true;
         mActiveGui = this;
     // update the draw order //
-        for (int i=0; i<mGuis.size(); i++) {
+        for (int i=0; i<(int)mGuis.size(); i++) {
             if (mGuis[i] == mActiveGui) {
                 std::swap(mGuis[i], mGuis[mGuis.size()-1]);
                 break;
             }
         }
-        for (int i=0; i<mGuis.size(); i++) {
+        for (int i=0; i<(int)mGuis.size(); i++) {
             if (mGuis[i]->getAutoDraw()) mGuis[i]->setAutoDraw(true, i);
         }
     }   else{
@@ -552,12 +552,12 @@ ofxDatGuiFooter* ofxDatGui::getFooter()
 
 ofxDatGuiComponent* ofxDatGui::getComponent(ofxDatGuiType type, string label)
 {
-    for (int i=0; i<items.size(); i++) {
+    for (int i=0; i<(int)items.size(); i++) {
         if (items[i]->getType() == type){
             if (items[i]->is(label)) return items[i];
         }
     // iterate over component's children and return the first match we find //
-        for (int j=0; j<items[i]->children.size(); j++) {
+        for (int j=0; j<(int)(items[i]->children.size()); j++) {
             if (items[i]->children[j]->is(label)) return items[i]->children[j];
         }
     }
@@ -680,7 +680,7 @@ void ofxDatGui::anchorGui()
 void ofxDatGui::layoutGui()
 {
     mHeight = 0;
-    for (int i=0; i<items.size(); i++) {
+    for (int i=0; i<(int)items.size(); i++) {
         items[i]->setIndex(i);
     // skip over any components that are currently invisible //
         if (items[i]->getVisible() == false) continue;
@@ -713,7 +713,7 @@ void ofxDatGui::update()
     if (!mVisible) return;
 
     // check if we need to update components //
-    for (int i=0; i<items.size(); i++) {
+    for (int i=0; i<(int)items.size(); i++) {
         if (mAlphaChanged) items[i]->setOpacity(mAlpha);
         if (mThemeChanged) items[i]->setTheme(mTheme);
         if (mWidthChanged) items[i]->setWidth(mWidth, mLabelWidth);
@@ -741,7 +741,7 @@ void ofxDatGui::update()
 
     if (!getFocused() || !mEnabled){
     // update children but ignore mouse & keyboard events //
-        for (int i=0; i<items.size(); i++) items[i]->update(false);
+        for (int i=0; i<(int)items.size(); i++) items[i]->update(false);
     }   else {
         mMoving = false;
     // this gui has focus so let's see if any of its components were interacted with //
@@ -749,7 +749,7 @@ void ofxDatGui::update()
             mGuiFooter->update();
         }   else{
             int activeItemIndex = -1;
-            for (int i=0; i<items.size(); i++) {
+            for (int i=0; i<(int)items.size(); i++) {
                 items[i]->update();
                 if (items[i]->getFocused()) {
                     activeItemIndex = i;
@@ -762,7 +762,7 @@ void ofxDatGui::update()
                     break;
                 }   else if (items[i]->getIsExpanded()){
                 // check if one of its children has focus //
-                    for (int j=0; j<items[i]->children.size(); j++) {
+                    for (int j=0; j<(int)(items[i]->children.size()); j++) {
                         if (items[i]->children[j]->getFocused()){
                             activeItemIndex = i;
                             break;
@@ -773,7 +773,7 @@ void ofxDatGui::update()
             }
         // update the remaining components //
             if (activeItemIndex != -1){
-                for (int i=activeItemIndex + 1; i<items.size(); i++) {
+                for (int i=activeItemIndex + 1; i<(int)items.size(); i++) {
         //  but tell them to ignore mouse & keyboard events since we're already determined the active component //
                     items[i]->update(false);
                     if (items[i]->getFocused()) items[i]->setFocused(false);
@@ -783,7 +783,7 @@ void ofxDatGui::update()
     }
     
 // empty the trash //
-    for (int i=0; i<trash.size(); i++) delete trash[i];
+    for (int i=0; i<(int)trash.size(); i++) delete trash[i];
     trash.clear();
 }
 
@@ -798,9 +798,9 @@ void ofxDatGui::draw()
             mGuiFooter->draw();
         }   else{
             ofDrawRectangle(mPosition.x, mPosition.y, mWidth, mHeight - mRowSpacing);
-            for (int i=0; i<items.size(); i++) items[i]->draw();
+            for (int i=0; i<(int)items.size(); i++) items[i]->draw();
         // color pickers overlap other components when expanded so they must be drawn last //
-            for (int i=0; i<items.size(); i++) items[i]->drawColorPicker();
+            for (int i=0; i<(int)items.size(); i++) items[i]->drawColorPicker();
         }
     ofPopStyle();
 }

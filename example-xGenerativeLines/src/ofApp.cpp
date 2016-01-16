@@ -109,7 +109,7 @@ void ofApp::onColorPickerEvent(ofxDatGuiColorPickerEvent e)
 void ofApp::update()
 {
     if (drawingPaused) return;
-    for(int i=0; i<lines.size(); i++){
+    for(int i=0; i<(int)lines.size(); i++){
         lines[i].tick();
         lines[i].head->x += (lines[i].dx) * drawSpeed;
         lines[i].head->y += (lines[i].dy) * drawSpeed;
@@ -123,7 +123,7 @@ void ofApp::draw()
 // draw some lines //
     ofPushStyle();
         ofSetLineWidth(lineWeight);
-        for (int i=0; i<lines.size(); i++){
+        for (int i=0; i<(int)lines.size(); i++){
             ofSetColor(lines[i].color);
             lines[i].draw();
         }
@@ -132,7 +132,7 @@ void ofApp::draw()
 
 void ofApp::reset()
 {
-    for(int i=0; i<lines.size(); i++) lines[i].reset();
+    for(int i=0; i<(int)lines.size(); i++) lines[i].reset();
 }
 
 void ofApp::keyPressed(int key)
