@@ -27,22 +27,23 @@ class ofxDatGuiButton : public ofxDatGuiComponent {
 
     public:
     
-        ofxDatGuiButton(string label, ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiComponent(label, tmplt)
+        ofxDatGuiButton(string label) : ofxDatGuiComponent(label)
         {
             mType = ofxDatGuiType::BUTTON;
-            mStripeColor = mTemplate->button.color.stripe;
-            setWidth(mRow.width);
+            setTheme(ofxDatGuiComponent::theme.get());
         }
     
-        static ofxDatGuiButton* getInstance()
+        void setTheme(ofxDatGuiTheme* theme)
         {
-            return new ofxDatGuiButton("X");
+            setComponentStyle(theme);
+            mStyle.stripe.color = theme->stripe.button;
+            setWidth(theme->layout.width, theme->layout.labelWidth);
         }
     
-        void setOrigin(int x, int y)
+        void setWidth(int width, float labelWidth = 1)
         {
-            ofxDatGuiComponent::setOrigin(x, y);
-            mLabelAreaWidth = mRow.width;
+            ofxDatGuiComponent::setWidth(width, labelWidth);
+            mLabel.width = mStyle.width;
         }
     
         void draw()
@@ -55,16 +56,28 @@ class ofxDatGuiButton : public ofxDatGuiComponent {
             ofPopStyle();
         }
     
+        virtual void toggle(){}
+        virtual void setEnabled(bool enable){}
+        virtual bool getEnabled(){return false;}
+    
+        static ofxDatGuiButton* getInstance() { return new ofxDatGuiButton("X"); }
+    
+    protected:
+    
         void drawBkgd()
         {
         // anything that extends ofxDatGuiButton has the same rollover effect //
-            if (mFocused && mMouseDown){
-                ofxDatGuiComponent::drawBkgd(mTemplate->row.color.mouseDown, 255);
-            }   else if (mMouseOver){
-                ofxDatGuiComponent::drawBkgd(mTemplate->row.color.mouseOver, 255);
-            }   else{
-                ofxDatGuiComponent::drawBkgd();
-            }
+            ofPushStyle();
+                ofFill();
+                if (mFocused && mMouseDown){
+                    ofSetColor(mStyle.color.onMouseDown, mStyle.opacity);
+                }   else if (mMouseOver){
+                    ofSetColor(mStyle.color.onMouseOver, mStyle.opacity);
+                }   else{
+                    ofSetColor(mStyle.color.background, mStyle.opacity);
+                }
+                ofDrawRectangle(x, y, mStyle.width, mStyle.height);
+            ofPopStyle();
         }
     
         void onMouseRelease(ofPoint m)
@@ -80,39 +93,38 @@ class ofxDatGuiButton : public ofxDatGuiComponent {
             }
         }
     
-        virtual void toggle(){}
-        virtual void setEnabled(bool enable){}
-        virtual bool getEnabled(){return false;}
-    
 };
 
 class ofxDatGuiToggle : public ofxDatGuiButton {
     
     public:
     
-        ofxDatGuiToggle(string label, bool enabled, ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiButton(label, tmplt)
+        ofxDatGuiToggle(string label, bool enabled) : ofxDatGuiButton(label)
         {
             mEnabled = enabled;
-            mStripeColor = mTemplate->toggle.color.stripe;
-            if (!radioOn.isAllocated()) radioOn.load(OFXDG_ASSET_DIR+"/icon-radio-on.png");
-            if (!radioOff.isAllocated()) radioOff.load(OFXDG_ASSET_DIR+"/icon-radio-off.png");
+            mType = ofxDatGuiType::TOGGLE;
+            radioOn.load(OFXDG_ASSET_DIR + "/icon-radio-on.png");
+            radioOff.load(OFXDG_ASSET_DIR + "/icon-radio-off.png");
+            setTheme(ofxDatGuiComponent::theme.get());
         }
     
-        void setOrigin(int x, int y)
+        void setTheme(ofxDatGuiTheme* theme)
         {
-            ofxDatGuiButton::setOrigin(x, y);
-            mLabelMarginRight = mLabelAreaWidth - mIcon.x;
+            setComponentStyle(theme);
+            mStyle.stripe.color = theme->stripe.toggle;
+            setWidth(theme->layout.width, theme->layout.labelWidth);
         }
     
-        void setTemplate(ofxDatGuiTemplate* tmplt)
+        void setWidth(int width, float labelWidth = 1)
         {
-            ofxDatGuiButton::setTemplate(tmplt);
-            setWidth(mRow.width);
+            ofxDatGuiComponent::setWidth(width, labelWidth);
+            mLabel.width = mStyle.width;
+            mLabel.rightAlignedXpos = mIcon.x - mLabel.margin;
         }
     
         void toggle()
         {
-            mEnabled =!mEnabled;
+            mEnabled = !mEnabled;
         }
     
         void setEnabled(bool enable)
@@ -131,7 +143,7 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
             ofxDatGuiComponent::drawLabel();
             ofxDatGuiComponent::drawStripe();
             ofPushStyle();
-                ofSetColor(mTemplate->row.color.label);
+                ofSetColor(mIcon.color);
                 if (mEnabled == true){
                     radioOn.draw(x+mIcon.x, y+mIcon.y, mIcon.size, mIcon.size);
                 }   else{
@@ -139,6 +151,8 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
                 }
             ofPopStyle();
         }
+    
+    protected:
     
         void onMouseRelease(ofPoint m)
         {

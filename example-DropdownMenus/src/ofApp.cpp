@@ -23,7 +23,7 @@ void ofApp::setup()
     menu = new ofxDatGuiDropdown("SELECT A COLOR", options);
     
 // and position it in the middle of the screen //
-    menu->setOrigin(ofGetWidth()/2 - menu->getWidth()/2, ofGetHeight()/2 - menu->getHeight()/2 - 100);
+    menu->setPosition(ofGetWidth()/2 - menu->getWidth()/2, ofGetHeight()/2 - menu->getHeight()/2 - 100);
     
 // let's set the stripe of each option to its respective color //
     for (int i=0; i<menu->size(); i++) menu->getChildAt(i)->setStripeColor(colors[i]);

@@ -21,7 +21,6 @@
 */
 
 #pragma once
-#include "ofColor.h"
 
 class ofxDatGuiButton;
 class ofxDatGuiSlider;

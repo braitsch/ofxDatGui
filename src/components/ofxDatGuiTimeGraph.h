@@ -43,14 +43,31 @@ class ofxDatGuiTimeGraph : public ofxDatGuiComponent {
 
     protected:
     
-        ofxDatGuiTimeGraph(string label, ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiComponent(label, tmplt)
+        ofxDatGuiTimeGraph(string label) : ofxDatGuiComponent(label)
         {
             mDrawFunc = &ofxDatGuiTimeGraph::drawFilled;
-            mRow.height = mTemplate->graph.height;
-            mPointSize = mTemplate->graph.pointSize;
-            mLineWeight = mTemplate->graph.lineWeight;
-            mStripeColor = mTemplate->graph.color.stripe;
-            setWidth(mRow.width);
+            setTheme(ofxDatGuiComponent::theme.get());
+        }
+    
+        void setTheme(ofxDatGuiTheme* theme)
+        {
+            setComponentStyle(theme);
+            mStyle.height = theme->layout.graph.height;
+            mStyle.stripe.color = theme->stripe.graph;
+            mColor.lines = theme->color.graph.lines;
+            mColor.fills = theme->color.graph.fills;
+            mPointSize = theme->layout.graph.pointSize;
+            mLineWeight = theme->layout.graph.lineWeight;
+            setWidth(theme->layout.width, theme->layout.labelWidth);
+        }
+    
+        void setWidth(int width, float labelWidth)
+        {
+            ofxDatGuiComponent::setWidth(width, labelWidth);
+            mPlotterRect.x = mLabel.width;
+            mPlotterRect.y = mStyle.padding;
+            mPlotterRect.width = mStyle.width - mStyle.padding - mLabel.width;
+            mPlotterRect.height = mStyle.height - (mStyle.padding*2);
         }
     
         void draw()
@@ -60,9 +77,9 @@ class ofxDatGuiTimeGraph : public ofxDatGuiComponent {
                 ofxDatGuiComponent::drawBkgd();
                 ofxDatGuiComponent::drawLabel();
                 ofxDatGuiComponent::drawStripe();
-                ofSetColor(mTemplate->row.color.inputArea);
-                ofDrawRectangle(x+mPlotterRect.x, y+mPlotterRect.y, mPlotterRect.width, mPlotterRect.height);
-                glColor3ub(210, 210, 210);
+                ofSetColor(mStyle.color.inputArea);
+                ofDrawRectangle(x + mPlotterRect.x, y + mPlotterRect.y, mPlotterRect.width, mPlotterRect.height);
+                glColor3ub(mColor.fills.r, mColor.fills.g, mColor.fills.b);
                 (*this.*mDrawFunc)();
             ofPopStyle();
         }
@@ -113,32 +130,17 @@ class ofxDatGuiTimeGraph : public ofxDatGuiComponent {
             glEnd();
         }
     
-        void setOrigin(int x, int y)
+        void setPosition(int x, int y)
         {
-            ofxDatGuiComponent::setOrigin(x, y);
-        }
-    
-        void setTemplate(ofxDatGuiTemplate* tmplt)
-        {
-            ofxDatGuiComponent::setTemplate(tmplt);
-            mRow.height = mTemplate->graph.height;
-            mPointSize = mTemplate->graph.pointSize;
-            mLineWeight = mTemplate->graph.lineWeight;
-            mStripeColor = mTemplate->graph.color.stripe;
-            setWidth(mRow.width);
-        }
-    
-        void setWidth(int w)
-        {
-            ofxDatGuiComponent::setWidth(w);
-            mPlotterRect.x = mRow.inputX;
-            mPlotterRect.y = mRow.padding;
-            mPlotterRect.width = mRow.width - mRow.padding - mRow.inputX;
-            mPlotterRect.height = mRow.height - (mRow.padding*2);
+            ofxDatGuiComponent::setPosition(x, y);
         }
 
         int mPointSize;
         int mLineWeight;
+        struct{
+            ofColor lines;
+            ofColor fills;
+        } mColor;
         vector<ofVec2f> pts;
         ofRectangle mPlotterRect;
         void (ofxDatGuiTimeGraph::*mDrawFunc)() = nullptr;
@@ -148,12 +150,13 @@ class ofxDatGuiWaveMonitor : public ofxDatGuiTimeGraph {
 
     public:
 
-        ofxDatGuiWaveMonitor(string label, float frequency, float amplitude, ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiTimeGraph(label, tmplt)
+        ofxDatGuiWaveMonitor(string label, float frequency, float amplitude) : ofxDatGuiTimeGraph(label)
         {
             mFrequencyLimit = 100;
             setAmplitude(amplitude);
             setFrequency(frequency);
             mType = ofxDatGuiType::WAVE_MONITOR;
+            setTheme(ofxDatGuiComponent::theme.get());
         }
     
         static ofxDatGuiWaveMonitor* getInstance()
@@ -186,15 +189,15 @@ class ofxDatGuiWaveMonitor : public ofxDatGuiTimeGraph {
             setFrequency(mFrequency);
         }
     
-        void setTemplate(ofxDatGuiTemplate* tmplt)
+        void setTheme(ofxDatGuiTheme* tmplt)
         {
-            ofxDatGuiTimeGraph::setTemplate(tmplt);
+            ofxDatGuiTimeGraph::setTheme(tmplt);
             graph();
         }
     
-        void setWidth(int w)
+        void setWidth(int width, float labelWidth)
         {
-            ofxDatGuiTimeGraph::setWidth(w);
+            ofxDatGuiTimeGraph::setWidth(width, labelWidth);
             graph();
         }
     
@@ -227,7 +230,7 @@ class ofxDatGuiValuePlotter : public ofxDatGuiTimeGraph {
 
     public:
 
-        ofxDatGuiValuePlotter(string label, float min, float max, ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiTimeGraph(label, tmplt)
+        ofxDatGuiValuePlotter(string label, float min, float max) : ofxDatGuiTimeGraph(label)
         {
             mSpeed = 5.0f;
             setRange(min, max);

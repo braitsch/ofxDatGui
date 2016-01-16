@@ -16,14 +16,12 @@ void ofApp::setup()
 // if you want the slider to work with integers simply set the precision to zero //
 // the maximum precision that is currently supported is four decimal places //
 // slider->setPrecision(0);
-    
+   
 // let's make it BIG //
-    mTemplate.row.width = ofGetWidth();
-    mTemplate.row.label.maxAreaWidth = 340;
-    slider->setTemplate(&mTemplate);
+    slider->setWidth(ofGetWidth(), .2);
     
 // and position it verticaly centered on the screen //
-    slider->setOrigin(0, ofGetHeight()/2 - slider->getHeight()/2);
+    slider->setPosition(0, ofGetHeight()/2 - slider->getHeight()/2);
 
 // listen for change events //
     slider->onSliderEvent(this, &ofApp::onSliderEvent);

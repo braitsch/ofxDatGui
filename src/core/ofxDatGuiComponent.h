@@ -27,11 +27,8 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
 {
     public:
     
-        ofxDatGuiComponent(string label, ofxDatGuiFont* font=nullptr);
-        ofxDatGuiComponent(string label, ofxDatGuiTemplate* font=nullptr);
+        ofxDatGuiComponent(string label);
         virtual ~ofxDatGuiComponent();
-    
-        vector<ofxDatGuiComponent*> children;
     
         int     getX();
         int     getY();
@@ -39,10 +36,22 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         int     getIndex();
         void    setName(string name);
         string  getName();
-        void    setLabel(string label);
-        string  getLabel();
         bool    is(string name);
+    
+        void    setLabel(string label);
+        void    setLabelColor(ofColor color);
+        string  getLabel();
+    
+        void    setBackgroundColor(ofColor color);
+        void    setBackgroundColorOnMouseOver(ofColor color);
+        void    setBackgroundColorOnMouseDown(ofColor color);
+        void    setBackgroundColors(ofColor bkgd, ofColor mOver, ofColor mDown);
+    
+        void    setStripe(ofColor color, int width);
+        void    setStripeWidth(int width);
         void    setStripeColor(ofColor color);
+        void    setStripeVisible(bool visible);
+    
         void    setAnchor(ofxDatGuiAnchor anchor);
         void    setEnabled(bool visible);
         bool    getEnabled();
@@ -51,18 +60,19 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         void    setFocused(bool focused);
         bool    getFocused();
         void    setOpacity(float opacity);
-        bool    getPressed();
         ofxDatGuiType getType();
+    
+        vector<ofxDatGuiComponent*> children;
     
         virtual void draw() = 0;
         virtual void update(bool acceptEvents = true);
         virtual bool hitTest(ofPoint m);
 
-        virtual void setY(int y);
-        virtual void setWidth(int w);
-        virtual void setOrigin(int x, int y);
-        virtual void setTemplate(ofxDatGuiTemplate* t);
-        virtual void setAlignment(ofxDatGuiAlignment align);
+        virtual void setPosition(int x, int y);
+        virtual void setTheme(ofxDatGuiTheme* theme) = 0;
+        virtual void setWidth(int width, float labelWidth);
+        virtual void setLabelAlignment(ofxDatGuiAlignment align);
+    
         virtual int  getWidth();
         virtual int  getHeight();
         virtual bool getIsExpanded();
@@ -79,64 +89,69 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         virtual void onMouseRelease(ofPoint m);
         void onKeyPressed(ofKeyEventArgs &e);
         void onWindowResized(ofResizeEventArgs &e);
+
+        static const ofxDatGuiTheme* getTheme();
     
     protected:
     
         int x;
         int y;
         int mIndex;
-        int mAlpha;
         string mName;
-        string mLabel;
         bool mFocused;
         bool mVisible;
         bool mEnabled;
         bool mMouseOver;
         bool mMouseDown;
-        bool mRetinaEnabled;
-        ofColor mStripeColor;
-        ofRectangle mLabelRect;
-        int mLabelAreaWidth;
-        int mLabelMarginRight;
         ofxDatGuiType mType;
-        ofxDatGuiFont* mFont;
+        ofxDatGuiFont mFont;
         ofxDatGuiAnchor mAnchor;
-        ofxDatGuiTemplate* mTemplate;
-        ofxDatGuiAlignment mLabelAlignment;
+        static std::unique_ptr<ofxDatGuiTheme> theme;
     
-        struct {
+        struct{
             float width;
             float height;
-            float lWidth; // label area //
-            float rWidth; // component area //
-            float inputX;
             float padding;
-            float spacing;
-            float stripeWidth;
-        } mRow;
+            float vMargin;
+            float opacity;
+            struct{
+                ofColor inputArea;
+                ofColor background;
+                ofColor onMouseOver;
+                ofColor onMouseDown;
+            } color;
+            struct{
+                int width;
+                bool visible;
+                ofColor color;
+            } stripe;
+            ofColor guiBackground;
+        } mStyle;
     
-        struct {
-            int width;
-            int inputX;
-            int inputWidth;
-        } mSlider;
+        struct{
+            string text;
+            bool visible;
+            ofColor color;
+            float width;
+            int margin;
+            int rightAlignedXpos;
+            ofRectangle rect;
+            bool forceUpperCase;
+            ofxDatGuiAlignment alignment;
+        } mLabel;
     
         struct {
             int x;
             int y;
             int size;
+            ofColor color;
         } mIcon;
-    
-        struct {
-            int width;
-            int height;
-        } mWindow;
     
         void drawLabel();
         void drawLabel(string label);
         void drawBkgd();
-        void drawBkgd(ofColor color, int alpha);
         void drawStripe();
+        void setComponentStyle(ofxDatGuiTheme* t);
     
 };
 

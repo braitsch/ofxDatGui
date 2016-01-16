@@ -12,8 +12,8 @@ void ofApp::setup()
     
     input = new ofxDatGuiTextInput("TEXT INPUT", "Type Something Here");
     input->onTextInputEvent(this, &ofApp::onTextInputEvent);
-    input->setOrigin(100, 100);
-    input->setWidth(800);
+    input->setPosition(100, 100);
+    input->setWidth(800, .2);
     font.load("ofxdatgui_assets/font-verdana.ttf", 24);
 }
 

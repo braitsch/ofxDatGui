@@ -26,20 +26,16 @@
 class ofxDatGuiMatrixButton : public ofxDatGuiInteractiveObject {
 
     public:
-        ofxDatGuiMatrixButton(int size, int index, bool showLabels, ofxDatGuiTemplate* tmplt)
+    
+        ofxDatGuiMatrixButton(int size, int index, bool showLabels)
         {
             mIndex = index;
             mSelected = false;
-            mTemplate = tmplt;
             mShowLabels = showLabels;
             mRect = ofRectangle(0, 0, size, size);
-            mFont = mTemplate->font.ttf;
-            mBkgdColor = mTemplate->matrix.color.normal.button;
-            mLabelColor = mTemplate->matrix.color.normal.label;
-            mFontRect = mFont->getStringBoundingBox(ofToString(mIndex+1), 0, 0);
         }
     
-        void setOrigin(float x, float y)
+        void setPosition(float x, float y)
         {
             origin.x = x;
             origin.y = y;
@@ -47,13 +43,16 @@ class ofxDatGuiMatrixButton : public ofxDatGuiInteractiveObject {
     
         void draw(int x, int y)
         {
-            mRect.x = x+origin.x;
-            mRect.y = y+origin.y;
+            mRect.x = x + origin.x;
+            mRect.y = y + origin.y;
             ofPushStyle();
                 ofFill();
                 ofSetColor(mBkgdColor);
                 ofDrawRectangle(mRect);
-                if (mShowLabels) mFont->drawText(ofToString(mIndex+1), mLabelColor, mRect.x+mRect.width/2-mFontRect.width/2, mRect.y+mRect.height/2);
+                if (mShowLabels) {
+                    ofSetColor(mLabelColor);
+                    mFont.draw(ofToString(mIndex+1), mRect.x + mRect.width/2 - mFontRect.width/2, mRect.y + mRect.height/2 - mFontRect.height/2);
+                }
             ofPopStyle();
         }
     
@@ -61,11 +60,11 @@ class ofxDatGuiMatrixButton : public ofxDatGuiInteractiveObject {
         {
             if (mRect.inside(m) && !mSelected){
                 if (mouseDown){
-                    mBkgdColor = mTemplate->matrix.color.selected.button;
-                    mLabelColor = mTemplate->matrix.color.selected.label;
+                    mBkgdColor = colors.selected.button;
+                    mLabelColor = colors.selected.label;
                 }   else{
-                    mBkgdColor = mTemplate->matrix.color.hover.button;
-                    mLabelColor = mTemplate->matrix.color.hover.label;
+                    mBkgdColor = colors.hover.button;
+                    mLabelColor = colors.hover.label;
                 }
             }   else{
                 onMouseOut();
@@ -85,11 +84,11 @@ class ofxDatGuiMatrixButton : public ofxDatGuiInteractiveObject {
         void onMouseOut()
         {
             if (mSelected){
-                mBkgdColor = mTemplate->matrix.color.selected.button;
-                mLabelColor = mTemplate->matrix.color.selected.label;
+                mBkgdColor = colors.selected.button;
+                mLabelColor = colors.selected.label;
             }   else{
-                mBkgdColor = mTemplate->matrix.color.normal.button;
-                mLabelColor = mTemplate->matrix.color.normal.label;
+                mBkgdColor = colors.normal.button;
+                mLabelColor = colors.normal.label;
             }
         }
     
@@ -100,6 +99,20 @@ class ofxDatGuiMatrixButton : public ofxDatGuiInteractiveObject {
                 ofxDatGuiInternalEvent e(ofxDatGuiEventType::MATRIX_BUTTON_TOGGLED, mIndex);
                 internalEventCallback(e);
             }
+        }
+    
+        void setTheme(const ofxDatGuiTheme* tmplt)
+        {
+            mFont.set(&tmplt->font.ttf);
+            mFontRect = mFont.getRect(ofToString(mIndex+1));
+            mBkgdColor = tmplt->color.matrix.normal.button;
+            mLabelColor = tmplt->color.matrix.normal.label;
+            colors.normal.label = tmplt->color.matrix.normal.label;
+            colors.normal.button = tmplt->color.matrix.normal.button;
+            colors.hover.label = tmplt->color.matrix.hover.label;
+            colors.hover.button = tmplt->color.matrix.hover.button;
+            colors.selected.label = tmplt->color.matrix.selected.label;
+            colors.selected.button = tmplt->color.matrix.selected.button;
         }
     
     private:
@@ -113,79 +126,74 @@ class ofxDatGuiMatrixButton : public ofxDatGuiInteractiveObject {
         bool mSelected;
         bool mShowLabels;
         ofRectangle mFontRect;
-        ofxDatGuiFont* mFont;
-        ofxDatGuiTemplate* mTemplate;
-
+        ofxDatGuiFont mFont;
+        struct {
+            struct{
+                ofColor label;
+                ofColor button;
+            } normal;
+            struct{
+                ofColor label;
+                ofColor button;
+            } hover;
+            struct{
+                ofColor label;
+                ofColor button;
+            } selected;
+        } colors;
 };
 
 class ofxDatGuiMatrix : public ofxDatGuiComponent {
 
     public:
     
-        ofxDatGuiMatrix(string label, int numButtons, bool showLabels=false, ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiComponent(label, tmplt)
+        ofxDatGuiMatrix(string label, int numButtons, bool showLabels = false) : ofxDatGuiComponent(label)
         {
             mRadioMode = false;
             mNumButtons = numButtons;
             mShowLabels = showLabels;
             mType = ofxDatGuiType::MATRIX;
-            mStripeColor = mTemplate->matrix.color.stripe;
-            mButtonSize  = mTemplate->matrix.buttonSize;
-            setButtons();
-            setWidth(mRow.width);
+            setTheme(ofxDatGuiComponent::theme.get());
         }
     
-        static ofxDatGuiMatrix* getInstance()
+        void setTheme(ofxDatGuiTheme* theme)
         {
-            return new ofxDatGuiMatrix("X", 0);
-        }
-
-        void setOrigin(int x, int y)
-        {
-            ofxDatGuiComponent::setOrigin(x, y);
-            mMatrixRect.x = x + mRow.inputX;
-            mMatrixRect.y = y + mRow.padding;
+            setComponentStyle(theme);
+            mFillColor = theme->color.inputAreaBackground;
+            mButtonSize = theme->layout.matrix.buttonSize;
+            mStyle.stripe.color = theme->stripe.matrix;
+            attachButtons(theme);
+            setWidth(theme->layout.width, theme->layout.labelWidth);
         }
     
-        void setTemplate(ofxDatGuiTemplate* tmplt)
+        void setWidth(int width, float labelWidth)
         {
-            ofxDatGuiComponent::setTemplate(tmplt);
-            mButtonSize  = mTemplate->matrix.buttonSize;
-            mStripeColor = mTemplate->matrix.color.stripe;
-            setButtons();
-            setWidth(mRow.width);
-        }
-    
-        void setButtons()
-        {
-            btns.clear();
-            for(int i=0; i<mNumButtons; i++) {
-                ofxDatGuiMatrixButton btn(mButtonSize, i, mShowLabels, mTemplate);
-                btn.onInternalEvent(this, &ofxDatGuiMatrix::onButtonSelected);
-                btns.push_back(btn);
+            ofxDatGuiComponent::setWidth(width, labelWidth);
+            mMatrixRect.x = x + mLabel.width;
+            mMatrixRect.y = y + mStyle.padding;
+            mMatrixRect.width = mStyle.width - mStyle.padding - mLabel.width;
+            int nCols = floor(mMatrixRect.width / (mButtonSize + mMinPadding));
+            int nRows = ceil(btns.size() / float(nCols));
+            float padding = (mMatrixRect.width - (mButtonSize * nCols)) / (nCols - 1);
+            for(int i=0; i<btns.size(); i++){
+                float bx = (mButtonSize + padding) * (i % nCols);
+                float by = (mButtonSize + padding) * (floor(i/nCols));
+                btns[i].setPosition(bx, by + mStyle.padding);
             }
+            mStyle.height = (mStyle.padding*2) + ((mButtonSize + padding) * (nRows - 1)) + mButtonSize;
+            mMatrixRect.height = mStyle.height - (mStyle.padding * 2);
+        }
+    
+        void setPosition(int x, int y)
+        {
+            ofxDatGuiComponent::setPosition(x, y);
+            mMatrixRect.x = x + mLabel.width;
+            mMatrixRect.y = y + mStyle.padding;
         }
     
         void setRadioMode(bool enabled)
         {
             mRadioMode = enabled;
-        }
-    
-        void setWidth(int w)
-        {
-            ofxDatGuiComponent::setWidth(w);
-            mMatrixRect.x = x + mRow.inputX;
-            mMatrixRect.y = y + mRow.padding;
-            mMatrixRect.width = mRow.width - mRow.padding - mRow.inputX;
-            int nCols = floor(mMatrixRect.width/(mButtonSize+mMinPadding));
-            int nRows = ceil(btns.size()/float(nCols));
-            float padding = (mMatrixRect.width-(mButtonSize*nCols))/(nCols-1);
-            for(int i=0; i<btns.size(); i++){
-                float bx = (mButtonSize+padding)*(i%nCols);
-                float by = (mButtonSize+padding)*(floor(i/nCols));
-                btns[i].setOrigin(bx, by + mRow.padding);
-            }
-            mRow.height = (mRow.padding*2) + ((mButtonSize+padding)*(nRows-1)) + mButtonSize;
-            mMatrixRect.height = mRow.height - (mRow.padding*2);
         }
     
         bool hitTest(ofPoint m)
@@ -206,9 +214,9 @@ class ofxDatGuiMatrix : public ofxDatGuiComponent {
                 ofxDatGuiComponent::drawBkgd();
                 ofxDatGuiComponent::drawLabel();
                 ofxDatGuiComponent::drawStripe();
-                ofSetColor(mTemplate->row.color.inputArea);
+                ofSetColor(mFillColor);
                 ofDrawRectangle(mMatrixRect);
-                for(int i=0; i<btns.size(); i++) btns[i].draw(x+mRow.inputX, y);
+                for(int i=0; i<btns.size(); i++) btns[i].draw(x+mLabel.width, y);
             ofPopStyle();
         }
     
@@ -235,6 +243,10 @@ class ofxDatGuiMatrix : public ofxDatGuiComponent {
             return &btns[index];
         }
     
+        static ofxDatGuiMatrix* getInstance() { return new ofxDatGuiMatrix("X", 0); }
+    
+    protected:
+    
         void onMouseRelease(ofPoint m)
         {
             ofxDatGuiComponent::onFocusLost();
@@ -256,12 +268,24 @@ class ofxDatGuiMatrix : public ofxDatGuiComponent {
             }
         }
     
+        void attachButtons(const ofxDatGuiTheme* tmplt)
+        {
+            btns.clear();
+            for(int i=0; i < mNumButtons; i++) {
+                ofxDatGuiMatrixButton btn(mButtonSize, i, mShowLabels);
+                btn.setTheme(tmplt);
+                btn.onInternalEvent(this, &ofxDatGuiMatrix::onButtonSelected);
+                btns.push_back(btn);
+            }
+        }
+    
     private:
     
         int mButtonSize;
         int mNumButtons;
         bool mRadioMode;
         bool mShowLabels;
+        ofColor mFillColor;
         ofRectangle mMatrixRect;
         static const int mMinPadding = 2;
         vector<ofxDatGuiMatrixButton> btns;

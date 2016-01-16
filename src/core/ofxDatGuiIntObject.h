@@ -21,9 +21,9 @@
 */
 
 #pragma once
+#include "ofxDatGuiThemes.h"
 #include "ofxDatGuiEvents.h"
 #include "ofxDatGuiConstants.h"
-#include "ofxDatGuiTemplates.h"
 
 namespace ofxDatGuiMsg
 {
@@ -63,10 +63,31 @@ inline static float ofxDatGuiScale(float val, float min, float max)
     }
 }
 
-inline static bool ofxDatGuiIsRetina()
-{
-    return (ofGetScreenWidth()>=OFXDG_RETINA_MIN_WIDTH && ofGetScreenHeight()>=OFXDG_RETINA_MIN_HEIGHT);
-}
+class ofxDatGuiFont{
+
+    public:
+
+        void set(const ofTrueTypeFont* ttf)
+        {
+            this->ttf = ttf;
+            this->yOffset = this->getRect("XXX123456789").height;
+        }
+
+        void draw(string s, int x, int y)
+        {
+            ttf->drawString(s, x, y + yOffset);
+        }
+    
+        ofRectangle getRect(string s, int x = 0, int y = 0)
+        {
+            return ttf->getStringBoundingBox(s, x, y);
+        }
+    
+    private:
+        int yOffset;
+        const ofTrueTypeFont* ttf;
+    
+};
 
 class ofxDatGuiInteractiveObject{
 

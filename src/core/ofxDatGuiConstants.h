@@ -21,10 +21,7 @@
 */
 
 #pragma once
-#include "ofMain.h"
 
-static const int OFXDG_RETINA_MIN_WIDTH = 2560;
-static const int OFXDG_RETINA_MIN_HEIGHT = 1600;
 static const string OFXDG_ASSET_DIR = "ofxdatgui_assets";
 
 enum class ofxDatGuiAnchor
@@ -52,6 +49,7 @@ enum class ofxDatGuiAlignment
 enum class ofxDatGuiType
 {
     LABEL = 0,
+    BREAK,
     BUTTON,
     TOGGLE,
     PAD2D,

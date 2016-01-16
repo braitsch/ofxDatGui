@@ -16,36 +16,36 @@ void ofApp::setup()
     ofxDatGuiComponent* component;
 
     component = new ofxDatGuiButton("button");
-    component->setOrigin(x, y);
+    component->setPosition(x, y);
     component->onButtonEvent(this, &ofApp::onButtonEvent);
     components.push_back(component);
 
     y += component->getHeight() + p;
     component = new ofxDatGuiToggle("toggle", false);
-    component->setOrigin(x, y);
+    component->setPosition(x, y);
     component->onButtonEvent(this, &ofApp::onButtonEvent);
     components.push_back(component);
 
     y += component->getHeight() + p;
     component = new ofxDatGuiWaveMonitor("wave\nmonitor", 3, .5);
-    component->setOrigin(x, y);
+    component->setPosition(x, y);
     components.push_back(component);
     
     y += component->getHeight() + p;
     component = new ofxDatGuiMatrix("matrix", 21, true);
-    component->setOrigin(x, y);
+    component->setPosition(x, y);
     component->onMatrixEvent(this, &ofApp::onMatrixEvent);
     components.push_back(component);
 
     y += component->getHeight() + p;
     component = new ofxDatGuiTextInput("text input", "# open frameworks #");
-    component->setOrigin(x, y);
+    component->setPosition(x, y);
     component->onTextInputEvent(this, &ofApp::onTextInputEvent);
     components.push_back(component);
 
     y += component->getHeight() + p;
     component = new ofxDatGuiColorPicker("color picker", ofColor::fromHex(0xFFD00B));
-    component->setOrigin(x, y);
+    component->setPosition(x, y);
     component->onColorPickerEvent(this, &ofApp::onColorPickerEvent);
     components.push_back(component);
 
@@ -53,12 +53,12 @@ void ofApp::setup()
     x += component->getWidth() + p+60;
 
     component = new ofxDatGuiFRM();
-    component->setOrigin(x, y);
+    component->setPosition(x, y);
     components.push_back(component);
     
     y += component->getHeight() + p;
     component = new ofxDatGuiSlider("slider", 0, 100, 50);
-    component->setOrigin(x, y);
+    component->setPosition(x, y);
     component->onSliderEvent(this, &ofApp::onSliderEvent);
     components.push_back(component);
     
@@ -68,12 +68,12 @@ void ofApp::setup()
     plotter->setSpeed(2.0f);
     plotter->setDrawMode(ofxDatGuiGraph::LINES);
     component = plotter;
-    component->setOrigin(x, y);
+    component->setPosition(x, y);
     components.push_back(component);
     
     y += component->getHeight() + p;
     component = new ofxDatGui2dPad("2d pad");
-    component->setOrigin(x, y);
+    component->setPosition(x, y);
     component->on2dPadEvent(this, &ofApp::on2dPadEvent);
     components.push_back(component);
 
@@ -81,7 +81,7 @@ void ofApp::setup()
     ofxDatGuiDropdown* dropdown;
     vector<string> options = {"one", "two", "three", "four"};
     dropdown = new ofxDatGuiDropdown("dropdown menu", options);
-    dropdown->setOrigin(x, y);
+    dropdown->setPosition(x, y);
     dropdown->expand();
     dropdown->onDropdownEvent(this, &ofApp::onDropdownEvent);
     components.push_back(dropdown);

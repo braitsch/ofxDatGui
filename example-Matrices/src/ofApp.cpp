@@ -29,7 +29,7 @@ void ofApp::setup()
 void ofApp::update()
 {
     matrix->update();
-    matrix->setOrigin(ofGetWidth()/2 - matrix->getWidth()/2, ofGetHeight()/2 - matrix->getHeight()/2);
+    matrix->setPosition(ofGetWidth()/2 - matrix->getWidth()/2, ofGetHeight()/2 - matrix->getHeight()/2);
 }
 
 void ofApp::draw()

@@ -27,14 +27,20 @@ class ofxDatGuiBreak : public ofxDatGuiComponent{
 
     public:
     
-        ofxDatGuiBreak(int height = 0, ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiComponent("break", tmplt)
+        ofxDatGuiBreak() : ofxDatGuiComponent("break")
         {
-            if (height > 0){
-                mHeight = height;
-            }   else {
-                mHeight = mTemplate->row.height * .1;
-            }
-            mRow.height = height;
+            setTheme(ofxDatGuiComponent::theme.get());
+        }
+    
+        void setTheme(ofxDatGuiTheme* theme)
+        {
+            setComponentStyle(theme);
+            mStyle.height = theme->layout.breakHeight;
+        }
+    
+        void setHeight(float height)
+        {
+            mStyle.height = height;
         }
     
         void draw()
@@ -42,29 +48,28 @@ class ofxDatGuiBreak : public ofxDatGuiComponent{
             if (!mVisible) return;
             ofPushStyle();
                 ofFill();
-                ofSetColor(mTemplate->row.color.bkgd, mAlpha);
-                ofDrawRectangle(x, y, mRow.width, mHeight);
+                ofSetColor(mStyle.color.background, mStyle.opacity);
+                ofDrawRectangle(x, y, mStyle.width, mStyle.height);
             ofPopStyle();
         }
     
         int getHeight()
         {
-            return mHeight;
+            return mStyle.height;
         }
     
-    private:
-        float mHeight;
-        
-
 };
 
 class ofxDatGuiLabel : public ofxDatGuiComponent{
 
     public:
         
-        ofxDatGuiLabel(string label, ofxDatGuiTemplate* tmplt=nullptr) : ofxDatGuiComponent(label, tmplt)
+        ofxDatGuiLabel(string label) : ofxDatGuiComponent(label) { }
+    
+        void setTheme(ofxDatGuiTheme* theme)
         {
-            mStripeColor = mTemplate->label.color.stripe;
+            setComponentStyle(theme);
+            mStyle.stripe.color = theme->stripe.label;
         }
     
         void draw()
@@ -73,8 +78,6 @@ class ofxDatGuiLabel : public ofxDatGuiComponent{
             ofxDatGuiComponent::drawLabel();
             ofxDatGuiComponent::drawStripe();
         }
-    
-    protected:
 
 
 };
