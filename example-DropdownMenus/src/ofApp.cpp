@@ -17,7 +17,7 @@ void ofApp::setup()
     
 // convert the hex values of those colors to strings for the menu labels //
     vector<string> options;
-    for (int i=0; i<colors.size(); i++) options.push_back(getHex(colors[i].getHex()));
+    for (int i=0; i<(int)colors.size(); i++) options.push_back(getHex(colors[i].getHex()));
 
 // instantiate the dropdown //
     menu = new ofxDatGuiDropdown("SELECT A COLOR", options);

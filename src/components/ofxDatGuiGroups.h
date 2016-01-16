@@ -82,15 +82,15 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
                     int mHeight = mStyle.height;
                     ofSetColor(mStyle.guiBackground, mStyle.opacity);
                     ofDrawRectangle(x, y+mHeight, mStyle.width, mStyle.vMargin);
-                    for(int i=0; i<children.size(); i++) {
+                    for(int i=0; i<(int)children.size(); i++) {
                         mHeight += mStyle.vMargin;
                         children[i]->draw();
                         mHeight += children[i]->getHeight();
-                        if (i == children.size()-1) break;
+                        if (i == (int)children.size()-1) break;
                         ofSetColor(mStyle.guiBackground, mStyle.opacity);
                         ofDrawRectangle(x, y+mHeight, mStyle.width, mStyle.vMargin);
                     }
-                    for(int i=0; i<children.size(); i++) children[i]->drawColorPicker();
+                    for(int i=0; i<(int)children.size(); i++) children[i]->drawColorPicker();
                 }
             ofPopStyle();
         }
@@ -100,7 +100,7 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
         void layout()
         {
             mHeight = mStyle.height + mStyle.vMargin;
-            for (int i=0; i<children.size(); i++) {
+            for (int i=0; i<(int)children.size(); i++) {
                 if (children[i]->getVisible() == false) continue;
                 if (mIsExpanded == false){
                     children[i]->setPosition(x, y + mHeight);
@@ -108,7 +108,7 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
                     children[i]->setPosition(x, y + mHeight);
                     mHeight += children[i]->getHeight() + mStyle.vMargin;
                 }
-                if (i == children.size()-1) mHeight -= mStyle.vMargin;
+                if (i == (int)children.size()-1) mHeight -= mStyle.vMargin;
             }
         }
     
@@ -166,7 +166,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup {
     
         void drawColorPicker()
         {
-            for(int i=0; i<pickers.size(); i++) pickers[i]->drawColorPicker();
+            for(int i=0; i<(int)pickers.size(); i++) pickers[i]->drawColorPicker();
         }
     
         void dispatchButtonEvent(ofxDatGuiButtonEvent e)
@@ -345,7 +345,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup {
     
         ofxDatGuiComponent* getComponent(ofxDatGuiType type, string label)
         {
-            for (int i=0; i<children.size(); i++) {
+            for (int i=0; i<(int)children.size(); i++) {
                 if (children[i]->getType() == type){
                     if (children[i]->is(label)) return children[i];
                 }
@@ -401,7 +401,7 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
         {
             mOption = 0;
             mType = ofxDatGuiType::DROPDOWN;
-            for(int i=0; i<options.size(); i++){
+            for(int i=0; i<(int)options.size(); i++){
                 ofxDatGuiDropdownOption* opt = new ofxDatGuiDropdownOption(options[i]);
                 opt->setIndex(children.size());
                 opt->onButtonEvent(this, &ofxDatGuiDropdown::onOptionSelected);
@@ -427,7 +427,7 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
         void select(int cIndex)
         {
         // ensure value is in range //
-            if (cIndex < 0 || cIndex >= children.size()){
+            if (cIndex < 0 || cIndex >= (int)children.size()){
                 ofLogError() << "ofxDatGuiDropdown->select("<<cIndex<<") is out of range";
             }   else{
                 setLabel(children[cIndex]->getLabel());
@@ -455,7 +455,7 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
     
         void onOptionSelected(ofxDatGuiButtonEvent e)
         {
-            for(int i=0; i<children.size(); i++) if (e.target == children[i]) mOption = i;
+            for(int i=0; i<(int)children.size(); i++) if (e.target == children[i]) mOption = i;
             setLabel(children[mOption]->getLabel());
             collapse();
             if (dropdownEventCallback != nullptr) {

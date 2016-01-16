@@ -311,7 +311,7 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
                     v+='.';
                     p = v.find('.');
                 }
-                while(v.length() - p < (mPrecision+1)) v+='0';
+                while((int)v.length() - p < (mPrecision+1)) v+='0';
             }
             input->setText(v);
         }
