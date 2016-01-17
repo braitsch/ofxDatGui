@@ -29,6 +29,7 @@ class ofxDatGuiTextInput;
 class ofxDatGui2dPad;
 class ofxDatGuiColorPicker;
 class ofxDatGuiMatrix;
+class ofxDatGuiImageMatrix;
 
 enum ofxDatGuiEventType
 {
@@ -147,5 +148,18 @@ class ofxDatGuiMatrixEvent{
     ofxDatGuiMatrix* target;
 };
 
+class ofxDatGuiImageMatrixEvent {
+
+public:
+	ofxDatGuiImageMatrixEvent(ofxDatGuiImageMatrix* t, int i, bool e)
+	{
+		child = i;
+		target = t;
+		enabled = e;
+	}
+	int child;
+	bool enabled;
+	ofxDatGuiImageMatrix* target;
+};
 
 

@@ -170,6 +170,17 @@ class ofxDatGuiInteractiveObject{
             matrixEventCallback = std::bind(listenerMethod, owner, _1);
         }
 
+	// image matrix events //
+		typedef std::function<void(ofxDatGuiImageMatrixEvent)> onImageMatrixEventCallback;
+		onImageMatrixEventCallback imageMatrixEventCallback;
+
+		template<typename T, typename args, class ListenerClass>
+		void onImageMatrixEvent(T* owner, void (ListenerClass::*listenerMethod)(args))
+		{
+			using namespace std::placeholders;
+			imageMatrixEventCallback = std::bind(listenerMethod, owner, _1);
+		}
+
     // internal events //
         typedef std::function<void(ofxDatGuiInternalEvent)> onInternalEventCallback;
         onInternalEventCallback internalEventCallback;

@@ -337,6 +337,14 @@ ofxDatGuiMatrix* ofxDatGui::addMatrix(string label, int numButtons, bool showLab
     return matrix;
 }
 
+ofxDatGuiImageMatrix* ofxDatGui::addImageMatrix(string label, std::vector<std::string> imagePaths)
+{
+	ofxDatGuiImageMatrix* matrix = new ofxDatGuiImageMatrix(label, imagePaths, mTemplate);
+	matrix->onImageMatrixEvent(this, &ofxDatGui::onImageMatrixEventCallback);
+	attachItem(matrix);
+	return matrix;
+}
+
 ofxDatGuiFolder* ofxDatGui::addFolder(string label, ofColor color)
 {
     ofxDatGuiFolder* folder = new ofxDatGuiFolder(label, color);
@@ -344,6 +352,7 @@ ofxDatGuiFolder* ofxDatGui::addFolder(string label, ofColor color)
     folder->onSliderEvent(this, &ofxDatGui::onSliderEventCallback);
     folder->on2dPadEvent(this, &ofxDatGui::on2dPadEventCallback);
     folder->onMatrixEvent(this, &ofxDatGui::onMatrixEventCallback);
+	folder->onImageMatrixEvent(this, &ofxDatGui::onImageMatrixEventCallback);
     folder->onTextInputEvent(this, &ofxDatGui::onTextInputEventCallback);
     folder->onColorPickerEvent(this, &ofxDatGui::onColorPickerEventCallback);
     folder->onInternalEvent(this, &ofxDatGui::onInternalEventCallback);
@@ -485,21 +494,39 @@ ofxDatGuiValuePlotter* ofxDatGui::getValuePlotter(string cl, string fl)
     return o;
 }
 
-ofxDatGuiMatrix* ofxDatGui::getMatrix(string ml, string fl)
+ofxDatGuiImageMatrix* ofxDatGui::getImageMatrix(string ml, string fl)
 {
-    ofxDatGuiMatrix* o = nullptr;
+    ofxDatGuiImageMatrix* o = nullptr;
     if (fl != ""){
         ofxDatGuiFolder* f = static_cast<ofxDatGuiFolder*>(getComponent(ofxDatGuiType::FOLDER, fl));
-        if (f) o = static_cast<ofxDatGuiMatrix*>(f->getComponent(ofxDatGuiType::MATRIX, ml));
+        if (f) o = static_cast<ofxDatGuiImageMatrix*>(f->getComponent(ofxDatGuiType::IMAGE_MATRIX, ml));
     }   else{
-        o = static_cast<ofxDatGuiMatrix*>(getComponent(ofxDatGuiType::MATRIX, ml));
+        o = static_cast<ofxDatGuiImageMatrix*>(getComponent(ofxDatGuiType::IMAGE_MATRIX, ml));
     }
     if (o==nullptr){
-        o = ofxDatGuiMatrix::getInstance();
+        o = ofxDatGuiImageMatrix::getInstance();
         ofxDatGuiLog::write(ofxDatGuiMsg::COMPONENT_NOT_FOUND, fl!="" ? fl+"-"+ml : ml);
         trash.push_back(o);
     }
     return o;
+}
+
+ofxDatGuiMatrix* ofxDatGui::getMatrix(string ml, string fl)
+{
+	ofxDatGuiMatrix* o = nullptr;
+	if (fl != "") {
+		ofxDatGuiFolder* f = static_cast<ofxDatGuiFolder*>(getComponent(ofxDatGuiType::FOLDER, fl));
+		if (f) o = static_cast<ofxDatGuiMatrix*>(f->getComponent(ofxDatGuiType::MATRIX, ml));
+	}
+	else {
+		o = static_cast<ofxDatGuiMatrix*>(getComponent(ofxDatGuiType::MATRIX, ml));
+	}
+	if (o == nullptr) {
+		o = ofxDatGuiMatrix::getInstance();
+		ofxDatGuiLog::write(ofxDatGuiMsg::COMPONENT_NOT_FOUND, fl != "" ? fl + "-" + ml : ml);
+		trash.push_back(o);
+	}
+	return o;
 }
 
 ofxDatGuiDropdown* ofxDatGui::getDropdown(string dl)
@@ -631,6 +658,16 @@ void ofxDatGui::onMatrixEventCallback(ofxDatGuiMatrixEvent e)
     }   else{
         ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
     }
+}
+
+void ofxDatGui::onImageMatrixEventCallback(ofxDatGuiImageMatrixEvent e)
+{
+	if (imageMatrixEventCallback != nullptr) {
+		imageMatrixEventCallback(e);
+	}
+	else {
+		ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+	}
 }
 
 void ofxDatGui::onInternalEventCallback(ofxDatGuiInternalEvent e)
