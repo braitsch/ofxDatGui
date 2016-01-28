@@ -144,7 +144,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup {
     
         ofxDatGuiFolder(string label, ofColor color = ofColor::white) : ofxDatGuiGroup(label)
         {
-    // all items within a folder share the same stripe color //
+        // all items within a folder share the same stripe color //
             mStyle.stripe.color = color;
             mType = ofxDatGuiType::FOLDER;
             setTheme(ofxDatGuiComponent::theme.get());
@@ -155,6 +155,8 @@ class ofxDatGuiFolder : public ofxDatGuiGroup {
             setComponentStyle(theme);
             mImage.load(theme->icon.dropdown);
             setWidth(theme->layout.width, theme->layout.labelWidth);
+        // reassign folder color to all components //
+            for(auto i:children) i->setStripeColor(mStyle.stripe.color);
         }
     
         void setWidth(int width, float labelWidth = 1)
