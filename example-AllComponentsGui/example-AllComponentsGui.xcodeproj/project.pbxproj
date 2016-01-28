@@ -109,11 +109,11 @@
 				8AB357401BB2302E002AC802 /* ofxDatGuiGroups.h */,
 				8AB357411BB2302E002AC802 /* ofxDatGuiLabel.h */,
 				8AB357421BB2302E002AC802 /* ofxDatGuiMatrix.h */,
+				8ADC67671C45A8CD00639E01 /* ofxDatGuiScrollView.h */,
 				8AB357431BB2302E002AC802 /* ofxDatGuiSlider.h */,
 				8AB357441BB2302E002AC802 /* ofxDatGuiTextInput.h */,
 				8AB357451BB2302E002AC802 /* ofxDatGuiTextInputField.h */,
 				8A1D66EC1BC7570800D30189 /* ofxDatGuiTimeGraph.h */,
-				8ADC67671C45A8CD00639E01 /* ofxDatGuiScrollView.h */,
 			);
 			name = components;
 			path = ../src/components;

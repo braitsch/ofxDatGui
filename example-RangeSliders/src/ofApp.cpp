@@ -7,7 +7,8 @@
 
 void ofApp::setup()
 {
-    ofSetWindowPosition(0, 0);
+    ofSetWindowShape(1920, 1080);
+    ofSetWindowPosition(ofGetScreenWidth()/2 - ofGetWidth()/2, 0);
     
 /*
     instantiate a slider using an ofParameter<int> instance

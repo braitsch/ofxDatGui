@@ -65,6 +65,7 @@
 		8A1773291C3B2453006561BD /* ofxDatGuiTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiTheme.h; sourceTree = "<group>"; };
 		8A17732A1C3B2453006561BD /* ofxDatGuiThemes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiThemes.h; sourceTree = "<group>"; };
 		8A1D66EE1BC758C500D30189 /* ofxDatGuiTimeGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiTimeGraph.h; sourceTree = "<group>"; };
+		8A4166C71C5AB69D005F9557 /* ofxDatGuiScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiScrollView.h; sourceTree = "<group>"; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E4B69B5B0A3A1756003C02F2 /* example-TimeGraphDebug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "example-TimeGraphDebug.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4B69E1D0A3A1BDC003C02F2 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = SOURCE_ROOT; };
@@ -98,6 +99,7 @@
 				8A0E28A11BBC775200525E4D /* ofxDatGuiGroups.h */,
 				8A0E28A21BBC775200525E4D /* ofxDatGuiLabel.h */,
 				8A0E28A31BBC775200525E4D /* ofxDatGuiMatrix.h */,
+				8A4166C71C5AB69D005F9557 /* ofxDatGuiScrollView.h */,
 				8A0E28A41BBC775200525E4D /* ofxDatGuiSlider.h */,
 				8A0E28A51BBC775200525E4D /* ofxDatGuiTextInput.h */,
 				8A0E28A61BBC775200525E4D /* ofxDatGuiTextInputField.h */,

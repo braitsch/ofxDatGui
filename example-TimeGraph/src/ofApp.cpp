@@ -8,8 +8,8 @@
 void ofApp::setup()
 {
     ang1 = ang2 = 0.0f;
-    ofSetWindowPosition(0, 0);
     ofSetWindowShape(1920, 1200);
+    ofSetWindowPosition(ofGetScreenWidth()/2 - ofGetWidth()/2, 0);
     
 // setup our gui //
     gui = new ofxDatGui();

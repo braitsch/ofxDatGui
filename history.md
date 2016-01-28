@@ -1,4 +1,16 @@
 ### ofxDatGui Changelog
+
+--
+**v1.10** –– 01-28-16
+
+* adding [scrollview](http://braitsch.github.io/ofxDatGui/index.html#scrollviews) component
+* [ofParameter](http://openframeworks.cc/documentation/types/ofParameter/) support (sliders only)
+* slider->bind() pass by reference
+* slider->setMin & slider->setMax()
+* draw methods refactored
+* ofxDatGuiTextInput->setInputType()
+* adding support for [component borders](http://braitsch.github.io/ofxDatGui/index.html#api)
+* assets moved into **/bin/data/ofxbraitsch**
 --
 **v1.00** –– 01-04-16
 

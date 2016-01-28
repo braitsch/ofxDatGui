@@ -97,6 +97,18 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
             calculateScale();
         }
     
+        void setMin(float min)
+        {
+            mMin = min;
+            calculateScale();
+        }
+    
+        void setMax(float max)
+        {
+            mMax = max;
+            calculateScale();
+        }
+    
         void setValue(float value)
         {
             mVal = value;
@@ -124,49 +136,41 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
         }
 
     /*
-        data binding - experiemental feature
+        variable binding methods
     */
-
-        void bind(int *val, int min, int max)
+    
+        void bind(int &val)
         {
-            mMin = min;
-            mMax = max;
-            mBoundi = val;
+            mBoundi = &val;
             mBoundf = nullptr;
         }
     
-        void bind(float *val, float min, float max)
+        void bind(float &val)
+        {
+            mBoundf = &val;
+            mBoundi = nullptr;
+        }
+
+        void bind(int &val, int min, int max)
         {
             mMin = min;
             mMax = max;
-            mBoundf = val;
+            mBoundi = &val;
+            mBoundf = nullptr;
+        }
+    
+        void bind(float &val, float min, float max)
+        {
+            mMin = min;
+            mMax = max;
+            mBoundf = &val;
             mBoundi = nullptr;
         }
-    
-        inline void getBoundf()
-        {
-            if (*mBoundf != pVal) {
-                setValue(*mBoundf);
-                pVal = *mBoundf;
-            }
-        }
-    
-        inline void getBoundi()
-        {
-            if (*mBoundi != pVal) {
-                setValue(*mBoundi);
-                pVal = *mBoundi;
-            }
-        }
-    
-    /*
-        data binding - experiemental feature
-    */
 
         void draw()
         {
             if (!mVisible) return;
-        // experimental - check for bound variables //
+            // check for bound variables //
             if (mBoundf != nullptr) {
                 getBoundf();
             }   else if (mBoundi != nullptr){
@@ -308,9 +312,11 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
                 mMax = 100;
                 mScale = 0.5f;
                 mVal = (mMax+mMin) * mScale;
-            }   else if (mVal > mMax || mVal < mMin){
-                ofLogWarning() << "row #" << mIndex << " : "<< mVal << " is out of range" << " [setting to 50%]";
-                mScale = 0.5f;
+            }   else if (mVal > mMax){
+                mVal = mMax;
+                mVal = (mMax+mMin) * mScale;
+            }   else if (mVal < mMin){
+                mVal = mMin;
                 mVal = (mMax+mMin) * mScale;
             }   else{
                 mScale = ofxDatGuiScale(mVal, mMin, mMax);
@@ -341,6 +347,26 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
         float round(float num, int precision)
         {
             return floorf(num * pow(10.0f, precision) + .5f)/pow(10.0f, precision);
+        }
+    
+    /*
+        private variable binding methods
+    */
+    
+        inline void getBoundf()
+        {
+            if (*mBoundf != pVal) {
+                setValue(*mBoundf);
+                pVal = *mBoundf;
+            }
+        }
+    
+        inline void getBoundi()
+        {
+            if (*mBoundi != pVal) {
+                setValue(*mBoundi);
+                pVal = *mBoundi;
+            }
         }
         
 };

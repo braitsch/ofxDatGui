@@ -8,12 +8,13 @@
 
 void ofApp::setup()
 {
-    ofSetWindowPosition(0, 0);
+    ofSetWindowShape(1920, 1080);
+    ofSetWindowPosition(ofGetScreenWidth()/2 - ofGetWidth()/2, 0);
     
     input = new ofxDatGuiTextInput("TEXT INPUT", "Type Something Here");
     input->onTextInputEvent(this, &ofApp::onTextInputEvent);
-    input->setPosition(100, 100);
     input->setWidth(800, .2);
+    input->setPosition(ofGetWidth()/2 - input->getWidth()/2, 240);
     font.load("ofxbraitsch/fonts/Verdana.ttf", 24);
 }
 

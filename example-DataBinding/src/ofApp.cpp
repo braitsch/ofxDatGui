@@ -16,18 +16,19 @@ void ofApp::setup()
 // instantiate our gui and a couple of range sliders //
     gui = new ofxDatGui( ofxDatGuiAnchor::TOP_RIGHT );
     gui->addHeader("ofxDATGUI DATA BINDING EXAMPLE");
-    sx = gui->addSlider("CIRCLE X", 0, 100);
-    sy = gui->addSlider("CIRCLE Y", 0, 100);
+    sx = gui->addSlider("CIRCLE X", 0, ofGetWidth());
+    sy = gui->addSlider("CIRCLE Y", 0, ofGetHeight());
     
 // bind the circle's x & y properties to the gui sliders //
-    sx->bind(&circle->x, 0, ofGetWidth());
-    sy->bind(&circle->y, 0, ofGetHeight());
+    sx->bind(circle->x);
+    sy->bind(circle->y);
 
     ofSetWindowPosition(0, 0);
     ofSetWindowShape(1920, 1080);
-
-    circle->x = ofGetWidth()/2;
-    circle->y = ofGetHeight()/2;
+    
+// center the circle onscreen //
+    circle->x = ofGetWidth() / 2;
+    circle->y = ofGetHeight() / 2;
     
 }
 
@@ -53,7 +54,7 @@ void ofApp::draw()
 
 void ofApp::windowResized(int w, int h)
 {
-// update the range we need to bind within //
-    sx->bind(&circle->x, 0, ofGetWidth());
-    sy->bind(&circle->y, 0, ofGetHeight());
+// update the slider boundaries //
+    sx->setMax(ofGetWidth());
+    sy->setMax(ofGetHeight());
 }

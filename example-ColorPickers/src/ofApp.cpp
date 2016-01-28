@@ -8,6 +8,8 @@
 
 void ofApp::setup()
 {
+    ofSetWindowShape(1920, 1080);
+    ofSetWindowPosition(ofGetScreenWidth()/2 - ofGetWidth()/2, 0);
 // create a color picker (passing in a color is optional) //
     picker = new ofxDatGuiColorPicker("COLOR PICKER", ofColor::fromHex(0xCECECE));
     picker->setAnchor(ofxDatGuiAnchor::TOP_LEFT);

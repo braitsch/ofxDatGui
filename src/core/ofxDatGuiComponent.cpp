@@ -43,7 +43,7 @@ ofxDatGuiComponent::ofxDatGuiComponent(string label)
 
 ofxDatGuiComponent::~ofxDatGuiComponent()
 {
-    cout << "ofxDatGuiComponent deleted" << endl;
+    cout << "ofxDatGuiComponent destroyed" << endl;
 }
 
 /*
@@ -400,7 +400,7 @@ void ofxDatGuiComponent::drawStripe()
 void ofxDatGuiComponent::drawBorder()
 {
     ofFill();
-    int w = 1; // mStyle.border.width;
+    int w = mStyle.border.width;
     ofSetColor(mStyle.border.color, mStyle.opacity);
     ofDrawRectangle(x-w, y-w, mStyle.width+(w*2), mStyle.height+(w*2));
 }

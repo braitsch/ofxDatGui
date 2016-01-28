@@ -46,6 +46,8 @@
 /* Begin PBXFileReference section */
 		8A17730D1C3B1FF6006561BD /* ofxDatGuiTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiTheme.h; sourceTree = "<group>"; };
 		8A17730E1C3B1FF6006561BD /* ofxDatGuiThemes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiThemes.h; sourceTree = "<group>"; };
+		8A4166B31C5AB071005F9557 /* ofxDatGuiScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiScrollView.h; sourceTree = "<group>"; };
+		8A4166B41C5AB071005F9557 /* ofxDatGuiTimeGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiTimeGraph.h; sourceTree = "<group>"; };
 		8AB356CE1BB22F56002AC802 /* ofxDatGui2dPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGui2dPad.h; sourceTree = "<group>"; };
 		8AB356CF1BB22F56002AC802 /* ofxDatGuiButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiButton.h; sourceTree = "<group>"; };
 		8AB356D01BB22F56002AC802 /* ofxDatGuiColorPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiColorPicker.h; sourceTree = "<group>"; };
@@ -107,9 +109,11 @@
 				8AB356D31BB22F56002AC802 /* ofxDatGuiGroups.h */,
 				8AB356D41BB22F56002AC802 /* ofxDatGuiLabel.h */,
 				8AB356D51BB22F56002AC802 /* ofxDatGuiMatrix.h */,
+				8A4166B31C5AB071005F9557 /* ofxDatGuiScrollView.h */,
 				8AB356D61BB22F56002AC802 /* ofxDatGuiSlider.h */,
 				8AB356D71BB22F56002AC802 /* ofxDatGuiTextInput.h */,
 				8AB356D81BB22F56002AC802 /* ofxDatGuiTextInputField.h */,
+				8A4166B41C5AB071005F9557 /* ofxDatGuiTimeGraph.h */,
 			);
 			name = components;
 			path = ../src/components;

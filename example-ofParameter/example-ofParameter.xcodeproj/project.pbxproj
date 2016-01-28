@@ -44,6 +44,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8A4166BF1C5AB4DA005F9557 /* ofxDatGuiScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiScrollView.h; sourceTree = "<group>"; };
 		8A906D831C42F71E008965BD /* ofxDatGui2dPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGui2dPad.h; sourceTree = "<group>"; };
 		8A906D841C42F71E008965BD /* ofxDatGuiButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiButton.h; sourceTree = "<group>"; };
 		8A906D851C42F71E008965BD /* ofxDatGuiColorPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiColorPicker.h; sourceTree = "<group>"; };
@@ -118,6 +119,7 @@
 				8A906D881C42F71E008965BD /* ofxDatGuiGroups.h */,
 				8A906D891C42F71E008965BD /* ofxDatGuiLabel.h */,
 				8A906D8A1C42F71E008965BD /* ofxDatGuiMatrix.h */,
+				8A4166BF1C5AB4DA005F9557 /* ofxDatGuiScrollView.h */,
 				8A906D8B1C42F71E008965BD /* ofxDatGuiSlider.h */,
 				8A906D8C1C42F71E008965BD /* ofxDatGuiTextInput.h */,
 				8A906D8D1C42F71E008965BD /* ofxDatGuiTextInputField.h */,
