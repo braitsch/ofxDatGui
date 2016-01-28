@@ -5,12 +5,13 @@ void ofApp::setup()
     ofSetWindowShape(1920, 1080);
     ofSetWindowPosition(ofGetScreenWidth()/2 - ofGetWidth()/2, 0);
 
-    width = 800;
+    width = 540;
     theme = new ofxDatGuiThemeMidnight();
 
 // create a button to attach items to the scroll view //
     addItem = new ofxDatGuiButton("click to add item");
-    addItem->setTheme(theme);
+    addItem->setStripeVisible(false);
+       // addItem->setTheme(theme);
     addItem->setWidth(width);
     addItem->setPosition(ofGetWidth()/2 - addItem->getWidth()/2, 240);
     addItem->setLabelAlignment(ofxDatGuiAlignment::CENTER);
@@ -18,14 +19,15 @@ void ofApp::setup()
     
 // create a scroll view that displays eight items at a time //
     view = new ofxDatGuiScrollView("SV1", 8);
-    view->setTheme(theme);
+  //  view->setTheme(theme);
     view->setWidth(width);
     view->setPosition(addItem->getX(), addItem->getY() + addItem->getHeight() + 1);
     view->onScrollViewEvent(this, &ofApp::onScrollViewEvent);
     
 // add a button to allow us to clear the scroll view out //
     clearAll = new ofxDatGuiButton("click to clear all items");
-    clearAll->setTheme(theme);
+    clearAll->setStripeVisible(false);
+//    clearAll->setTheme(theme);
     clearAll->setWidth(width);
     clearAll->setPosition(ofGetWidth()/2 - clearAll->getWidth()/2, view->getY() + view->getHeight() + 1);
     clearAll->setLabelAlignment(ofxDatGuiAlignment::CENTER);

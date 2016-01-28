@@ -95,12 +95,16 @@ class ofxDatGuiScrollView : public ofxDatGuiComponent {
     
         void clear()
         {
+            for (auto i:children) delete i;
             children.clear();
         }
     
         void remove(int index)
         {
-            if (isValidIndex(index)) children.erase(children.begin()+index);
+            if (isValidIndex(index)) {
+                delete children[index];
+                children.erase(children.begin()+index);
+            }
             positionItems();
         }
     
@@ -108,6 +112,7 @@ class ofxDatGuiScrollView : public ofxDatGuiComponent {
         {
             for(int i=0; i<children.size(); i++){
                 if (children[i] == item) {
+                    delete children[i];
                     children.erase(children.begin()+i);
                     positionItems(); return;
                 }
