@@ -11,9 +11,9 @@
 
 **components**
 
-* scrollable lists
 * vertical range sliders
 * rotary dials
+* <del>scrollable lists</del>
 * <del>waveform visualizers</del>
 * <del>value plotters</del>
 * <del>framerate monitor</del>
