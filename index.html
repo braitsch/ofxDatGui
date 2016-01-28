@@ -38,6 +38,7 @@
 							<li><a href="./index.html#range-sliders">Range Sliders</a></li>
 							<li><a href="./index.html#color-pickers">Color Pickers</a></li>
 							<li><a href="./index.html#dropdowns">Dropdown Menus</a></li>
+							<li><a href="./index.html#scrollviews">Scroll Views</a></li>
 							<li><a href="./index.html#value-plotters">Value Plotters</a></li>
 							<li><a href="./index.html#waveforms">Waveform Monitors</a></li>
 							<li><a href="./index.html#button-matrices">Button Matrices</a></li>
@@ -58,6 +59,7 @@
 						<ul class="dropdown-menu">
 							<li><a href="./index.html#component-search">Component Search</a></li>
 							<li><a href="./index.html#variable-binding">Variable Binding</a></li>
+							<li><a href="./index.html#of-parameter">ofParameter</a></li>
 							<li><a href="./index.html#auto-rendering">Auto Rendering</a></li>
 							<li><a href="./index.html#logging">Logging</a></li>
 							<li><a href="./index.html#save-load-settings">Save/Load Settings</a></li>
@@ -89,6 +91,7 @@
 				<li><a href='#color-pickers'>Color Pickers</a></li>
 				<li><a href='#range-sliders'>Range Sliders</a></li>
 				<li><a href='#dropdowns'>Dropdown Menus</a></li>
+				<li><a href='#scrollviews'>Scroll Views</a></li>
 				<li><a href='#button-matrices'>Button Matrices</a></li>
 				<li><a href='#coordinate-pads'>Coordinate Pads</a></li>
 				<li><a href='#value-plotters'>Value Plotters</a></li>
@@ -110,7 +113,7 @@
 			<ol>
 			<li><p>Once you've downloaded <a href="http://openframeworks.cc/download/">openFrameworks</a>, clone or download this repository into your openFrameworks/addons directory.</p></li>
 			<li><p>Create a new project using the project generator and include <strong>ofxDatGui</strong> by selecting the <code>addons</code> button in the generator.</p></li>
-			<li><p>Copy the <code>ofxdatgui_assets</code> directory in the root of this repository to your project's bin/data directory. This directory contains the fonts &amp; icons used by <strong>ofxDatGui</strong>.</p></li>
+			<li><p>Copy the <code>ofxbraitsch</code> directory in the root of this repository to your project's bin/data directory. This directory contains the fonts &amp; icons used by <strong>ofxDatGui</strong>.</p></li>
 			<li><p>Add <strong>ofxDatGui</strong> to your project by adding  <code>#include "ofxDatGui.h"</code> to the top of your <code>ofApp.h</code> file and you're ready to go!</p></li>
 			</ol>
 		</div>
@@ -172,6 +175,11 @@ ofxDatGui* gui = new ofxDatGui( ofxDatGuiAnchor::TOP_RIGHT );
 			<pre class="prettyprint">vector&lt;string&gt; options = {"ONE", "TWO", "THREE", "FOUR"};
 gui-&gt;addDropdown(options);</pre>
 			<img src="./img/ofxdatgui_dropdown.png?raw=true" alt="ofxDatGui">
+
+			<p><a id="scrollviews" class="anchor" href="#scrollviews" aria-hidden="true"></a><strong>Scroll View</strong><br>
+			ofxDatGui v1.1 introduces ScrollViews which currently can only be instantiated outside of a gui.</p>
+			<pre class="prettyprint">ofxDatGuiScrollView* sv = new ofxDatGuiScrollView(string label, int numVisible);</pre>
+			<img src="./img/ofxdatgui_scrollview.gif?raw=true" alt="ofxDatGui">
 
 			<p><a id="value-plotters" class="anchor" href="#value-plotters" aria-hidden="true"></a><strong>Value Plotter</strong></p>
 			<pre class="prettyprint">gui-&gt;addValuePlotter(string label, float min, float max);
@@ -329,6 +337,8 @@ myInput-&gt;setStripe(ofColor color, int width);
 myInput-&gt;setStripeWidth(int width);
 myInput-&gt;setStripeColor(ofColor color);
 myInput-&gt;setStripeVisible(bool visible);
+myInput-&gt;setBorder(ofColor color, int width);
+myInput-&gt;setBorderVisible(bool visible);
 </pre>
 
 			<hr>
@@ -340,7 +350,9 @@ myInput-&gt;setStripeVisible(bool visible);
 
 <pre class="prettyprint">ofxDatGuiTextInput* myInput;
 string myInput-&gt;getText();
-myInput-&gt;setText(string text);</pre>
+myInput-&gt;setText(string text);
+myInput-&gt;setInputType( NUMERIC || ALPHA_NUMERIC || COLORPICKER )
+</pre>
 
 			<p><strong>Toggle Button</strong></p>
 
@@ -352,14 +364,18 @@ bool myToggle-&gt;getEnabled();</pre>
 			<p><strong>Range Slider</strong></p>
 
 <pre class="prettyprint">ofxDatGuiSlider* mySlider;
-// request the current scale //
-float mySlider-&gt;getScale();
-// scale is always a float between 0 &amp; 1 //
-mySlider-&gt;setScale(float scale);
-// request the current value //
-float mySlider-&gt;getValue();
+// set the min value //
+mySlider-&gt;setMin(float min);
+// set the max value //
+mySlider-&gt;setMax(float max);
 // value must be between min &amp; max //
 mySlider-&gt;setValue(float value);
+// request the current value //
+float mySlider-&gt;getValue();
+// scale is always a float between 0 &amp; 1 //
+mySlider-&gt;setScale(float scale);
+// request the current scale //
+float mySlider-&gt;getScale();
 // set the floating point precision (default is two decimal places) //
 mySlider-&gt;setPrecision(int precision);
 // to cast the slider value to an integer set the precision to zero // 
@@ -383,6 +399,28 @@ ofxDatGuiDropdownOption* getChildAt(int index);
 ofxDatGuiDropdownOption* myDropdown-&gt;getSelected();
 myDropdown-&gt;expand();
 myDropdown-&gt;collapse();</pre>
+
+
+			<p><strong>Scroll View</strong></p>
+
+<pre class="prettyprint">ofxDatGuiScrollView* myScrollView;
+// add a button to the scrollview //
+void myScrollView-&gt;add(string label);
+// add a button by it's position (index) in the scrollview //
+ofxDatGuiButton* myScrollView-&gt;get(int index);
+// swap the positions of two items //
+void myScrollView-&gt;swap(int index1, int index2);
+// move an item to a different position (index from -> index to) //
+void myScrollView-&gt;move(int from, int to);
+// move an item to a different position //
+void myScrollView-&gt;move(ofxDatGuiComponent* item, int newIndex);
+// clear all items //
+void myScrollView-&gt;clear();
+// remove one item //
+void myScrollView-&gt;remove(int index);
+void myScrollView-&gt;remove(ofxDatGuiComponent* item);
+
+</pre>
 
 			<p><strong>Value Plotter</strong></p>
 
@@ -475,17 +513,47 @@ ofxDatGuiButton* gui-&gt;getButton("Reset Button", "Folder 2");</pre>
 
 // instantiate a gui and a couple of range sliders //
     gui = new ofxDatGui( ofxDatGuiAnchor::TOP_RIGHT );
-    ofxDatGuiSlider* sx = gui-&gt;addSlider("CIRCLE X", 0, 100);
-    ofxDatGuiSlider* sy = gui-&gt;addSlider("CIRCLE Y", 0, 100);
+    ofxDatGuiSlider* sx = gui-&gt;addSlider("CIRCLE X", 0, ofGetWidth());
+    ofxDatGuiSlider* sy = gui-&gt;addSlider("CIRCLE Y", 0, ofGetHeight());
 
 // bind the circle's x &amp; y movement to the sliders //
-    sx-&gt;bind(&amp;circle-&gt;x, 0, ofGetWidth());
-    sy-&gt;bind(&amp;circle-&gt;y, 0, ofGetHeight());</pre>
+    sx-&gt;bind(circle-&gt;x);
+    sy-&gt;bind(circle-&gt;y);</pre>
 
 			<p><a href='https://www.youtube.com/watch?v=5-sOsn5ETUI'>Here's a video of the sketch generated by the snippet above.</a></p>
 
 		</div>
-		
+
+	<!-- of-parameter -->
+	
+		<div class='well'>
+
+			<h2><a id="of-parameter" class="anchor" href="#of-parameter" aria-hidden="true"></a>ofParameter Support</h2>
+
+			<p><strong>ofxDatGui</strong> v1.1 introduces limited support for ofParameter (currently sliders only) <br> 
+			To bind an ofParameter to an ofxDatGuiSlider simply pass it into the slider's constructor.</p>
+
+<pre class="prettyprint">
+// setup three ofParameters //
+    ofParameter&lt;int&gt; p1;
+    ofParameter&lt;float&gt; p2;
+    ofParameter&lt;int&gt; p3;
+    p1.set("position X", 75, 0, 120);
+    p2.set("position Y", 200.0f, -40.0f, 240.0f);
+    p3.set("position Z", -40, -80, 120);
+
+// and bind them to slider's by passing them into the constructors //
+    gui = new ofxDatGui();
+    gui->addLabel("gui from of_parameters");
+    gui->addSlider(p1);
+    gui->addSlider(p2);
+    gui->addSlider(p3);
+    gui->onSliderEvent(this, &ofApp::onSliderEvent);</pre>
+
+    	<p>Take a look at the ofParameter example for more details.</p>
+
+		</div>
+
 	<!-- events -->
 
 		<div class='well'>
@@ -584,6 +652,14 @@ float e.y // y coordinate within the pad's bounds rectangle
 
 <pre class="prettyprint">ofxDatGuiDropdownEvent e
 int e.child // the index of the selected option (zero based)
+</pre>
+
+			<p><strong>ofxDatGuiScrollViewEvent</strong></p>
+
+<pre class="prettyprint">ofxDatGuiScrollViewEvent e
+int e.index // the index of the button that was selected (zero based)
+int e.target // a pointer to the button that was selected
+int e.parent // a pointer to the scrollview that contains the selected button
 </pre>
 
 			<p><strong>ofxDatGuiMatrixEvent</strong></p>
