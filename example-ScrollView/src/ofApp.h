@@ -13,8 +13,11 @@ class ofApp : public ofBaseApp{
         int width;
         ofxDatGuiTheme* theme;
         ofxDatGuiButton* addItem;
+        ofxDatGuiButton* clearAll;
         ofxDatGuiScrollView* view;
     
+        void onScrollViewEvent(ofxDatGuiScrollViewEvent e);
         void onAddNewItemButtonClick(ofxDatGuiButtonEvent e);
+        void onClearAllButtonClick(ofxDatGuiButtonEvent e);
     
 };

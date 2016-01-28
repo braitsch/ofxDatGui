@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Stephen Braitsch [http://braitsch.io]
+    Copyright (C) 2016 Stephen Braitsch [http://braitsch.io]
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
@@ -27,7 +27,7 @@ class ofxDatGuiScrollView : public ofxDatGuiComponent {
 
     public:
     
-        ofxDatGuiScrollView(int nVisible = 6) : ofxDatGuiComponent("")
+        ofxDatGuiScrollView(string name, int nVisible = 6) : ofxDatGuiComponent(name)
         {
             mAutoHeight = true;
             mNumVisible = nVisible;
@@ -53,24 +53,65 @@ class ofxDatGuiScrollView : public ofxDatGuiComponent {
             if (mAutoHeight) autoSize();
         }
     
-        ofxDatGuiComponent* get(int index)
+        ofxDatGuiButton* get(int index)
         {
-        
+            return static_cast<ofxDatGuiButton*>(children[index]);
         }
     
-        ofxDatGuiComponent* get(string label)
+        void swap(int index1, int index2)
         {
-        
+            if (isValidIndex(index1) && isValidIndex(index2) && index1 != index2){
+                std::swap(children[index1], children[index2]);
+                positionItems();
+            }
+        }
+    
+        void move(int from, int to)
+        {
+            if (isValidIndex(from) && isValidIndex(to) && from != to){
+                auto itr_from = children.begin() + from;
+                auto itr_to = children.begin() + to;
+                if (itr_from < itr_to ) {
+                // move down //
+                    rotate(itr_from, itr_from+1, itr_to+1);
+                } else if (itr_from > itr_to) {
+                // move up //
+                    rotate(itr_to, itr_from, itr_from+1);
+                }
+                positionItems();
+            }   else {
+                cout << "invalid move operation, check your indices" << endl;
+            }
         }
     
         void move(ofxDatGuiComponent* item, int index)
         {
-        
+            for(int i=0; i<children.size(); i++){
+                if (children[i] == item) {
+                    move(i, index); return;
+                }
+            }
+        }
+    
+        void clear()
+        {
+            children.clear();
+        }
+    
+        void remove(int index)
+        {
+            if (isValidIndex(index)) children.erase(children.begin()+index);
+            positionItems();
         }
     
         void remove(ofxDatGuiComponent* item)
         {
-        
+            for(int i=0; i<children.size(); i++){
+                if (children[i] == item) {
+                    children.erase(children.begin()+i);
+                    positionItems(); return;
+                }
+            }
         }
    
     /*
@@ -85,6 +126,16 @@ class ofxDatGuiScrollView : public ofxDatGuiComponent {
         int getY()
         {
             return mRect.y;
+        }
+
+        int getWidth()
+        {
+            return mRect.width;
+        }
+    
+        int getHeight()
+        {
+            return mRect.height;
         }
     
         int getNumItems()
@@ -210,12 +261,25 @@ class ofxDatGuiScrollView : public ofxDatGuiComponent {
             if (scrollViewEventCallback != nullptr) {
                 int i = 0;
                 for(i; i<children.size(); i++) if (children[i] == e.target) break;
-                ofxDatGuiScrollViewEvent e1(this, i);
+                ofxDatGuiScrollViewEvent e1(this, e.target, i);
                 scrollViewEventCallback(e1);
             }   else{
                 ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
             }
-        //  cout << "ofxDatGuiScrollView :: " << e.target->getName() << " clicked" << endl;
+        }
+    
+        void positionItems()
+        {
+            int y = children.front()->getY();
+            for(auto i:children){
+                i->setPosition(0, y);
+                y = i->getY() + i->getHeight() + mSpacing;
+            }
+        }
+    
+        bool isValidIndex(int index)
+        {
+            return index >= 0 && index < children.size();
         }
 
 };

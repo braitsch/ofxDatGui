@@ -123,13 +123,15 @@ class ofxDatGuiDropdownEvent{
 class ofxDatGuiScrollViewEvent{
 
     public:
-        ofxDatGuiScrollViewEvent(ofxDatGuiScrollView* t, int i)
+        ofxDatGuiScrollViewEvent(ofxDatGuiScrollView* p, ofxDatGuiButton* b, int i)
         {
             index = i;
-            target = t;
+            target = b;
+            parent = p;
         }
     int index;
-    ofxDatGuiScrollView* target;
+    ofxDatGuiButton* target;
+    ofxDatGuiScrollView* parent;
 };
 
 class ofxDatGui2dPadEvent{
