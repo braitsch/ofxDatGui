@@ -194,7 +194,7 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
     
         bool hitTest(ofPoint m)
         {
-            if (!mEnabled){
+            if (!mEnabled || !mVisible){
                 return false;
             }   else if (m.x>=x+mLabel.width && m.x<= x+mLabel.width+mSliderWidth && m.y>=y+mStyle.padding && m.y<= y+mStyle.height-mStyle.padding){
                 return true;

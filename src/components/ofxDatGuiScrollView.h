@@ -58,6 +58,12 @@ class ofxDatGuiScrollView : public ofxDatGuiComponent {
             return static_cast<ofxDatGuiButton*>(children[index]);
         }
     
+        ofxDatGuiButton* get(string name)
+        {
+            for(auto i:children) if (i->is(name)) return static_cast<ofxDatGuiButton*>(i);
+            return nullptr;
+        }
+    
         void swap(int index1, int index2)
         {
             if (isValidIndex(index1) && isValidIndex(index2) && index1 != index2){
@@ -223,6 +229,7 @@ class ofxDatGuiScrollView : public ofxDatGuiComponent {
         ofColor mBackground;
         ofxDatGuiTheme* mTheme;
     
+        int mY;
         int mSpacing;
         int mNumVisible;
         bool mAutoHeight;
@@ -237,26 +244,26 @@ class ofxDatGuiScrollView : public ofxDatGuiComponent {
         {
             if (children.size() > 0 && mRect.inside(e.x, e.y) == true){
                 float sy = e.scrollY * 2;
-                int topY = children.front()->getY();
                 int btnH = children.front()->getHeight() + mSpacing;
                 int minY = mRect.height + mSpacing  - (children.size() * btnH);
                 bool allowScroll = false;
+                mY = children.front()->getY();
                 if (sy < 0){
-                    if (topY > minY){
-                        topY += sy;
-                        if (topY < minY) topY = minY;
+                    if (mY > minY){
+                        mY += sy;
+                        if (mY < minY) mY = minY;
                         allowScroll = true;
                     }
                 }   else if (sy > 0){
-                    if (topY < 0){
-                        topY += sy;
-                        if (topY > 0) topY = 0;
+                    if (mY < 0){
+                        mY += sy;
+                        if (mY > 0) mY = 0;
                         allowScroll = true;
                     }
                 }
                 if (allowScroll){
-                    children.front()->setPosition(0, topY);
-                    for(int i=0; i<children.size(); i++) children[i]->setPosition(0, topY + (btnH * i));
+                    children.front()->setPosition(0, mY);
+                    for(int i=0; i<children.size(); i++) children[i]->setPosition(0, mY + (btnH * i));
                 }
             }
         }
@@ -275,7 +282,7 @@ class ofxDatGuiScrollView : public ofxDatGuiComponent {
     
         void positionItems()
         {
-            int y = children.front()->getY();
+            int y = mY;
             for(auto i:children){
                 i->setPosition(0, y);
                 y = i->getY() + i->getHeight() + mSpacing;
