@@ -322,7 +322,8 @@ void ofxDatGuiComponent::setBorderVisible(bool visible)
 
 void ofxDatGuiComponent::update(bool acceptEvents)
 {
-    if (acceptEvents && mEnabled){
+// if window does not have focus x & y will both be zero //
+    if (acceptEvents && mEnabled && ofGetMouseX() != 0 && ofGetMouseY() != 0){
         bool mp = ofGetMousePressed();
         ofPoint mouse = ofPoint(ofGetMouseX() - mParentPosition.x, ofGetMouseY() - mParentPosition.y);
         if (hitTest(mouse)){

@@ -78,6 +78,9 @@ class ofxDatGuiLabel : public ofxDatGuiComponent{
         void setWidth(int width, float labelWidth = 1)
         {
             ofxDatGuiComponent::setWidth(width, labelWidth);
+            mLabel.width = mStyle.width;
+            mLabel.rightAlignedXpos = mLabel.width - mLabel.margin;
+            ofxDatGuiComponent::positionLabel();
         }
     
         void draw()
