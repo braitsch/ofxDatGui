@@ -367,6 +367,12 @@ ofxDatGuiFolder* ofxDatGui::addFolder(string label, ofColor color)
     return folder;
 }
 
+ofxDatGuiFolder* ofxDatGui::addFolder(ofxDatGuiFolder* folder)
+{
+    attachItem(folder);
+    return folder;
+}
+
 void ofxDatGui::attachItem(ofxDatGuiComponent* item)
 {
     if (mGuiFooter != nullptr){

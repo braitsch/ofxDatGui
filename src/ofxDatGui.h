@@ -74,6 +74,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofxDatGuiColorPicker* addColorPicker(string label, ofColor color = ofColor::black);
         ofxDatGuiMatrix* addMatrix(string label, int numButtons, bool showLabels = false);
         ofxDatGuiFolder* addFolder(string label, ofColor color = ofColor::white);
+        ofxDatGuiFolder* addFolder(ofxDatGuiFolder* folder);
     
         ofxDatGuiHeader* getHeader();
         ofxDatGuiFooter* getFooter();
