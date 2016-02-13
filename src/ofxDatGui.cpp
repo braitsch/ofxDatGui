@@ -21,7 +21,6 @@
 */
 
 #include "ofxDatGui.h"
-#include "ofxDatGuiTheme.h"
 
 ofxDatGui* ofxDatGui::mActiveGui;
 vector<ofxDatGui*> ofxDatGui::mGuis;

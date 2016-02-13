@@ -17,7 +17,7 @@ void ofApp::setup()
     addItem->onButtonEvent(this, &ofApp::onAddNewItemButtonClick);
     
 // create a scroll view that displays eight items at a time //
-    view = new ofxDatGuiScrollView("SV1", 8);
+    view = new ofxDatGuiScrollView("ScrollView #1", 8);
     view->setWidth(width);
     view->setPosition(addItem->getX(), addItem->getY() + addItem->getHeight() + 1);
     view->onScrollViewEvent(this, &ofApp::onScrollViewEvent);
@@ -51,7 +51,7 @@ void ofApp::draw()
 
 void ofApp::onScrollViewEvent(ofxDatGuiScrollViewEvent e)
 {
-    cout << e.target->getLabel() << " [index " << e.index << "] selected in " << e.parent->getName() << endl;
+    cout << e.target->getLabel() << " [index " << e.index << "] selected in [" << e.parent->getName() << "]" << endl;
 }
 
 void ofApp::onAddNewItemButtonClick(ofxDatGuiButtonEvent e)

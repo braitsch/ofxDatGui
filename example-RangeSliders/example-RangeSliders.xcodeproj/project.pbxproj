@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		8AB357F81BB231F1002AC802 /* ofxDatGuiComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8AB357ED1BB231F1002AC802 /* ofxDatGuiComponent.cpp */; };
 		8AB357F91BB231F1002AC802 /* ofxDatGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8AB357F31BB231F1002AC802 /* ofxDatGui.cpp */; };
+		8ADB34551C6EB8EF0023CB71 /* ofxSmartFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8ADB34531C6EB8EF0023CB71 /* ofxSmartFont.cpp */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
 		E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4B69E1D0A3A1BDC003C02F2 /* main.cpp */; };
 		E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */; };
@@ -66,6 +67,8 @@
 		8AB357F31BB231F1002AC802 /* ofxDatGui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ofxDatGui.cpp; path = ../src/ofxDatGui.cpp; sourceTree = "<group>"; };
 		8AB357F41BB231F1002AC802 /* ofxDatGui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxDatGui.h; path = ../src/ofxDatGui.h; sourceTree = "<group>"; };
 		8ACE3C8E1BC8579E004B46CD /* ofxDatGuiTimeGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiTimeGraph.h; sourceTree = "<group>"; };
+		8ADB34531C6EB8EF0023CB71 /* ofxSmartFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxSmartFont.cpp; sourceTree = "<group>"; };
+		8ADB34541C6EB8EF0023CB71 /* ofxSmartFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxSmartFont.h; sourceTree = "<group>"; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E4B69B5B0A3A1756003C02F2 /* example-RangeSlidersDebug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "example-RangeSlidersDebug.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4B69E1D0A3A1BDC003C02F2 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = SOURCE_ROOT; };
@@ -132,6 +135,24 @@
 			path = ../src/core;
 			sourceTree = "<group>";
 		};
+		8ADB34511C6EB8EF0023CB71 /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				8ADB34521C6EB8EF0023CB71 /* ofxSmartFont */,
+			);
+			name = libs;
+			path = ../src/libs;
+			sourceTree = "<group>";
+		};
+		8ADB34521C6EB8EF0023CB71 /* ofxSmartFont */ = {
+			isa = PBXGroup;
+			children = (
+				8ADB34531C6EB8EF0023CB71 /* ofxSmartFont.cpp */,
+				8ADB34541C6EB8EF0023CB71 /* ofxSmartFont.h */,
+			);
+			path = ofxSmartFont;
+			sourceTree = "<group>";
+		};
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
@@ -145,9 +166,10 @@
 			children = (
 				8AB357F31BB231F1002AC802 /* ofxDatGui.cpp */,
 				8AB357F41BB231F1002AC802 /* ofxDatGui.h */,
+				8AB357EC1BB231F1002AC802 /* core */,
+				8ADB34511C6EB8EF0023CB71 /* libs */,
 				8A1773201C3B2139006561BD /* themes */,
 				8AB357E01BB231F1002AC802 /* components */,
-				8AB357EC1BB231F1002AC802 /* core */,
 			);
 			name = ofxDatGui;
 			sourceTree = "<group>";
@@ -281,6 +303,7 @@
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				8AB357F91BB231F1002AC802 /* ofxDatGui.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
+				8ADB34551C6EB8EF0023CB71 /* ofxSmartFont.cpp in Sources */,
 				8AB357F81BB231F1002AC802 /* ofxDatGuiComponent.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

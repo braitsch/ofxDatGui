@@ -108,10 +108,10 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         bool mMouseOver;
         bool mMouseDown;
         ofxDatGuiType mType;
-        ofxDatGuiFont mFont;
         ofxDatGuiAnchor mAnchor;
         ofPoint mParentPosition;
-        static std::unique_ptr<ofxDatGuiTheme> theme;
+        shared_ptr<ofxSmartFont> mFont;
+        static unique_ptr<ofxDatGuiTheme> theme;
     
         struct{
             float width;

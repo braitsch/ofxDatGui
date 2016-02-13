@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8ADB345D1C6EB94A0023CB71 /* ofxSmartFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8ADB345B1C6EB94A0023CB71 /* ofxSmartFont.cpp */; };
 		8ADC67841C45AD6600639E01 /* ofxDatGuiComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8ADC677A1C45AD6600639E01 /* ofxDatGuiComponent.cpp */; };
 		8ADC67851C45AD6600639E01 /* ofxDatGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8ADC677F1C45AD6600639E01 /* ofxDatGui.cpp */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
@@ -44,6 +45,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8ADB345B1C6EB94A0023CB71 /* ofxSmartFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxSmartFont.cpp; sourceTree = "<group>"; };
+		8ADB345C1C6EB94A0023CB71 /* ofxSmartFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxSmartFont.h; sourceTree = "<group>"; };
 		8ADC676C1C45AD6600639E01 /* ofxDatGui2dPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGui2dPad.h; sourceTree = "<group>"; };
 		8ADC676D1C45AD6600639E01 /* ofxDatGuiButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiButton.h; sourceTree = "<group>"; };
 		8ADC676E1C45AD6600639E01 /* ofxDatGuiColorPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiColorPicker.h; sourceTree = "<group>"; };
@@ -88,20 +91,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6948EE371B920CB800B5AC1A /* local_addons */ = {
+		8ADB34591C6EB94A0023CB71 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				8ADB345A1C6EB94A0023CB71 /* ofxSmartFont */,
 			);
-			name = local_addons;
+			path = libs;
+			sourceTree = "<group>";
+		};
+		8ADB345A1C6EB94A0023CB71 /* ofxSmartFont */ = {
+			isa = PBXGroup;
+			children = (
+				8ADB345B1C6EB94A0023CB71 /* ofxSmartFont.cpp */,
+				8ADB345C1C6EB94A0023CB71 /* ofxSmartFont.h */,
+			);
+			path = ofxSmartFont;
 			sourceTree = "<group>";
 		};
 		8ADC676A1C45AD6600639E01 /* ofxDatGui */ = {
 			isa = PBXGroup;
 			children = (
-				8ADC676B1C45AD6600639E01 /* components */,
-				8ADC67791C45AD6600639E01 /* core */,
 				8ADC677F1C45AD6600639E01 /* ofxDatGui.cpp */,
 				8ADC67801C45AD6600639E01 /* ofxDatGui.h */,
+				8ADC67791C45AD6600639E01 /* core */,
+				8ADB34591C6EB94A0023CB71 /* libs */,
+				8ADC676B1C45AD6600639E01 /* components */,
 				8ADC67811C45AD6600639E01 /* themes */,
 			);
 			name = ofxDatGui;
@@ -173,7 +187,6 @@
 				E4B69E1C0A3A1BDC003C02F2 /* src */,
 				E4EEC9E9138DF44700A80321 /* openFrameworks */,
 				BB4B014C10F69532006C3DED /* addons */,
-				6948EE371B920CB800B5AC1A /* local_addons */,
 				E4B69B5B0A3A1756003C02F2 /* example-ScrollViewDebug.app */,
 			);
 			sourceTree = "<group>";
@@ -287,6 +300,7 @@
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				8ADC67851C45AD6600639E01 /* ofxDatGui.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
+				8ADB345D1C6EB94A0023CB71 /* ofxSmartFont.cpp in Sources */,
 				8ADC67841C45AD6600639E01 /* ofxDatGuiComponent.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

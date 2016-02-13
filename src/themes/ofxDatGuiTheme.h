@@ -22,6 +22,7 @@
 
 #pragma once
 #include "ofMain.h"
+#include "ofxSmartFont.h"
 
 #define RETINA_MIN_WIDTH 2560
 #define RETINA_MIN_HEIGHT 1600
@@ -64,7 +65,7 @@ class ofxDatGuiTheme{
                 layout.matrix.buttonSize = 47;
                 layout.textInput.highlightPadding *= 2;
             }
-            font.load();
+            font.ptr = ofxSmartFont::add(font.file, font.size);
         }
     
     /*
@@ -207,8 +208,7 @@ class ofxDatGuiTheme{
         struct {
             int size = 6;
             string file = "ofxbraitsch/fonts/Verdana.ttf";
-            ofTrueTypeFont ttf;
-            void load(){ ttf.load(file, size); }
+            shared_ptr<ofxSmartFont> ptr;
         } font;
     
         struct{

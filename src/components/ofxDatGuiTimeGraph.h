@@ -287,8 +287,11 @@ class ofxDatGuiValuePlotter : public ofxDatGuiTimeGraph {
             int i = 0;
             while(i < pts.size())
             {
-                if (pts[i].x <= 0) pts.erase(pts.end()-1);
-                if (pts[i].x <= mSpeed) pts[i].x = mLineWeight/2;
+                if (pts.at(i).x <= 0) {
+                    pts.erase(pts.end() - 1);
+                } else if (pts.at(i).x <= mSpeed) {
+                    pts.at(i).x = mLineWeight / 2;
+                }
                 i++;
             }
             float height = mPlotterRect.height - (mPlotterRect.height * ofxDatGuiScale(mVal, mMin, mMax));

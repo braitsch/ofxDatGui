@@ -51,7 +51,7 @@ class ofxDatGuiMatrixButton : public ofxDatGuiInteractiveObject {
                 ofDrawRectangle(mRect);
                 if (mShowLabels) {
                     ofSetColor(mLabelColor);
-                    mFont.draw(ofToString(mIndex+1), mRect.x + mRect.width/2 - mFontRect.width/2, mRect.y + mRect.height/2 - mFontRect.height/2);
+                    mFont->draw(ofToString(mIndex+1), mRect.x + mRect.width/2 - mFontRect.width/2, mRect.y + mRect.height/2 + mFontRect.height/2);
                 }
             ofPopStyle();
         }
@@ -101,18 +101,18 @@ class ofxDatGuiMatrixButton : public ofxDatGuiInteractiveObject {
             }
         }
     
-        void setTheme(const ofxDatGuiTheme* tmplt)
+        void setTheme(const ofxDatGuiTheme* theme)
         {
-            mFont.set(&tmplt->font.ttf);
-            mFontRect = mFont.getRect(ofToString(mIndex+1));
-            mBkgdColor = tmplt->color.matrix.normal.button;
-            mLabelColor = tmplt->color.matrix.normal.label;
-            colors.normal.label = tmplt->color.matrix.normal.label;
-            colors.normal.button = tmplt->color.matrix.normal.button;
-            colors.hover.label = tmplt->color.matrix.hover.label;
-            colors.hover.button = tmplt->color.matrix.hover.button;
-            colors.selected.label = tmplt->color.matrix.selected.label;
-            colors.selected.button = tmplt->color.matrix.selected.button;
+            mFont = theme->font.ptr;
+            mFontRect = mFont->rect(ofToString(mIndex+1));
+            mBkgdColor = theme->color.matrix.normal.button;
+            mLabelColor = theme->color.matrix.normal.label;
+            colors.normal.label = theme->color.matrix.normal.label;
+            colors.normal.button = theme->color.matrix.normal.button;
+            colors.hover.label = theme->color.matrix.hover.label;
+            colors.hover.button = theme->color.matrix.hover.button;
+            colors.selected.label = theme->color.matrix.selected.label;
+            colors.selected.button = theme->color.matrix.selected.button;
         }
     
     private:
@@ -126,7 +126,7 @@ class ofxDatGuiMatrixButton : public ofxDatGuiInteractiveObject {
         bool mSelected;
         bool mShowLabels;
         ofRectangle mFontRect;
-        ofxDatGuiFont mFont;
+        shared_ptr<ofxSmartFont> mFont;
         struct {
             struct{
                 ofColor label;
@@ -266,12 +266,12 @@ class ofxDatGuiMatrix : public ofxDatGuiComponent {
             }
         }
     
-        void attachButtons(const ofxDatGuiTheme* tmplt)
+        void attachButtons(const ofxDatGuiTheme* theme)
         {
             btns.clear();
             for(int i=0; i < mNumButtons; i++) {
                 ofxDatGuiMatrixButton btn(mButtonSize, i, mShowLabels);
-                btn.setTheme(tmplt);
+                btn.setTheme(theme);
                 btn.onInternalEvent(this, &ofxDatGuiMatrix::onButtonSelected);
                 btns.push_back(btn);
             }

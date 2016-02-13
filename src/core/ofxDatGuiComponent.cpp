@@ -101,7 +101,7 @@ void ofxDatGuiComponent::setComponentStyle(ofxDatGuiTheme* theme)
     mStyle.border.color = theme->border.color;
     mStyle.border.visible = theme->border.visible;
     mStyle.guiBackground = theme->color.guiBackground;
-    mFont.set(&theme->font.ttf);
+    mFont = theme->font.ptr;
     mIcon.y = mStyle.height * .33;
     mIcon.color = theme->color.icons;
     mIcon.size = theme->layout.iconSize;
@@ -247,7 +247,7 @@ void ofxDatGuiComponent::setLabel(string label)
 {
     if (mLabel.forceUpperCase) label = ofToUpper(label);
     mLabel.text = label;
-    mLabel.rect = mFont.getRect(mLabel.text);
+    mLabel.rect = mFont->rect(mLabel.text);
     positionLabel();
 }
 
@@ -386,9 +386,9 @@ void ofxDatGuiComponent::drawLabel()
 {
     ofSetColor(mLabel.color);
     if (mType != ofxDatGuiType::DROPDOWN_OPTION){
-        mFont.draw(mLabel.text, x+mLabel.x, y+mStyle.height/2 - mLabel.rect.height/2);
+        mFont->draw(mLabel.text, x+mLabel.x, y+mStyle.height/2 + mLabel.rect.height/2);
     }   else{
-        mFont.draw("* "+mLabel.text, x+mLabel.x, y+mStyle.height/2 - mLabel.rect.height/2);
+        mFont->draw("* "+mLabel.text, x+mLabel.x, y+mStyle.height/2 + mLabel.rect.height/2);
     }
 }
 

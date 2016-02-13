@@ -21,6 +21,7 @@
 */
 
 #pragma once
+#include "ofxDatGuiTheme.h"
 #include "ofxDatGuiGroups.h"
 #include "ofxDatGuiControls.h"
 
@@ -118,7 +119,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         vector<ofxDatGuiComponent*> trash;
         static ofxDatGui* mActiveGui;
         static vector<ofxDatGui*> mGuis;
-        static std::unique_ptr<ofxDatGuiTheme> theme;
+        static unique_ptr<ofxDatGuiTheme> theme;
     
         void init();
         void layoutGui();
