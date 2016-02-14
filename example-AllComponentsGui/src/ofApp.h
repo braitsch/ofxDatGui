@@ -24,7 +24,7 @@ class ofApp : public ofBaseApp{
         void onColorPickerEvent(ofxDatGuiColorPickerEvent e);
         void onMatrixEvent(ofxDatGuiMatrixEvent e);
     
-        uint tIndex;
+        unsigned int tIndex;
         vector<ofxDatGuiTheme*> themes;
 
 };
