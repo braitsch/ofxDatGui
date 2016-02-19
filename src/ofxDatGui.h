@@ -21,7 +21,6 @@
 */
 
 #pragma once
-#include "ofxDatGuiTheme.h"
 #include "ofxDatGuiGroups.h"
 #include "ofxDatGuiControls.h"
 

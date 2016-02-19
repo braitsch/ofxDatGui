@@ -34,6 +34,7 @@ ofxDatGuiComponent::ofxDatGuiComponent(string label)
     mMouseOver = false;
     mMouseDown = false;
     mStyle.opacity = 255;
+    this->x = 0; this->y = 0;
     mAnchor = ofxDatGuiAnchor::NO_ANCHOR;
     mLabel.text = label;
     mLabel.alignment = ofxDatGuiAlignment::LEFT;

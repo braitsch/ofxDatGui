@@ -692,8 +692,13 @@ void ofxDatGui::anchorGui()
     mPosition.y = 0;
     if (mAnchor == ofxDatGuiAnchor::TOP_LEFT){
         mPosition.x = 0;
+    /*
+        ofGetWidth returns an incorrect value after the window is resized in version >=0.9.1
+        disabling ofxDatGuiAnchor::TOP_RIGHT until this is resolved
+        https://github.com/openframeworks/openFrameworks/issues/4746
     }   else if (mAnchor == ofxDatGuiAnchor::TOP_RIGHT){
         mPosition.x = ofGetWidth() - mWidth;
+    */
     }
     layoutGui();
 }
