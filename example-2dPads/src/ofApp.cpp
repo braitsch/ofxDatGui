@@ -8,6 +8,7 @@
 void ofApp::setup()
 {
     ofSetWindowPosition(0, 0);
+    ofSetCircleResolution(100);
     
 // instantiate a 2d pad that by default will map to the window dimensions //
     pad = new ofxDatGui2dPad("2D PAD");
@@ -22,13 +23,8 @@ void ofApp::setup()
     pad->on2dPadEvent(this, &ofApp::on2dPadEvent);
 
 // optionally we can set the bounds rectangle the 2d pad maps to //
-    int padding = 200;
-    bounds = ofRectangle(padding, padding, ofGetWidth()-padding*2, ofGetHeight()-padding*2);
-// comment this next line out to see the difference //
-    pad->setBounds(bounds);
-
-// position the circle at the component's default position //
-    circlePosition = pad->getPosition();
+    mUseCustomBounds = true;
+    if (mUseCustomBounds) setBounds();
 }
 
 void ofApp::update()
@@ -38,10 +34,10 @@ void ofApp::update()
 
 void ofApp::draw()
 {
-// draw the circle //
+// draw the circle at the pad's point position //
     ofFill();
     ofSetColor(ofColor::white);
-    ofDrawCircle(circlePosition.x, circlePosition.y, 150);
+    ofDrawCircle(pad->getPoint(), 150);
 
 // draw the component //
     pad->draw();
@@ -52,9 +48,24 @@ void ofApp::draw()
     ofDrawRectangle(bounds);
 }
 
+void ofApp::setBounds()
+{
+    int padding = 200;
+// set the bounds to be 200px smaller than the application window //
+    bounds = ofRectangle(padding, padding, ofGetWidth()-padding*2, ofGetHeight()-padding*2);
+    pad->setBounds(bounds);
+}
+
 void ofApp::on2dPadEvent(ofxDatGui2dPadEvent e)
 {
-    circlePosition.x = e.x;
-    circlePosition.y = e.y;
+    cout << "on2dPadEvent :: x=" << e.x << " y=" << e.y << endl;
+}
+
+void ofApp::windowResized(int w, int h)
+{
+// reset the bounds to the new window dimensions //
+    if (mUseCustomBounds) setBounds();
+// and recenter the 2dpad component onscreen //
+    pad->setPosition(ofGetWidth()/2 - pad->getWidth()/2, ofGetHeight()/2 - pad->getHeight()/2);
 }
 

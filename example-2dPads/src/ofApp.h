@@ -9,10 +9,13 @@ class ofApp : public ofBaseApp{
 		void setup();
 		void update();
 		void draw();
+        void windowResized(int w, int h);
  
-        ofPoint circlePosition;
         ofRectangle bounds;
         ofxDatGui2dPad* pad;
+        bool mUseCustomBounds;
+    
+        void setBounds();
         void on2dPadEvent(ofxDatGui2dPadEvent e);
     
 };
