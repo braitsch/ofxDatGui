@@ -457,8 +457,10 @@ myMatrix-&gt;setRadioMode(bool enabled);</pre>
 <pre class="prettyprint">ofxDatGui2dPad* my2dPad;
 // bounds is the area that the coordinate pad maps to //
 my2dPad-&gt;setBounds(ofRectangle bounds);
-// request the current position within the bounds rectangle //
-ofPoint my2dPad-&gt;getPosition();
+ofRectangle my2dPad-&gt;getBounds();
+// request the position of the point within the bounds rectangle //
+ofPoint my2dPad-&gt;getPoint();
+my2dPad-&gt;setPoint(ofPoint pt);
 </pre>
 
 <p><strong>Note:</strong> All indicies are zero based so the first item in your <strong>ofxDatGui</strong> instance will have an index of 0, the second item will have an index of 1, the third item an index of 2 etc..</p>
