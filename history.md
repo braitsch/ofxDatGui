@@ -11,6 +11,7 @@
 * ofxDatGuiTextInput->setInputType()
 * adding support for [component borders](http://braitsch.github.io/ofxDatGui/index.html#api)
 * assets moved into **/bin/data/ofxbraitsch**
+
 --
 **v1.00** –– 01-04-16
 
