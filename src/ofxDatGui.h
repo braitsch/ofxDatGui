@@ -36,7 +36,6 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         void focus();
         void update();
     
-        bool isMoving();
         void setWidth(int width, float labelWidth = 0.35f);
         void setVisible(bool visible);
         void setEnabled(bool enabled);
@@ -52,7 +51,6 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         bool getVisible();
         bool getAutoDraw();
         ofPoint getPosition();
-        ofxDatGuiTheme* getDefaultTheme();
     
         ofxDatGuiHeader* addHeader(string label = "", bool draggable = true);
         ofxDatGuiFooter* addFooter();

@@ -75,10 +75,6 @@ void ofxDatGui::init()
     public getters & setters
 */
 
-bool ofxDatGui::isMoving()
-{
-    return mMoving;
-}
 
 void ofxDatGui::focus()
 {
@@ -127,11 +123,6 @@ void ofxDatGui::setTheme(ofxDatGuiTheme* t)
     mRowSpacing = t->layout.vMargin;
     mGuiBackground = t->color.guiBackground;
     mThemeChanged = true;
-}
-
-ofxDatGuiTheme* ofxDatGui::getDefaultTheme()
-{
-    return theme.get();
 }
 
 void ofxDatGui::setOpacity(float opacity)
@@ -730,6 +721,7 @@ void ofxDatGui::collapseGui()
     mGuiFooter->setY(mPosition.y);
 }
 
+
 /* 
     update & draw loop
 */
@@ -754,7 +746,7 @@ void ofxDatGui::update()
     mAlignmentChanged = false;
     
     // check for gui focus change //
-    if (ofGetMousePressed() && mActiveGui->isMoving() == false){
+    if (ofGetMousePressed() && mActiveGui->mMoving == false){
         ofPoint mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
         for (int i=mGuis.size()-1; i>-1; i--){
         // ignore guis that are invisible //
