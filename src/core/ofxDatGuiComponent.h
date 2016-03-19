@@ -63,6 +63,7 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         void    setFocused(bool focused);
         bool    getFocused();
         void    setOpacity(float opacity);
+        bool    getMouseDown();
         ofxDatGuiType getType();
     
         vector<ofxDatGuiComponent*> children;

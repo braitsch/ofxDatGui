@@ -153,13 +153,18 @@ void ofxDatGui::setAutoDraw(bool autodraw, int priority)
     ofRemoveListener(ofEvents().update, this, &ofxDatGui::onUpdate);
     if (autodraw){
         ofAddListener(ofEvents().draw, this, &ofxDatGui::onDraw, OF_EVENT_ORDER_AFTER_APP + priority);
-        ofAddListener(ofEvents().update, this, &ofxDatGui::onUpdate, OF_EVENT_ORDER_AFTER_APP + priority);
+        ofAddListener(ofEvents().update, this, &ofxDatGui::onUpdate, OF_EVENT_ORDER_BEFORE_APP - priority);
     }
 }
 
 bool ofxDatGui::getAutoDraw()
 {
     return mAutoDraw;
+}
+
+bool ofxDatGui::getMouseDown()
+{
+    return mMouseDown;
 }
 
 void ofxDatGui::setLabelAlignment(ofxDatGuiAlignment align)
@@ -721,7 +726,6 @@ void ofxDatGui::collapseGui()
     mGuiFooter->setY(mPosition.y);
 }
 
-
 /* 
     update & draw loop
 */
@@ -762,44 +766,43 @@ void ofxDatGui::update()
         for (int i=0; i<items.size(); i++) items[i]->update(false);
     }   else {
         mMoving = false;
+        mMouseDown = false;
     // this gui has focus so let's see if any of its components were interacted with //
         if (mExpanded == false){
             mGuiFooter->update();
+            mMouseDown = mGuiFooter->getMouseDown();
         }   else{
-            int activeItemIndex = -1;
+            bool hitComponent = false;
             for (int i=0; i<items.size(); i++) {
-                items[i]->update();
-                if (items[i]->getFocused()) {
-                    activeItemIndex = i;
-                    if (mGuiHeader != nullptr && mGuiHeader->getDraggable() && mGuiHeader->getFocused()){
-                // track that we're moving to force preserve focus //
-                        mMoving = true;
-                        ofPoint mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
-                        moveGui(mouse - mGuiHeader->getDragOffset());
-                    }
-                    break;
-                }   else if (items[i]->getIsExpanded()){
-                // check if one of its children has focus //
-                    for (int j=0; j<items[i]->children.size(); j++) {
-                        if (items[i]->children[j]->getFocused()){
-                            activeItemIndex = i;
-                            break;
+                if (hitComponent == false){
+                    items[i]->update(true);
+                    if (items[i]->getFocused()) {
+                        hitComponent = true;
+                        mMouseDown = items[i]->getMouseDown();
+                        if (mGuiHeader != nullptr && mGuiHeader->getDraggable() && mGuiHeader->getFocused()){
+                    // track that we're moving to force preserve focus //
+                            mMoving = true;
+                            ofPoint mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
+                            moveGui(mouse - mGuiHeader->getDragOffset());
+                        }
+                    }   else if (items[i]->getIsExpanded()){
+                    // check if one of its children has focus //
+                        for (int j=0; j<items[i]->children.size(); j++) {
+                            if (items[i]->children[j]->getFocused()){
+                                hitComponent = true;
+                                mMouseDown = items[i]->children[j]->getMouseDown();
+                                break;
+                            }
                         }
                     }
-                    if (activeItemIndex != -1) break;
-                }
-            }
-        // update the remaining components //
-            if (activeItemIndex != -1){
-                for (int i=activeItemIndex + 1; i<items.size(); i++) {
-        //  but tell them to ignore mouse & keyboard events since we're already determined the active component //
+                }   else{
+            // update component but ignore mouse & keyboard events //
                     items[i]->update(false);
                     if (items[i]->getFocused()) items[i]->setFocused(false);
                 }
             }
         }
     }
-    
 // empty the trash //
     for (int i=0; i<trash.size(); i++) delete trash[i];
     trash.clear();

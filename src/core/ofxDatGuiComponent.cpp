@@ -217,6 +217,11 @@ bool ofxDatGuiComponent::getFocused()
     return mFocused;
 }
 
+bool ofxDatGuiComponent::getMouseDown()
+{
+    return mMouseDown;
+}
+
 void ofxDatGuiComponent::setAnchor(ofxDatGuiAnchor anchor)
 {
     mAnchor = anchor;
@@ -330,19 +335,17 @@ void ofxDatGuiComponent::update(bool acceptEvents)
         if (hitTest(mouse)){
             if (!mMouseOver){
                 onMouseEnter(mouse);
-            }   else {
-                if (!mMouseDown && mp){
-                    onMousePress(mouse);
-                    if (!mFocused) {
-                        onFocus();
-                    }
-                }
+            }
+            if (!mMouseDown && mp){
+                onMousePress(mouse);
+                if (!mFocused) onFocus();
             }
         }   else{
     // the mouse is not over the component //
             if (mMouseOver){
                 onMouseLeave(mouse);
-            }   else if (mp && mFocused && mMouseDown==false){
+            }
+            if (!mMouseDown && mp && mFocused){
                 onFocusLost();
             }
         }

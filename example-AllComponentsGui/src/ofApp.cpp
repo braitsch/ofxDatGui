@@ -78,7 +78,8 @@ void ofApp::setup()
 //  gui->setLabelAlignment(ofxDatGuiAlignment::CENTER);
 
 // finally let's load up the stock themes, press spacebar to cycle through them //
-    themes = {  new ofxDatGuiThemeSmoke(),
+    themes = {  new ofxDatGuiTheme(true),
+                new ofxDatGuiThemeSmoke(),
                 new ofxDatGuiThemeWireframe(),
                 new ofxDatGuiThemeMidnight(),
                 new ofxDatGuiThemeAqua(),
@@ -139,12 +140,8 @@ void ofApp::keyPressed(int key)
     if (key == 'f') {
         toggleFullscreen();
     }   else if (key == 32){
-        if (tIndex < themes.size()){
-            gui->setTheme(themes[tIndex++]);
-        }  else{
-            tIndex = 0;
-            gui->setTheme(gui->getDefaultTheme());
-        }
+        tIndex = tIndex < themes.size()-1 ? tIndex+1 : 0;
+        gui->setTheme(themes[tIndex]);
     }
 }
 

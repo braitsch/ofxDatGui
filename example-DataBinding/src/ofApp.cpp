@@ -35,15 +35,12 @@ void ofApp::setup()
 void ofApp::update()
 {
 // drag the circle around if the mouse is pressed while over it //
-    ofPoint mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
-    if (ofGetMousePressed()){
-        if (circle->inside(mouse)) mDragging = true;
-    }   else{
-        mDragging = false;
-    }
-    if (mDragging){
-        circle->x = mouse.x;
-        circle->y = mouse.y;
+    if (ofGetMousePressed() && gui->getMouseDown() == false){
+        ofPoint mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
+        if (circle->inside(mouse)) {
+            circle->x = mouse.x;
+            circle->y = mouse.y;
+        }
     }
 }
 
