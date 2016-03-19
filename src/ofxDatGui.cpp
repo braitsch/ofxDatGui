@@ -688,13 +688,16 @@ void ofxDatGui::anchorGui()
     mPosition.y = 0;
     if (mAnchor == ofxDatGuiAnchor::TOP_LEFT){
         mPosition.x = 0;
-    /*
-        ofGetWidth returns an incorrect value after the window is resized in version >=0.9.1
-        disabling ofxDatGuiAnchor::TOP_RIGHT until this is resolved
-        https://github.com/openframeworks/openFrameworks/issues/4746
     }   else if (mAnchor == ofxDatGuiAnchor::TOP_RIGHT){
         mPosition.x = ofGetWidth() - mWidth;
+    /*
+        ofGetWidth returns an incorrect value after retina windows are resized in version 0.9.1 & 0.9.2
+        https://github.com/openframeworks/openFrameworks/issues/4746
+        https://github.com/openframeworks/openFrameworks/pull/4858
     */
+        if (ofxDatGuiIsRetina() && ofGetVersionMajor() == 0 && ofGetVersionMinor() == 9 && (ofGetVersionPatch() == 1 || ofGetVersionPatch() == 2)){
+            mPosition.x = (ofGetWidth() / 2) - mWidth;
+        }
     }
     layoutGui();
 }
