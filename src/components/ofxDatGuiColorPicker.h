@@ -64,7 +64,7 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
             ofxDatGuiTextInput::setTheme(theme);
             mStyle.stripe.color = theme->stripe.colorPicker;
             pickerRect = ofRectangle(0, 0, mInput.getWidth(), (mStyle.height + mStyle.padding) * 3);
-            rainbow.image.load(theme->icon.rainbow);
+            rainbow.image = theme->icon.rainbow;
             rainbow.rect = ofRectangle(0, 0, 20, pickerRect.height - (mStyle.padding * 2));
             gradientRect = ofRectangle(0, 0, pickerRect.width - rainbow.rect.width - (mStyle.padding * 3), rainbow.rect.height);
             pickerBorder = theme->color.colorPicker.border;
@@ -118,7 +118,7 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
                     ofSetColor(pickerBorder);
                     ofDrawRectangle(pickerRect);
                     ofSetColor(ofColor::white);
-                    rainbow.image.draw(rainbow.rect);
+                    rainbow.image->draw(rainbow.rect);
                     vbo.draw( GL_TRIANGLE_FAN, 0, 6 );
                 }
             ofPopStyle();
@@ -131,7 +131,7 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
                     ofSetColor(pickerBorder);
                     ofDrawRectangle(pickerRect);
                     ofSetColor(ofColor::white);
-                    rainbow.image.draw(rainbow.rect);
+                    rainbow.image->draw(rainbow.rect);
                     vbo.draw( GL_TRIANGLE_FAN, 0, 6 );
                 ofPopStyle();
             }
@@ -230,7 +230,7 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
         ofColor gColor;
     
         struct {
-            ofImage image;
+            shared_ptr<ofImage> image;
             ofRectangle rect;
         } rainbow;
     

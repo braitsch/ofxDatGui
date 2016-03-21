@@ -75,7 +75,7 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
                 ofPushStyle();
                 ofxDatGuiButton::draw();
                 ofSetColor(mIcon.color);
-                mImage.draw(x+mIcon.x, y+mIcon.y, mIcon.size, mIcon.size);
+                mImage->draw(x+mIcon.x, y+mIcon.y, mIcon.size, mIcon.size);
                 if (mIsExpanded) {
                     int mHeight = mStyle.height;
                     ofSetColor(mStyle.guiBackground, mStyle.opacity);
@@ -133,7 +133,7 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
         }
     
         int mHeight;
-        ofImage mImage;
+        shared_ptr<ofImage> mImage;
         bool mIsExpanded;
     
 };
@@ -153,7 +153,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup {
         void setTheme(ofxDatGuiTheme* theme)
         {
             setComponentStyle(theme);
-            mImage.load(theme->icon.dropdown);
+            mImage = theme->icon.dropdown;
             setWidth(theme->layout.width, theme->layout.labelWidth);
         // reassign folder color to all components //
             for(auto i:children) i->setStripeColor(mStyle.stripe.color);
@@ -410,7 +410,7 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
         void setTheme(ofxDatGuiTheme* theme)
         {
             setComponentStyle(theme);
-            mImage.load(theme->icon.dropdown);
+            mImage = theme->icon.dropdown;
             mStyle.stripe.color = theme->stripe.dropdown;
             setWidth(theme->layout.width, theme->layout.labelWidth);
         }

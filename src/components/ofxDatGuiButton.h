@@ -106,8 +106,8 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
         void setTheme(ofxDatGuiTheme* theme)
         {
             setComponentStyle(theme);
-            radioOn.load(theme->icon.radioOn);
-            radioOff.load(theme->icon.radioOff);
+            radioOn = theme->icon.radioOn;
+            radioOff = theme->icon.radioOff;
             mStyle.stripe.color = theme->stripe.toggle;
             setWidth(theme->layout.width, theme->layout.labelWidth);
         }
@@ -142,9 +142,9 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
                 ofxDatGuiButton::draw();
                 ofSetColor(mIcon.color);
                 if (mEnabled == true){
-                    radioOn.draw(x+mIcon.x, y+mIcon.y, mIcon.size, mIcon.size);
+                    radioOn->draw(x+mIcon.x, y+mIcon.y, mIcon.size, mIcon.size);
                 }   else{
-                    radioOff.draw(x+mIcon.x, y+mIcon.y, mIcon.size, mIcon.size);
+                    radioOff->draw(x+mIcon.x, y+mIcon.y, mIcon.size, mIcon.size);
                 }
                 ofPopStyle();
             }
@@ -168,8 +168,8 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
     
     private:
         bool mEnabled;
-        ofImage radioOn;
-        ofImage radioOff;
+        shared_ptr<ofImage> radioOn;
+        shared_ptr<ofImage> radioOff;
 
 };
 

@@ -66,6 +66,18 @@ class ofxDatGuiTheme{
                 layout.textInput.highlightPadding *= 2;
             }
             font.ptr = ofxSmartFont::add(font.file, font.size);
+
+            icon.radioOn = make_shared<ofImage>();
+            icon.radioOn->load(icon.radioOnPath);
+
+            icon.radioOff = make_shared<ofImage>();
+            icon.radioOff->load(icon.radioOffPath);
+
+            icon.dropdown = make_shared<ofImage>();
+            icon.dropdown->load(icon.dropdownPath);
+
+            icon.rainbow = make_shared<ofImage>();
+            icon.rainbow->load(icon.rainbowPath);
         }
     
     /*
@@ -212,10 +224,15 @@ class ofxDatGuiTheme{
         } font;
     
         struct{
-            string rainbow = "ofxbraitsch/ofxdatgui/picker-rainbow.png";
-            string radioOn = "ofxbraitsch/ofxdatgui/icon-radio-on.png";
-            string radioOff = "ofxbraitsch/ofxdatgui/icon-radio-off.png";
-            string dropdown = "ofxbraitsch/ofxdatgui/icon-dropdown.png";
+            shared_ptr<ofImage> rainbow;
+            shared_ptr<ofImage> radioOn;
+            shared_ptr<ofImage> radioOff;
+            shared_ptr<ofImage> dropdown;
+
+            string rainbowPath = "ofxbraitsch/ofxdatgui/picker-rainbow.png";
+            string radioOnPath = "ofxbraitsch/ofxdatgui/icon-radio-on.png";
+            string radioOffPath = "ofxbraitsch/ofxdatgui/icon-radio-off.png";
+            string dropdownPath = "ofxbraitsch/ofxdatgui/icon-dropdown.png";
         } icon;
 
         static ofColor hex(int n)
