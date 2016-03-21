@@ -44,6 +44,8 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         void setTheme(ofxDatGuiTheme* t);
         void setAutoDraw(bool autodraw, int priority = 0);
         void setLabelAlignment(ofxDatGuiAlignment align);
+        static void setAssetPath(string path);
+        static string getAssetPath();
     
         int getWidth();
         int getHeight();

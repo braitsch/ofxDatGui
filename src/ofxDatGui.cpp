@@ -188,6 +188,16 @@ ofPoint ofxDatGui::getPosition()
     return ofPoint(mPosition.x, mPosition.y);
 }
 
+void ofxDatGui::setAssetPath(string path)
+{
+    ofxDatGuiTheme::AssetPath = path;
+}
+
+string ofxDatGui::getAssetPath()
+{
+    return ofxDatGuiTheme::AssetPath;
+}
+
 /* 
     add component methods
 */

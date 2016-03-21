@@ -24,6 +24,7 @@
 
 bool ofxDatGuiLog::mQuiet = false;
 std::unique_ptr<ofxDatGuiTheme> ofxDatGuiComponent::theme;
+string ofxDatGuiTheme::AssetPath = "../../../../../addons/ofxDatGui/";
 
 ofxDatGuiComponent::ofxDatGuiComponent(string label)
 {
@@ -44,7 +45,7 @@ ofxDatGuiComponent::ofxDatGuiComponent(string label)
 
 ofxDatGuiComponent::~ofxDatGuiComponent()
 {
-    cout << "ofxDatGuiComponent destroyed" << endl;
+//  cout << "ofxDatGuiComponent destroyed" << endl;
 }
 
 /*
