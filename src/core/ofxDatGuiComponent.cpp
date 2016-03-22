@@ -24,7 +24,8 @@
 
 bool ofxDatGuiLog::mQuiet = false;
 std::unique_ptr<ofxDatGuiTheme> ofxDatGuiComponent::theme;
-string ofxDatGuiTheme::AssetPath = "../../../../../addons/ofxDatGui/";
+string currentDir = ofFilePath::getCurrentExeDir();
+string ofxDatGuiTheme::AssetPath = currentDir + "/data/";
 
 ofxDatGuiComponent::ofxDatGuiComponent(string label)
 {
