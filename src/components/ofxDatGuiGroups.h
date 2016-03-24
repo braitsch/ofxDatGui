@@ -247,7 +247,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup {
             return button;
         }
     
-        ofxDatGuiButton* addToggle(string label, bool enabled = false)
+        ofxDatGuiToggle* addToggle(string label, bool enabled = false)
         {
             ofxDatGuiToggle* toggle = new ofxDatGuiToggle(label, enabled);
             toggle->setStripeColor(mStyle.stripe.color);
@@ -265,6 +265,22 @@ class ofxDatGuiFolder : public ofxDatGuiGroup {
         ofxDatGuiSlider* addSlider(string label, float min, float max, float val)
         {
             ofxDatGuiSlider* slider = new ofxDatGuiSlider(label, min, max, val);
+            slider->setStripeColor(mStyle.stripe.color);
+            slider->onSliderEvent(this, &ofxDatGuiFolder::dispatchSliderEvent);
+            attachItem(slider);
+            return slider;
+        }
+
+        ofxDatGuiSlider* addSlider(ofParameter<int> & p){
+            ofxDatGuiSlider* slider = new ofxDatGuiSlider(p);
+            slider->setStripeColor(mStyle.stripe.color);
+            slider->onSliderEvent(this, &ofxDatGuiFolder::dispatchSliderEvent);
+            attachItem(slider);
+            return slider;
+        }
+
+        ofxDatGuiSlider* addSlider(ofParameter<float> & p){
+            ofxDatGuiSlider* slider = new ofxDatGuiSlider(p);
             slider->setStripeColor(mStyle.stripe.color);
             slider->onSliderEvent(this, &ofxDatGuiFolder::dispatchSliderEvent);
             attachItem(slider);
