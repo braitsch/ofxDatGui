@@ -60,10 +60,10 @@ void ofxDatGui::init()
     mWidth = theme->layout.width;
     mRowSpacing = theme->layout.vMargin;
     mGuiBackground = theme->color.guiBackground;
-    
+
 // enable autodraw by default //
     setAutoDraw(true);
-    
+
 // assign focus to this newly created gui //
     mActiveGui = this;
     mGuis.push_back(this);
@@ -71,7 +71,7 @@ void ofxDatGui::init()
     ofAddListener(ofEvents().windowResized, this, &ofxDatGui::onWindowResized, OF_EVENT_ORDER_BEFORE_APP);
 }
 
-/* 
+/*
     public getters & setters
 */
 
@@ -198,7 +198,7 @@ string ofxDatGui::getAssetPath()
     return ofxDatGuiTheme::AssetPath;
 }
 
-/* 
+/*
     add component methods
 */
 
@@ -707,7 +707,27 @@ void ofxDatGui::anchorGui()
     */
         if (ofxDatGuiIsRetina() && ofGetVersionMajor() == 0 && ofGetVersionMinor() == 9 && (ofGetVersionPatch() == 1 || ofGetVersionPatch() == 2)){
             mPosition.x = (ofGetWidth() / 2) - mWidth;
-        }
+        } else if (mAnchor == ofxDatGuiAnchor::BOTTOM_RIGHT){
+            mPosition.x = ofGetWidth() - mWidth;
+            mPosition.y = ofGetHeight() - mHeight;
+        /*
+            ofGetWidth returns an incorrect value after retina windows are resized in version 0.9.1 & 0.9.2
+            https://github.com/openframeworks/openFrameworks/issues/4746
+            https://github.com/openframeworks/openFrameworks/pull/4858
+        */
+            if (ofxDatGuiIsRetina() && ofGetVersionMajor() == 0 && ofGetVersionMinor() == 9 && (ofGetVersionPatch() == 1 || ofGetVersionPatch() == 2)){
+                mPosition.x = (ofGetWidth() / 2) - mWidth;
+                mPosition.y = (ofGetHeight() / 2) - mHeight;
+            }else if (mAnchor == ofxDatGuiAnchor::BOTTOM_LEFT){
+                mPosition.y = ofGetHeight() - mHeight;
+            /*
+                ofGetWidth returns an incorrect value after retina windows are resized in version 0.9.1 & 0.9.2
+                https://github.com/openframeworks/openFrameworks/issues/4746
+                https://github.com/openframeworks/openFrameworks/pull/4858
+            */
+                if (ofxDatGuiIsRetina() && ofGetVersionMajor() == 0 && ofGetVersionMinor() == 9 && (ofGetVersionPatch() == 1 || ofGetVersionPatch() == 2)){
+                    mPosition.y = (ofGetHeight() / 2) - mHeight;
+                }
     }
     layoutGui();
 }
@@ -739,7 +759,7 @@ void ofxDatGui::collapseGui()
     mGuiFooter->setY(mPosition.y);
 }
 
-/* 
+/*
     update & draw loop
 */
 
@@ -761,7 +781,7 @@ void ofxDatGui::update()
     mWidthChanged = false;
     mThemeChanged = false;
     mAlignmentChanged = false;
-    
+
     // check for gui focus change //
     if (ofGetMousePressed() && mActiveGui->mMoving == false){
         ofPoint mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
@@ -853,5 +873,3 @@ void ofxDatGui::onWindowResized(ofResizeEventArgs &e)
 {
     if (mAnchor != ofxDatGuiAnchor::NO_ANCHOR) anchorGui();
 }
-
-
