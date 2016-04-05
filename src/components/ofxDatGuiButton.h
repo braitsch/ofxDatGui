@@ -135,19 +135,33 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
             return mEnabled;
         }
 
+    /*
+        variable binding methods
+    */
+
+        void bind(bool &val)
+        {
+            mBoundVal = &val;
+        }
+
+
         void draw()
         {
-            if (mVisible) {
-                ofPushStyle();
-                ofxDatGuiButton::draw();
-                ofSetColor(mIcon.color);
-                if (mEnabled == true){
-                    radioOn->draw(x+mIcon.x, y+mIcon.y, mIcon.size, mIcon.size);
-                }   else{
-                    radioOff->draw(x+mIcon.x, y+mIcon.y, mIcon.size, mIcon.size);
-                }
-                ofPopStyle();
+            if (!mVisible) return;
+        // check for bound variables //
+            if (mBoundVal != nullptr) {
+                getBoundVal();
             }
+
+            ofPushStyle();
+            ofxDatGuiButton::draw();
+            ofSetColor(mIcon.color);
+            if (mEnabled == true){
+                radioOn->draw(x+mIcon.x, y+mIcon.y, mIcon.size, mIcon.size);
+            }   else{
+                radioOff->draw(x+mIcon.x, y+mIcon.y, mIcon.size, mIcon.size);
+            }
+            ofPopStyle();
         }
     
     protected:
@@ -155,6 +169,11 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
         void onMouseRelease(ofPoint m)
         {
             mEnabled = !mEnabled;
+        // experimental - check for bound variables //
+            if (mBoundVal != nullptr) {
+                *mBoundVal = mEnabled;
+            }
+
             ofxDatGuiComponent::onFocusLost();
             ofxDatGuiComponent::onMouseRelease(m);
         // dispatch event out to main application //
@@ -167,9 +186,21 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
         }
     
     private:
-        bool mEnabled;
+        bool    mEnabled;
+        bool*   mBoundVal = nullptr;
         shared_ptr<ofImage> radioOn;
         shared_ptr<ofImage> radioOff;
+
+    /*
+        private variable binding methods
+    */
+
+        inline void getBoundVal()
+        {
+            if (*mBoundVal != mEnabled) {
+                setEnabled(*mBoundVal);
+            }
+        }
 
 };
 
