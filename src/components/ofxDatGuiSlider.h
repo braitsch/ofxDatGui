@@ -35,9 +35,9 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
             mVal = val;
             mPrecision = 2;
             mType = ofxDatGuiType::SLIDER;
-            input = new ofxDatGuiTextInputField();
-            input->setTextInputFieldType(ofxDatGuiInputType::NUMERIC);
-            input->onInternalEvent(this, &ofxDatGuiSlider::onInputChanged);
+            mInput = new ofxDatGuiTextInputField();
+            mInput->setTextInputFieldType(ofxDatGuiInputType::NUMERIC);
+            mInput->onInternalEvent(this, &ofxDatGuiSlider::onInputChanged);
             setTheme(ofxDatGuiComponent::theme.get());
         }
     
@@ -57,7 +57,7 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
     
         ~ofxDatGuiSlider()
         {
-            delete input;
+            delete mInput;
         }
     
         void setTheme(ofxDatGuiTheme* theme)
@@ -66,8 +66,8 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
             mSliderFill = theme->color.slider.fill;
             mBackgroundFill = theme->color.inputAreaBackground;
             mStyle.stripe.color = theme->stripe.slider;
-            input->setTheme(theme);
-            input->setTextInactiveColor(theme->color.slider.text);
+            mInput->setTheme(theme);
+            mInput->setTextInactiveColor(theme->color.slider.text);
             calculateScale();
             setWidth(theme->layout.width, theme->layout.labelWidth);
         }
@@ -79,14 +79,14 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
             mSliderWidth = totalWidth * .7;
             mInputX = mLabel.width + mSliderWidth + mStyle.padding;
             mInputWidth = totalWidth - mSliderWidth - (mStyle.padding * 2);
-            input->setWidth(mInputWidth);
-            input->setPosition(x + mInputX, y + mStyle.padding);
+            mInput->setWidth(mInputWidth);
+            mInput->setPosition(x + mInputX, y + mStyle.padding);
         }
     
         void setPosition(int x, int y)
         {
             ofxDatGuiComponent::setPosition(x, y);
-            input->setPosition(x + mInputX, y + mStyle.padding);
+            mInput->setPosition(x + mInputX, y + mStyle.padding);
         }
     
         void setPrecision(int precision)
@@ -188,7 +188,7 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
                     ofDrawRectangle(x+mLabel.width, y+mStyle.padding, mSliderWidth*mScale, mStyle.height-(mStyle.padding*2));
                 }
             // numeric input field //
-                input->draw();
+                mInput->draw();
             ofPopStyle();
         }
     
@@ -198,7 +198,7 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
                 return false;
             }   else if (m.x>=x+mLabel.width && m.x<= x+mLabel.width+mSliderWidth && m.y>=y+mStyle.padding && m.y<= y+mStyle.height-mStyle.padding){
                 return true;
-            }   else if (input->hitTest(m)){
+            }   else if (mInput->hitTest(m)){
                 return true;
             }   else{
                 return false;
@@ -212,18 +212,16 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
         void onMousePress(ofPoint m)
         {
             ofxDatGuiComponent::onMousePress(m);
-            if (input->hitTest(m)){
-                input->onFocus();
-                mInputActive = true;
-            }   else{
-                input->onFocusLost();
-                mInputActive = false;
+            if (mInput->hitTest(m)){
+                mInput->onFocus();
+            }   else if (mInput->hasFocus()){
+                mInput->onFocusLost();
             }
         }
     
         void onMouseDrag(ofPoint m)
         {
-            if (mFocused && mInputActive == false){
+            if (mFocused && mInput->hasFocus() == false){
                 float s = (m.x-x-mLabel.width)/mSliderWidth;
                 if (s > .999) s = 1;
                 if (s < .001) s = 0;
@@ -239,18 +237,18 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
         void onMouseRelease(ofPoint m)
         {
             ofxDatGuiComponent::onMouseRelease(m);
-            if (input->hitTest(m) == false) onFocusLost();
+            if (mInput->hitTest(m) == false) onFocusLost();
         }
     
         void onFocusLost()
         {
             ofxDatGuiComponent::onFocusLost();
-            if (mInputActive) input->onFocusLost();
+            if (mInput->hasFocus()) mInput->onFocusLost();
         }
     
         void onInputChanged(ofxDatGuiInternalEvent e)
         {
-            setValue(ofToFloat(input->getText()));
+            setValue(ofToFloat(mInput->getText()));
             dispatchSliderChangedEvent();
         }
     
@@ -262,7 +260,6 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
             } else if (mBoundi != nullptr) {
                 *mBoundi = mVal;
             }
-            
             if (mParamI != nullptr) mParamI->set(mVal);
             if (mParamF != nullptr) mParamF->set(mVal);
         // dispatch event out to main application //
@@ -276,7 +273,7 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
     
         void onKeyPressed(int key)
         {
-            if (mInputActive) input->onKeyPressed(key);
+            if (mInput->hasFocus()) mInput->onKeyPressed(key);
         }
 
     private:
@@ -286,14 +283,12 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
         float   mVal;
         float   mScale;
         int     mPrecision;
-        bool    mChanged;
-        bool    mInputActive;
         int     mInputX;
         int     mInputWidth;
         int     mSliderWidth;
         ofColor mSliderFill;
         ofColor mBackgroundFill;
-        ofxDatGuiTextInputField* input;
+        ofxDatGuiTextInputField* mInput;
     
         float   pVal;
         int*    mBoundi = nullptr;
@@ -341,7 +336,7 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
                 }
                 while(v.length() - p < (mPrecision+1)) v+='0';
             }
-            input->setText(v);
+            mInput->setText(v);
         }
     
         float round(float num, int precision)
