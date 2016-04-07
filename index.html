@@ -369,15 +369,18 @@ mySlider-&gt;setMin(float min);
 // set the max value //
 mySlider-&gt;setMax(float max);
 // value must be between min &amp; max //
-mySlider-&gt;setValue(float value);
+mySlider-&gt;setValue(double value);
 // request the current value //
-float mySlider-&gt;getValue();
+double mySlider-&gt;getValue();
 // scale is always a float between 0 &amp; 1 //
-mySlider-&gt;setScale(float scale);
+mySlider-&gt;setScale(double scale);
 // request the current scale //
-float mySlider-&gt;getScale();
+double mySlider-&gt;getScale();
 // set the floating point precision (default is two decimal places) //
-mySlider-&gt;setPrecision(int precision);
+mySlider-&gt;setPrecision(int precision, bool truncateValue = true);
+// sets the # of decimal places that display in the slider's input field //
+// by default the underlying slider value is rounded to the precision of the input field //
+// to disable this set truncateValue to false //
 // to cast the slider value to an integer set the precision to zero // 
 mySlider-&gt;setPrecision(0);
 </pre>
