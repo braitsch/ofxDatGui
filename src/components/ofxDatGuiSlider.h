@@ -28,12 +28,12 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
 
     public:
     
-        ofxDatGuiSlider(string label, float min, float max, float val) : ofxDatGuiComponent(label)
+        ofxDatGuiSlider(string label, float min, float max, double val) : ofxDatGuiComponent(label)
         {
             mMin = min;
             mMax = max;
-            mVal = val;
-            mPrecision = 2;
+            mValue = val;
+            setPrecision(2, false);
             mType = ofxDatGuiType::SLIDER;
             mInput = new ofxDatGuiTextInputField();
             mInput->setTextInputFieldType(ofxDatGuiInputType::NUMERIC);
@@ -44,13 +44,13 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
         ofxDatGuiSlider(string label, float min, float max) : ofxDatGuiSlider(label, min, max, (max+min)/2) {}
         ofxDatGuiSlider(ofParameter<int> & p) : ofxDatGuiSlider(p.getName(), p.getMin(), p.getMax(), p.get()) {
             mParamI = &p;
-            mPrecision = 0;
+            setPrecision(0);
             calculateScale();
             mParamI->addListener(this, &ofxDatGuiSlider::onParamI);
         }
         ofxDatGuiSlider(ofParameter<float> & p) : ofxDatGuiSlider(p.getName(), p.getMin(), p.getMax(), p.get()) {
             mParamF = &p;
-            mPrecision = 2;
+            setPrecision(2);
             calculateScale();
             mParamF->addListener(this, &ofxDatGuiSlider::onParamF);
         }
@@ -89,48 +89,72 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
             mInput->setPosition(x + mInputX, y + mStyle.padding);
         }
     
-        void setPrecision(int precision)
+        void setPrecision(int precision, bool truncateValue = true)
         {
             mPrecision = precision;
-    // max precision is currently four decimal places //
-            if (mPrecision > 4) mPrecision = 4;
-            calculateScale();
+            mTruncateValue = truncateValue;
+            if (mPrecision > MAX_PRECISION) mPrecision = MAX_PRECISION;
         }
     
         void setMin(float min)
         {
             mMin = min;
-            calculateScale();
+            if (mMin < mMax){
+                calculateScale();
+            }   else{
+                onInvalidMinMaxValues();
+            }
         }
     
         void setMax(float max)
         {
             mMax = max;
+            if (mMax > mMin){
+                calculateScale();
+            }   else{
+                onInvalidMinMaxValues();
+            }
+        }
+    
+        void setValue(double value)
+        {
+            mValue = value;
+            if (mValue > mMax){
+                mValue = mMax;
+            }   else if (mValue < mMin){
+                mValue = mMin;
+            }
+            if (mTruncateValue) mValue = round(mValue, mPrecision);
             calculateScale();
         }
     
-        void setValue(float value)
+        double getValue()
         {
-            mVal = value;
-            calculateScale();
+            return mValue;
         }
     
-        float getValue()
+        void printValue()
         {
-            return mVal;
+            if (mTruncateValue == false){
+                cout << setprecision(16) << getValue() << endl;
+            }   else{
+                int n = ofToString(mValue).find(".");
+                if (n == -1) n = ofToString(mValue).length();
+                cout << setprecision(mPrecision + n) << mValue << endl;
+            }
         }
     
-        void setScale(float scale)
+        void setScale(double scale)
         {
             mScale = scale;
             if (mScale < 0 || mScale > 1){
                 ofLogError() << "row #" << mIndex << " : scale must be between 0 & 1" << " [setting to 50%]";
                 mScale = 0.5f;
             }
-            mVal = ((mMax-mMin) * mScale) + mMin;
+            mValue = ((mMax-mMin) * mScale) + mMin;
         }
     
-        float getScale()
+        double getScale()
         {
             return mScale;
         }
@@ -166,17 +190,21 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
             mBoundf = &val;
             mBoundi = nullptr;
         }
+    
+        void update(bool acceptEvents = true)
+        {
+            ofxDatGuiComponent::update(acceptEvents);
+        // check for variable bindings //
+            if (mBoundf != nullptr && *mBoundf != mValue) {
+                setValue(*mBoundf);
+            }   else if (mBoundi != nullptr && *mBoundi != mValue){
+                setValue(*mBoundi);
+            }
+        }
 
         void draw()
         {
             if (!mVisible) return;
-            // check for bound variables //
-            if (mBoundf != nullptr) {
-                getBoundf();
-            }   else if (mBoundi != nullptr){
-                getBoundi();
-            }
-            
             ofPushStyle();
                 ofxDatGuiComponent::draw();
             // slider bkgd //
@@ -228,7 +256,8 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
         // don't dispatch an event if scale hasn't changed //
                 if (s == mScale) return;
                 mScale = s;
-                mVal = round((((mMax-mMin) * mScale) + mMin), mPrecision);
+                mValue = ((mMax-mMin) * mScale) + mMin;
+                if (mTruncateValue) mValue = round(mValue, mPrecision);
                 setTextInput();
                 dispatchSliderChangedEvent();
             }
@@ -246,6 +275,11 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
             if (mInput->hasFocus()) mInput->onFocusLost();
         }
     
+        void onKeyPressed(int key)
+        {
+            if (mInput->hasFocus()) mInput->onKeyPressed(key);
+        }
+    
         void onInputChanged(ofxDatGuiInternalEvent e)
         {
             setValue(ofToFloat(mInput->getText()));
@@ -254,35 +288,33 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
     
         void dispatchSliderChangedEvent()
         {
-         // experimental - check for bound variables //
+        // update any bound variables //
             if (mBoundf != nullptr) {
-                *mBoundf = mVal;
-            } else if (mBoundi != nullptr) {
-                *mBoundi = mVal;
+                *mBoundf = mValue;
+            }   else if (mBoundi != nullptr) {
+                *mBoundi = mValue;
+            }   else if (mParamI != nullptr) {
+                mParamI->set(mValue);
+            }   else if (mParamF != nullptr) {
+                mParamF->set(mValue);
             }
-            if (mParamI != nullptr) mParamI->set(mVal);
-            if (mParamF != nullptr) mParamF->set(mVal);
         // dispatch event out to main application //
             if (sliderEventCallback != nullptr) {
-                ofxDatGuiSliderEvent e(this, mVal, mScale);
+                ofxDatGuiSliderEvent e(this, mValue, mScale);
                 sliderEventCallback(e);
             }   else{
                 ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
             }
-        }
-    
-        void onKeyPressed(int key)
-        {
-            if (mInput->hasFocus()) mInput->onKeyPressed(key);
         }
 
     private:
     
         float   mMin;
         float   mMax;
-        float   mVal;
-        float   mScale;
+        double  mValue;
+        double  mScale;
         int     mPrecision;
+        bool    mTruncateValue;
         int     mInputX;
         int     mInputWidth;
         int     mSliderWidth;
@@ -290,78 +322,47 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
         ofColor mBackgroundFill;
         ofxDatGuiTextInputField* mInput;
     
-        float   pVal;
+        static const int MAX_PRECISION = 4;
+    
         int*    mBoundi = nullptr;
         float*  mBoundf = nullptr;
         ofParameter<int>* mParamI = nullptr;
         ofParameter<float>* mParamF = nullptr;
-    
         void onParamI(int& n) { setValue(n); }
         void onParamF(float& n) { setValue(n); }
     
         void calculateScale()
         {
-            if (mMax <= mMin || mMin >= mMax){
-                ofLogError() << "row #" << mIndex << " : invalid min & max values" << " [setting to 50%]";
-                mMin = 0;
-                mMax = 100;
-                mScale = 0.5f;
-                mVal = (mMax+mMin) * mScale;
-            }   else if (mVal > mMax){
-                mVal = mMax;
-                mVal = (mMax+mMin) * mScale;
-            }   else if (mVal < mMin){
-                mVal = mMin;
-                mVal = (mMax+mMin) * mScale;
-            }   else{
-                mScale = ofxDatGuiScale(mVal, mMin, mMax);
-            }
-            mVal = round(mVal, mPrecision);
-            if (mParamI != nullptr){
-                mParamI->set(mVal);
-            }   else if (mParamF != nullptr){
-                mParamF->set(mVal);
-            }
+            mScale = ofxDatGuiScale(mValue, mMin, mMax);
             setTextInput();
         }
     
         void setTextInput()
         {
-            string v = ofToString(mVal);
-            if (mVal != mMin && mVal != mMax){
+            string v = ofToString(round(mValue, mPrecision));
+            if (mValue != mMin && mValue != mMax){
                 int p = v.find('.');
                 if (p == -1 && mPrecision != 0){
                     v+='.';
                     p = v.find('.');
                 }
-                while(v.length() - p < (mPrecision+1)) v+='0';
+                while(v.length() - p < (mPrecision + 1)) v+='0';
             }
             mInput->setText(v);
         }
     
-        float round(float num, int precision)
+        double round(double num, int precision)
         {
-            return floorf(num * pow(10.0f, precision) + .5f)/pow(10.0f, precision);
+            return roundf(num * pow(10, precision)) / pow(10, precision);
         }
     
-    /*
-        private variable binding methods
-    */
-    
-        inline void getBoundf()
+        void onInvalidMinMaxValues()
         {
-            if (*mBoundf != pVal) {
-                setValue(*mBoundf);
-                pVal = *mBoundf;
-            }
-        }
-    
-        inline void getBoundi()
-        {
-            if (*mBoundi != pVal) {
-                setValue(*mBoundi);
-                pVal = *mBoundi;
-            }
+            ofLogError() << "row #" << mIndex << " : invalid min & max values" << " [setting to 50%]";
+            mMin = 0;
+            mMax = 100;
+            mScale = 0.5f;
+            mValue = (mMax+mMin) * mScale;
         }
         
 };

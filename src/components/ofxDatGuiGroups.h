@@ -262,7 +262,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup {
             return slider;
         }
 
-        ofxDatGuiSlider* addSlider(string label, float min, float max, float val)
+        ofxDatGuiSlider* addSlider(string label, float min, float max, double val)
         {
             ofxDatGuiSlider* slider = new ofxDatGuiSlider(label, min, max, val);
             slider->setStripeColor(mStyle.stripe.color);

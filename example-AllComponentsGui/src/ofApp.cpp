@@ -95,7 +95,7 @@ void ofApp::setup()
 
 void ofApp::onSliderEvent(ofxDatGuiSliderEvent e)
 {
-    cout << "onSliderEvent: " << e.target->getLabel() << " " << e.target->getValue() << endl;
+    cout << "onSliderEvent: " << e.target->getLabel() << " "; e.target->printValue();
     if (e.target->is("datgui opacity")) gui->setOpacity(e.scale);
 }
 
