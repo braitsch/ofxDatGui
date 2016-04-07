@@ -25,6 +25,7 @@ void ofApp::setup()
 */
 
     sliderFloat = new ofxDatGuiSlider(ofParamFloat.set("of_Paramater<float>", 210.0f, 0.0f, 300.0f));
+    sliderFloat->setPrecision(4, false);
     sliderFloat->setWidth(ofGetWidth(), .2); // make label area 20% of width //
     sliderFloat->setPosition(0, ofGetHeight()*.50 - sliderFloat->getHeight()/2);
     sliderFloat->onSliderEvent(this, &ofApp::onSliderEvent);
@@ -35,7 +36,6 @@ void ofApp::setup()
 */
     
     slider = new ofxDatGuiSlider("BACKGROUND BRIGHTNESS", 0, 100, 20);
-    slider->setPrecision(4);
     slider->setWidth(ofGetWidth(), .2); // make label area 20% of width //
     slider->setPosition(0, ofGetHeight()*.50 - slider->getHeight()/2 + 100);
     slider->onSliderEvent(this, &ofApp::onSliderEvent);
@@ -44,25 +44,23 @@ void ofApp::setup()
 
 void ofApp::onParamIntChanged(int & n)
 {
-    cout << "onParamIntChanged "<< n << endl;
+    // cout << "onParamIntChanged "<< n << endl;
 }
 
 void ofApp::onParamFloatChanged(float & f)
 {
-    cout << "onParamFloatChanged "<< f << endl;
+    // cout << "onParamFloatChanged "<< f << endl;
 }
 
 void ofApp::onSliderEvent(ofxDatGuiSliderEvent e)
 {
     if(e.target == slider){
         ofSetBackgroundColor(ofColor::white*e.scale);
-        cout << "value = " << e.value << " : scale = " << e.scale << endl;
+        cout << e.target->getLabel() << " value = "; e.target->printValue();
     }   else if (e.target == sliderInt){
-    //  uncomment this to print the change event received from the int slider //
-    //  cout << "value = " << e.value << " : scale = " << e.scale << endl;
+        cout << e.target->getLabel() << " value = "; e.target->printValue();
     }   else if (e.target == sliderFloat){
-    //  uncomment this to print the change event received from the float slider //
-    //  cout << "value = " << e.value << " : scale = " << e.scale << endl;
+        cout << e.target->getLabel() << " value = "; e.target->printValue();
     }
 }
 

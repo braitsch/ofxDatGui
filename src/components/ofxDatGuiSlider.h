@@ -32,13 +32,13 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
         {
             mMin = min;
             mMax = max;
-            mValue = val;
-            setPrecision(2, false);
+            setPrecision(2);
             mType = ofxDatGuiType::SLIDER;
             mInput = new ofxDatGuiTextInputField();
             mInput->setTextInputFieldType(ofxDatGuiInputType::NUMERIC);
             mInput->onInternalEvent(this, &ofxDatGuiSlider::onInputChanged);
             setTheme(ofxDatGuiComponent::theme.get());
+            setValue(val);
         }
     
         ofxDatGuiSlider(string label, float min, float max) : ofxDatGuiSlider(label, min, max, (max+min)/2) {}
@@ -68,7 +68,6 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
             mStyle.stripe.color = theme->stripe.slider;
             mInput->setTheme(theme);
             mInput->setTextInactiveColor(theme->color.slider.text);
-            calculateScale();
             setWidth(theme->layout.width, theme->layout.labelWidth);
         }
     
@@ -195,9 +194,9 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
         {
             ofxDatGuiComponent::update(acceptEvents);
         // check for variable bindings //
-            if (mBoundf != nullptr && *mBoundf != mValue) {
+            if (mBoundf != nullptr && !mInput->hasFocus()) {
                 setValue(*mBoundf);
-            }   else if (mBoundi != nullptr && *mBoundi != mValue){
+            }   else if (mBoundi != nullptr && !mInput->hasFocus()){
                 setValue(*mBoundi);
             }
         }
