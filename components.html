@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	
+	<meta charset="utf-8">
+	<title>OpenFrameworks DatGui</title>
+	<meta name="description" content="">
+	<meta name="author" content="Stephen Braitsch">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href='http://fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'>
+	<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/site.css">
+
+</head>
+<body>
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="./index.html">ofxDatGui</a>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Getting Started <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="./index.html#installation">Installation</a></li>
+							<li><a href="./index.html#basic-usage">Basic Usage</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a href="./index.html#components">Gui Components</a></li>
+							<li><a href="./index.html#padded-breaks">Padded Breaks</a></li>
+							<li><a href="./index.html#headers-footers">Headers & Footers</a></li>
+						</ul>
+					</li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Components <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="./components.html">Component API</a></li>
+							<li role="separator" class="divider"></li>
+							<li class="dropdown-header">Core Components</li>
+							<li><a href="./components.html#basic-buttons">Basic Buttons</a></li>
+							<li><a href="./components.html#toggle-buttons">Toggle Buttons</a></li>
+							<li><a href="./components.html#text-inputs">Text Inputs</a></li>
+							<li><a href="./components.html#range-sliders">Range Sliders</a></li>
+							<li><a href="./components.html#color-pickers">Color Pickers</a></li>
+							<li><a href="./components.html#dropdowns">Dropdown Menus</a></li>
+							<li><a href="./components.html#scrollviews">Scroll Views</a></li>
+							<li><a href="./components.html#value-plotters">Value Plotters</a></li>
+							<li><a href="./components.html#waveform-monitors">Waveform Monitors</a></li>
+							<li><a href="./components.html#button-matrices">Button Matrices</a></li>
+							<li><a href="./components.html#coordinate-pads">2d Coordinate Pads</a></li>
+							<li role="separator" class="divider"></li>
+							<li class="dropdown-header">Utility Components</li>
+							<li><a href="./components.html#labels">Basic Labels</a></li>
+							<li><a href="./components.html#framerate-monitor">Framerate Monitors</a></li>
+							<li><a href="./components.html#folders">Folders / Groups</a></li>
+						</ul>
+					</li>
+					<li><a href="./index.html#events">Events</a></li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Advanced <span class="caret"></a>
+						<ul class="dropdown-menu">
+							<li><a href="./index.html#component-search">Component Search</a></li>
+							<li><a href="./index.html#variable-binding">Variable Binding</a></li>
+							<li><a href="./index.html#of-parameter">ofParameter</a></li>
+							<li><a href="./index.html#auto-rendering">Auto Rendering</a></li>
+							<li><a href="./index.html#logging">Logging</a></li>
+							<li><a href="./index.html#save-load-settings">Save/Load Settings</a></li>
+						</ul>
+					</li>
+					<li><a href="./themes.html">Themes</a></li>
+					<li><a href="./gallery.html">Gallery</a></li>
+					<li><a href="https://github.com/braitsch/ofxDatGui">Source</a></li>
+				</ul>
+			</div><!--/.nav-collapse -->
+		</div>
+	</nav>
+
+	<div class="container">
+
+<!-- begin component api -->
+
+		<div class="well" style='margin-top:80px;'>
+
+			<h2><a id="api" class="anchor" aria-hidden="true"></a>Component API</h2>
+
+			<p>Every <code>gui-&gt;add*</code> method returns a pointer to an <strong>ofxDatGuiComponent</strong> object that you can store in a variable for later manipulation.</p>
+
+<pre class="prettyprint">ofxDatGuiTextInput* myInput;
+myInput = gui-&gt;addTextInput("Name:", "Stephen");
+myInput-&gt;setText("Freddy");
+</pre>
+
+			<p>Once you have a pointer to a component you can call any of the following methods to change its state:</p>
+
+<pre class="prettyprint">
+myComponent-&gt;setName(string name);
+myComponent-&gt;setLabel(string label);
+myComponent-&gt;setPosition(int x, int y);
+myComponent-&gt;setWidth(int width, float labelWidth); // labelWidth is either a pixel value or percentage of the component width //
+myComponent-&gt;setOpacity(float opacity); // a value between 0 &amp; 1 //
+myComponent-&gt;setVisible(bool visible);
+myComponent-&gt;setEnabled(bool enabled);
+myComponent-&gt;setTheme(ofxDatGuiTheme* theme);
+myComponent-&gt;setLabelAlignment(ofxDatGuiAlignment alignment); // left, right, or center //
+</pre>
+
+			<p><strong>ofxDatGuiComponents</strong> also offer the following convenience methods to set their color palette as an alternative to assigning a <a href='http://braitsch.github.io/ofxDatGui/themes.html'>theme:</a></p>
+
+<pre class="prettyprint">
+myComponent-&gt;setLabelColor(ofColor color);
+myComponent-&gt;setBackgroundColor(ofColor color);
+myComponent-&gt;setBackgroundColorOnMouseOver(ofColor color);
+myComponent-&gt;setBackgroundColorOnMouseDown(ofColor color);
+myComponent-&gt;setBackgroundColors(ofColor background, ofColor mouseOver, ofColor mouseDown);
+myComponent-&gt;setStripe(ofColor color, int width);
+myComponent-&gt;setStripeWidth(int width);
+myComponent-&gt;setStripeColor(ofColor color);
+myComponent-&gt;setStripeVisible(bool visible);
+myComponent-&gt;setBorder(ofColor color, int width);
+myComponent-&gt;setBorderVisible(bool visible);
+</pre>
+
+		</div>
+
+
+<!-- end component api -->
+
+
+<!-- basic button -->
+
+		<div class="well">
+			<h2><a id="basic-buttons" class="anchor" href="#basic-buttons" aria-hidden="true"></a>Basic Button</h2>
+
+			<p><strong>Constructor</strong></p>
+			<pre class="prettyprint">ofxDatGuiButton* myButton = new ofxDatGuiButton(string label);</pre>
+			<img src="./img/ofxdatgui_click.png?raw=true" alt="ofxDatGui">
+
+			<p><strong>Events</strong></p>
+<pre class="prettyprint">
+myButton-&gt;onButtonEvent(this, &ofApp::onButtonEvent));
+void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
+{
+    cout << e.target->getLabel() << " was clicked!"  << endl;
+}
+</pre>
+		</div>
+
+<!-- toggle button -->
+
+		<div class="well">
+			<h2><a id="toggle-buttons" class="anchor" href="#toggle-buttons" aria-hidden="true"></a>Toggle Button</h2>
+
+			<p><strong>Constructor</strong></p>
+			<pre class="prettyprint">ofxDatGuiToggle* myToggle = new ofxDatGuiToggle(string label);</pre>
+			<img src="./img/ofxdatgui_toggle.png?raw=true" alt="ofxDatGui">
+
+			<p><strong>Methods</strong></p>
+<pre class="prettyprint">
+myToggle->toggle();
+myToggle->setEnabled(bool enable);
+bool myToggle->getEnabled();
+</pre>
+
+			<p><strong>Events</strong></p>
+<pre class="prettyprint">
+myToggle-&gt;onButtonEvent(this, &ofApp::onButtonEvent));
+void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
+{
+    cout << e.target->getLabel() << " enabled = " << e.enabled << endl;
+}
+</pre>
+		</div>
+
+<!-- text input -->
+
+		<div class="well">
+			<h2><a id="text-inputs" class="anchor" href="#text-inputs" aria-hidden="true"></a>Text Input</h2>
+
+			<p><strong>Constructor</strong></p>
+			<pre class="prettyprint">ofxDatGuiTextInput* myInput = new ofxDatGuiTextInput(string label, string value = "");</pre>
+			<img src="./img/ofxdatgui_input.png?raw=true" alt="ofxDatGui">
+
+			<p><strong>Methods</strong></p>
+<pre class="prettyprint">
+string myInput-&gt;getText();
+myInput-&gt;setText(string text);
+myInput-&gt;setInputType( NUMERIC || ALPHA_NUMERIC || COLORPICKER )
+</pre>
+			<p><strong>Events</strong></p>
+<pre class="prettyprint">
+myInput-&gt;onTextInputEvent(this, &ofApp::onTextInputEvent));
+void ofApp::onTextInputEvent(ofxDatGuiTextInputEvent e)
+{
+    cout << "the input field changed to: " << e.text << endl;
+}
+</pre>
+		</div>
+
+<!-- range slider -->
+
+		<div class="well">
+			<h2><a id="range-sliders" class="anchor" href="#range-sliders" aria-hidden="true"></a>Range Slider</h2>
+
+			<p><strong>Constructors</strong></p>
+			<pre class="prettyprint">ofxDatGuiSlider* mySlider = new ofxDatGuiSlider(string label, float min, float max);</pre>
+			<img src="./img/ofxdatgui_slider.png?raw=true" alt="ofxDatGui">
+			<p>You can also set the starting value of the slider.<br>
+			If this is not set it will default to halfway between the min and max values.</p>
+			<pre class="prettyprint">ofxDatGuiSlider* mySlider = new ofxDatGuiSlider(string label, float min, float max, double value);</pre>
+			<img src="./img/ofxdatgui_slider.png?raw=true" alt="ofxDatGui">
+
+			<p><strong>Methods</strong></p>
+<pre class="prettyprint">
+// set the slider's range // 
+mySlider->setMin(float min);
+mySlider->setMax(float max);
+
+// value must be within range of min & max //
+mySlider->setValue(double value);
+double mySlider->getValue();
+
+// scale must be a value between 0 & 1 //
+mySlider->setScale(double scale);
+double mySlider->getScale();
+
+// set the precision of the slider (# of decimal places) for floating point values 
+mySlider->setPrecision(int precision);
+// to set the precision of just the input field set truncateValue to false //
+mySlider->setPrecision(int precision, bool truncateValue);
+// to round the slider value to an integer simply set the precision to zero // 
+mySlider->setPrecision(0);
+</pre>
+
+			<p><strong>Events</strong></p>
+<pre class="prettyprint">
+mySlider-&gt;onSliderEvent(this, &ofApp::onSliderEvent));
+void ofApp::onSliderEvent(ofxDatGuiSliderEvent e)
+{
+    cout << "the new value of the slider = " << e.value << endl;
+    cout << "the new scale of the slider = " << e.scale << endl;
+}
+</pre>
+		</div>
+
+<!-- color picker -->
+
+		<div class="well">
+			<h2><a id="color-pickers" class="anchor" href="#color-pickers" aria-hidden="true"></a>Color Picker</h2>
+
+			<p><strong>Constructor</strong></p>
+			<pre class="prettyprint">ofxDatGuiColorPicker* myPicker = new ofxDatGuiColorPicker(string label, ofColor color = ofColor::black);</pre>
+			<img src="./img/ofxdatgui_color.png?raw=true" alt="ofxDatGui">
+
+			<p><strong>Methods</strong></p>
+<pre class="prettyprint">
+ofColor myColorPicker->getColor();
+myColorPicker->setColor(int hexValue);
+myColorPicker->setColor(int r, int g, int b);
+myColorPicker->setColor(ofColor color);
+</pre>
+
+			<p><strong>Events</strong></p>
+<pre class="prettyprint">
+myPicker-&gt;onColorPickerEvent(this, &ofApp::onColorPickerEvent));
+void ofApp::onColorPickerEvent(ofxDatGuiColorPickerEvent e)
+{
+    cout << "the picker was set to: " << e.color << endl;
+}
+</pre>
+		</div>
+
+
+<!-- dropdowns -->
+
+		<div class="well">
+			<h2><a id="dropdowns" class="anchor" href="#dropdowns" aria-hidden="true"></a>Dropdown Menu</h2>
+
+			<p><strong>Constructor</strong></p>
+			<pre class="prettyprint">vector&lt;string&gt; options = {"ONE", "TWO", "THREE", "FOUR"};
+ofxDatGuiDropdown* myDropdown = new ofxDatGuiDropdown(options);</pre>
+			<img src="./img/ofxdatgui_dropdown.png?raw=true" alt="ofxDatGui">
+
+			<p><strong>Methods</strong></p>
+<pre class="prettyprint">
+// get the number of options in the dropdown //
+int myDropdown-&gt;size();
+// programatically select an option, note indices are zero-based //
+myDropdown-&gt;select(int index);
+// retrieve an option at the specified index //
+ofxDatGuiDropdownOption* getChildAt(int index);
+// retrieve the option that is currently selected //
+ofxDatGuiDropdownOption* myDropdown-&gt;getSelected();
+// programmatically expand the dropdown //
+myDropdown-&gt;expand();
+// programmatically collapse the dropdown //
+myDropdown-&gt;collapse();
+</pre>
+
+			<p><strong>Events</strong></p>
+<pre class="prettyprint">
+myDropdown-&gt;onDropdownEvent(this, &ofApp::onDropdownEvent));
+void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
+{
+    cout << "the option at index # " << e.child << " was selected " << endl;
+}
+</pre>
+		</div>
+
+<!-- scroll views -->
+
+		<div class="well">
+			<h2><a id="scrollviews" class="anchor" href="#scrollviews" aria-hidden="true"></a>Scroll View</h2>
+
+			<p><strong>Constructor</strong></p>
+<pre class="prettyprint">ofxDatGuiScrollView* myScrollView = new ofxDatGuiScrollView(string label, int numVisible);</pre>
+			<img src="./img/ofxdatgui_scrollview.gif?raw=true" alt="ofxDatGui">
+
+			<p><strong>Methods</strong></p>
+<pre class="prettyprint">
+// add an item to the scrollview //
+void myScrollView-&gt;add(string label);
+// get an item by its position (index) in the scrollview //
+ofxDatGuiButton* myScrollView-&gt;get(int index);
+// swap the positions of two items //
+void myScrollView-&gt;swap(int index1, int index2);
+// move an item to a different position (index from -> index to) //
+void myScrollView-&gt;move(int from, int to);
+// move an item to a different position //
+void myScrollView-&gt;move(ofxDatGuiComponent* item, int newIndex);
+// clear all items //
+void myScrollView-&gt;clear();
+// remove one item //
+void myScrollView-&gt;remove(int index);
+void myScrollView-&gt;remove(ofxDatGuiComponent* item);
+</pre>
+
+			<p><strong>Events</strong></p>
+<pre class="prettyprint">
+myScrollView-&gt;onScrollViewEvent(this, &ofApp::onColorPickerEvent));
+void ofApp::onScrollViewEvent(ofxDatGuiScrollViewEvent e)
+{
+    int index = e.index // the index of the item that was selected (zero based)
+    ofxDatGuiButton* button = e.target; // a pointer to the button that was selected // 
+    ofxDatGuiScrollView* parent = e.parent; // a pointer to the scrollview that dispatched the event //
+    cout << button->getLabel() << " [index " << e.index << "] selected in [" << parent->getName() << "]" << endl;
+}
+</pre>
+		</div>
+
+<!-- value plotters -->
+
+		<div class="well">
+			<h2><a id="value-plotters" class="anchor" href="#value-plotters" aria-hidden="true"></a>Value Plotter</h2>
+
+			<p><strong>Constructor</strong></p>
+<pre class="prettyprint">ofxDatGuiValuePlotter* myPlotter = new ofxDatGuiValuePlotter(string label, float min, float max);</pre>
+			<img src="./img/ofxdatgui_value_plotter.gif?raw=true" alt="ofxDatGui">
+
+			<p><strong>Methods</strong></p>
+<pre class="prettyprint">
+myPlotter-&gt;setValue(float value);
+myPlotter-&gt;setRange(float min, float max);
+myPlotter-&gt;setSpeed(float speed);
+myPlotter-&gt;setDrawMode(ofxDatGuiGraph drawMode);</pre>
+
+			<hr>
+
+<p><strong>Value Plotters</strong> and <strong>Waveform Monitors</strong> support the following four draw modes:</p>
+<pre class="prettyprint">ofxDatGuiGraph::LINES
+ofxDatGuiGraph::FILLED
+ofxDatGuiGraph::POINTS
+ofxDatGuiGraph::OUTLINE
+</pre>
+
+		</div>
+
+<!-- waveform monitors -->
+
+		<div class="well">
+			<h2><a id="waveform-monitors" class="anchor" href="#waveform-monitors" aria-hidden="true"></a>Waveform Monitor</h2>
+
+			<p><strong>Constructor</strong></p>
+<pre class="prettyprint">ofxDatGuiWaveMonitor* myWaveMonitor = new ofxDatGuiWaveMonitor(string label, float frequency, float amplitude);</pre>
+			<img src="./img/ofxdatgui_wave_monitor.gif?raw=true" alt="ofxDatGui">
+
+			<p><strong>Methods</strong></p>
+<pre class="prettyprint">ofxDatGuiWaveMonitor* myWaveMonitor;
+myWaveMonitor-&gt;setFrequency(float frequency);
+myWaveMonitor-&gt;setAmplitude(float amplitude);
+myWaveMonitor-&gt;setFrequencyLimit(float limit);
+myWaveMonitor-&gt;setDrawMode(ofxDatGuiGraph drawMode);</pre>
+
+			<hr>
+
+<p><strong>Value Plotters</strong> and <strong>Waveform Monitors</strong> support the following four draw modes:</p>
+<pre class="prettyprint">ofxDatGuiGraph::LINES
+ofxDatGuiGraph::FILLED
+ofxDatGuiGraph::POINTS
+ofxDatGuiGraph::OUTLINE
+</pre>
+
+		</div>
+
+<!-- button matrices -->
+
+		<div class="well">
+			<h2><a id="button-matrices" class="anchor" href="#button-matrices" aria-hidden="true"></a>Button Matrix</h2>
+			<p><strong>Constructor</strong></p>
+<pre class="prettyprint">ofxDatGuiMatrix* myMatrix = ofxDatGuiMatrix(string label, int numButtons, bool showLabels = false)</pre>
+			<img src="./img/ofxdatgui_matrix.png?raw=true" alt="ofxDatGui">
+
+			<p>You can display numbered labels on the buttons by passing <code>true</code> as the third argument.</p>
+			<pre class="prettyprint">ofxDatGuiMatrix* myMatrix = ofxDatGuiMatrix("MATRIX", 21, true)</pre>
+			<img src="./img/ofxdatgui_matrix_labels.png?raw=true" alt="ofxDatGui">
+
+			<p><strong>Methods</strong></p>
+<pre class="prettyprint">
+// retrieve a button at a specific index //
+ofxDatGuiMatrixButton* myMatrix-&gt;getChildAt(int index);
+// retrieve a list of the indices of all buttons that are selected //
+vector&lt;int&gt; myMatrix-&gt;getSelected();
+// deselect everything in the matrix //
+myMatrix-&gt;clear();
+// set the matrix to function as a radio button group (only 1 selected at a time) //
+myMatrix-&gt;setRadioMode(bool enabled);</pre>
+</pre>
+
+			<p><strong>Events</strong></p>
+<pre class="prettyprint">
+myMatrix-&gt;onMatrixEvent(this, &ofApp::onMatrixEvent));
+void ofApp::onMatrixEvent(ofxDatGuiMatrixEvent e)
+{
+    cout << "the button at index " << e.child << " changed state to: " << e.enabled << endl;
+}
+</pre>
+		</div>
+
+<!-- coordinate pads -->
+
+		<div class="well">
+			<h2><a id="coordinate-pads" class="anchor" href="#coordinate-pads" aria-hidden="true"></a>2D Coordinate Pad</h2>
+
+			<p><strong>Constructor</strong></p>
+<pre class="prettyprint">ofxDatGui2dPad* my2dPad = new ofxDatGui2dPad(string label, ofRectangle bounds);</pre>
+<p>The bounds parameter is optional and will default to the window dimensions if omitted.</p>
+			<img src="./img/ofxdatgui_2dpad.png?raw=true" alt="ofxDatGui">
+
+			<p><strong>Methods</strong></p>
+<pre class="prettyprint">
+// set the rectangle that the coordinate pad maps to //
+my2dPad-&gt;setBounds(ofRectangle bounds);
+// retrieve the bounds rectangle //
+ofRectangle my2dPad-&gt;getBounds();
+// retrieve the position of the point within the bounds rectangle //
+ofPoint my2dPad-&gt;getPoint();
+// set the position of the point within the bounds rectangle //
+my2dPad-&gt;setPoint(ofPoint pt);
+</pre>
+
+			<p><strong>Events</strong></p>
+<pre class="prettyprint">
+my2dPad-&gt;on2dPadEvent(this, &ofApp::on2dPadEvent));
+void ofApp::on2dPadEvent(ofxDatGui2dPadEvent e)
+{
+    cout << "point coordinates have changed to: x=" << e.x << " & y=" << e.y << endl;
+}
+</pre>
+		</div>
+
+
+<!-- labels -->
+
+		<div class="well">
+			<h2><a id="labels" class="anchor" href="#labels" aria-hidden="true"></a>Label</h2>
+
+			<p><strong>Constructor</strong></p>
+<pre class="prettyprint">ofxDatGuiLabel* myLabel = new ofxDatGuiLabel(string label);</pre>
+			<img src="./img/ofxdatgui_label.png?raw=true" alt="ofxDatGui">
+
+			<p><strong>Methods</strong></p>
+<pre class="prettyprint">
+myLabel->setLabel(string label);
+string myLabel->getLabel();
+</pre>
+		</div>
+
+<!-- framerate monitors -->
+
+		<div class="well">
+			<h2><a id="framerate-monitor" class="anchor" href="#framerate-monitor" aria-hidden="true"></a>Framerate Monitor</h2>
+
+			<p><strong>Constructor</strong></p>
+<pre class="prettyprint">ofxDatGuiFRM* myFRM = new ofxDatGuiFRM(float refresh = 1.0f);</pre>
+			<img src="./img/ofxdatgui_fps.gif?raw=true" alt="ofxDatGui">
+
+		</div>
+
+	<!-- component-groups-folders -->
+
+		<div class="well">
+
+			<h2><a id="folders" class="anchor" href="#folders" aria-hidden="true"></a>Component Groups (Folders)</h2>
+
+			<p>You can also group related components into folders. When constructing a folder pass in a label to name the folder and an optional color to help visually group its contents.</p>
+
+			<p><strong>Constructor</strong></p>
+<pre class="prettyprint">ofxDatGuiFolder* myFolder = gui-&gt;addFolder("My White Folder", ofColor::white);</pre>
+			<img src="./img/ofxdatgui_folder.png?raw=true" alt="ofxDatGui">
+
+			
+			<p><strong>Methods</strong></p>
+<pre class="prettyprint">
+// programmatically expand the folder //
+myFolder-&gt;expand();
+// programmatically collapse the folder //
+myFolder-&gt;collapse();
+</pre>
+
+			<p><strong>Note:</strong> All components can be nested into folders with the exception of other folders, dropdowns and scrollviews.</p>
+
+		</div>
+
+
+	</div> <!-- /container -->
+
+	<footer class="site-footer">
+		<span><a href="https://github.com/braitsch/ofxDatGui">Openframeworks DatGui</a> is lovingly maintained by <a href="https://github.com/braitsch">braitsch</a> in San Francisco, California.</span>
+	</footer>
+
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+</body>
+</html>
