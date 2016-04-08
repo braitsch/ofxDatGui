@@ -99,16 +99,20 @@ void ofxDatGui::focus()
 
 void ofxDatGui::expand()
 {
-    mExpanded = true;
-    mGuiFooter->setExpanded(mExpanded);
-    mGuiFooter->setPosition(mPosition.x, mPosition.y + mHeight - mGuiFooter->getHeight() - mRowSpacing);
+    if (mGuiFooter != nullptr){
+        mExpanded = true;
+        mGuiFooter->setExpanded(mExpanded);
+        mGuiFooter->setPosition(mPosition.x, mPosition.y + mHeight - mGuiFooter->getHeight() - mRowSpacing);
+    }
 }
 
 void ofxDatGui::collapse()
 {
-    mExpanded = false;
-    mGuiFooter->setExpanded(mExpanded);
-    mGuiFooter->setPosition(mPosition.x, mPosition.y);
+    if (mGuiFooter != nullptr){
+        mExpanded = false;
+        mGuiFooter->setExpanded(mExpanded);
+        mGuiFooter->setPosition(mPosition.x, mPosition.y);
+    }
 }
 
 void ofxDatGui::toggle()
