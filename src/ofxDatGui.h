@@ -33,8 +33,11 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofxDatGui(ofxDatGuiAnchor anchor = ofxDatGuiAnchor::TOP_LEFT);
     
         void draw();
-        void focus();
         void update();
+        void focus();
+        void expand();
+        void toggle();
+        void collapse();
     
         void setWidth(int width, float labelWidth = 0.35f);
         void setVisible(bool visible);
@@ -126,8 +129,6 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         void init();
         void layoutGui();
         void anchorGui();
-        void expandGui();
-        void collapseGui();
         void moveGui(ofPoint pt);
         bool hitTest(ofPoint pt);
         void attachItem(ofxDatGuiComponent* item);

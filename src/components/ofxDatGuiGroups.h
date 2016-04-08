@@ -53,6 +53,12 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
             layout();
         }
     
+        void toggle()
+        {
+            mIsExpanded = !mIsExpanded;
+            layout();
+        }
+    
         void collapse()
         {
             mIsExpanded = false;

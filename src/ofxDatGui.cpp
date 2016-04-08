@@ -72,9 +72,8 @@ void ofxDatGui::init()
 }
 
 /* 
-    public getters & setters
+    public api
 */
-
 
 void ofxDatGui::focus()
 {
@@ -96,6 +95,25 @@ void ofxDatGui::focus()
     }   else{
         ofxDatGuiLog::write(ofxDatGuiMsg::PANEL_ALREADY_HAS_FOCUS, "#"+ofToString(mGuid));
     }
+}
+
+void ofxDatGui::expand()
+{
+    mExpanded = true;
+    mGuiFooter->setExpanded(mExpanded);
+    mGuiFooter->setPosition(mPosition.x, mPosition.y + mHeight - mGuiFooter->getHeight() - mRowSpacing);
+}
+
+void ofxDatGui::collapse()
+{
+    mExpanded = false;
+    mGuiFooter->setExpanded(mExpanded);
+    mGuiFooter->setPosition(mPosition.x, mPosition.y);
+}
+
+void ofxDatGui::toggle()
+{
+    mExpanded ? collapse() : expand();
 }
 
 bool ofxDatGui::getVisible()
@@ -666,7 +684,7 @@ void ofxDatGui::onInternalEventCallback(ofxDatGuiInternalEvent e)
     if (e.type == ofxDatGuiEventType::DROPDOWN_TOGGLED){
         layoutGui();
     }   else if (e.type == ofxDatGuiEventType::GUI_TOGGLED){
-        mExpanded ? collapseGui() : expandGui();
+        mExpanded ? collapse() : expand();
     }   else if (e.type == ofxDatGuiEventType::VISIBILITY_CHANGED){
         layoutGui();
     }
@@ -723,20 +741,8 @@ void ofxDatGui::layoutGui()
         mHeight += items[i]->getHeight() + mRowSpacing;
     }
     // move the footer back to the top of the gui //
-    if (!mExpanded) mGuiFooter->setY(mPosition.y);
+    if (!mExpanded) mGuiFooter->setPosition(mPosition.x, mPosition.y);
     mGuiBounds = ofRectangle(mPosition.x, mPosition.y, mWidth, mHeight);
-}
-
-void ofxDatGui::expandGui()
-{
-    mExpanded = true;
-    mGuiFooter->setY(mPosition.y + mHeight - mGuiFooter->getHeight() - mRowSpacing);
-}
-
-void ofxDatGui::collapseGui()
-{
-    mExpanded = false;
-    mGuiFooter->setY(mPosition.y);
 }
 
 /* 
