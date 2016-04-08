@@ -251,13 +251,29 @@ gui-&gt;addLabel("Below");</pre>
 			
 			<hr>
 			<p><strong>Footer</strong></p>
-			<pre class="prettyprint">gui-&gt;addFooter();</code></pre>
+			<pre class="prettyprint">gui-&gt;addFooter();</pre>
 			<img src="./img/ofxdatgui_footer.png?raw=true" alt="ofxDatGui">
 
-			<p>Footers however have two labels that each map to each of the gui's expanded and collapsed states.<br>By default these labels are "Collapse Controls" and "Expand Controls" although you can override these defaults via:</p>
+			<p>Footers have two labels that each map to the gui's expanded and collapsed states.<br>By default these labels are "Collapse Controls" and "Expand Controls" although you can override these defaults via:</p>
 
 			<pre>gui-&gt;getFooter()-&gt;setLabelWhenExpanded("CLOSE PANEL 1");
 gui-&gt;getFooter()-&gt;setLabelWhenCollapsed("EXPAND PANEL 1");</pre>
+
+
+			<p>If your gui has a footer you can programmatically open & close it.</p>
+
+			<pre class="prettyprint">
+// expand the gui //
+gui-&gt;expand();
+// collapse the gui //
+gui-&gt;collapse();
+// toggle the gui open & closed //
+gui-&gt;toggle();</pre>
+
+			<p>If your gui doesn't have a footer simply call <code>setVisible</code> to show or hide it.</p>
+			<pre class="prettyprint">
+// hide the gui //
+gui-&gt;setVisible(false);</pre>
 
 		</div>
 
