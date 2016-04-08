@@ -89,7 +89,7 @@ void ofApp::setup()
     tIndex = 0;
     
 // launch the app //
-   // mFullscreen = true;
+    mFullscreen = true;
     refreshWindow();
 }
 
@@ -137,11 +137,6 @@ void ofApp::update() { }
 
 void ofApp::keyPressed(int key)
 {
-    if (key == 'n') {
-        gui->getSlider("position y")->setPrecision(3, true);
-        gui->getSlider("position y")->setValue(-1.123756789);
-        gui->getSlider("position y")->printValue();
-    }
     if (key == 'f') {
         toggleFullscreen();
     }   else if (key == 32){
