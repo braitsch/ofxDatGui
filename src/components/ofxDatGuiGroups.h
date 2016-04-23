@@ -99,7 +99,8 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
                     for(int i=0; i<children.size(); i++) children[i]->drawColorPicker();
                 } else {
                     mImage->draw(x+mIcon.x, y+mIcon.y, mIcon.size, mIcon.size);
-                    mImage2->resize(0, 0);}
+                    mImage2->resize(0, 0);
+                }
                 ofPopStyle();
             }
         }
