@@ -81,8 +81,8 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
                 ofPushStyle();
                 ofxDatGuiButton::draw();
                 ofSetColor(mIcon.color);
-                mImage->draw(x+mIcon.x, y+mIcon.y, mIcon.size, mIcon.size);
                 if (mIsExpanded) {
+                    mImage->draw(x+mIcon.x, y+mIcon.y+mIcon.size, mIcon.size, -mIcon.size);
                     int mHeight = mStyle.height;
                     ofSetColor(mStyle.guiBackground, mStyle.opacity);
                     ofDrawRectangle(x, y+mHeight, mStyle.width, mStyle.vMargin);
@@ -95,6 +95,8 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
                         ofDrawRectangle(x, y+mHeight, mStyle.width, mStyle.vMargin);
                     }
                     for(int i=0; i<children.size(); i++) children[i]->drawColorPicker();
+                } else {
+                    mImage->draw(x+mIcon.x, y+mIcon.y, mIcon.size, mIcon.size);
                 }
                 ofPopStyle();
             }
