@@ -271,6 +271,14 @@ ofxDatGuiButton* ofxDatGui::addButton(string label)
     return button;
 }
 
+ofxDatGuiToggle* ofxDatGui::addToggle(ofParameter<bool>& p)
+{
+    ofxDatGuiToggle* button = new ofxDatGuiToggle(p);
+    button->onButtonEvent(this, &ofxDatGui::onButtonEventCallback);
+    attachItem(button);
+    return button;
+}
+
 ofxDatGuiToggle* ofxDatGui::addToggle(string label, bool enabled)
 {
     ofxDatGuiToggle* button = new ofxDatGuiToggle(label, enabled);
