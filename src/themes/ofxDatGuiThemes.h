@@ -211,5 +211,36 @@ class ofxDatGuiThemeCandy : public ofxDatGuiTheme{
         }
 };
 
-
+class ofxDatGuiThemeBleurgh : public ofxDatGuiTheme{
+    
+public:
+    
+    ofxDatGuiThemeBleurgh()
+    {
+        stripe.visible = false;
+        font.file = AssetPath + "ofxbraitsch/fonts/DINCond-BlackAlternate.otf";
+        font.size = 9;
+        color.label = 220;
+        color.icons = 220;
+        color.background = 0;
+        color.guiBackground = 0;
+        color.inputAreaBackground = 15;
+        color.slider.fill = ofColor(220,80,50);
+        color.slider.text = ofColor(220,80,50);
+        color.textInput.text = hex(0x9C9DA1);
+        color.textInput.highlight = hex(0x28292E);
+        color.colorPicker.border = hex(0xEEEEEE);
+        color.textInput.backgroundOnActive = hex(0x1D1E22);
+        color.backgroundOnMouseOver = 10;
+        color.backgroundOnMouseDown = hex(0x1D1E22);
+        color.graph.fills = ofColor(220,80,50);
+        color.graph.lines = ofColor(220,80,50);
+        color.matrix.normal.button = hex(0xDFDDDF);
+        color.matrix.hover.button = hex(0x9C9DA1);
+        color.matrix.selected.button = hex(0x6E6E6E);
+        color.pad2d.line = hex(0x6E6E6E);
+        color.pad2d.ball = hex(0x6E6E6E);
+        init();
+    }
+};
 
