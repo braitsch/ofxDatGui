@@ -131,6 +131,12 @@ void ofxDatGuiComponent::setWidth(int width, float labelWidth)
     positionLabel();
 }
 
+void ofxDatGuiComponent::setHeight(int height)
+{
+    mStyle.height = height;
+}
+
+
 void ofxDatGuiComponent::positionLabel()
 {
     if (mLabel.alignment == ofxDatGuiAlignment::LEFT){

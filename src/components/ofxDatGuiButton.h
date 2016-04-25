@@ -142,9 +142,9 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
                 ofxDatGuiButton::draw();
                 ofSetColor(mIcon.color);
                 if (mEnabled == true){
-                    radioOn->draw(x+mIcon.x, y+mIcon.y, mIcon.size, mIcon.size);
+                    radioOn->draw(x+mIcon.x, y+(mStyle.height/2)-(mIcon.size/2), mIcon.size, mIcon.size);
                 }   else{
-                    radioOff->draw(x+mIcon.x, y+mIcon.y, mIcon.size, mIcon.size);
+                    radioOff->draw(x+mIcon.x, y+(mStyle.height/2)-(mIcon.size/2), mIcon.size, mIcon.size);
                 }
                 ofPopStyle();
             }
