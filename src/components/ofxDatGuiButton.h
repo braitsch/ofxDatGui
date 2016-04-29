@@ -150,6 +150,8 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
             }
         }
     
+        static ofxDatGuiToggle* getInstance() { return new ofxDatGuiToggle("X", false); }
+    
     protected:
     
         void onMouseRelease(ofPoint m)

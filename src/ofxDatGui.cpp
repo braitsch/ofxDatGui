@@ -438,6 +438,23 @@ ofxDatGuiButton* ofxDatGui::getButton(string bl, string fl)
     return o;
 }
 
+ofxDatGuiToggle* ofxDatGui::getToggle(string bl, string fl)
+{
+    ofxDatGuiToggle* o = nullptr;
+    if (fl != ""){
+        ofxDatGuiFolder* f = static_cast<ofxDatGuiFolder*>(getComponent(ofxDatGuiType::FOLDER, fl));
+        if (f) o = static_cast<ofxDatGuiToggle*>(f->getComponent(ofxDatGuiType::TOGGLE, bl));
+    }   else{
+        o = static_cast<ofxDatGuiToggle*>(getComponent(ofxDatGuiType::TOGGLE, bl));
+    }
+    if (o==nullptr){
+        o = ofxDatGuiToggle::getInstance();
+        ofxDatGuiLog::write(ofxDatGuiMsg::COMPONENT_NOT_FOUND, fl!="" ? fl+"-"+bl : bl);
+        trash.push_back(o);
+    }
+    return o;
+}
+
 ofxDatGuiSlider* ofxDatGui::getSlider(string sl, string fl)
 {
     ofxDatGuiSlider* o = nullptr;
