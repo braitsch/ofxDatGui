@@ -69,7 +69,8 @@ class ofxDatGuiTheme{
 
             icon.radioOn->load(icon.radioOnPath);
             icon.radioOff->load(icon.radioOffPath);
-            icon.dropdown->load(icon.dropdownPath);
+            icon.groupOpen->load(icon.groupOpenPath);
+            icon.groupClosed->load(icon.groupClosedPath);
             icon.rainbow->load(icon.rainbowPath);
         }
     
@@ -222,11 +223,13 @@ class ofxDatGuiTheme{
             shared_ptr<ofImage> rainbow = make_shared<ofImage>();
             shared_ptr<ofImage> radioOn = make_shared<ofImage>();
             shared_ptr<ofImage> radioOff = make_shared<ofImage>();
-            shared_ptr<ofImage> dropdown = make_shared<ofImage>();
+            shared_ptr<ofImage> groupOpen = make_shared<ofImage>();
+            shared_ptr<ofImage> groupClosed = make_shared<ofImage>();
             string rainbowPath = AssetPath + "ofxbraitsch/ofxdatgui/picker-rainbow.png";
             string radioOnPath = AssetPath + "ofxbraitsch/ofxdatgui/icon-radio-on.png";
             string radioOffPath = AssetPath + "ofxbraitsch/ofxdatgui/icon-radio-off.png";
-            string dropdownPath = AssetPath + "ofxbraitsch/ofxdatgui/icon-dropdown.png";
+            string groupOpenPath = AssetPath + "ofxbraitsch/ofxdatgui/icon-group-open.png";
+            string groupClosedPath = AssetPath + "ofxbraitsch/ofxdatgui/icon-group-closed.png";
         } icon;
 
         static ofColor hex(int n)

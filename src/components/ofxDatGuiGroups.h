@@ -80,8 +80,6 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
             if (mVisible){
                 ofPushStyle();
                 ofxDatGuiButton::draw();
-                ofSetColor(mIcon.color);
-                mImage->draw(x+mIcon.x, y+mIcon.y, mIcon.size, mIcon.size);
                 if (mIsExpanded) {
                     int mHeight = mStyle.height;
                     ofSetColor(mStyle.guiBackground, mStyle.opacity);
@@ -94,7 +92,12 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
                         ofSetColor(mStyle.guiBackground, mStyle.opacity);
                         ofDrawRectangle(x, y+mHeight, mStyle.width, mStyle.vMargin);
                     }
+                    ofSetColor(mIcon.color);
+                    mIconOpen->draw(x+mIcon.x, y+mIcon.y, mIcon.size, mIcon.size);
                     for(int i=0; i<children.size(); i++) children[i]->drawColorPicker();
+                }   else{
+                    ofSetColor(mIcon.color);
+                    mIconClosed->draw(x+mIcon.x, y+mIcon.y, mIcon.size, mIcon.size);
                 }
                 ofPopStyle();
             }
@@ -139,7 +142,8 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
         }
     
         int mHeight;
-        shared_ptr<ofImage> mImage;
+        shared_ptr<ofImage> mIconOpen;
+        shared_ptr<ofImage> mIconClosed;
         bool mIsExpanded;
     
 };
@@ -159,7 +163,8 @@ class ofxDatGuiFolder : public ofxDatGuiGroup {
         void setTheme(ofxDatGuiTheme* theme)
         {
             setComponentStyle(theme);
-            mImage = theme->icon.dropdown;
+            mIconOpen = theme->icon.groupOpen;
+            mIconClosed = theme->icon.groupClosed;
             setWidth(theme->layout.width, theme->layout.labelWidth);
         // reassign folder color to all components //
             for(auto i:children) i->setStripeColor(mStyle.stripe.color);
@@ -441,7 +446,8 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
         void setTheme(ofxDatGuiTheme* theme)
         {
             setComponentStyle(theme);
-            mImage = theme->icon.dropdown;
+            mIconOpen = theme->icon.groupOpen;
+            mIconClosed = theme->icon.groupClosed;
             mStyle.stripe.color = theme->stripe.dropdown;
             setWidth(theme->layout.width, theme->layout.labelWidth);
         }
