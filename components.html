@@ -164,16 +164,16 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
 			<p><strong>Methods</strong></p>
 <pre class="prettyprint">
 myToggle->toggle();
-myToggle->setEnabled(bool enable);
-bool myToggle->getEnabled();
+myToggle->setChecked(bool checked);
+bool myToggle->getChecked();
 </pre>
 
 			<p><strong>Events</strong></p>
 <pre class="prettyprint">
-myToggle-&gt;onButtonEvent(this, &ofApp::onButtonEvent));
-void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
+myToggle-&gt;onToggleEvent(this, &ofApp::onToggleEvent));
+void ofApp::onToggleEvent(ofxDatGuiToggleEvent e)
 {
-    cout << e.target->getLabel() << " enabled = " << e.enabled << endl;
+    cout << e.target->getLabel() << " checked = " << e.checked << endl;
 }
 </pre>
 		</div>
