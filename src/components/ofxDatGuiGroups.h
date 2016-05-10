@@ -192,6 +192,18 @@ class ofxDatGuiFolder : public ofxDatGuiGroup {
             }
         }
     
+        void dispatchToggleEvent(ofxDatGuiToggleEvent e)
+        {
+            if (toggleEventCallback != nullptr) {
+                toggleEventCallback(e);
+        // allow toggle events to decay into button events //
+            }   else if (buttonEventCallback != nullptr) {
+                buttonEventCallback(ofxDatGuiButtonEvent(e.target));
+            }   else{
+                ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+            }
+        }
+    
         void dispatchSliderEvent(ofxDatGuiSliderEvent e)
         {
             if (sliderEventCallback != nullptr) {
@@ -262,7 +274,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup {
         {
             ofxDatGuiToggle* toggle = new ofxDatGuiToggle(label, enabled);
             toggle->setStripeColor(mStyle.stripe.color);
-            toggle->onButtonEvent(this, &ofxDatGuiFolder::dispatchButtonEvent);
+            toggle->onToggleEvent(this, &ofxDatGuiFolder::dispatchToggleEvent);
             attachItem(toggle);
             return toggle;
         }

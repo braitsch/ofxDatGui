@@ -84,6 +84,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofxDatGuiHeader* getHeader();
         ofxDatGuiFooter* getFooter();
         ofxDatGuiButton* getButton(string label, string folder = "");
+        ofxDatGuiToggle* getToggle(string label, string folder = "");
         ofxDatGuiSlider* getSlider(string label, string folder = "");
         ofxDatGui2dPad* get2dPad(string label, string folder = "");
         ofxDatGuiTextInput* getTextInput(string label, string folder = "");
@@ -142,6 +143,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofxDatGuiComponent* getComponent(ofxDatGuiType type, string label);
         void onInternalEventCallback(ofxDatGuiInternalEvent e);
         void onButtonEventCallback(ofxDatGuiButtonEvent e);
+        void onToggleEventCallback(ofxDatGuiToggleEvent e);
         void onSliderEventCallback(ofxDatGuiSliderEvent e);
         void onTextInputEventCallback(ofxDatGuiTextInputEvent e);
         void onDropdownEventCallback(ofxDatGuiDropdownEvent e);

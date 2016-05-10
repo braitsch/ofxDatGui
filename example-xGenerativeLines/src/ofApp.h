@@ -27,6 +27,7 @@ class ofApp : public ofBaseApp{
         ofxDatGuiSlider* s4;
 
         void onButtonEvent(ofxDatGuiButtonEvent e);
+        void onToggleEvent(ofxDatGuiToggleEvent e);
         void onSliderEvent(ofxDatGuiSliderEvent e);
         void onTextInputEvent(ofxDatGuiTextInputEvent e);
         void onDropdownEvent(ofxDatGuiDropdownEvent e);

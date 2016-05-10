@@ -23,6 +23,7 @@
 #pragma once
 
 class ofxDatGuiButton;
+class ofxDatGuiToggle;
 class ofxDatGuiSlider;
 class ofxDatGuiDropdown;
 class ofxDatGuiTextInput;
@@ -59,13 +60,23 @@ class ofxDatGuiInternalEvent{
 class ofxDatGuiButtonEvent{
 
     public:
-        ofxDatGuiButtonEvent(ofxDatGuiButton* t, bool e = false)
+        ofxDatGuiButtonEvent(ofxDatGuiButton* t)
         {
             target = t;
-            enabled = e;
         }
-    bool enabled;
     ofxDatGuiButton* target;
+};
+
+class ofxDatGuiToggleEvent{
+
+    public:
+        ofxDatGuiToggleEvent(ofxDatGuiToggle* t, bool e = false)
+        {
+            target = t;
+            checked = e;
+        }
+    bool checked;
+    ofxDatGuiToggle* target;
 };
 
 class ofxDatGuiSliderEvent{

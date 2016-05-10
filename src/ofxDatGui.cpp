@@ -274,7 +274,7 @@ ofxDatGuiButton* ofxDatGui::addButton(string label)
 ofxDatGuiToggle* ofxDatGui::addToggle(string label, bool enabled)
 {
     ofxDatGuiToggle* button = new ofxDatGuiToggle(label, enabled);
-    button->onButtonEvent(this, &ofxDatGui::onButtonEventCallback);
+    button->onToggleEvent(this, &ofxDatGui::onToggleEventCallback);
     attachItem(button);
     return button;
 }
@@ -390,6 +390,7 @@ ofxDatGuiFolder* ofxDatGui::addFolder(string label, ofColor color)
 {
     ofxDatGuiFolder* folder = new ofxDatGuiFolder(label, color);
     folder->onButtonEvent(this, &ofxDatGui::onButtonEventCallback);
+    folder->onToggleEvent(this, &ofxDatGui::onToggleEventCallback);
     folder->onSliderEvent(this, &ofxDatGui::onSliderEventCallback);
     folder->on2dPadEvent(this, &ofxDatGui::on2dPadEventCallback);
     folder->onMatrixEvent(this, &ofxDatGui::onMatrixEventCallback);
@@ -432,6 +433,23 @@ ofxDatGuiButton* ofxDatGui::getButton(string bl, string fl)
     }
     if (o==nullptr){
         o = ofxDatGuiButton::getInstance();
+        ofxDatGuiLog::write(ofxDatGuiMsg::COMPONENT_NOT_FOUND, fl!="" ? fl+"-"+bl : bl);
+        trash.push_back(o);
+    }
+    return o;
+}
+
+ofxDatGuiToggle* ofxDatGui::getToggle(string bl, string fl)
+{
+    ofxDatGuiToggle* o = nullptr;
+    if (fl != ""){
+        ofxDatGuiFolder* f = static_cast<ofxDatGuiFolder*>(getComponent(ofxDatGuiType::FOLDER, fl));
+        if (f) o = static_cast<ofxDatGuiToggle*>(f->getComponent(ofxDatGuiType::TOGGLE, bl));
+    }   else{
+        o = static_cast<ofxDatGuiToggle*>(getComponent(ofxDatGuiType::TOGGLE, bl));
+    }
+    if (o==nullptr){
+        o = ofxDatGuiToggle::getInstance();
         ofxDatGuiLog::write(ofxDatGuiMsg::COMPONENT_NOT_FOUND, fl!="" ? fl+"-"+bl : bl);
         trash.push_back(o);
     }
@@ -627,6 +645,18 @@ void ofxDatGui::onButtonEventCallback(ofxDatGuiButtonEvent e)
 {
     if (buttonEventCallback != nullptr) {
         buttonEventCallback(e);
+    }   else{
+        ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+    }
+}
+
+void ofxDatGui::onToggleEventCallback(ofxDatGuiToggleEvent e)
+{
+    if (toggleEventCallback != nullptr) {
+        toggleEventCallback(e);
+// allow toggle events to decay into button events //
+    }   else if (buttonEventCallback != nullptr) {
+        buttonEventCallback(ofxDatGuiButtonEvent(e.target));
     }   else{
         ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
     }
