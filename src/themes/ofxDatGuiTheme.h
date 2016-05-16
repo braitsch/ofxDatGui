@@ -51,27 +51,29 @@ class ofxDatGuiTheme{
             if (ofxDatGuiIsRetina()){
                 font.size *= 2;
                 stripe.width *= 2;
-                layout.width = 540;
+                layout.width *= 2;
                 layout.height *= 2;
                 layout.padding *= 2;
                 layout.vMargin *= 2;
                 layout.iconSize *= 2;
-                layout.labelWidth = 190;
+                layout.labelWidth *= 2;
+                layout.labelMargin *= 2;
                 layout.graph.height *=2;
                 layout.pad2d.height *=2;
                 layout.pad2d.ballSize *=2;
                 layout.pad2d.lineWeight *=2;
                 layout.matrix.height *=2;
-                layout.matrix.buttonSize = 47;
+                layout.matrix.buttonSize *=2;
+                layout.matrix.buttonPadding *=2;
+                layout.colorPicker.rainbowWidth *=2;
                 layout.textInput.highlightPadding *= 2;
             }
-            font.ptr = ofxSmartFont::add(font.file, font.size);
-
             icon.radioOn->load(icon.radioOnPath);
             icon.radioOff->load(icon.radioOffPath);
             icon.groupOpen->load(icon.groupOpenPath);
             icon.groupClosed->load(icon.groupClosedPath);
             icon.rainbow->load(icon.rainbowPath);
+            font.ptr = ofxSmartFont::add(font.file, font.size);
         }
     
     /*
@@ -171,13 +173,13 @@ class ofxDatGuiTheme{
         struct {
         
         // general rules that are shared by all components //
-            float width = 320.0f;
+            float width = 270.0f;
             float height = 26.0f;
             float padding = 2.0f;
             float vMargin = 1.0f; // vertical spacing between gui components //
             float iconSize = 10.0f;
-            float labelWidth = 115.0f;
-            float labelMargin = 24.0f;
+            float labelWidth = 95.0f;
+            float labelMargin = 12.0f;
             float breakHeight = 3.0f;
             bool upperCaseLabels = true;
             
@@ -187,6 +189,10 @@ class ofxDatGuiTheme{
                 int highlightPadding = 5;
                 bool forceUpperCase = true;
             } textInput;
+            
+            struct {
+                int rainbowWidth = 10;
+            } colorPicker;
         
             struct {
                 int height = 82;
@@ -202,7 +208,8 @@ class ofxDatGuiTheme{
         
             struct {
                 int height = 82;
-                int buttonSize = 27;
+                int buttonSize = 23;
+                int buttonPadding = 1;
             } matrix;
             
         } layout;

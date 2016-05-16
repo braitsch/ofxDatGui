@@ -125,7 +125,7 @@ void ofxDatGuiComponent::setWidth(int width, float labelWidth)
 // we received a percentage //
         mLabel.width = mStyle.width * labelWidth;
     }
-    mIcon.x = mStyle.width - (mStyle.width * .05) - 20;
+    mIcon.x = mStyle.width - (mStyle.width * .05) - mIcon.size;
     mLabel.rightAlignedXpos = mLabel.width - mLabel.margin;
     for (int i=0; i<children.size(); i++) children[i]->setWidth(width, labelWidth);
     positionLabel();
