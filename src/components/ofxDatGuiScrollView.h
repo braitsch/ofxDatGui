@@ -27,10 +27,11 @@ class ofxDatGuiScrollView : public ofxDatGuiComponent {
 
     public:
     
-        ofxDatGuiScrollView(string name, int nVisible = 6) : ofxDatGuiComponent(name)
+        ofxDatGuiScrollView(string name, int nVisible = 6, int nScrollStep = 1) : ofxDatGuiComponent(name)
         {
             mAutoHeight = true;
             mNumVisible = nVisible;
+			mScrollStep = nScrollStep;
             setTheme(ofxDatGuiComponent::theme.get());
             ofAddListener(ofEvents().mouseScrolled, this, &ofxDatGuiScrollView::onMouseScrolled, OF_EVENT_ORDER_BEFORE_APP);
         }
@@ -232,6 +233,7 @@ class ofxDatGuiScrollView : public ofxDatGuiComponent {
         int mY;
         int mSpacing;
         int mNumVisible;
+		int mScrollStep;
         bool mAutoHeight;
     
         void autoSize()
@@ -243,20 +245,20 @@ class ofxDatGuiScrollView : public ofxDatGuiComponent {
         void onMouseScrolled(ofMouseEventArgs &e)
         {
             if (children.size() > 0 && mRect.inside(e.x, e.y) == true){
-                float sy = e.scrollY * 2;
+                float sy = e.scrollY * children.front()->getHeight() * mScrollStep;
                 int btnH = children.front()->getHeight() + mSpacing;
                 int minY = mRect.height + mSpacing  - (children.size() * btnH);
                 bool allowScroll = false;
                 mY = children.front()->getY();
                 if (sy < 0){
                     if (mY > minY){
-                        mY += sy;
+                        mY += sy + mSpacing;
                         if (mY < minY) mY = minY;
                         allowScroll = true;
                     }
                 }   else if (sy > 0){
                     if (mY < 0){
-                        mY += sy;
+                        mY += sy - mSpacing;
                         if (mY > 0) mY = 0;
                         allowScroll = true;
                     }
