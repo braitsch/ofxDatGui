@@ -23,8 +23,8 @@
 #include "ofxDatGuiComponent.h"
 
 bool ofxDatGuiLog::mQuiet = false;
+string ofxDatGuiTheme::AssetPath = "";
 std::unique_ptr<ofxDatGuiTheme> ofxDatGuiComponent::theme;
-string ofxDatGuiTheme::AssetPath = "../../../../../addons/ofxDatGui/";
 
 ofxDatGuiComponent::ofxDatGuiComponent(string label)
 {
