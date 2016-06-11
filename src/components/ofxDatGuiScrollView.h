@@ -188,6 +188,11 @@ class ofxDatGuiScrollView : public ofxDatGuiComponent {
             for(auto i:children) i->setParentPosition(x, y);
         }
     
+        void setItemSpacing(int spacing)
+        {
+            mSpacing = spacing;
+        }
+    
         void setBackgroundColor(ofColor color)
         {
             mBackground = color;
