@@ -196,7 +196,7 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
         inline void getBoundVal()
         {
             if (*mBoundVal != mChecked) {
-                setEnabled(*mBoundVal);
+                setChecked(*mBoundVal);
             }
         }
 
