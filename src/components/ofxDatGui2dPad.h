@@ -62,7 +62,13 @@ class ofxDatGui2dPad : public ofxDatGuiComponent {
     
         void setPoint(ofPoint pt)
         {
-            mWorld = pt;
+            if (mBounds.inside(pt)){
+                mPercentX = (pt.x-mBounds.x) / mBounds.width;
+                mPercentY = (pt.y-mBounds.y) / mBounds.height;
+                setWorldCoordinates();
+            }   else{
+        //  the point assigment is outside of the 2d pad's bounds //
+            }
         }
     
         ofPoint getPoint()

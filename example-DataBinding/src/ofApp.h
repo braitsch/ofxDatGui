@@ -25,8 +25,8 @@ class Circle {
             ofDrawCircle(this->x, this->y, mRadius);
         }
     
-        int x;
-        int y;
+        float x;
+        float y;
 
     private:
         int mRadius;

@@ -76,6 +76,16 @@ class ofxDatGuiInteractiveObject{
         {
             buttonEventCallback = std::bind(listenerMethod, owner, std::placeholders::_1);
         }
+    
+    // toggle events //
+        typedef std::function<void(ofxDatGuiToggleEvent)> onToggleEventCallback;
+        onToggleEventCallback toggleEventCallback;
+    
+        template<typename T, typename args, class ListenerClass>
+        void onToggleEvent(T* owner, void (ListenerClass::*listenerMethod)(args))
+        {
+            toggleEventCallback = std::bind(listenerMethod, owner, std::placeholders::_1);
+        }
 
     // slider events //
         typedef std::function<void(ofxDatGuiSliderEvent)> onSliderEventCallback;

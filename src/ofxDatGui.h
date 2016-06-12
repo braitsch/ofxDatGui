@@ -33,14 +33,18 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofxDatGui(ofxDatGuiAnchor anchor = ofxDatGuiAnchor::TOP_LEFT);
     
         void draw();
-        void focus();
         void update();
+        void focus();
+        void expand();
+        void toggle();
+        void collapse();
     
         void setWidth(int width, float labelWidth = 0.35f);
         void setVisible(bool visible);
         void setEnabled(bool enabled);
         void setOpacity(float opacity);
         void setPosition(int x, int y);
+        void setPosition(ofxDatGuiAnchor anchor);
         void setTheme(ofxDatGuiTheme* t);
         void setAutoDraw(bool autodraw, int priority = 0);
         void setLabelAlignment(ofxDatGuiAlignment align);
@@ -80,6 +84,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofxDatGuiHeader* getHeader();
         ofxDatGuiFooter* getFooter();
         ofxDatGuiButton* getButton(string label, string folder = "");
+        ofxDatGuiToggle* getToggle(string label, string folder = "");
         ofxDatGuiSlider* getSlider(string label, string folder = "");
         ofxDatGui2dPad* get2dPad(string label, string folder = "");
         ofxDatGuiTextInput* getTextInput(string label, string folder = "");
@@ -126,8 +131,6 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         void init();
         void layoutGui();
         void anchorGui();
-        void expandGui();
-        void collapseGui();
         void moveGui(ofPoint pt);
         bool hitTest(ofPoint pt);
         void attachItem(ofxDatGuiComponent* item);
@@ -140,6 +143,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofxDatGuiComponent* getComponent(ofxDatGuiType type, string label);
         void onInternalEventCallback(ofxDatGuiInternalEvent e);
         void onButtonEventCallback(ofxDatGuiButtonEvent e);
+        void onToggleEventCallback(ofxDatGuiToggleEvent e);
         void onSliderEventCallback(ofxDatGuiSliderEvent e);
         void onTextInputEventCallback(ofxDatGuiTextInputEvent e);
         void onDropdownEventCallback(ofxDatGuiDropdownEvent e);

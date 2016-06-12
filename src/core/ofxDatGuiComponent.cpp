@@ -23,8 +23,8 @@
 #include "ofxDatGuiComponent.h"
 
 bool ofxDatGuiLog::mQuiet = false;
+string ofxDatGuiTheme::AssetPath = "";
 std::unique_ptr<ofxDatGuiTheme> ofxDatGuiComponent::theme;
-string ofxDatGuiTheme::AssetPath = "../../../../../addons/ofxDatGui/";
 
 ofxDatGuiComponent::ofxDatGuiComponent(string label)
 {
@@ -125,7 +125,7 @@ void ofxDatGuiComponent::setWidth(int width, float labelWidth)
 // we received a percentage //
         mLabel.width = mStyle.width * labelWidth;
     }
-    mIcon.x = mStyle.width - (mStyle.width * .05) - 20;
+    mIcon.x = mStyle.width - (mStyle.width * .05) - mIcon.size;
     mLabel.rightAlignedXpos = mLabel.width - mLabel.margin;
     for (int i=0; i<children.size(); i++) children[i]->setWidth(width, labelWidth);
     positionLabel();
@@ -330,7 +330,7 @@ void ofxDatGuiComponent::setBorderVisible(bool visible)
 void ofxDatGuiComponent::update(bool acceptEvents)
 {
 // if window does not have focus x & y will both be zero //
-    if (acceptEvents && mEnabled && ofGetMouseX() != 0 && ofGetMouseY() != 0){
+    if (acceptEvents && mEnabled && mVisible){
         bool mp = ofGetMousePressed();
         ofPoint mouse = ofPoint(ofGetMouseX() - mParentPosition.x, ofGetMouseY() - mParentPosition.y);
         if (hitTest(mouse)){

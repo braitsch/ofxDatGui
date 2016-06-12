@@ -69,10 +69,6 @@ class ofxDatGuiButton : public ofxDatGuiComponent {
             }
         }
     
-        virtual void toggle(){}
-        virtual void setEnabled(bool enable){}
-        virtual bool getEnabled(){return false;}
-    
         static ofxDatGuiButton* getInstance() { return new ofxDatGuiButton("X"); }
     
     protected:
@@ -96,9 +92,9 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
     
     public:
     
-        ofxDatGuiToggle(string label, bool enabled) : ofxDatGuiButton(label)
+        ofxDatGuiToggle(string label, bool checked = false) : ofxDatGuiButton(label)
         {
-            mEnabled = enabled;
+            mChecked = checked;
             mType = ofxDatGuiType::TOGGLE;
             setTheme(ofxDatGuiComponent::theme.get());
         }
@@ -122,17 +118,17 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
     
         void toggle()
         {
-            mEnabled = !mEnabled;
+            mChecked = !mChecked;
         }
     
-        void setEnabled(bool enable)
+        void setChecked(bool check)
         {
-            mEnabled = enable;
+            mChecked = check;
         }
     
-        bool getEnabled()
+        bool getChecked()
         {
-            return mEnabled;
+            return mChecked;
         }
 
     /*
@@ -156,7 +152,7 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
             ofPushStyle();
             ofxDatGuiButton::draw();
             ofSetColor(mIcon.color);
-            if (mEnabled == true){
+            if (mChecked == true){
                 radioOn->draw(x+mIcon.x, y+mIcon.y, mIcon.size, mIcon.size);
             }   else{
                 radioOff->draw(x+mIcon.x, y+mIcon.y, mIcon.size, mIcon.size);
@@ -164,29 +160,31 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
             ofPopStyle();
         }
     
+        static ofxDatGuiToggle* getInstance() { return new ofxDatGuiToggle("X"); }
+    
     protected:
     
         void onMouseRelease(ofPoint m)
         {
-            mEnabled = !mEnabled;
+            mChecked = !mChecked;
         // experimental - check for bound variables //
             if (mBoundVal != nullptr) {
-                *mBoundVal = mEnabled;
+                *mBoundVal = mChecked;
             }
 
             ofxDatGuiComponent::onFocusLost();
             ofxDatGuiComponent::onMouseRelease(m);
         // dispatch event out to main application //
-            if (buttonEventCallback != nullptr) {
-                ofxDatGuiButtonEvent e(this, mEnabled);
-                buttonEventCallback(e);
-            }   else{
-                ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+            if (toggleEventCallback == nullptr) {
+        // attempt to call generic button callback //
+                ofxDatGuiButton::onMouseRelease(m);
+            }   else {
+                toggleEventCallback(ofxDatGuiToggleEvent(this, mChecked));
             }
         }
     
     private:
-        bool    mEnabled;
+        bool    mChecked;
         bool*   mBoundVal = nullptr;
         shared_ptr<ofImage> radioOn;
         shared_ptr<ofImage> radioOff;
@@ -197,12 +195,9 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
 
         inline void getBoundVal()
         {
-            if (*mBoundVal != mEnabled) {
+            if (*mBoundVal != mChecked) {
                 setEnabled(*mBoundVal);
             }
         }
 
 };
-
-
-

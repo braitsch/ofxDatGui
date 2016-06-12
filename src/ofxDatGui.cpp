@@ -72,9 +72,8 @@ void ofxDatGui::init()
 }
 
 /* 
-    public getters & setters
+    public api
 */
-
 
 void ofxDatGui::focus()
 {
@@ -96,6 +95,29 @@ void ofxDatGui::focus()
     }   else{
         ofxDatGuiLog::write(ofxDatGuiMsg::PANEL_ALREADY_HAS_FOCUS, "#"+ofToString(mGuid));
     }
+}
+
+void ofxDatGui::expand()
+{
+    if (mGuiFooter != nullptr){
+        mExpanded = true;
+        mGuiFooter->setExpanded(mExpanded);
+        mGuiFooter->setPosition(mPosition.x, mPosition.y + mHeight - mGuiFooter->getHeight() - mRowSpacing);
+    }
+}
+
+void ofxDatGui::collapse()
+{
+    if (mGuiFooter != nullptr){
+        mExpanded = false;
+        mGuiFooter->setExpanded(mExpanded);
+        mGuiFooter->setPosition(mPosition.x, mPosition.y);
+    }
+}
+
+void ofxDatGui::toggle()
+{
+    mExpanded ? collapse() : expand();
 }
 
 bool ofxDatGui::getVisible()
@@ -134,6 +156,12 @@ void ofxDatGui::setOpacity(float opacity)
 void ofxDatGui::setPosition(int x, int y)
 {
     moveGui(ofPoint(x, y));
+}
+
+void ofxDatGui::setPosition(ofxDatGuiAnchor anchor)
+{
+    mAnchor = anchor;
+    if (mAnchor != ofxDatGuiAnchor::NO_ANCHOR) anchorGui();
 }
 
 void ofxDatGui::setVisible(bool visible)
@@ -246,7 +274,7 @@ ofxDatGuiButton* ofxDatGui::addButton(string label)
 ofxDatGuiToggle* ofxDatGui::addToggle(string label, bool enabled)
 {
     ofxDatGuiToggle* button = new ofxDatGuiToggle(label, enabled);
-    button->onButtonEvent(this, &ofxDatGui::onButtonEventCallback);
+    button->onToggleEvent(this, &ofxDatGui::onToggleEventCallback);
     attachItem(button);
     return button;
 }
@@ -362,6 +390,7 @@ ofxDatGuiFolder* ofxDatGui::addFolder(string label, ofColor color)
 {
     ofxDatGuiFolder* folder = new ofxDatGuiFolder(label, color);
     folder->onButtonEvent(this, &ofxDatGui::onButtonEventCallback);
+    folder->onToggleEvent(this, &ofxDatGui::onToggleEventCallback);
     folder->onSliderEvent(this, &ofxDatGui::onSliderEventCallback);
     folder->on2dPadEvent(this, &ofxDatGui::on2dPadEventCallback);
     folder->onMatrixEvent(this, &ofxDatGui::onMatrixEventCallback);
@@ -404,6 +433,23 @@ ofxDatGuiButton* ofxDatGui::getButton(string bl, string fl)
     }
     if (o==nullptr){
         o = ofxDatGuiButton::getInstance();
+        ofxDatGuiLog::write(ofxDatGuiMsg::COMPONENT_NOT_FOUND, fl!="" ? fl+"-"+bl : bl);
+        trash.push_back(o);
+    }
+    return o;
+}
+
+ofxDatGuiToggle* ofxDatGui::getToggle(string bl, string fl)
+{
+    ofxDatGuiToggle* o = nullptr;
+    if (fl != ""){
+        ofxDatGuiFolder* f = static_cast<ofxDatGuiFolder*>(getComponent(ofxDatGuiType::FOLDER, fl));
+        if (f) o = static_cast<ofxDatGuiToggle*>(f->getComponent(ofxDatGuiType::TOGGLE, bl));
+    }   else{
+        o = static_cast<ofxDatGuiToggle*>(getComponent(ofxDatGuiType::TOGGLE, bl));
+    }
+    if (o==nullptr){
+        o = ofxDatGuiToggle::getInstance();
         ofxDatGuiLog::write(ofxDatGuiMsg::COMPONENT_NOT_FOUND, fl!="" ? fl+"-"+bl : bl);
         trash.push_back(o);
     }
@@ -604,6 +650,18 @@ void ofxDatGui::onButtonEventCallback(ofxDatGuiButtonEvent e)
     }
 }
 
+void ofxDatGui::onToggleEventCallback(ofxDatGuiToggleEvent e)
+{
+    if (toggleEventCallback != nullptr) {
+        toggleEventCallback(e);
+// allow toggle events to decay into button events //
+    }   else if (buttonEventCallback != nullptr) {
+        buttonEventCallback(ofxDatGuiButtonEvent(e.target));
+    }   else{
+        ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+    }
+}
+
 void ofxDatGui::onSliderEventCallback(ofxDatGuiSliderEvent e)
 {
     if (sliderEventCallback != nullptr) {
@@ -666,7 +724,7 @@ void ofxDatGui::onInternalEventCallback(ofxDatGuiInternalEvent e)
     if (e.type == ofxDatGuiEventType::DROPDOWN_TOGGLED){
         layoutGui();
     }   else if (e.type == ofxDatGuiEventType::GUI_TOGGLED){
-        mExpanded ? collapseGui() : expandGui();
+        mExpanded ? collapse() : expand();
     }   else if (e.type == ofxDatGuiEventType::VISIBILITY_CHANGED){
         layoutGui();
     }
@@ -695,19 +753,26 @@ void ofxDatGui::moveGui(ofPoint pt)
 
 void ofxDatGui::anchorGui()
 {
-    mPosition.y = 0;
+/*
+    ofGetWidth/ofGetHeight returns incorrect values after retina windows are resized in version 0.9.1 & 0.9.2
+    https://github.com/openframeworks/openFrameworks/pull/4858
+*/
+    int multiplier = 1;
+    if (ofxDatGuiIsRetina() && ofGetVersionMajor() == 0 && ofGetVersionMinor() == 9 && (ofGetVersionPatch() == 1 || ofGetVersionPatch() == 2)){
+        multiplier = 2;
+    }
     if (mAnchor == ofxDatGuiAnchor::TOP_LEFT){
+        mPosition.y = 0;
         mPosition.x = 0;
     }   else if (mAnchor == ofxDatGuiAnchor::TOP_RIGHT){
-        mPosition.x = ofGetWidth() - mWidth;
-    /*
-        ofGetWidth returns an incorrect value after retina windows are resized in version 0.9.1 & 0.9.2
-        https://github.com/openframeworks/openFrameworks/issues/4746
-        https://github.com/openframeworks/openFrameworks/pull/4858
-    */
-        if (ofxDatGuiIsRetina() && ofGetVersionMajor() == 0 && ofGetVersionMinor() == 9 && (ofGetVersionPatch() == 1 || ofGetVersionPatch() == 2)){
-            mPosition.x = (ofGetWidth() / 2) - mWidth;
-        }
+        mPosition.y = 0;
+        mPosition.x = (ofGetWidth() / multiplier) - mWidth;
+    }   else if (mAnchor == ofxDatGuiAnchor::BOTTOM_LEFT){
+        mPosition.x = 0;
+        mPosition.y = (ofGetHeight() / multiplier) - mHeight;
+    }   else if (mAnchor == ofxDatGuiAnchor::BOTTOM_RIGHT){
+        mPosition.x = (ofGetWidth() / multiplier) - mWidth;
+        mPosition.y = (ofGetHeight() / multiplier) - mHeight;
     }
     layoutGui();
 }
@@ -723,20 +788,8 @@ void ofxDatGui::layoutGui()
         mHeight += items[i]->getHeight() + mRowSpacing;
     }
     // move the footer back to the top of the gui //
-    if (!mExpanded) mGuiFooter->setY(mPosition.y);
+    if (!mExpanded) mGuiFooter->setPosition(mPosition.x, mPosition.y);
     mGuiBounds = ofRectangle(mPosition.x, mPosition.y, mWidth, mHeight);
-}
-
-void ofxDatGui::expandGui()
-{
-    mExpanded = true;
-    mGuiFooter->setY(mPosition.y + mHeight - mGuiFooter->getHeight() - mRowSpacing);
-}
-
-void ofxDatGui::collapseGui()
-{
-    mExpanded = false;
-    mGuiFooter->setY(mPosition.y);
 }
 
 /* 

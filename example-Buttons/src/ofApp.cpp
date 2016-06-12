@@ -21,7 +21,6 @@ void ofApp::setup()
 // and register to listen for events //
     button->onButtonEvent(this, &ofApp::onButtonEvent);
     toggle->onButtonEvent(this, &ofApp::onButtonEvent);
-
 }
 
 void ofApp::update()

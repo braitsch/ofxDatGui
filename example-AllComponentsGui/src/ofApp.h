@@ -17,6 +17,7 @@ class ofApp : public ofBaseApp{
 
         void keyPressed(int key);
         void onButtonEvent(ofxDatGuiButtonEvent e);
+        void onToggleEvent(ofxDatGuiToggleEvent e);
         void onSliderEvent(ofxDatGuiSliderEvent e);
         void onTextInputEvent(ofxDatGuiTextInputEvent e);
         void on2dPadEvent(ofxDatGui2dPadEvent e);

@@ -98,7 +98,7 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
     
         ofxDatGuiFooter() : ofxDatGuiButton("collapse controls")
         {
-            mGuiCollapsed = false;
+            mGuiExpanded = true;
             mLabelCollapsed = "expand controls";
             mLabelExpanded = "collapse controls";
             setTheme(ofxDatGuiComponent::theme.get());
@@ -116,34 +116,38 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
         void setLabelWhenExpanded(string label)
         {
             mLabelExpanded = label;
-            if (!mGuiCollapsed) setLabel(mLabelExpanded);
+            if (mGuiExpanded) setLabel(mLabelExpanded);
         }
     
         void setLabelWhenCollapsed(string label)
         {
             mLabelCollapsed = label;
-            if (mGuiCollapsed) setLabel(mLabelCollapsed);
+            if (!mGuiExpanded) setLabel(mLabelCollapsed);
         }
     
-        void setY(int y)
+//        void setY(int y)
+//        {
+//            this->y = y;
+//        }
+    
+        void setExpanded(bool expanded)
         {
-            this->y = y;
+            mGuiExpanded = expanded;
+            if (mGuiExpanded){
+                setLabel(mLabelExpanded);
+            }   else{
+                setLabel(mLabelCollapsed);
+            }
         }
     
     protected:
     
         void onMouseRelease(ofPoint m)
         {
-            mGuiCollapsed = !mGuiCollapsed;
             ofxDatGuiComponent::onMouseRelease(m);
         // dispatch event out to main application //
             ofxDatGuiInternalEvent e(ofxDatGuiEventType::GUI_TOGGLED, mIndex);
             internalEventCallback(e);
-            if (!mGuiCollapsed){
-                setLabel(mLabelExpanded);
-            }   else{
-                setLabel(mLabelCollapsed);
-            }
         }
     
     // force footer label to always be centered //
@@ -153,7 +157,7 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
         }
     
     private:
-        bool mGuiCollapsed;
+        bool mGuiExpanded;
         string mLabelExpanded;
         string mLabelCollapsed;
     
