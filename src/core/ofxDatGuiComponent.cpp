@@ -252,9 +252,9 @@ bool ofxDatGuiComponent::getIsExpanded()
 
 void ofxDatGuiComponent::setLabel(string label)
 {
-    if (mLabel.forceUpperCase) label = ofToUpper(label);
     mLabel.text = label;
-    mLabel.rect = mFont->rect(mLabel.text);
+    mLabel.rendered = mLabel.forceUpperCase ? ofToUpper(mLabel.text) : mLabel.rendered = mLabel.text;
+    mLabel.rect = mFont->rect(mLabel.rendered);
     positionLabel();
 }
 
@@ -391,9 +391,9 @@ void ofxDatGuiComponent::drawLabel()
 {
     ofSetColor(mLabel.color);
     if (mType != ofxDatGuiType::DROPDOWN_OPTION){
-        mFont->draw(mLabel.text, x+mLabel.x, y+mStyle.height/2 + mLabel.rect.height/2);
+        mFont->draw(mLabel.rendered, x+mLabel.x, y+mStyle.height/2 + mLabel.rect.height/2);
     }   else{
-        mFont->draw("* "+mLabel.text, x+mLabel.x, y+mStyle.height/2 + mLabel.rect.height/2);
+        mFont->draw("* "+mLabel.rendered, x+mLabel.x, y+mStyle.height/2 + mLabel.rect.height/2);
     }
 }
 

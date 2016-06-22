@@ -178,7 +178,7 @@ class ofxDatGuiScrollView : public ofxDatGuiComponent {
         {
             mAutoHeight = false;
             mRect.height = height;
-            mView.allocate( mRect.width, mRect.height );
+            if (mRect.width > 0 && mRect.height > 0) mView.allocate( mRect.width, mRect.height );
         }
 
         void setPosition(int x, int y)
@@ -242,7 +242,7 @@ class ofxDatGuiScrollView : public ofxDatGuiComponent {
         void autoSize()
         {
             mRect.height = ((mTheme->layout.height + mSpacing) * mNumVisible) - mSpacing;
-            mView.allocate( mRect.width, mRect.height );
+            if (mRect.width > 0 && mRect.height > 0) mView.allocate( mRect.width, mRect.height );
         }
     
         void onMouseScrolled(ofMouseEventArgs &e)

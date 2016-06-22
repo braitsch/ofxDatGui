@@ -142,6 +142,7 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         struct{
             int x;
             string text;
+            string rendered;
             bool visible;
             ofColor color;
             float width;
