@@ -77,6 +77,10 @@ class ofxDatGuiInteractiveObject{
             buttonEventCallback = std::bind(listenerMethod, owner, std::placeholders::_1);
         }
     
+        void onButtonEvent(onButtonEventCallback callback) {
+            buttonEventCallback = callback;
+        }
+    
     // toggle events //
         typedef std::function<void(ofxDatGuiToggleEvent)> onToggleEventCallback;
         onToggleEventCallback toggleEventCallback;
@@ -87,6 +91,10 @@ class ofxDatGuiInteractiveObject{
             toggleEventCallback = std::bind(listenerMethod, owner, std::placeholders::_1);
         }
 
+        void onToggleEvent(onToggleEventCallback callback) {
+            toggleEventCallback = callback;
+        }
+    
     // slider events //
         typedef std::function<void(ofxDatGuiSliderEvent)> onSliderEventCallback;
         onSliderEventCallback sliderEventCallback;
@@ -97,6 +105,10 @@ class ofxDatGuiInteractiveObject{
             sliderEventCallback = std::bind(listenerMethod, owner, std::placeholders::_1);
         }
     
+        void onSliderEvent(onSliderEventCallback callback) {
+            sliderEventCallback = callback;
+        }
+
     // text input events //
         typedef std::function<void(ofxDatGuiTextInputEvent)> onTextInputEventCallback;
         onTextInputEventCallback textInputEventCallback;
@@ -107,6 +119,10 @@ class ofxDatGuiInteractiveObject{
             textInputEventCallback = std::bind(listenerMethod, owner, std::placeholders::_1);
         }
     
+        void onTextInputEvent(onTextInputEventCallback callback) {
+            textInputEventCallback = callback;
+        }
+
     // color picker events //
         typedef std::function<void(ofxDatGuiColorPickerEvent)> onColorPickerEventCallback;
         onColorPickerEventCallback colorPickerEventCallback;
@@ -115,6 +131,10 @@ class ofxDatGuiInteractiveObject{
         void onColorPickerEvent(T* owner, void (ListenerClass::*listenerMethod)(args))
         {
             colorPickerEventCallback = std::bind(listenerMethod, owner, std::placeholders::_1);
+        }
+    
+        void onColorPickerEvent(onColorPickerEventCallback callback) {
+            colorPickerEventCallback = callback;
         }
     
     // dropdown events //
@@ -127,6 +147,10 @@ class ofxDatGuiInteractiveObject{
             dropdownEventCallback = std::bind(listenerMethod, owner, std::placeholders::_1);
         }
     
+        void onDropdownEvent(onDropdownEventCallback callback) {
+            dropdownEventCallback = callback;
+        }
+
     // 2d pad events //
         typedef std::function<void(ofxDatGui2dPadEvent)> on2dPadEventCallback;
         on2dPadEventCallback pad2dEventCallback;
@@ -137,6 +161,10 @@ class ofxDatGuiInteractiveObject{
             pad2dEventCallback = std::bind(listenerMethod, owner, std::placeholders::_1);
         }
     
+        void on2dPadEvent(on2dPadEventCallback callback) {
+            pad2dEventCallback = callback;
+        }
+
     // matrix events //
         typedef std::function<void(ofxDatGuiMatrixEvent)> onMatrixEventCallback;
         onMatrixEventCallback matrixEventCallback;
@@ -147,6 +175,10 @@ class ofxDatGuiInteractiveObject{
             matrixEventCallback = std::bind(listenerMethod, owner, std::placeholders::_1);
         }
     
+        void onMatrixEvent(onMatrixEventCallback callback) {
+            matrixEventCallback = callback;
+        }
+
     // scrollview events //
         typedef std::function<void(ofxDatGuiScrollViewEvent)> onScrollViewEventCallback;
         onScrollViewEventCallback scrollViewEventCallback;
@@ -155,6 +187,10 @@ class ofxDatGuiInteractiveObject{
         void onScrollViewEvent(T* owner, void (ListenerClass::*listenerMethod)(args))
         {
             scrollViewEventCallback = std::bind(listenerMethod, owner, std::placeholders::_1);
+        }
+
+        void onScrollViewEvent(onScrollViewEventCallback callback) {
+            scrollViewEventCallback = callback;
         }
 
     // internal events //
@@ -167,5 +203,8 @@ class ofxDatGuiInteractiveObject{
             internalEventCallback = std::bind(listenerMethod, owner, std::placeholders::_1);
         }
 
+        void onInternalEvent(onInternalEventCallback callback) {
+            internalEventCallback = callback;
+        }
 };
 
