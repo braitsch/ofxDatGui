@@ -422,6 +422,22 @@ void ofxDatGui::attachItem(ofxDatGuiComponent* item)
     component retrieval methods
 */
 
+ofxDatGuiLabel* ofxDatGui::getLabel(string bl, string fl){
+    ofxDatGuiLabel* o = nullptr;
+    if (fl != ""){
+        ofxDatGuiFolder* f = static_cast<ofxDatGuiFolder*>(getComponent(ofxDatGuiType::FOLDER, fl));
+        if (f) o = static_cast<ofxDatGuiLabel*>(f->getComponent(ofxDatGuiType::LABEL, bl));
+    } else {
+        o = static_cast<ofxDatGuiLabel*>(getComponent(ofxDatGuiType::LABEL, bl));
+    }
+    if (o==nullptr){
+        o = ofxDatGuiLabel::getInstance();
+        ofxDatGuiLog::write(ofxDatGuiMsg::COMPONENT_NOT_FOUND, fl!="" ? fl+"-"+bl : bl);
+        trash.push_back(o);
+    }
+    return o;
+}
+
 ofxDatGuiButton* ofxDatGui::getButton(string bl, string fl)
 {
     ofxDatGuiButton* o = nullptr;

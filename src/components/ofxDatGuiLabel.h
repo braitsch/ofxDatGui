@@ -66,6 +66,7 @@ class ofxDatGuiLabel : public ofxDatGuiComponent{
         
         ofxDatGuiLabel(string label) : ofxDatGuiComponent(label)
         {
+            mType = ofxDatGuiType::LABEL;
             setTheme(ofxDatGuiComponent::theme.get());
         }
     
@@ -87,5 +88,8 @@ class ofxDatGuiLabel : public ofxDatGuiComponent{
         {
             ofxDatGuiComponent::draw();
         }
+    
+        static ofxDatGuiLabel* getInstance() { return new ofxDatGuiLabel("X"); }
+
 
 };
