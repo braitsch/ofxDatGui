@@ -169,11 +169,6 @@ void ofxDatGuiComponent::setPosition(int x, int y)
     for(int i=0; i<children.size(); i++) children[i]->setPosition(x, this->y + (mStyle.height+mStyle.vMargin)*(i+1));
 }
 
-void ofxDatGuiComponent::setParentPosition(int x, int y)
-{
-    mParentPosition = ofPoint(x, y);
-}
-
 void ofxDatGuiComponent::setVisible(bool visible)
 {
     mVisible = visible;
@@ -221,6 +216,11 @@ bool ofxDatGuiComponent::getFocused()
 bool ofxDatGuiComponent::getMouseDown()
 {
     return mMouseDown;
+}
+
+void ofxDatGuiComponent::setMask(const ofRectangle &mask)
+{
+    mMask = mask;
 }
 
 void ofxDatGuiComponent::setAnchor(ofxDatGuiAnchor anchor)
@@ -329,10 +329,9 @@ void ofxDatGuiComponent::setBorderVisible(bool visible)
 
 void ofxDatGuiComponent::update(bool acceptEvents)
 {
-// if window does not have focus x & y will both be zero //
     if (acceptEvents && mEnabled && mVisible){
         bool mp = ofGetMousePressed();
-        ofPoint mouse = ofPoint(ofGetMouseX() - mParentPosition.x, ofGetMouseY() - mParentPosition.y);
+        ofPoint mouse = ofPoint(ofGetMouseX() - mMask.x, ofGetMouseY() - mMask.y);
         if (hitTest(mouse)){
             if (!mMouseOver){
                 onMouseEnter(mouse);
@@ -419,6 +418,7 @@ void ofxDatGuiComponent::drawColorPicker() { }
 
 bool ofxDatGuiComponent::hitTest(ofPoint m)
 {
+    if (m.y < 0 || (mMask.height > 0 && m.y > mMask.height)) return false;
     return (m.x>=x && m.x<= x+mStyle.width && m.y>=y && m.y<= y+mStyle.height);
 }
 

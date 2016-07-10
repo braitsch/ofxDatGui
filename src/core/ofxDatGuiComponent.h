@@ -55,6 +55,7 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         void    setBorder(ofColor color, int width);
         void    setBorderVisible(bool visible);
     
+        void    setMask(const ofRectangle &mask);
         void    setAnchor(ofxDatGuiAnchor anchor);
         void    setEnabled(bool visible);
         bool    getEnabled();
@@ -73,7 +74,6 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         virtual bool hitTest(ofPoint m);
 
         virtual void setPosition(int x, int y);
-        virtual void setParentPosition(int x, int y);
         virtual void setTheme(ofxDatGuiTheme* theme) = 0;
         virtual void setWidth(int width, float labelWidth);
         virtual void setLabelAlignment(ofxDatGuiAlignment align);
@@ -108,9 +108,9 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         bool mEnabled;
         bool mMouseOver;
         bool mMouseDown;
+        ofRectangle mMask;
         ofxDatGuiType mType;
         ofxDatGuiAnchor mAnchor;
-        ofPoint mParentPosition;
         shared_ptr<ofxSmartFont> mFont;
         static unique_ptr<ofxDatGuiTheme> theme;
     

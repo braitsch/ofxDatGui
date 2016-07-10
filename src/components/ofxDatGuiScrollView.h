@@ -44,10 +44,10 @@ class ofxDatGuiScrollView : public ofxDatGuiComponent {
             int y = 0;
             if (children.size() > 0) y = children.back()->getY() + children.back()->getHeight() + mSpacing;
             children.push_back(new ofxDatGuiButton( label ));
+            children.back()->setMask(mRect);
             children.back()->setTheme(mTheme);
             children.back()->setWidth(mRect.width, 0);
             children.back()->setPosition(0, y);
-            children.back()->setParentPosition(mRect.x, mRect.y);
             children.back()->onButtonEvent(this, &ofxDatGuiScrollView::onButtonEvent);
         //  cout << "ofxDatGuiScrollView :: total items = " << children.size() << endl;
             if (mAutoHeight) autoSize();
@@ -185,7 +185,6 @@ class ofxDatGuiScrollView : public ofxDatGuiComponent {
         {
             mRect.x = x;
             mRect.y = y;
-            for(auto i:children) i->setParentPosition(x, y);
         }
     
         void setItemSpacing(int spacing)
