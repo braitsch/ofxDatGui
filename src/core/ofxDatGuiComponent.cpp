@@ -418,7 +418,7 @@ void ofxDatGuiComponent::drawColorPicker() { }
 
 bool ofxDatGuiComponent::hitTest(ofPoint m)
 {
-    if (m.y < 0 || (mMask.height > 0 && m.y > mMask.height)) return false;
+    if (mMask.height > 0 && (m.y < 0 || m.y > mMask.height)) return false;
     return (m.x>=x && m.x<= x+mStyle.width && m.y>=y && m.y<= y+mStyle.height);
 }
 
