@@ -284,10 +284,9 @@ gui-&gt;setVisible(false);</pre>
 		<div class='well'>
 
 			<h2><a id="events" class="anchor" href="#events" aria-hidden="true"></a>Events</h2>
-			<p><strong>ofxDatGuiEvents</strong> are designed to be as easy as possible to interact with.</p>
+			<p><strong>ofxDatGuiEvents</strong> are designed to be as simple and convenient to work with as possible.<br>To listen for an event simply register a callback (or assign a lambda) to be executed when an event you care about is fired:</p>
 
-			<p>To listen for an event simply register a callback to be executed when an event you care about is fired:</p>
-
+<p>Assigning a callback</p>
 <pre class="prettyprint">gui-&gt;onButtonEvent(this, &amp;ofApp::onButtonEvent);
 void onButtonEvent(ofxDatGuiButtonEvent e)
 {
@@ -295,7 +294,14 @@ void onButtonEvent(ofxDatGuiButtonEvent e)
 }
 </pre>
 
-			<p>Every callback you register will receive an event object that contains a pointer (called target) to the object that dispatched the event. </p>
+<p>Assigning a lambda (anonymous function)</p>
+<pre class="prettyprint">gui-&gt;onButtonEvent([&](ofxDatGuiButtonEvent e) 
+{
+    cout &lt;&lt; "A button was clicked!" &lt;&lt; endl;
+}
+</pre>
+
+			<p>Every event handler will receive an event object that contains a pointer (called target) to the object that dispatched the event. </p>
 
 <pre class="prettyprint">gui-&gt;addButton("My Button");
 gui-&gt;onButtonEvent(this, &amp;ofApp::onButtonEvent);
