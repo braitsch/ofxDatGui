@@ -84,6 +84,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
     
         ofxDatGuiHeader* getHeader();
         ofxDatGuiFooter* getFooter();
+        ofxDatGuiLabel* getLabel(string label, string folder = "");
         ofxDatGuiButton* getButton(string label, string folder = "");
         ofxDatGuiToggle* getToggle(string label, string folder = "");
         ofxDatGuiSlider* getSlider(string label, string folder = "");
