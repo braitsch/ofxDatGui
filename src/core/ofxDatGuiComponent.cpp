@@ -39,13 +39,11 @@ ofxDatGuiComponent::ofxDatGuiComponent(string label)
     mAnchor = ofxDatGuiAnchor::NO_ANCHOR;
     mLabel.text = label;
     mLabel.alignment = ofxDatGuiAlignment::LEFT;
-// load a default theme //
-    if (theme == nullptr) theme = make_unique<ofxDatGuiTheme>(true);
 }
 
 ofxDatGuiComponent::~ofxDatGuiComponent()
 {
-//  cout << "ofxDatGuiComponent destroyed" << endl;
+    //  cout << "ofxDatGuiComponent "<< mName << " destroyed" << endl;
 }
 
 /*
@@ -85,10 +83,11 @@ ofxDatGuiType ofxDatGuiComponent::getType()
 
 const ofxDatGuiTheme* ofxDatGuiComponent::getTheme()
 {
+    if (theme == nullptr) theme = make_unique<ofxDatGuiTheme>(true);
     return theme.get();
 }
 
-void ofxDatGuiComponent::setComponentStyle(ofxDatGuiTheme* theme)
+void ofxDatGuiComponent::setComponentStyle(const ofxDatGuiTheme* theme)
 {
     mStyle.height = theme->layout.height;
     mStyle.padding = theme->layout.padding;

@@ -156,7 +156,7 @@ class ofxDatGuiMatrix : public ofxDatGuiComponent {
             setTheme(ofxDatGuiComponent::theme.get());
         }
     
-        void setTheme(ofxDatGuiTheme* theme)
+        void setTheme(const ofxDatGuiTheme* theme)
         {
             setComponentStyle(theme);
             mFillColor = theme->color.inputAreaBackground;

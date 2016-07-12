@@ -74,7 +74,7 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         virtual bool hitTest(ofPoint m);
 
         virtual void setPosition(int x, int y);
-        virtual void setTheme(ofxDatGuiTheme* theme) = 0;
+        virtual void setTheme(const ofxDatGuiTheme* theme) = 0;
         virtual void setWidth(int width, float labelWidth);
         virtual void setLabelAlignment(ofxDatGuiAlignment align);
     
@@ -165,7 +165,7 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         void drawStripe();
         void drawBackground();
         void positionLabel();
-        void setComponentStyle(ofxDatGuiTheme* t);
+        void setComponentStyle(const ofxDatGuiTheme* t);
     
 };
 

@@ -33,7 +33,7 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
             setTheme(ofxDatGuiComponent::theme.get());
         }
     
-        void setTheme(ofxDatGuiTheme* theme)
+        void setTheme(const ofxDatGuiTheme* theme)
         {
             setComponentStyle(theme);
             mLabel.width = mStyle.width;
@@ -104,7 +104,7 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
             setTheme(ofxDatGuiComponent::theme.get());
         }
     
-        void setTheme(ofxDatGuiTheme* theme)
+        void setTheme(const ofxDatGuiTheme* theme)
         {
             setComponentStyle(theme);
             mLabel.width = mStyle.width;

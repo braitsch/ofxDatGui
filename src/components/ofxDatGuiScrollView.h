@@ -158,7 +158,7 @@ class ofxDatGuiScrollView : public ofxDatGuiComponent {
         list presentation
     */
 
-        void setTheme(ofxDatGuiTheme* theme)
+        void setTheme(const ofxDatGuiTheme* theme)
         {
             mTheme = theme;
             mSpacing = theme->layout.vMargin;
@@ -231,7 +231,7 @@ class ofxDatGuiScrollView : public ofxDatGuiComponent {
         ofFbo mView;
         ofRectangle mRect;
         ofColor mBackground;
-        ofxDatGuiTheme* mTheme;
+        const ofxDatGuiTheme* mTheme;
     
         int mY;
         int mSpacing;

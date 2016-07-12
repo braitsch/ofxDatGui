@@ -59,7 +59,7 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
             vbo.setColorData(&gColors[0], 6, GL_DYNAMIC_DRAW );
         }
     
-        void setTheme(ofxDatGuiTheme* theme)
+        void setTheme(const ofxDatGuiTheme* theme)
         {
             ofxDatGuiTextInput::setTheme(theme);
             mStyle.stripe.color = theme->stripe.colorPicker;

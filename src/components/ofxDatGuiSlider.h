@@ -60,7 +60,7 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
             delete mInput;
         }
     
-        void setTheme(ofxDatGuiTheme* theme)
+        void setTheme(const ofxDatGuiTheme* theme)
         {
             setComponentStyle(theme);
             mSliderFill = theme->color.slider.fill;

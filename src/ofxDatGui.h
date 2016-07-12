@@ -31,6 +31,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
     
         ofxDatGui(int x, int y);
         ofxDatGui(ofxDatGuiAnchor anchor = ofxDatGuiAnchor::TOP_LEFT);
+        ~ofxDatGui();
     
         void draw();
         void update();
@@ -97,7 +98,6 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
     
     private:
     
-        int mGuid;
         int mWidth;
         int mHeight;
         int mRowSpacing;

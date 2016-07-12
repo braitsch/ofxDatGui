@@ -24,7 +24,6 @@
 
 ofxDatGui* ofxDatGui::mActiveGui;
 vector<ofxDatGui*> ofxDatGui::mGuis;
-std::unique_ptr<ofxDatGuiTheme> ofxDatGui::theme;
 
 ofxDatGui::ofxDatGui(int x, int y)
 {
@@ -41,6 +40,16 @@ ofxDatGui::ofxDatGui(ofxDatGuiAnchor anchor)
     anchorGui();
 }
 
+ofxDatGui::~ofxDatGui()
+{
+    for (auto i:items) delete i;
+    if (mActiveGui == this) mActiveGui = nullptr;
+    mGuis.erase(std::remove(mGuis.begin(), mGuis.end(), this), mGuis.end());
+    ofRemoveListener(ofEvents().draw, this, &ofxDatGui::onDraw, OF_EVENT_ORDER_AFTER_APP);
+    ofRemoveListener(ofEvents().update, this, &ofxDatGui::onUpdate, OF_EVENT_ORDER_BEFORE_APP);
+    ofRemoveListener(ofEvents().windowResized, this, &ofxDatGui::onWindowResized, OF_EVENT_ORDER_BEFORE_APP);
+}
+
 void ofxDatGui::init()
 {
     mMoving = false;
@@ -54,12 +63,10 @@ void ofxDatGui::init()
     mThemeChanged = false;
     mAlignmentChanged = false;
     mAlignment = ofxDatGuiAlignment::LEFT;
-// load a default theme //
-    if (theme == nullptr) theme = make_unique<ofxDatGuiTheme>(true);
     mAlpha = 1.0f;
-    mWidth = theme->layout.width;
-    mRowSpacing = theme->layout.vMargin;
-    mGuiBackground = theme->color.guiBackground;
+    mWidth = ofxDatGuiComponent::getTheme()->layout.width;
+    mRowSpacing = ofxDatGuiComponent::getTheme()->layout.vMargin;
+    mGuiBackground = ofxDatGuiComponent::getTheme()->color.guiBackground;
     
 // enable autodraw by default //
     setAutoDraw(true);
@@ -67,7 +74,6 @@ void ofxDatGui::init()
 // assign focus to this newly created gui //
     mActiveGui = this;
     mGuis.push_back(this);
-    mGuid = mGuis.size();
     ofAddListener(ofEvents().windowResized, this, &ofxDatGui::onWindowResized, OF_EVENT_ORDER_BEFORE_APP);
 }
 
@@ -92,8 +98,6 @@ void ofxDatGui::focus()
         for (int i=0; i<mGuis.size(); i++) {
             if (mGuis[i]->getAutoDraw()) mGuis[i]->setAutoDraw(true, i);
         }
-    }   else{
-        ofxDatGuiLog::write(ofxDatGuiMsg::PANEL_ALREADY_HAS_FOCUS, "#"+ofToString(mGuid));
     }
 }
 
@@ -179,7 +183,7 @@ void ofxDatGui::setAutoDraw(bool autodraw, int priority)
     mAutoDraw = autodraw;
     ofRemoveListener(ofEvents().draw, this, &ofxDatGui::onDraw);
     ofRemoveListener(ofEvents().update, this, &ofxDatGui::onUpdate);
-    if (autodraw){
+    if (mAutoDraw){
         ofAddListener(ofEvents().draw, this, &ofxDatGui::onDraw, OF_EVENT_ORDER_AFTER_APP + priority);
         ofAddListener(ofEvents().update, this, &ofxDatGui::onUpdate, OF_EVENT_ORDER_BEFORE_APP - priority);
     }
@@ -807,7 +811,8 @@ void ofxDatGui::update()
         if (mWidthChanged) items[i]->setWidth(mWidth, mLabelWidth);
         if (mAlignmentChanged) items[i]->setLabelAlignment(mAlignment);
     }
-   if (mThemeChanged || mWidthChanged) layoutGui();
+    
+    if (mThemeChanged || mWidthChanged) layoutGui();
 
     mTheme = nullptr;
     mAlphaChanged = false;
