@@ -51,7 +51,6 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
         void setTheme(const ofxDatGuiTheme* theme)
         {
             mFont = theme->font.ptr;
-            mTextRect = mFont->rect(mType == ofxDatGuiInputType::COLORPICKER ? "#" + mText : mText);
             mInputRect.height = theme->layout.height - (theme->layout.padding * 2);
             color.active.background = theme->color.textInput.backgroundOnActive;
             color.inactive.background = theme->color.inputAreaBackground;
@@ -60,6 +59,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             color.highlight = theme->color.textInput.highlight;
             mUpperCaseText = theme->layout.textInput.forceUpperCase;
             mHighlightPadding = theme->layout.textInput.highlightPadding;
+            setText(mText);
         }
     
         void draw()
@@ -88,7 +88,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             // draw the text //
                 ofColor tColor = mHighlightText ? color.active.text : color.inactive.text;
                 ofSetColor(tColor);
-                mFont->draw(mType == ofxDatGuiInputType::COLORPICKER ? "#" + mText : mText, tx, ty);
+                mFont->draw(mType == ofxDatGuiInputType::COLORPICKER ? "#" + mRendered : mRendered, tx, ty);
                 if (mFocused) {
             // draw the cursor //
                     ofDrawLine(ofPoint(tx + mCursorX, mInputRect.getTop()), ofPoint(tx + mCursorX, mInputRect.getBottom()));
@@ -120,8 +120,8 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
         {
             mText = text;
             mTextChanged = true;
-            if (mUpperCaseText) mText = ofToUpper(mText);
-            mTextRect = mFont->rect(mType == ofxDatGuiInputType::COLORPICKER ? "#" + mText : mText);
+            mRendered = mUpperCaseText ? ofToUpper(mText) : mText;
+            mTextRect = mFont->rect(mType == ofxDatGuiInputType::COLORPICKER ? "#" + mRendered : mRendered);
         }
     
         string getText()
@@ -179,14 +179,14 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             if (mHighlightText) {
             // if key is printable or delete
                 if ((key >= 32 && key <= 255) || key == OF_KEY_BACKSPACE || key == OF_KEY_DEL) {
-                    mText = "";
+                    setText("");
                     setCursorIndex(0);
                 }
             }
             if (key == OF_KEY_BACKSPACE){
             // delete character at cursor position //
                 if (mCursorIndex > 0) {
-                    mText = mText.substr(0, mCursorIndex - 1) + mText.substr(mCursorIndex);
+                    setText(mText.substr(0, mCursorIndex - 1) + mText.substr(mCursorIndex));
                     setCursorIndex(mCursorIndex - 1);
                 }
             } else if (key == OF_KEY_LEFT) {
@@ -195,7 +195,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
                 setCursorIndex(min( mCursorIndex + 1, (unsigned int) mText.size()));
             } else {
             // insert character at cursor position //
-                mText = mText.substr(0, mCursorIndex) + (char)key + mText.substr(mCursorIndex);
+                setText(mText.substr(0, mCursorIndex) + (char)key + mText.substr(mCursorIndex));
                 setCursorIndex(mCursorIndex + 1);
             }
             mHighlightText = false;
@@ -263,6 +263,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
     private:
     
         string mText;
+        string mRendered;
         bool mFocused;
         bool mTextChanged;
         bool mHighlightText;

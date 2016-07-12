@@ -36,7 +36,7 @@ class ofxDatGuiTextInput : public ofxDatGuiComponent {
             setTheme(ofxDatGuiComponent::theme.get());
         }
     
-        void setTheme(ofxDatGuiTheme* theme)
+        void setTheme(const ofxDatGuiTheme* theme)
         {
             setComponentStyle(theme);
             mStyle.stripe.color = theme->stripe.textInput;

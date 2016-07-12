@@ -37,6 +37,7 @@ void ofApp::setup()
     
 // register a few callbacks to listen for our gui events //
     gui->onButtonEvent(this, &ofApp::onButtonEvent);
+    gui->onToggleEvent(this, &ofApp::onToggleEvent);
     gui->onSliderEvent(this, &ofApp::onSliderEvent);
     gui->onTextInputEvent(this, &ofApp::onTextInputEvent);
     gui->onColorPickerEvent(this, &ofApp::onColorPickerEvent);
@@ -46,7 +47,7 @@ void ofApp::setup()
     lineWeight = s2->getValue();
     Line::MaxLength = s3->getValue();
     gui->setOpacity(gui->getSlider("datgui opacity")->getScale());
-    drawingPaused = gui->getButton("pause drawing")->getEnabled();
+    drawingPaused = gui->getToggle("pause drawing")->getChecked();
     
 // finally add some generative lines to draw //
     lines.push_back(Line(ofGetWidth()*.2, ofGetHeight()/2, gui->getColorPicker("line 1")->getColor()));
@@ -81,10 +82,13 @@ void ofApp::onSliderEvent(ofxDatGuiSliderEvent e)
 
 void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
 {
-    if (e.target->is("clear")) {
-        reset();
-    }   else if (e.target->is("pause drawing")) {
-        drawingPaused = e.enabled;
+    if (e.target->is("clear")) reset();
+}
+
+void ofApp::onToggleEvent(ofxDatGuiToggleEvent e)
+{
+    if (e.target->is("pause drawing")) {
+        drawingPaused = e.checked;
     }
 }
 

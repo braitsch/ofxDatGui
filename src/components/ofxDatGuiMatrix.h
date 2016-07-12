@@ -156,11 +156,12 @@ class ofxDatGuiMatrix : public ofxDatGuiComponent {
             setTheme(ofxDatGuiComponent::theme.get());
         }
     
-        void setTheme(ofxDatGuiTheme* theme)
+        void setTheme(const ofxDatGuiTheme* theme)
         {
             setComponentStyle(theme);
             mFillColor = theme->color.inputAreaBackground;
             mButtonSize = theme->layout.matrix.buttonSize;
+            mButtonPadding = theme->layout.matrix.buttonPadding;
             mStyle.stripe.color = theme->stripe.matrix;
             attachButtons(theme);
             setWidth(theme->layout.width, theme->layout.labelWidth);
@@ -172,7 +173,7 @@ class ofxDatGuiMatrix : public ofxDatGuiComponent {
             mMatrixRect.x = x + mLabel.width;
             mMatrixRect.y = y + mStyle.padding;
             mMatrixRect.width = mStyle.width - mStyle.padding - mLabel.width;
-            int nCols = floor(mMatrixRect.width / (mButtonSize + mMinPadding));
+            int nCols = floor(mMatrixRect.width / (mButtonSize + mButtonPadding));
             int nRows = ceil(btns.size() / float(nCols));
             float padding = (mMatrixRect.width - (mButtonSize * nCols)) / (nCols - 1);
             for(int i=0; i<btns.size(); i++){
@@ -281,11 +282,11 @@ class ofxDatGuiMatrix : public ofxDatGuiComponent {
     
         int mButtonSize;
         int mNumButtons;
+        int mButtonPadding;
         bool mRadioMode;
         bool mShowLabels;
         ofColor mFillColor;
         ofRectangle mMatrixRect;
-        static const int mMinPadding = 2;
         vector<ofxDatGuiMatrixButton> btns;
 
 };

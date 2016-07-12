@@ -59,13 +59,13 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
             vbo.setColorData(&gColors[0], 6, GL_DYNAMIC_DRAW );
         }
     
-        void setTheme(ofxDatGuiTheme* theme)
+        void setTheme(const ofxDatGuiTheme* theme)
         {
             ofxDatGuiTextInput::setTheme(theme);
             mStyle.stripe.color = theme->stripe.colorPicker;
             pickerRect = ofRectangle(0, 0, mInput.getWidth(), (mStyle.height + mStyle.padding) * 3);
             rainbow.image = theme->icon.rainbow;
-            rainbow.rect = ofRectangle(0, 0, 20, pickerRect.height - (mStyle.padding * 2));
+            rainbow.rect = ofRectangle(0, 0, theme->layout.colorPicker.rainbowWidth, pickerRect.height - (mStyle.padding * 2));
             gradientRect = ofRectangle(0, 0, pickerRect.width - rainbow.rect.width - (mStyle.padding * 3), rainbow.rect.height);
             pickerBorder = theme->color.colorPicker.border;
             setTextFieldInputColor();

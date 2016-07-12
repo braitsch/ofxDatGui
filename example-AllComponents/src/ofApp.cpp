@@ -23,7 +23,7 @@ void ofApp::setup()
     y += component->getHeight() + p;
     component = new ofxDatGuiToggle("toggle", false);
     component->setPosition(x, y);
-    component->onButtonEvent(this, &ofApp::onButtonEvent);
+    component->onToggleEvent(this, &ofApp::onToggleEvent);
     components.push_back(component);
 
     y += component->getHeight() + p;
@@ -109,7 +109,12 @@ void ofApp::draw()
 
 void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
 {
-    cout << "onButtonEvent: " << e.target->getLabel() << "::" << e.enabled << endl;
+    cout << "onButtonEvent: " << e.target->getLabel() << endl;
+}
+
+void ofApp::onToggleEvent(ofxDatGuiToggleEvent e)
+{
+    cout << "onToggleEvent: " << e.target->getLabel() << "::" <<  e.target->getChecked() << endl;
 }
 
 void ofApp::onSliderEvent(ofxDatGuiSliderEvent e)

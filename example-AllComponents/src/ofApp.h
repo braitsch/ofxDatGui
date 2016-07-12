@@ -14,6 +14,7 @@ class ofApp : public ofBaseApp{
         vector<ofxDatGuiComponent*> components;
     
 		void onButtonEvent(ofxDatGuiButtonEvent e);
+        void onToggleEvent(ofxDatGuiToggleEvent e);
         void onSliderEvent(ofxDatGuiSliderEvent e);
         void onDropdownEvent(ofxDatGuiDropdownEvent e);
         void onMatrixEvent(ofxDatGuiMatrixEvent e);

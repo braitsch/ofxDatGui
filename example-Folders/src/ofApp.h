@@ -15,6 +15,7 @@ class ofApp : public ofBaseApp{
         ofxDatGuiFolder* f2;
     
         void onButtonEvent(ofxDatGuiButtonEvent e);
+        void onToggleEvent(ofxDatGuiToggleEvent e);
         void onSliderEvent(ofxDatGuiSliderEvent e);
         void onMatrixEvent(ofxDatGuiMatrixEvent e);
         void on2dPadEvent(ofxDatGui2dPadEvent e);
