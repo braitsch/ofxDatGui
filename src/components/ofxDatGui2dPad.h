@@ -47,6 +47,11 @@ class ofxDatGui2dPad : public ofxDatGuiComponent {
             ofAddListener(ofEvents().windowResized, this, &ofxDatGui2dPad::onWindowResized);
         }
     
+        ~ofxDatGui2dPad()
+        {
+            ofRemoveListener(ofEvents().windowResized, this, &ofxDatGui2dPad::onWindowResized);
+        }
+    
         void setTheme(const ofxDatGuiTheme* theme)
         {
             setComponentStyle(theme);

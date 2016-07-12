@@ -98,6 +98,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
     
     private:
     
+        int mIndex;
         int mWidth;
         int mHeight;
         int mRowSpacing;

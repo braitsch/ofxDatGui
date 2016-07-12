@@ -43,10 +43,10 @@ ofxDatGui::ofxDatGui(ofxDatGuiAnchor anchor)
 ofxDatGui::~ofxDatGui()
 {
     for (auto i:items) delete i;
-    if (mActiveGui == this) mActiveGui = nullptr;
     mGuis.erase(std::remove(mGuis.begin(), mGuis.end(), this), mGuis.end());
-    ofRemoveListener(ofEvents().draw, this, &ofxDatGui::onDraw, OF_EVENT_ORDER_AFTER_APP);
-    ofRemoveListener(ofEvents().update, this, &ofxDatGui::onUpdate, OF_EVENT_ORDER_BEFORE_APP);
+    if (mActiveGui == this) mActiveGui = mGuis.size() > 0 ? mGuis[0] : nullptr;
+    ofRemoveListener(ofEvents().draw, this, &ofxDatGui::onDraw, OF_EVENT_ORDER_AFTER_APP + mIndex);
+    ofRemoveListener(ofEvents().update, this, &ofxDatGui::onUpdate, OF_EVENT_ORDER_BEFORE_APP - mIndex);
     ofRemoveListener(ofEvents().windowResized, this, &ofxDatGui::onWindowResized, OF_EVENT_ORDER_BEFORE_APP);
 }
 
@@ -69,7 +69,7 @@ void ofxDatGui::init()
     mGuiBackground = ofxDatGuiComponent::getTheme()->color.guiBackground;
     
 // enable autodraw by default //
-    setAutoDraw(true);
+    setAutoDraw(true, mGuis.size());
     
 // assign focus to this newly created gui //
     mActiveGui = this;
@@ -181,11 +181,12 @@ void ofxDatGui::setEnabled(bool enabled)
 void ofxDatGui::setAutoDraw(bool autodraw, int priority)
 {
     mAutoDraw = autodraw;
-    ofRemoveListener(ofEvents().draw, this, &ofxDatGui::onDraw);
-    ofRemoveListener(ofEvents().update, this, &ofxDatGui::onUpdate);
+    ofRemoveListener(ofEvents().draw, this, &ofxDatGui::onDraw, OF_EVENT_ORDER_AFTER_APP + mIndex);
+    ofRemoveListener(ofEvents().update, this, &ofxDatGui::onUpdate, OF_EVENT_ORDER_BEFORE_APP - mIndex);
     if (mAutoDraw){
-        ofAddListener(ofEvents().draw, this, &ofxDatGui::onDraw, OF_EVENT_ORDER_AFTER_APP + priority);
-        ofAddListener(ofEvents().update, this, &ofxDatGui::onUpdate, OF_EVENT_ORDER_BEFORE_APP - priority);
+        mIndex = priority;
+        ofAddListener(ofEvents().draw, this, &ofxDatGui::onDraw, OF_EVENT_ORDER_AFTER_APP + mIndex);
+        ofAddListener(ofEvents().update, this, &ofxDatGui::onUpdate, OF_EVENT_ORDER_BEFORE_APP - mIndex);
     }
 }
 

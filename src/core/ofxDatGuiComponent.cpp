@@ -43,7 +43,9 @@ ofxDatGuiComponent::ofxDatGuiComponent(string label)
 
 ofxDatGuiComponent::~ofxDatGuiComponent()
 {
-    //  cout << "ofxDatGuiComponent "<< mName << " destroyed" << endl;
+//  cout << "ofxDatGuiComponent "<< mName << " destroyed" << endl;
+    ofRemoveListener(ofEvents().keyPressed, this, &ofxDatGuiComponent::onKeyPressed);
+    ofRemoveListener(ofEvents().windowResized, this, &ofxDatGuiComponent::onWindowResized);
 }
 
 /*

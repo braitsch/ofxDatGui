@@ -35,6 +35,12 @@ class ofxDatGuiScrollView : public ofxDatGuiComponent {
             ofAddListener(ofEvents().mouseScrolled, this, &ofxDatGuiScrollView::onMouseScrolled, OF_EVENT_ORDER_BEFORE_APP);
         }
     
+        ~ofxDatGuiScrollView()
+        {
+            mTheme = nullptr;
+            ofRemoveListener(ofEvents().mouseScrolled, this, &ofxDatGuiScrollView::onMouseScrolled, OF_EVENT_ORDER_BEFORE_APP);
+        }
+    
     /*
         list manipulation
     */
