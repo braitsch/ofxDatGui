@@ -159,7 +159,7 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
         {
             mChecked = !mChecked;
             if (mParamB != nullptr) {
-                mParamB->set(mEnabled);
+                mParamB->set(mChecked);
             }
             ofxDatGuiComponent::onFocusLost();
             ofxDatGuiComponent::onMouseRelease(m);
@@ -177,7 +177,7 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
         ofParameter<bool>* mParamB = nullptr;
         shared_ptr<ofImage> radioOn;
         shared_ptr<ofImage> radioOff;
-        void onParamB(bool& n) { setEnabled(n); }
+        void onParamB(bool& n) { setChecked(n); }
 
 };
 
