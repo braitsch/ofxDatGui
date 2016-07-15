@@ -284,7 +284,16 @@ class ofxDatGuiFolder : public ofxDatGuiGroup {
             attachItem(toggle);
             return toggle;
         }
-    
+	
+		ofxDatGuiToggle* addToggle(ofParameter<bool> &p)
+		{
+			ofxDatGuiToggle* toggle = new ofxDatGuiToggle(p);
+			toggle->setStripeColor(mStyle.stripe.color);
+			toggle->onToggleEvent(this, &ofxDatGuiFolder::dispatchToggleEvent);
+			attachItem(toggle);
+			return toggle;
+		}
+
         ofxDatGuiSlider* addSlider(string label, float min, float max)
         {
             ofxDatGuiSlider* slider = addSlider(label, min, max, (max+min)/2);

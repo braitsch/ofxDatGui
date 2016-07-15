@@ -12,6 +12,7 @@ void ofApp::setup()
     p1.set("position X", 75, 0, 120);
     p2.set("position Y", 200.0f, -40.0f, 240.0f);
     p3.set("position Z", -40, -80, 120);
+	p4.set("Fill", true);
     
 /*
     build a gui of sliders from three ofParameters
@@ -21,6 +22,7 @@ void ofApp::setup()
     gui->addSlider(p1);
     gui->addSlider(p2);
     gui->addSlider(p3);
+	gui->addToggle(p4);
     gui->setPosition(ofGetWidth()/2 - gui->getWidth() - 20, 100);
     gui->onSliderEvent(this, &ofApp::onSliderEvent);
  
@@ -39,6 +41,9 @@ void ofApp::setup()
 
     s3 = new ofxDatGuiSlider(p3);
     s3->setPosition(x, s2->getY() + s2->getHeight() + 2);
+	
+	t4 = new ofxDatGuiToggle(p4);
+	t4->setPosition(x, s3->getY() + s3->getHeight() + 2);
 
     s1->onSliderEvent(this, &ofApp::onSliderEvent);
     s2->onSliderEvent(this, &ofApp::onSliderEvent);
@@ -50,6 +55,7 @@ void ofApp::update()
     s1->update();
     s2->update();
     s3->update();
+	t4->update();
 }
 
 void ofApp::draw()
@@ -58,6 +64,7 @@ void ofApp::draw()
     s1->draw();
     s2->draw();
     s3->draw();
+	t4->draw();
 }
 
 void ofApp::onSliderEvent(ofxDatGuiSliderEvent e)
