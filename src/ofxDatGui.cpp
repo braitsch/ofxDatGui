@@ -414,6 +414,59 @@ ofxDatGuiFolder* ofxDatGui::addFolder(string label, ofColor color)
     return folder;
 }
 
+ofxDatGuiFolder* ofxDatGui::addParameterGroup(ofParameterGroup group)
+{
+	ofxDatGuiFolder* folder = addFolder(group.getName());
+	
+	for (std::size_t i = 0; i < group.size(); i++)
+	{
+		string type = group.getType(i);
+		if (type == typeid(ofParameter <int> ).name())
+		{
+			folder->addSlider(group.getInt(i));
+		}
+		else if (type == typeid(ofParameter<float> ).name())
+		{
+			folder->addSlider(group.getFloat(i));
+		}
+//		else if(type == typeid(ofParameter <double> ).name()){
+//			auto p = group.get<double>(i);
+////			folder->addSlider(p);
+//		}
+		else if(type == typeid(ofParameter <bool> ).name()){
+			auto p = group.getBool(i);
+			folder->addToggle(p);
+		}
+		else
+		{
+			ofLog(OF_LOG_WARNING, "Type %s is not yet implemented in ofxDatGui::addParameterGroup", type.c_str());
+		}
+	}
+//		else if(type == typeid(ofParameter <ofVec2f> ).name()){
+//			auto p = _parameters.getVec2f(i);
+//			add(p);
+//		}else if(type == typeid(ofParameter <ofVec3f> ).name()){
+//			auto p = _parameters.getVec3f(i);
+//			add(p);
+//		}else if(type == typeid(ofParameter <ofVec4f> ).name()){
+//			auto p = _parameters.getVec4f(i);
+//			add(p);
+//		}else if(type == typeid(ofParameter <ofColor> ).name()){
+//			auto p = _parameters.getColor(i);
+//			add(p);
+//		}else if(type == typeid(ofParameter <ofShortColor> ).name()){
+//			auto p = _parameters.getShortColor(i);
+//			add(p);
+//		}else if(type == typeid(ofParameter <ofFloatColor> ).name()){
+//			auto p = _parameters.getFloatColor(i);
+//			add(p);
+//		}else if(type == typeid(ofParameter <string> ).name()){
+//			auto p = _parameters.getString(i);
+//			add(p);
+//			
+//		}
+}
+
 ofxDatGuiFolder* ofxDatGui::addFolder(ofxDatGuiFolder* folder)
 {
     attachItem(folder);

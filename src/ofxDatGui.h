@@ -82,7 +82,9 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofxDatGuiMatrix* addMatrix(string label, int numButtons, bool showLabels = false);
         ofxDatGuiFolder* addFolder(string label, ofColor color = ofColor::white);
         ofxDatGuiFolder* addFolder(ofxDatGuiFolder* folder);
-    
+	
+		ofxDatGuiFolder* addParameterGroup(ofParameterGroup group);
+	
         ofxDatGuiHeader* getHeader();
         ofxDatGuiFooter* getFooter();
         ofxDatGuiLabel* getLabel(string label, string folder = "");
