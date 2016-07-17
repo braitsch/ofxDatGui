@@ -324,7 +324,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup {
             attachItem(slider);
             return slider;
         }
-    
+	
         ofxDatGuiTextInput* addTextInput(string label, string value)
         {
             ofxDatGuiTextInput* input = new ofxDatGuiTextInput(label, value);
