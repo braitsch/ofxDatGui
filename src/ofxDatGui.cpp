@@ -414,7 +414,7 @@ ofxDatGuiFolder* ofxDatGui::addFolder(string label, ofColor color)
     return folder;
 }
 
-ofxDatGuiFolder* ofxDatGui::addParameterGroup(ofParameterGroup group)
+ofxDatGuiFolder* ofxDatGui::addParameterGroup(ofParameterGroup& group)
 {
 	ofxDatGuiFolder* folder = addFolder(group.getName());
 	
@@ -434,8 +434,7 @@ ofxDatGuiFolder* ofxDatGui::addParameterGroup(ofParameterGroup group)
 ////			folder->addSlider(p);
 //		}
 		else if(type == typeid(ofParameter <bool> ).name()){
-			auto p = group.getBool(i);
-			folder->addToggle(p);
+			folder->addToggle(group.getBool(i));
 		}
 		else
 		{
