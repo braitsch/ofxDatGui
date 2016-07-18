@@ -158,24 +158,35 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
     
         void onMouseRelease(ofPoint m)
         {
-            mChecked = !mChecked;
-			mParamBool->set(mChecked);
+			mChecked = !mChecked;
+			if (mParamBool != nullptr) {
+				mParamBool->set(mChecked);
+			} else {
+				// dispatch event out to main application //
+				if (toggleEventCallback == nullptr) {
+					// attempt to call generic button callback //
+					ofxDatGuiButton::onMouseRelease(m);
+				}   else {
+					toggleEventCallback(ofxDatGuiToggleEvent(this, mChecked));
+				}
+			}
+			
             ofxDatGuiComponent::onFocusLost();
             ofxDatGuiComponent::onMouseRelease(m);
-        // dispatch event out to main application //
-            if (toggleEventCallback == nullptr) {
-        // attempt to call generic button callback //
-                ofxDatGuiButton::onMouseRelease(m);
-            }   else {
-                toggleEventCallback(ofxDatGuiToggleEvent(this, mChecked));
-            }
-        }
+		}
     
     private:
 	
 		void onParamB(bool& v)
 		{
 			mChecked = v;
+			// dispatch event out to main application //
+			if (toggleEventCallback == nullptr) {
+				// attempt to call generic button callback //
+				ofxDatGuiButton::onMouseRelease(ofPoint(ofGetMouseX(), ofGetMouseY()));
+			} else {
+				toggleEventCallback(ofxDatGuiToggleEvent(this, mChecked));
+			}
 		}
 	
         bool mChecked;
