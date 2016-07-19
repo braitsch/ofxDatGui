@@ -99,7 +99,7 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
             setTheme(ofxDatGuiComponent::theme.get());
         }
 	
-		ofxDatGuiToggle(ofParameter<bool>& param) : ofxDatGuiToggle(param.getName(), param.get())
+		ofxDatGuiToggle(ofParameter<bool> & param) : ofxDatGuiToggle(param.getName(), param.get())
 		{
 			mParamBool = &param;
 			mParamBool->addListener(this, &ofxDatGuiToggle::onParamB);
@@ -179,7 +179,7 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
 		}
 	
         bool mChecked;
-		ofParameter<bool>* mParamBool;
+		ofParameter<bool>* mParamBool = nullptr;
         shared_ptr<ofImage> radioOn;
         shared_ptr<ofImage> radioOff;
 

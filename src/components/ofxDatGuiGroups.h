@@ -285,7 +285,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup {
             return toggle;
         }
 	
-		ofxDatGuiToggle* addToggle(ofParameter<bool> &p)
+		ofxDatGuiToggle* addToggle(ofParameter<bool> & p)
 		{
 			ofxDatGuiToggle* toggle = new ofxDatGuiToggle(p);
 			toggle->setStripeColor(mStyle.stripe.color);
