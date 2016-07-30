@@ -142,13 +142,18 @@ void ofxDatGui::setWidth(int width, float labelWidth)
     if (mAnchor != ofxDatGuiAnchor::NO_ANCHOR) anchorGui();
 }
 
-void ofxDatGui::setTheme(ofxDatGuiTheme* t)
+void ofxDatGui::setTheme(ofxDatGuiTheme* t, bool applyImmediately)
 {
-    mTheme = t;
-    setWidth(t->layout.width, t->layout.labelWidth);
+    if (applyImmediately){
+        for(auto item:items) item->setTheme(t);
+    }   else{
+    // apply on next update call //
+        mTheme = t;
+        mThemeChanged = true;
+    }
     mRowSpacing = t->layout.vMargin;
     mGuiBackground = t->color.guiBackground;
-    mThemeChanged = true;
+    setWidth(t->layout.width, t->layout.labelWidth);
 }
 
 void ofxDatGui::setOpacity(float opacity)

@@ -46,7 +46,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         void setOpacity(float opacity);
         void setPosition(int x, int y);
         void setPosition(ofxDatGuiAnchor anchor);
-        void setTheme(ofxDatGuiTheme* t);
+        void setTheme(ofxDatGuiTheme* t, bool applyImmediately = false);
         void setAutoDraw(bool autodraw, int priority = 0);
         void setLabelAlignment(ofxDatGuiAlignment align);
         static void setAssetPath(string path);
