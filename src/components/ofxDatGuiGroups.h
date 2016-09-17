@@ -36,9 +36,10 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
 
     public:
     
-        ofxDatGuiGroup(string label) : ofxDatGuiButton(label)
+        ofxDatGuiGroup(string label) : ofxDatGuiButton(label), mHeight(0)
         {
             mIsExpanded = false;
+            layout();
         }
     
         ~ofxDatGuiGroup()
