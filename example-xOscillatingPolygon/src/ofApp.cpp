@@ -23,10 +23,6 @@ void ofApp::setup()
     gui->on2dPadEvent(this, &ofApp::on2dPadEvent);
     gui->onColorPickerEvent(this, &ofApp::onColorPickerEvent);
     gui->setOpacity(.5);
-
-// let's launch the app fullscreen //
-    isFullscreen = true;
-    ofSetFullscreen(isFullscreen);
     
 // setup the poly and default gui settings //
     reset();
@@ -107,18 +103,6 @@ void ofApp::update()
 {
     oscillator+=(0.25 * float(zSpeed));
     poly.setRadius((sin(oscillator)*maxRadius) + (maxRadius+minRadius));
-}
-
-void ofApp::keyPressed(int key)
-{
-    if (key == 'f') {
-        isFullscreen =!isFullscreen;
-        ofSetFullscreen(isFullscreen);
-        if (!isFullscreen) {
-            ofSetWindowShape(1920, 1080);
-            ofSetWindowPosition((ofGetScreenWidth()/2)-(1920/2), 0);
-        }
-    }
 }
 
 

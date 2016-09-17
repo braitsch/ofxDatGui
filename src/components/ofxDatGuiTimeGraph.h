@@ -46,7 +46,7 @@ class ofxDatGuiTimeGraph : public ofxDatGuiComponent {
         ofxDatGuiTimeGraph(string label) : ofxDatGuiComponent(label)
         {
             mDrawFunc = &ofxDatGuiTimeGraph::drawFilled;
-            setTheme(ofxDatGuiComponent::theme.get());
+            setTheme(ofxDatGuiComponent::getTheme());
         }
     
         void setTheme(const ofxDatGuiTheme* theme)
@@ -154,7 +154,7 @@ class ofxDatGuiWaveMonitor : public ofxDatGuiTimeGraph {
             setAmplitude(amplitude);
             setFrequency(frequency);
             mType = ofxDatGuiType::WAVE_MONITOR;
-            setTheme(ofxDatGuiComponent::theme.get());
+            setTheme(ofxDatGuiComponent::getTheme());
         }
     
         static ofxDatGuiWaveMonitor* getInstance()

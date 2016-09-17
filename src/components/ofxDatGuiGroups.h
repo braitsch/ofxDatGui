@@ -164,7 +164,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup {
         // all items within a folder share the same stripe color //
             mStyle.stripe.color = color;
             mType = ofxDatGuiType::FOLDER;
-            setTheme(ofxDatGuiComponent::theme.get());
+            setTheme(ofxDatGuiComponent::getTheme());
         }
     
         void setTheme(const ofxDatGuiTheme* theme)
@@ -417,7 +417,7 @@ class ofxDatGuiDropdownOption : public ofxDatGuiButton {
         ofxDatGuiDropdownOption(string label) : ofxDatGuiButton(label)
         {
             mType = ofxDatGuiType::DROPDOWN_OPTION;
-            setTheme(ofxDatGuiComponent::theme.get());
+            setTheme(ofxDatGuiComponent::getTheme());
         }
     
         void setTheme(const ofxDatGuiTheme* theme)
@@ -450,7 +450,7 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
                 opt->onButtonEvent(this, &ofxDatGuiDropdown::onOptionSelected);
                 children.push_back(opt);
             }
-            setTheme(ofxDatGuiComponent::theme.get());
+            setTheme(ofxDatGuiComponent::getTheme());
         }
     
         void setTheme(const ofxDatGuiTheme* theme)

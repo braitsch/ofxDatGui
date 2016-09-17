@@ -23,9 +23,7 @@ class ofApp : public ofBaseApp{
         int lineWeight;
         ofColor lineColor;
         ofColor bkgdColor;
-		bool isFullscreen;
     
-        void keyPressed(int key);
         void onButtonEvent(ofxDatGuiButtonEvent e);
         void onSliderEvent(ofxDatGuiSliderEvent e);
         void on2dPadEvent(ofxDatGui2dPadEvent e);

@@ -37,7 +37,7 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
             mInput = new ofxDatGuiTextInputField();
             mInput->setTextInputFieldType(ofxDatGuiInputType::NUMERIC);
             mInput->onInternalEvent(this, &ofxDatGuiSlider::onInputChanged);
-            setTheme(ofxDatGuiComponent::theme.get());
+            setTheme(ofxDatGuiComponent::getTheme());
             setValue(val);
         }
     

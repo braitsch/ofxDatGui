@@ -30,7 +30,7 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
         ofxDatGuiHeader(string label, bool draggable = true) : ofxDatGuiButton(label)
         {
             mDraggable = draggable;
-            setTheme(ofxDatGuiComponent::theme.get());
+            setTheme(ofxDatGuiComponent::getTheme());
         }
     
         void setTheme(const ofxDatGuiTheme* theme)
@@ -101,7 +101,7 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
             mGuiExpanded = true;
             mLabelCollapsed = "expand controls";
             mLabelExpanded = "collapse controls";
-            setTheme(ofxDatGuiComponent::theme.get());
+            setTheme(ofxDatGuiComponent::getTheme());
         }
     
         void setTheme(const ofxDatGuiTheme* theme)
