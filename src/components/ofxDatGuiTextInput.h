@@ -33,7 +33,7 @@ class ofxDatGuiTextInput : public ofxDatGuiComponent {
             mInput.setText(text);
             mInput.onInternalEvent(this, &ofxDatGuiTextInput::onInputChanged);
             mType = ofxDatGuiType::TEXT_INPUT;
-            setTheme(ofxDatGuiComponent::theme.get());
+            setTheme(ofxDatGuiComponent::getTheme());
         }
     
         void setTheme(const ofxDatGuiTheme* theme)

@@ -29,8 +29,7 @@ class ofxDatGuiBreak : public ofxDatGuiComponent{
     
         ofxDatGuiBreak() : ofxDatGuiComponent("break")
         {
-            mType = ofxDatGuiType::BREAK;
-            setTheme(ofxDatGuiComponent::theme.get());
+            setTheme(ofxDatGuiComponent::getTheme());
         }
     
         void setTheme(const ofxDatGuiTheme* theme)
@@ -68,7 +67,7 @@ class ofxDatGuiLabel : public ofxDatGuiComponent{
         ofxDatGuiLabel(string label) : ofxDatGuiComponent(label)
         {
             mType = ofxDatGuiType::LABEL;
-            setTheme(ofxDatGuiComponent::theme.get());
+            setTheme(ofxDatGuiComponent::getTheme());
         }
     
         void setTheme(const ofxDatGuiTheme* theme)

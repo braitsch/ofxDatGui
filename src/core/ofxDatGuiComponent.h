@@ -112,7 +112,6 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         ofxDatGuiType mType;
         ofxDatGuiAnchor mAnchor;
         shared_ptr<ofxSmartFont> mFont;
-        static unique_ptr<ofxDatGuiTheme> theme;
     
         struct{
             float width;
@@ -166,6 +165,10 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         void drawBackground();
         void positionLabel();
         void setComponentStyle(const ofxDatGuiTheme* t);
+    
+    private:
+    
+        static unique_ptr<ofxDatGuiTheme> theme;
     
 };
 

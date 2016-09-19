@@ -32,7 +32,7 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
             mColor = color;
             mShowPicker = false;
             mType = ofxDatGuiType::COLOR_PICKER;
-            setTheme(ofxDatGuiComponent::theme.get());
+            setTheme(ofxDatGuiComponent::getTheme());
             
         // center the text input field //
             mInput.setTextInputFieldType(ofxDatGuiInputType::COLORPICKER);

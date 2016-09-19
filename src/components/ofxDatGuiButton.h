@@ -96,7 +96,7 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
         {
             mChecked = checked;
             mType = ofxDatGuiType::TOGGLE;
-            setTheme(ofxDatGuiComponent::theme.get());
+            setTheme(ofxDatGuiComponent::getTheme());
         }
     
         void setTheme(const ofxDatGuiTheme* theme)
