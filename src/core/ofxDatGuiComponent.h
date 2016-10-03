@@ -39,8 +39,11 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         bool    is(string name);
     
         void    setLabel(string label);
-        void    setLabelColor(ofColor color);
         string  getLabel();
+        void    setLabelColor(ofColor color);
+        ofColor getLabelColor();
+        void    setLabelUpperCase(bool toUpper);
+        bool    getLabelUpperCase();
     
         void    setBackgroundColor(ofColor color);
         void    setBackgroundColorOnMouseOver(ofColor color);

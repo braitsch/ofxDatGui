@@ -139,6 +139,17 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
             color.inactive.text = c;
         }
     
+        void setTextUpperCase(bool toUpper)
+        {
+            mUpperCaseText = toUpper;
+            setText(mText);
+        }
+    
+        bool getTextUpperCase()
+        {
+            return mUpperCaseText;
+        }
+    
         void setTextInputFieldType(ofxDatGuiInputType type)
         {
             mType = type;
