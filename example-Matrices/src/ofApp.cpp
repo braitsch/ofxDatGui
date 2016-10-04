@@ -41,7 +41,7 @@ void ofApp::draw()
         float x = w * (i%numCols);
         float y = h * (floor(i/numCols));
     // fill the box if the corresponding button in the matrix is selected //
-        if (matrix->getChildAt(i)->getSelected() == true) {
+        if (matrix->getButtonAtIndex(i)->getSelected() == true) {
             ofFill();
             ofSetColor(ofColor::fromHex(0xEEEEEE));
             ofDrawRectangle(x, y, w, h);

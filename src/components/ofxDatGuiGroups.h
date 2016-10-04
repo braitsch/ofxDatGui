@@ -152,6 +152,114 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
         shared_ptr<ofImage> mIconOpen;
         shared_ptr<ofImage> mIconClosed;
         bool mIsExpanded;
+
+};
+
+
+class ofxDatGuiDropdownOption : public ofxDatGuiButton {
+
+    public:
+
+        ofxDatGuiDropdownOption(string label) : ofxDatGuiButton(label)
+        {
+            mType = ofxDatGuiType::DROPDOWN_OPTION;
+            setTheme(ofxDatGuiComponent::getTheme());
+        }
+
+        void setTheme(const ofxDatGuiTheme* theme)
+        {
+            ofxDatGuiButton::setTheme(theme);
+            mStyle.stripe.color = theme->stripe.dropdown;
+        }
+
+        void setWidth(int width, float labelWidth = 1)
+        {
+            ofxDatGuiComponent::setWidth(width, labelWidth);
+            mLabel.width = mStyle.width;
+            mLabel.rightAlignedXpos = mIcon.x - mLabel.margin;
+            ofxDatGuiComponent::positionLabel();
+        }
+
+};
+
+class ofxDatGuiDropdown : public ofxDatGuiGroup {
+
+    public:
+
+        ofxDatGuiDropdown(string label, const vector<string>& options = vector<string>()) : ofxDatGuiGroup(label)
+        {
+            mOption = 0;
+            mType = ofxDatGuiType::DROPDOWN;
+            for(int i=0; i<options.size(); i++){
+                ofxDatGuiDropdownOption* opt = new ofxDatGuiDropdownOption(options[i]);
+                opt->setIndex(children.size());
+                opt->onButtonEvent(this, &ofxDatGuiDropdown::onOptionSelected);
+                children.push_back(opt);
+            }
+            setTheme(ofxDatGuiComponent::getTheme());
+        }
+
+        void setTheme(const ofxDatGuiTheme* theme)
+        {
+            setComponentStyle(theme);
+            mIconOpen = theme->icon.groupOpen;
+            mIconClosed = theme->icon.groupClosed;
+            mStyle.stripe.color = theme->stripe.dropdown;
+            setWidth(theme->layout.width, theme->layout.labelWidth);
+        }
+
+        void setWidth(int width, float labelWidth = 1)
+        {
+            ofxDatGuiComponent::setWidth(width, labelWidth);
+            mLabel.width = mStyle.width;
+            mLabel.rightAlignedXpos = mIcon.x - mLabel.margin;
+            ofxDatGuiComponent::positionLabel();
+        }
+
+        void select(int cIndex)
+        {
+        // ensure value is in range //
+            if (cIndex < 0 || cIndex >= children.size()){
+                ofLogError() << "ofxDatGuiDropdown->select("<<cIndex<<") is out of range";
+            }   else{
+                setLabel(children[cIndex]->getLabel());
+            }
+        }
+
+        int size()
+        {
+            return children.size();
+        }
+
+        ofxDatGuiDropdownOption* getChildAt(int index)
+        {
+            return static_cast<ofxDatGuiDropdownOption*>(children[index]);
+        }
+
+        ofxDatGuiDropdownOption* getSelected()
+        {
+            return static_cast<ofxDatGuiDropdownOption*>(children[mOption]);
+        }
+
+        static ofxDatGuiDropdown* getInstance() { return new ofxDatGuiDropdown("X"); }
+
+    private:
+
+        void onOptionSelected(ofxDatGuiButtonEvent e)
+        {
+            for(int i=0; i<children.size(); i++) if (e.target == children[i]) mOption = i;
+            setLabel(children[mOption]->getLabel());
+            collapse();
+            if (dropdownEventCallback != nullptr) {
+                ofxDatGuiDropdownEvent e1(this, mIndex, mOption);
+                dropdownEventCallback(e1);
+            }   else{
+                ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+            }
+        }
+
+        int mOption;
+
     
 };
 
@@ -385,6 +493,13 @@ class ofxDatGuiFolder : public ofxDatGuiGroup {
             return plotter;
         }
     
+        ofxDatGuiDropdown* addDropdown(string label, vector<string> opts)
+        {
+            ofxDatGuiDropdown* menu = new ofxDatGuiDropdown(label, opts);
+            menu->setStripeColor(mStyle.stripe.color);
+            attachItem(menu);
+            return menu;
+        }
         void attachItem(ofxDatGuiComponent* item)
         {
             item->setIndex(children.size());
@@ -402,118 +517,15 @@ class ofxDatGuiFolder : public ofxDatGuiGroup {
             return NULL;
         }
 
+        void removeComponent(ofxDatGuiType type, string name){
+            ofxDatGuiComponent* cpt = getComponent(type,name);
+            children.erase(std::remove(children.begin(),children.end(),cpt), children.end());
+        }
+
         static ofxDatGuiFolder* getInstance() { return new ofxDatGuiFolder("X"); }
 
     protected:
-    
+
         vector<shared_ptr<ofxDatGuiColorPicker>> pickers;
-    
-};
-
-class ofxDatGuiDropdownOption : public ofxDatGuiButton {
-
-    public:
-    
-        ofxDatGuiDropdownOption(string label) : ofxDatGuiButton(label)
-        {
-            mType = ofxDatGuiType::DROPDOWN_OPTION;
-            setTheme(ofxDatGuiComponent::getTheme());
-        }
-    
-        void setTheme(const ofxDatGuiTheme* theme)
-        {
-            ofxDatGuiButton::setTheme(theme);
-            mStyle.stripe.color = theme->stripe.dropdown;
-        }
-    
-        void setWidth(int width, float labelWidth = 1)
-        {
-            ofxDatGuiComponent::setWidth(width, labelWidth);
-            mLabel.width = mStyle.width;
-            mLabel.rightAlignedXpos = mIcon.x - mLabel.margin;
-            ofxDatGuiComponent::positionLabel();
-        }
 
 };
-
-class ofxDatGuiDropdown : public ofxDatGuiGroup {
-
-    public:
-
-        ofxDatGuiDropdown(string label, const vector<string>& options = vector<string>()) : ofxDatGuiGroup(label)
-        {
-            mOption = 0;
-            mType = ofxDatGuiType::DROPDOWN;
-            for(int i=0; i<options.size(); i++){
-                ofxDatGuiDropdownOption* opt = new ofxDatGuiDropdownOption(options[i]);
-                opt->setIndex(children.size());
-                opt->onButtonEvent(this, &ofxDatGuiDropdown::onOptionSelected);
-                children.push_back(opt);
-            }
-            setTheme(ofxDatGuiComponent::getTheme());
-        }
-    
-        void setTheme(const ofxDatGuiTheme* theme)
-        {
-            setComponentStyle(theme);
-            mIconOpen = theme->icon.groupOpen;
-            mIconClosed = theme->icon.groupClosed;
-            mStyle.stripe.color = theme->stripe.dropdown;
-            setWidth(theme->layout.width, theme->layout.labelWidth);
-        }
-    
-        void setWidth(int width, float labelWidth = 1)
-        {
-            ofxDatGuiComponent::setWidth(width, labelWidth);
-            mLabel.width = mStyle.width;
-            mLabel.rightAlignedXpos = mIcon.x - mLabel.margin;
-            ofxDatGuiComponent::positionLabel();
-        }
-    
-        void select(int cIndex)
-        {
-        // ensure value is in range //
-            if (cIndex < 0 || cIndex >= children.size()){
-                ofLogError() << "ofxDatGuiDropdown->select("<<cIndex<<") is out of range";
-            }   else{
-                setLabel(children[cIndex]->getLabel());
-            }
-        }
-
-        int size()
-        {
-            return children.size();
-        }
-    
-        ofxDatGuiDropdownOption* getChildAt(int index)
-        {
-            return static_cast<ofxDatGuiDropdownOption*>(children[index]);
-        }
-    
-        ofxDatGuiDropdownOption* getSelected()
-        {
-            return static_cast<ofxDatGuiDropdownOption*>(children[mOption]);
-        }
-    
-        static ofxDatGuiDropdown* getInstance() { return new ofxDatGuiDropdown("X"); }
-    
-    private:
-    
-        void onOptionSelected(ofxDatGuiButtonEvent e)
-        {
-            for(int i=0; i<children.size(); i++) if (e.target == children[i]) mOption = i;
-            setLabel(children[mOption]->getLabel());
-            collapse();
-            if (dropdownEventCallback != nullptr) {
-                ofxDatGuiDropdownEvent e1(this, mIndex, mOption);
-                dropdownEventCallback(e1);
-            }   else{
-                ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
-            }
-        }
-    
-        int mOption;
-    
-};
-
-

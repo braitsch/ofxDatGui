@@ -663,6 +663,22 @@ ofxDatGuiComponent* ofxDatGui::getComponent(ofxDatGuiType type, string label)
     return NULL;
 }
 
+void ofxDatGui::removeComponent(ofxDatGuiType type, string label)
+{
+    for (auto it : items){
+        if (it->getType() == type && it->is(label)){
+            items.erase(std::remove(items.begin(),items.end(),it),items.end());
+            return;
+        }
+        for (auto c : it->children) {
+            if (c->is(label)) {
+                std::remove(it->children.begin(), it->children.end(), c);
+                return;
+            }
+        }
+    }
+}
+
 /*
     event callbacks
 */
