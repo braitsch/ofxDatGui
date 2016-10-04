@@ -12,11 +12,14 @@ public:
 
         ofxDatGuiButton* add;
         ofxDatGuiButton* remove;
-        ofxDatGui *gui, *guiFolder;
+        ofxDatGui *gui, *guiFolder, *guiMatrix;
         ofxDatGuiFolder * folder;
+        ofxDatGuiMatrix * matrix;
         void positionButtons();
         void onButtonEvent(ofxDatGuiButtonEvent e);
         void onButtonEventFolder(ofxDatGuiButtonEvent e);
         void onGuiButtonEvent(ofxDatGuiButtonEvent e);
+        void onButtonEventMatrix(ofxDatGuiButtonEvent e);
+
 
 };

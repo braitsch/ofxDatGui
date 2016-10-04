@@ -15,9 +15,18 @@ void ofApp::setup()
     guiFolder->addButton("add a button");
     guiFolder->addButton("remove a button");
     // here we store the folder pointer to re-use it later to add some component
-    folder = guiFolder->addFolder("folder");
+    folder = guiFolder->addFolder("Folder");
     // setup event callback
     guiFolder->onButtonEvent(this, &ofApp::onButtonEventFolder);
+
+    guiMatrix = new ofxDatGui();
+    guiMatrix->addHeader("gui with folder");
+    guiMatrix->addButton("add a button");
+    guiMatrix->addButton("remove a button");
+    // here we store the folder pointer to re-use it later to add some component
+    matrix = guiMatrix->addMatrix("Matrix",0);
+    // setup event callback
+    guiMatrix->onButtonEvent(this, &ofApp::onButtonEventMatrix);
 
 // instantiate a basic button and a toggle button //
     add = new ofxDatGuiButton("add a button");
@@ -72,12 +81,24 @@ void ofApp::onButtonEventFolder(ofxDatGuiButtonEvent e)
     }
 }
 
+void ofApp::onButtonEventMatrix(ofxDatGuiButtonEvent e)
+{
+
+  // or we can check against the name of the event target //
+    if (e.target->is("add a button") ){
+      matrix->resize(matrix->size()+1);
+    } else if ( e.target->is("remove a button") ){
+      matrix->resize(matrix->size()-1);
+    }
+}
+
 void ofApp::positionButtons()
 {
-    add->setPosition(ofGetWidth()/2 - add->getWidth()/2, ofGetHeight()/2 - add->getHeight());
-    remove->setPosition(add->getX(), add->getY() + add->getHeight() + 20);
+    add->setPosition(ofGetWidth()/2 - add->getWidth()/2, ofGetHeight()/6 - add->getHeight());
+    remove->setPosition(add->getX() + add->getWidth() + 20, add->getY());
     gui->setPosition(ofGetWidth()/4-gui->getWidth()/2,ofGetHeight()/4);
     guiFolder->setPosition(3*ofGetWidth()/4-guiFolder->getWidth()/2,ofGetHeight()/4);
+    guiMatrix->setPosition(ofGetWidth()/2-guiMatrix->getWidth(), ofGetHeight()/4);
 }
 
 
