@@ -152,10 +152,11 @@ class ofxDatGuiMatrix : public ofxDatGuiComponent {
 
     public:
     
-        ofxDatGuiMatrix(string label, int numButtons, bool showLabels = false) : ofxDatGuiComponent(label)
+
+        ofxDatGuiMatrix(string label, int numButtons, bool showLabels = false) : ofxDatGuiComponent(label), mButtonSize(23)
         {
             mRadioMode = false;
-            mNumButtons = numButtons;
+            mNumButtons = max(numButtons,0);
             mShowLabels = showLabels;
             mType = ofxDatGuiType::MATRIX;
             setTheme(ofxDatGuiComponent::getTheme());
@@ -186,7 +187,7 @@ class ofxDatGuiMatrix : public ofxDatGuiComponent {
                 float by = (mButtonSize + padding) * (floor(i/nCols));
                 btns[i].setPosition(bx, by + mStyle.padding);
             }
-            mStyle.height = (mStyle.padding*2) + ((mButtonSize + padding) * (nRows - 1)) + mButtonSize;
+            mStyle.height = (mStyle.padding*2) + ((mButtonSize + padding) * max((nRows - 1),0)) + mButtonSize;
             mMatrixRect.height = mStyle.height - (mStyle.padding * 2);
         }
     
