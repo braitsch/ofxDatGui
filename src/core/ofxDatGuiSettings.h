@@ -199,10 +199,10 @@ private:
                 ofxDatGuiDropdown* dropdown = static_cast<ofxDatGuiDropdown*> (item);
                 for (int i = 0; i < tagNum ; i++){
                     if (xml.getValue("DROPDOWN:name", "ofxDatGui-default-name-string", i) == name){
-                        string selected = xml.getValue("DROPDOWN:value", dropdown->getSelected()->getName(), 1);
-                        for ( int j = 0; j < dropdown->children.size(); j++){
-                            if ( dropdown->children[i]->getName() == selected ){
-                                dropdown->select(i);
+                        string selected = xml.getValue("DROPDOWN:value", dropdown->getSelected()->getName(), i);
+                        for ( uint j = 0; j < dropdown->children.size(); j++){
+                            if ( dropdown->children[j]->getName() == selected ){
+                                dropdown->select(j);
                                 break;
                             }
                         }
