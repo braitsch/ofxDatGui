@@ -138,7 +138,7 @@ private:
                 for ( int i = 0; i < tagNum ; i++ ){
                     if (xml.getValue("TOGGLE:name", "ofxDatGui-default-name-string", i) == name) {
                         tog->setChecked(xml.getValue("TOGGLE:value",tog->getChecked(), i));
-                        // TODO we may need to trig some callback here
+                        tog->dispatchEvent();
                         break;
                     }
                 }
@@ -151,7 +151,7 @@ private:
                         pt.x = xml.getValue("PAD2D:x",pad->getPoint().x, i);
                         pt.y = xml.getValue("PAD2D:y",pad->getPoint().y, i);
                         pad->setPoint(pt);
-                        // TODO we may need to trig some callback here
+                        pad->dispatchEvent();
                         break;
                     }
                 }
@@ -168,7 +168,7 @@ private:
                             selected.push_back(n);
                         }
                         mat->setSelected(selected);
-                        // TODO we may need to trig some callback here
+                        // mat->dispatchEvent(); // this is buggy, see https://github.com/braitsch/ofxDatGui/issues/104
                         break;
                     }
                 }
@@ -179,7 +179,7 @@ private:
                     if (xml.getValue("SLIDER:name", "ofxDatGui-default-name-string", i) == name) {
                         stringstream ss;
                         slider->setValue(xml.getValue("SLIDER:value", slider->getValue(), i));
-                        // TODO we may need to trig some callback here
+                        slider->dispatchEvent();
                         break;
                     }
                 }
@@ -203,6 +203,7 @@ private:
                         for ( uint j = 0; j < dropdown->children.size(); j++){
                             if ( dropdown->children[j]->getName() == selected ){
                                 dropdown->select(j);
+                                dropdown->dispatchEvent();
                                 break;
                             }
                         }
@@ -215,6 +216,7 @@ private:
                 for (int i = 0; i < tagNum ; i++){
                     if (xml.getValue("TEXT_INPUT:name", "ofxDatGui-default-name-string", i) == name){
                         txtinput->setText(xml.getValue("TEXT_INPUT:value", txtinput->getText(),i));
+                        txtinput->dispatchEvent();
                         break;
                     }
                 }
@@ -228,6 +230,7 @@ private:
                         col.g = xml.getValue("COLOR_PICKER:g", picker->getColor().g, i);
                         col.b = xml.getValue("COLOR_PICKER:b", picker->getColor().b, i);
                         picker->setColor(col);
+                        picker->dispatchEvent();
                         break;
                     }
                 }
