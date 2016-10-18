@@ -234,6 +234,18 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
     
         void dispatchEvent()
         {
+            // update any bound variables //
+            if (mBoundf != nullptr) {
+                *mBoundf = mValue;
+            }   else if (mBoundi != nullptr) {
+                *mBoundi = mValue;
+            }   else if (mParamI != nullptr) {
+                mParamI->set(mValue);
+            }   else if (mParamF != nullptr) {
+                mParamF->set(mValue);
+            }
+
+            // dispatch event out to main application //
             if (sliderEventCallback != nullptr) {
                 ofxDatGuiSliderEvent e(this, mValue, mScale);
                 sliderEventCallback(e);
@@ -268,7 +280,7 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
                 mValue = ((mMax-mMin) * mScale) + mMin;
                 if (mTruncateValue) mValue = round(mValue, mPrecision);
                 setTextInput();
-                dispatchSliderChangedEvent();
+                dispatchEvent();
             }
         }
     
@@ -292,22 +304,6 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
         void onInputChanged(ofxDatGuiInternalEvent e)
         {
             setValue(ofToFloat(mInput->getText()));
-            dispatchSliderChangedEvent();
-        }
-    
-        void dispatchSliderChangedEvent()
-        {
-        // update any bound variables //
-            if (mBoundf != nullptr) {
-                *mBoundf = mValue;
-            }   else if (mBoundi != nullptr) {
-                *mBoundi = mValue;
-            }   else if (mParamI != nullptr) {
-                mParamI->set(mValue);
-            }   else if (mParamF != nullptr) {
-                mParamF->set(mValue);
-            }
-        // dispatch event out to main application //
             dispatchEvent();
         }
 
