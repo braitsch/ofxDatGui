@@ -1,74 +1,91 @@
 <ofxDatGuiSettings>
     <TEXT_INPUT>
         <name>message</name>
-        <value>TXT FIELD</value>
+        <value>test</value>
     </TEXT_INPUT>
     <TEXT_INPUT>
         <name>framerate</name>
-        <value>60.00</value>
+        <value>59.96</value>
     </TEXT_INPUT>
     <FOLDER>
-        <name>white folder</name>
+        <name>control ball 0</name>
         <TEXT_INPUT>
-            <name>** input</name>
-            <value>nested text field</value>
+            <name>0/name</name>
+            <value>Ball/0</value>
         </TEXT_INPUT>
         <SLIDER>
-            <name>** slider</name>
-            <value>0.000000000</value>
+            <name>0/posision X</name>
+            <value>503.610000000</value>
+        </SLIDER>
+        <SLIDER>
+            <name>0/position Y</name>
+            <value>377.700000000</value>
+        </SLIDER>
+        <SLIDER>
+            <name>0/size</name>
+            <value>65.000000000</value>
         </SLIDER>
         <TOGGLE>
-            <name>** toggle</name>
-            <value>1</value>
+            <name>0/fill</name>
+            <value>0</value>
         </TOGGLE>
         <COLOR_PICKER>
-            <name>** picker</name>
-            <r>249</r>
-            <g>7</g>
-            <b>22</b>
+            <name>0/color</name>
+            <r>253</r>
+            <g>231</g>
+            <b>136</b>
+        </COLOR_PICKER>
+    </FOLDER>
+    <FOLDER>
+        <name>control ball 1</name>
+        <TEXT_INPUT>
+            <name>1/name</name>
+            <value>Test</value>
+        </TEXT_INPUT>
+        <SLIDER>
+            <name>1/posision X</name>
+            <value>293.770000000</value>
+        </SLIDER>
+        <SLIDER>
+            <name>1/position Y</name>
+            <value>623.210000000</value>
+        </SLIDER>
+        <SLIDER>
+            <name>1/size</name>
+            <value>18.000000000</value>
+        </SLIDER>
+        <TOGGLE>
+            <name>1/fill</name>
+            <value>0</value>
+        </TOGGLE>
+        <COLOR_PICKER>
+            <name>1/color</name>
+            <r>250</r>
+            <g>77</g>
+            <b>89</b>
         </COLOR_PICKER>
     </FOLDER>
     <SLIDER>
-        <name>position X</name>
-        <value>101.310000000</value>
-    </SLIDER>
-    <SLIDER>
-        <name>position Y</name>
-        <value>240.000000000</value>
-    </SLIDER>
-    <SLIDER>
-        <name>position Z</name>
-        <value>74.000000000</value>
-    </SLIDER>
-    <SLIDER>
         <name>datgui opacity</name>
-        <value>47.540000000</value>
+        <value>20.490000000</value>
     </SLIDER>
     <COLOR_PICKER>
-        <name>color picker</name>
-        <r>244</r>
-        <g>250</g>
-        <b>10</b>
+        <name>background color</name>
+        <r>16</r>
+        <g>16</g>
+        <b>16</b>
     </COLOR_PICKER>
     <DROPDOWN>
         <name>select option</name>
-        <value>option - 1</value>
+        <value>option - 3</value>
     </DROPDOWN>
     <PAD2D>
         <name>2d pad</name>
-        <x>29.595375061</x>
-        <y>758.153808594</y>
+        <x>47.352600098</x>
+        <y>285.538452148</y>
     </PAD2D>
     <MATRIX>
         <name>matrix</name>
-        <selected>0 2 4 6 8 10 12 14 16 18 20 </selected>
+        <selected>0 4 8 10 12 16 20 </selected>
     </MATRIX>
-    <TOGGLE>
-        <name>toggle fullscreen</name>
-        <value>1</value>
-    </TOGGLE>
-    <TOGGLE>
-        <name>toggle 2</name>
-        <value>1</value>
-    </TOGGLE>
 </ofxDatGuiSettings>

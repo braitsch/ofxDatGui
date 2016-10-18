@@ -6,11 +6,13 @@
 class Circle {
 
     public:
-        Circle(int _radius)
+        Circle()
         {
-            x = 100;
-            y = 100;
-            radius = _radius;
+            x = ofRandomWidth();
+            y = ofRandomHeight();
+            radius = ofRandom(150);
+            color = ofColor(ofRandom(255), ofRandom(255), ofRandom(255));
+            filled = true;
         }
 
         bool inside(ofPoint mouse)
@@ -20,14 +22,20 @@ class Circle {
 
         void draw()
         {
-            ofSetColor(ofColor::red);
+            ofSetColor(color);
             ofSetCircleResolution(100);
-            ofDrawCircle(this->x, this->y, radius);
+            if(filled) ofFill();
+            else ofNoFill();
+            ofDrawCircle(x, y, radius);
+            ofDrawBitmapString(name, x + radius + 10, y);
         }
 
         float x;
         float y;
         int radius;
+        ofColor color;
+        bool filled;
+        string name;
 
 };
 
@@ -41,8 +49,6 @@ class ofApp : public ofBaseApp{
         ofxDatGui* gui;
         bool mFullscreen;
         void refreshWindow();
-        void toggleFullscreen();
-
         void keyPressed(int key);
         void onButtonEvent(ofxDatGuiButtonEvent e);
         void onToggleEvent(ofxDatGuiToggleEvent e);
@@ -57,5 +63,5 @@ class ofApp : public ofBaseApp{
         vector<ofxDatGuiTheme*> themes;
         ofxDatGuiSettings settings;
 
-        Circle* circle;
+        vector<Circle> circles;
 };

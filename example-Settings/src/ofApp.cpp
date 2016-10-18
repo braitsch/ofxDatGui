@@ -1,8 +1,10 @@
 #include "ofApp.h"
 
 /*
-    Save all components values a gui
+    Save all gui components values
     https://github.com/avilleret/ofxDatGui @avilleret
+
+    Parameter and folder on the same level should have unique name.
 */
 
 void ofApp::setup()
@@ -12,6 +14,14 @@ void ofApp::setup()
     // instantiate and position the gui //
     gui = new ofxDatGui( ofxDatGuiAnchor::TOP_RIGHT );
 
+    circles.resize(2);
+
+// randomize circle parameters
+    for (auto c : circles){
+        c.x = ofRandomWidth();
+        c.y = ofRandomHeight();
+        c.radius = ofRandom(150);
+    }
 
 // add some components //
     gui->addTextInput("message", "# open frameworks #");
@@ -20,59 +30,60 @@ void ofApp::setup()
     //gui->addBreak();
 
 // add a folder to group a few components together //
-    ofxDatGuiFolder* folder = gui->addFolder("white folder", ofColor::white);
-    folder->addTextInput("** input", "nested input field");
-    folder->addSlider("** slider", 0, 100);
-    folder->addToggle("** toggle");
-    folder->addColorPicker("** picker", ofColor::fromHex(0xFFD00B));
+    ofxDatGuiFolder* folder = gui->addFolder("control ball 0", ofColor::white);
+    folder->addTextInput("0/name", "Ball/0");
+
+    ofxDatGuiSlider* sx = folder->addSlider("0/posision X", 0, ofGetWidth());
+    ofxDatGuiSlider* sy = folder->addSlider("0/position Y", 0, ofGetHeight());
+    ofxDatGuiSlider* sz = folder->addSlider("0/size", 0, 100, 50);
+    sx->bind(circles[0].x);
+    sy->bind(circles[0].y);
+    sz->bind(circles[0].radius);
+
+    folder->addToggle("0/fill");
+    folder->addColorPicker("0/color", ofColor::fromHex(0xFFD00B));
 // let's have it open by default. note: call this only after you're done adding items //
     folder->expand();
 
     gui->addBreak();
 
-// add a couple range sliders //
-    ofxDatGuiSlider* sx;
-    ofxDatGuiSlider* sy;
-    ofxDatGuiSlider* sz;
-    circle = new Circle(150);
+// add a another folder to control second ball //
+    folder = gui->addFolder("control ball 1", ofColor::white);
+    folder->addTextInput("1/name", "Ball/1");
 
-    sx = gui->addSlider("position X", 0, 120, 75);
-    sy = gui->addSlider("position Y", -40, 240, 200);
-    sz = gui->addSlider("position Z", -80, 120, -40);
+    sx = folder->addSlider("1/posision X", 0, ofGetWidth());
+    sy = folder->addSlider("1/position Y", 0, ofGetHeight());
+    sz = folder->addSlider("1/size", 0, 100, 50);
+    sx->bind(circles[1].x);
+    sy->bind(circles[1].y);
+    sz->bind(circles[1].radius);
 
-    sx->bind(circle->x);
-    sy->bind(circle->y);
-    sz->bind(circle->radius);
+    folder->addToggle("1/fill");
+    folder->addColorPicker("1/color", ofColor::fromHex(0xFFD00B));
+// let's have it open by default. note: call this only after you're done adding items //
+    folder->expand();
 
+    gui->addBreak();
 
 // and a slider to adjust the gui opacity //
     gui->addSlider("datgui opacity", 0, 100, 100);
 
 // and a colorpicker //
-    gui->addColorPicker("color picker", ofColor::fromHex(0xeeeeee));
-
-// add a wave monitor //
-// take a look inside example-TimeGraph for more examples of this component and the value plotter //
-    gui->addWaveMonitor("wave\nmonitor", 3, .2);
+    gui->addColorPicker("background color", ofColor::fromHex(0xeeeeee));
 
     gui->addBreak();
 
 // add a dropdown menu //
     vector<string> opts = {"option - 1", "option - 2", "option - 3", "option - 4"};
     gui->addDropdown("select option", opts);
+
     gui->addBreak();
 
 // add a 2d pad //
-    ofxDatGui2dPad* pad = gui->add2dPad("2d pad");
+    gui->add2dPad("2d pad");
 
 // a button matrix //
     gui->addMatrix("matrix", 21, true);
-
-// and a couple of simple buttons //
-    gui->addButton("click");
-    gui->addToggle("toggle fullscreen", true);
-
-    gui->addToggle("toggle 2", false);
 
 // adding the optional header allows you to drag the gui around //
     gui->addHeader(":: drag me to reposition ::");
@@ -114,7 +125,8 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
 
 void ofApp::onToggleEvent(ofxDatGuiToggleEvent e)
 {
-    if (e.target->is("toggle fullscreen")) toggleFullscreen();
+    if ( e.target->is("0/fill") ) circles[0].filled = e.checked;
+    else if ( e.target->is("1/fill") ) circles[1].filled = e.checked;
     cout << "onToggleEvent: " << e.target->getLabel() << " " << e.checked << endl;
 }
 
@@ -126,6 +138,9 @@ void ofApp::onSliderEvent(ofxDatGuiSliderEvent e)
 
 void ofApp::onTextInputEvent(ofxDatGuiTextInputEvent e)
 {
+    if ( e.target->is("0/name") ) circles[0].name = e.target->getText();
+    else if ( e.target->is("1/name") ) circles[1].name = e.target->getText();
+
     cout << "onTextInputEvent: " << e.target->getLabel() << " " << e.target->getText() << endl;
 }
 
@@ -141,47 +156,36 @@ void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
 
 void ofApp::onColorPickerEvent(ofxDatGuiColorPickerEvent e)
 {
+    if ( e.target->is("0/color") ){
+       circles[0].color = e.target->getColor();
+    } else if ( e.target->is("1/color") ){
+       circles[1].color = e.target->getColor();
+    } else {
+        ofSetBackgroundColor(e.color);
+    }
     cout << "onColorPickerEvent: " << e.target->getLabel() << " " << e.target->getColor() << endl;
-    ofSetBackgroundColor(e.color);
 }
 
 void ofApp::onMatrixEvent(ofxDatGuiMatrixEvent e)
 {
-    cout << "onMatrixEvent " << e.child << " : " << e.enabled << endl;
-    cout << "onMatrixEvent " << e.target->getLabel() << " : " << e.target->getSelected().size() << endl;
+    // cout << "onMatrixEvent " << e.child << " : " << e.enabled << endl;
+    // cout << "onMatrixEvent " << e.target->getLabel() << " : " << e.target->getSelected().size() << endl;
 }
 
 void ofApp::draw() {
-    circle->draw();
+    for (auto c : circles)
+        c.draw();
 }
 void ofApp::update() { }
 
 void ofApp::keyPressed(int key)
 {
-    if (key == 'f' && ofGetKeyPressed(OF_KEY_CONTROL)) {
-        toggleFullscreen();
-    }   else if (key == 32 && ofGetKeyPressed(OF_KEY_CONTROL)){
+    if (key == ' ' && ofGetKeyPressed(OF_KEY_CONTROL)){
         tIndex = tIndex < themes.size()-1 ? tIndex+1 : 0;
         gui->setTheme(themes[tIndex]);
     } else if (key == 's' && ofGetKeyPressed(OF_KEY_CONTROL)) { // save settings
         settings.save("settings.xml", gui);
     } else if (key == 'l' && ofGetKeyPressed(OF_KEY_CONTROL)) { // load settings
         settings.load("settings.xml", gui);
-    }
-}
-
-void ofApp::toggleFullscreen()
-{
-    mFullscreen = !mFullscreen;
-    gui->getToggle("toggle fullscreen")->setChecked(mFullscreen);
-    refreshWindow();
-}
-
-void ofApp::refreshWindow()
-{
-    ofSetFullscreen(mFullscreen);
-    if (!mFullscreen) {
-        ofSetWindowShape(1280, 720);
-        ofSetWindowPosition((ofGetScreenWidth()/2)-(1920/2), 0);
     }
 }
