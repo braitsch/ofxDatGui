@@ -384,7 +384,23 @@ class ofxDatGuiFolder : public ofxDatGuiGroup {
             attachItem(button);
             return button;
         }
-    
+
+        ofxDatGuiFolder* addFolder(string label, ofColor color = ofColor::white)
+        {
+            ofxDatGuiFolder* folder = new ofxDatGuiFolder(label, color);
+            folder->setStripeColor(mStyle.stripe.color);
+            folder->onButtonEvent(this, &ofxDatGuiFolder::dispatchButtonEvent);
+            folder->onToggleEvent(this, &ofxDatGuiFolder::dispatchToggleEvent);
+            folder->onSliderEvent(this, &ofxDatGuiFolder::dispatchSliderEvent);
+            folder->onTextInputEvent(this, &ofxDatGuiFolder::dispatchTextInputEvent);
+            folder->onColorPickerEvent(this, &ofxDatGuiFolder::dispatchColorPickerEvent);
+            folder->onTextInputEvent(this, &ofxDatGuiFolder::dispatchTextInputEvent);
+            folder->on2dPadEvent(this, &ofxDatGuiFolder::dispatch2dPadEvent);
+            folder->onMatrixEvent(this, &ofxDatGuiFolder::dispatchMatrixEvent);
+            attachItem(folder);
+            return folder;
+        }
+
         ofxDatGuiToggle* addToggle(string label, bool enabled = false)
         {
             ofxDatGuiToggle* toggle = new ofxDatGuiToggle(label, enabled);
