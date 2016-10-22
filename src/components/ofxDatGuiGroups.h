@@ -495,6 +495,16 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
             return static_cast<ofxDatGuiDropdownOption*>(children[mOption]);
         }
     
+        void dispatchEvent()
+        {
+            if (dropdownEventCallback != nullptr) {
+                ofxDatGuiDropdownEvent e(this, mIndex, mOption);
+                dropdownEventCallback(e);
+            }   else{
+                ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+            }
+        }
+    
         static ofxDatGuiDropdown* getInstance() { return new ofxDatGuiDropdown("X"); }
     
     private:
@@ -504,12 +514,7 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
             for(int i=0; i<children.size(); i++) if (e.target == children[i]) mOption = i;
             setLabel(children[mOption]->getLabel());
             collapse();
-            if (dropdownEventCallback != nullptr) {
-                ofxDatGuiDropdownEvent e1(this, mIndex, mOption);
-                dropdownEventCallback(e1);
-            }   else{
-                ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
-            }
+            dispatchEvent();
         }
     
         int mOption;
