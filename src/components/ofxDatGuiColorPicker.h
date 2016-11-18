@@ -215,11 +215,8 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
         inline void setTextFieldInputColor()
         {
         // convert color value to a six character hex string //
-            std::stringstream ss;
-            ss<< std::hex << mColor.getHex();
-            std::string res ( ss.str() );
-            while(res.size() < 6) res+="0";
-            mInput.setText(ofToUpper(res));
+			string hex = ofToHex(mColor.getHex()).substr(2);
+			mInput.setText(ofToUpper(hex));
             mInput.setBackgroundColor(mColor);
             mInput.setTextInactiveColor(mColor.getBrightness() < BRIGHTNESS_THRESHOLD ? ofColor::white : ofColor::black);
         }
