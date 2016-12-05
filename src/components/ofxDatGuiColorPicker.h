@@ -197,8 +197,7 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
         {
             mColor = ofColor::fromHex(ofHexToInt(mInput.getText()));
         // set the input field text & background colors //
-            mInput.setBackgroundColor(mColor);
-            mInput.setTextInactiveColor(mColor.getBrightness() < BRIGHTNESS_THRESHOLD ? ofColor::white : ofColor::black);
+            updateTextFieldColors();
         // update the gradient picker //
             gColors[2] = mColor;
             gColors[0] = ofColor(mColor.r/2, mColor.g/2, mColor.b/2);
@@ -220,8 +219,7 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
             std::string res ( ss.str() );
             while(res.size() < 6) res+="0";
             mInput.setText(ofToUpper(res));
-            mInput.setBackgroundColor(mColor);
-            mInput.setTextInactiveColor(mColor.getBrightness() < BRIGHTNESS_THRESHOLD ? ofColor::white : ofColor::black);
+            updateTextFieldColors();
         }
     
     private:
@@ -243,7 +241,14 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
         vector<ofVec2f> gPoints;
         vector<ofFloatColor> gColors;
     
-        static const int BRIGHTNESS_THRESHOLD = 185;
+        void updateTextFieldColors()
+        {
+            mInput.setBackgroundColor(mColor);
+        
+            //Counting the perceptive luminance - human eye favors green color...
+            double a = 1 - ( 0.299 * mColor.r + 0.587 * mColor.g + 0.114 * mColor.b)/255;
+            mInput.setTextInactiveColor(a < 0.5 ? ofColor::black : ofColor::white);
+        }
 
 };
 
