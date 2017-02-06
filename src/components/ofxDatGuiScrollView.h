@@ -213,6 +213,8 @@ class ofxDatGuiScrollView : public ofxDatGuiComponent {
         {
             mRect.x = x;
             mRect.y = y;
+        // update each component's mask so mouse events track correctly //
+            for(int i=0; i<mItems.size(); i++) mItems[i]->setMask(mRect);
         }
     
         void setItemSpacing(int spacing)
