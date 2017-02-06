@@ -271,7 +271,7 @@ class ofxDatGuiScrollView : public ofxDatGuiComponent {
         ofColor mBackground;
         const ofxDatGuiTheme* mTheme;
     
-        int mY;
+        int mY = 0;
         int mSpacing;
         int mNumVisible;
         bool mAutoHeight;
