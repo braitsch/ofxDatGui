@@ -250,7 +250,7 @@ ofxDatGuiHeader* ofxDatGui::addHeader(string label, bool draggable)
     // always ensure header is at the top of the panel //
             items.insert(items.begin(), mGuiHeader);
         }
-        layoutGui();
+        anchorGui();
 	}
     return mGuiHeader;
 }
@@ -261,7 +261,7 @@ ofxDatGuiFooter* ofxDatGui::addFooter()
         mGuiFooter = new ofxDatGuiFooter();
         items.push_back(mGuiFooter);
         mGuiFooter->onInternalEvent(this, &ofxDatGui::onInternalEventCallback);
-        layoutGui();
+        anchorGui();
 	}
     return mGuiFooter;
 }
@@ -425,7 +425,7 @@ void ofxDatGui::attachItem(ofxDatGuiComponent* item)
         items.push_back( item );
     }
     item->onInternalEvent(this, &ofxDatGui::onInternalEventCallback);
-    layoutGui();
+    anchorGui();
 }
 
 /*
@@ -714,7 +714,7 @@ void ofxDatGui::onDropdownEventCallback(ofxDatGuiDropdownEvent e)
         ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
     }
 // adjust the gui after a dropdown is closed //
-    layoutGui();
+    anchorGui();
 }
 
 void ofxDatGui::on2dPadEventCallback(ofxDatGui2dPadEvent e)
@@ -748,11 +748,11 @@ void ofxDatGui::onInternalEventCallback(ofxDatGuiInternalEvent e)
 {
 // these events are not dispatched out to the main application //
     if (e.type == ofxDatGuiEventType::DROPDOWN_TOGGLED){
-        layoutGui();
+        anchorGui();
     }   else if (e.type == ofxDatGuiEventType::GUI_TOGGLED){
         mExpanded ? collapse() : expand();
     }   else if (e.type == ofxDatGuiEventType::VISIBILITY_CHANGED){
-        layoutGui();
+        anchorGui();
     }
 }
 
@@ -774,7 +774,7 @@ void ofxDatGui::moveGui(ofPoint pt)
     mPosition.x = pt.x;
     mPosition.y = pt.y;
     mAnchor = ofxDatGuiAnchor::NO_ANCHOR;
-    layoutGui();
+    anchorGui();
 }
 
 void ofxDatGui::anchorGui()
@@ -840,7 +840,7 @@ void ofxDatGui::update()
         if (mAlignmentChanged) items[i]->setLabelAlignment(mAlignment);
     }
 
-    if (mThemeChanged || mWidthChanged) layoutGui();
+    if (mThemeChanged || mWidthChanged) anchorGui();
 
     mTheme = nullptr;
     mAlphaChanged = false;
