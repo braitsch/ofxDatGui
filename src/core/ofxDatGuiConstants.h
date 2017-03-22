@@ -26,9 +26,11 @@ enum class ofxDatGuiAnchor
 {
     NO_ANCHOR = 0,
     TOP_LEFT = 1,
-    TOP_RIGHT = 2,
-    BOTTOM_LEFT = 3,
-    BOTTOM_RIGHT = 4
+    TOP_CENTER = 2,
+    TOP_RIGHT = 3,
+    BOTTOM_LEFT = 4,
+    BOTTOM_CENTER = 5,
+    BOTTOM_RIGHT = 6
 };
 
 enum class ofxDatGuiGraph

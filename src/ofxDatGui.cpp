@@ -67,17 +67,17 @@ void ofxDatGui::init()
     mWidth = ofxDatGuiComponent::getTheme()->layout.width;
     mRowSpacing = ofxDatGuiComponent::getTheme()->layout.vMargin;
     mGuiBackground = ofxDatGuiComponent::getTheme()->color.guiBackground;
-    
+
 // enable autodraw by default //
     setAutoDraw(true, mGuis.size());
-    
+
 // assign focus to this newly created gui //
     mActiveGui = this;
     mGuis.push_back(this);
     ofAddListener(ofEvents().windowResized, this, &ofxDatGui::onWindowResized, OF_EVENT_ORDER_BEFORE_APP);
 }
 
-/* 
+/*
     public api
 */
 
@@ -236,7 +236,7 @@ string ofxDatGui::getAssetPath()
     return ofxDatGuiTheme::AssetPath;
 }
 
-/* 
+/*
     add component methods
 */
 
@@ -790,11 +790,17 @@ void ofxDatGui::anchorGui()
     if (mAnchor == ofxDatGuiAnchor::TOP_LEFT){
         mPosition.y = 0;
         mPosition.x = 0;
+    }   else if (mAnchor == ofxDatGuiAnchor::TOP_CENTER){
+        mPosition.y = 0;
+        mPosition.x = ((ofGetWidth() / multiplier) / 2) - (mWidth / 2);
     }   else if (mAnchor == ofxDatGuiAnchor::TOP_RIGHT){
         mPosition.y = 0;
         mPosition.x = (ofGetWidth() / multiplier) - mWidth;
     }   else if (mAnchor == ofxDatGuiAnchor::BOTTOM_LEFT){
         mPosition.x = 0;
+        mPosition.y = (ofGetHeight() / multiplier) - mHeight;
+    }   else if (mAnchor == ofxDatGuiAnchor::BOTTOM_CENTER){
+        mPosition.x = ((ofGetWidth() / multiplier) / 2) - (mWidth / 2);
         mPosition.y = (ofGetHeight() / multiplier) - mHeight;
     }   else if (mAnchor == ofxDatGuiAnchor::BOTTOM_RIGHT){
         mPosition.x = (ofGetWidth() / multiplier) - mWidth;
@@ -818,7 +824,7 @@ void ofxDatGui::layoutGui()
     mGuiBounds = ofRectangle(mPosition.x, mPosition.y, mWidth, mHeight);
 }
 
-/* 
+/*
     update & draw loop
 */
 
@@ -833,7 +839,7 @@ void ofxDatGui::update()
         if (mWidthChanged) items[i]->setWidth(mWidth, mLabelWidth);
         if (mAlignmentChanged) items[i]->setLabelAlignment(mAlignment);
     }
-    
+
     if (mThemeChanged || mWidthChanged) layoutGui();
 
     mTheme = nullptr;
@@ -841,7 +847,7 @@ void ofxDatGui::update()
     mWidthChanged = false;
     mThemeChanged = false;
     mAlignmentChanged = false;
-    
+
     // check for gui focus change //
     if (ofGetMousePressed() && mActiveGui->mMoving == false){
         ofPoint mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
