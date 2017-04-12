@@ -1,10 +1,10 @@
-##ofxDatGui
+## ofxDatGui
 
 **ofxDatGui** is a **simple to use**, fully customizable, high-resolution graphical user interface for [openFrameworks](http://openframeworks.cc/) inspired by the popular JavaScript [datgui](http://workshop.chromeexperiments.com/examples/gui/) interface.  
 
 ![ofxDatGui](http://braitsch.github.io/ofxDatGui/img/ofxdatgui_.png "ofxDatGui")
 
-##Features
+## Features
 
 **ofxDatGui** offers the following features & components:
 
@@ -24,15 +24,15 @@
 * Folders to group components together
 * An optional header & footer that allow you to title the gui, collapse and drag it around
 
-##Documentation
+## Documentation
 
 [The latest **ofxDatGui** docs are located here](http://braitsch.github.io/ofxDatGui/)
 
-##ofParameter Support
+## ofParameter Support
 
 **ofParameter** support is the single most requested feature and is currently in development. Therefore, **I am not accepting ofParameter related pull requests until the first stable version of ofxDatGui with ofParameter support is released.**
 
-##Questions & Feedback
+## Questions & Feedback
 
 Questions, feedback, feature requests and ideas for improvement are all very much welcome. Please [open an issue](https://github.com/braitsch/ofxDatGui/issues) or join the conversation on this [openFrameworks thread](https://forum.openframeworks.cc/t/ofxdatgui-a-new-user-interface-for-of/20553) before sending me an email.
 
