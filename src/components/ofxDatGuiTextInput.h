@@ -81,13 +81,26 @@ class ofxDatGuiTextInput : public ofxDatGuiComponent {
         {
             mInput.setTextInputFieldType(type);
         }
+
+    /*
+        variable binding methods
+    */
+
+        void bind(string &val)
+        {
+            mBoundVal = &val;
+        }
     
         void draw()
         {
-            if (mVisible){
-                ofxDatGuiComponent::draw();
-                mInput.draw();
+            if (!mVisible) return;
+        // check for bound variables //
+            if (mBoundVal != nullptr && !mInput.hasFocus()) {
+                getBoundVal();
             }
+
+            ofxDatGuiComponent::draw();
+            mInput.draw();
         }
     
         bool hitTest(ofPoint m)
@@ -120,6 +133,10 @@ class ofxDatGuiTextInput : public ofxDatGuiComponent {
     
         virtual void onInputChanged(ofxDatGuiInternalEvent e)
         {
+        // experimental - check for bound variables //
+            if (mBoundVal != nullptr) {
+                *mBoundVal = mInput.getText();
+            }
         // dispatch event out to main application //
             if (textInputEventCallback != nullptr) {
                 ofxDatGuiTextInputEvent ev(this, mInput.getText());
@@ -130,6 +147,20 @@ class ofxDatGuiTextInput : public ofxDatGuiComponent {
         }
     
         ofxDatGuiTextInputField mInput;
-    
+
+    private:
+        string* mBoundVal = nullptr;
+
+    /*
+        private variable binding methods
+    */
+
+        inline void getBoundVal()
+        {
+            if (*mBoundVal != getText()) {
+                setText(*mBoundVal);
+            }
+        }
+
 };
 

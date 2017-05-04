@@ -131,19 +131,33 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
             return mChecked;
         }
 
+    /*
+        variable binding methods
+    */
+
+        void bind(bool &val)
+        {
+            mBoundVal = &val;
+        }
+
+
         void draw()
         {
-            if (mVisible) {
-                ofPushStyle();
-                ofxDatGuiButton::draw();
-                ofSetColor(mIcon.color);
-                if (mChecked == true){
-                    radioOn->draw(x+mIcon.x, y+mIcon.y, mIcon.size, mIcon.size);
-                }   else{
-                    radioOff->draw(x+mIcon.x, y+mIcon.y, mIcon.size, mIcon.size);
-                }
-                ofPopStyle();
+            if (!mVisible) return;
+        // check for bound variables //
+            if (mBoundVal != nullptr) {
+                getBoundVal();
             }
+
+            ofPushStyle();
+            ofxDatGuiButton::draw();
+            ofSetColor(mIcon.color);
+            if (mChecked == true){
+                radioOn->draw(x+mIcon.x, y+mIcon.y, mIcon.size, mIcon.size);
+            }   else{
+                radioOff->draw(x+mIcon.x, y+mIcon.y, mIcon.size, mIcon.size);
+            }
+            ofPopStyle();
         }
     
         static ofxDatGuiToggle* getInstance() { return new ofxDatGuiToggle("X"); }
@@ -153,6 +167,11 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
         void onMouseRelease(ofPoint m)
         {
             mChecked = !mChecked;
+        // experimental - check for bound variables //
+            if (mBoundVal != nullptr) {
+                *mBoundVal = mChecked;
+            }
+
             ofxDatGuiComponent::onFocusLost();
             ofxDatGuiComponent::onMouseRelease(m);
         // dispatch event out to main application //
@@ -165,11 +184,20 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
         }
     
     private:
-        bool mChecked;
+        bool    mChecked;
+        bool*   mBoundVal = nullptr;
         shared_ptr<ofImage> radioOn;
         shared_ptr<ofImage> radioOff;
 
+    /*
+        private variable binding methods
+    */
+
+        inline void getBoundVal()
+        {
+            if (*mBoundVal != mChecked) {
+                setChecked(*mBoundVal);
+            }
+        }
+
 };
-
-
-
