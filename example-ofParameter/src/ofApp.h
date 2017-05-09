@@ -15,10 +15,12 @@ class ofApp : public ofBaseApp{
         ofParameter<int> p1;
         ofParameter<float> p2;
         ofParameter<int> p3;
-    
+	    ofParameter<bool> p4;
+	
         ofxDatGuiLabel*  l1;
         ofxDatGuiSlider* s1;
         ofxDatGuiSlider* s2;
         ofxDatGuiSlider* s3;
-    
+		ofxDatGuiToggle* t4;
+	
 };
