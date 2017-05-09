@@ -232,6 +232,16 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
             }
         }
     
+        void dispatchEvent()
+        {
+            if (sliderEventCallback != nullptr) {
+                ofxDatGuiSliderEvent e(this, mValue, mScale);
+                sliderEventCallback(e);
+            }   else{
+                ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+            }
+        }
+    
         static ofxDatGuiSlider* getInstance() { return new ofxDatGuiSlider("X", 0, 100); }
     
     protected:
@@ -298,12 +308,7 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
                 mParamF->set(mValue);
             }
         // dispatch event out to main application //
-            if (sliderEventCallback != nullptr) {
-                ofxDatGuiSliderEvent e(this, mValue, mScale);
-                sliderEventCallback(e);
-            }   else{
-                ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
-            }
+            dispatchEvent();
         }
 
     private:

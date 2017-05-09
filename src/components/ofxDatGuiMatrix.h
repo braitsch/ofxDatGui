@@ -71,6 +71,11 @@ class ofxDatGuiMatrixButton : public ofxDatGuiInteractiveObject {
             }
         }
     
+        int getIndex()
+        {
+            return mIndex;
+        }
+    
         void setSelected(bool selected)
         {
             mSelected = selected;
@@ -147,15 +152,25 @@ class ofxDatGuiMatrix : public ofxDatGuiComponent {
 
     public:
     
-        ofxDatGuiMatrix(string label, int numButtons, bool showLabels = false) : ofxDatGuiComponent(label)
+
+        ofxDatGuiMatrix(string label, int numButtons, bool showLabels = false) : ofxDatGuiComponent(label), mButtonSize(23)
         {
             mRadioMode = false;
-            mNumButtons = numButtons;
+            mNumButtons = max(numButtons,0);
             mShowLabels = showLabels;
             mType = ofxDatGuiType::MATRIX;
             setTheme(ofxDatGuiComponent::getTheme());
         }
-    
+
+        void resize(int size){
+          mNumButtons = size;
+          setTheme(ofxDatGuiComponent::getTheme());
+        }
+
+        int size(){
+            return btns.size();
+        }
+
         void setTheme(const ofxDatGuiTheme* theme)
         {
             setComponentStyle(theme);
@@ -181,7 +196,7 @@ class ofxDatGuiMatrix : public ofxDatGuiComponent {
                 float by = (mButtonSize + padding) * (floor(i/nCols));
                 btns[i].setPosition(bx, by + mStyle.padding);
             }
-            mStyle.height = (mStyle.padding*2) + ((mButtonSize + padding) * (nRows - 1)) + mButtonSize;
+            mStyle.height = (mStyle.padding*2) + ((mButtonSize + padding) * max((nRows - 1),0)) + mButtonSize;
             mMatrixRect.height = mStyle.height - (mStyle.padding * 2);
         }
     
@@ -237,9 +252,19 @@ class ofxDatGuiMatrix : public ofxDatGuiComponent {
             return selected;
         }
     
-        ofxDatGuiMatrixButton* getChildAt(int index)
+        ofxDatGuiMatrixButton* getButtonAtIndex(int index)
         {
             return &btns[index];
+        }
+    
+        void dispatchEvent()
+        {
+            if (matrixEventCallback != nullptr) {
+                ofxDatGuiMatrixEvent ev(this, mLastItemSelected->getIndex(), mLastItemSelected->getSelected());
+                matrixEventCallback(ev);
+            }   else{
+                ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+            }
         }
     
         static ofxDatGuiMatrix* getInstance() { return new ofxDatGuiMatrix("X", 0); }
@@ -259,12 +284,8 @@ class ofxDatGuiMatrix : public ofxDatGuiComponent {
         // deselect all buttons save the one that was selected //
                 for(int i=0; i<btns.size(); i++) btns[i].setSelected(e.index == i);
             }
-            if (matrixEventCallback != nullptr) {
-                ofxDatGuiMatrixEvent ev(this, e.index, btns[e.index].getSelected());
-                matrixEventCallback(ev);
-            }   else{
-                ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
-            }
+            mLastItemSelected = &btns[e.index];
+            dispatchEvent();
         }
     
         void attachButtons(const ofxDatGuiTheme* theme)
@@ -288,7 +309,7 @@ class ofxDatGuiMatrix : public ofxDatGuiComponent {
         ofColor mFillColor;
         ofRectangle mMatrixRect;
         vector<ofxDatGuiMatrixButton> btns;
-
+        ofxDatGuiMatrixButton* mLastItemSelected;
 };
 
 
