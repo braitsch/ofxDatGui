@@ -40,6 +40,9 @@ examples/**/[Rr]elease*/
 *.cpp.elf
 *.cpp.hex
 
+example*/DerivedData/**
+
+
 #########################
 # IDE
 #########################

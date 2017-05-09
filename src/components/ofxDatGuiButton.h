@@ -98,7 +98,13 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
             mType = ofxDatGuiType::TOGGLE;
             setTheme(ofxDatGuiComponent::getTheme());
         }
-    
+	
+		ofxDatGuiToggle(ofParameter<bool>& param) : ofxDatGuiToggle(param.getName(), param.get())
+		{
+			mParamBool = &param;
+			mParamBool->addListener(this, &ofxDatGuiToggle::onParamB);
+		}
+
         void setTheme(const ofxDatGuiTheme* theme)
         {
             setComponentStyle(theme);
@@ -153,6 +159,7 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
         void onMouseRelease(ofPoint m)
         {
             mChecked = !mChecked;
+			mParamBool->set(mChecked);
             ofxDatGuiComponent::onFocusLost();
             ofxDatGuiComponent::onMouseRelease(m);
         // dispatch event out to main application //
@@ -165,7 +172,14 @@ class ofxDatGuiToggle : public ofxDatGuiButton {
         }
     
     private:
+	
+		void onParamB(bool& v)
+		{
+			mChecked = v;
+		}
+	
         bool mChecked;
+		ofParameter<bool>* mParamBool;
         shared_ptr<ofImage> radioOn;
         shared_ptr<ofImage> radioOff;
 

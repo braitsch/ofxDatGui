@@ -65,6 +65,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofxDatGuiLabel* addLabel(string label);
         ofxDatGuiButton* addButton(string label);
         ofxDatGuiToggle* addToggle(string label, bool state = false);
+		ofxDatGuiToggle* addToggle(ofParameter<bool> &p);
         ofxDatGuiSlider* addSlider(string label, float min, float max);
         ofxDatGuiSlider* addSlider(string label, float min, float max, float val);
         ofxDatGuiSlider* addSlider(ofParameter<int> & p);
@@ -81,7 +82,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofxDatGuiMatrix* addMatrix(string label, int numButtons, bool showLabels = false);
         ofxDatGuiFolder* addFolder(string label, ofColor color = ofColor::white);
         ofxDatGuiFolder* addFolder(ofxDatGuiFolder* folder);
-    
+		ofxDatGuiFolder* addParameterGroup(ofParameterGroup & group);
         ofxDatGuiHeader* getHeader();
         ofxDatGuiFooter* getFooter();
         ofxDatGuiLabel* getLabel(string label, string folder = "");
