@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Line.h"
 #include "ofMain.h"
+#include "Line.h"
 #include "ofxDatGui.h"
 
 class ofApp : public ofBaseApp{

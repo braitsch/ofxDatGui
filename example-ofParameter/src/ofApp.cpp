@@ -21,7 +21,7 @@ void ofApp::setup()
     gui->addSlider(p1);
     gui->addSlider(p2);
     gui->addSlider(p3);
-    gui->setPosition(ofGetWidth()/2 - gui->getWidth() - 20, 100);
+    gui->setPosition(ofGetWidth()/2 - gui->getWidth() - 20, (ofGetHeight()/2 - gui->getHeight()/2) - 10);
     gui->onSliderEvent(this, &ofApp::onSliderEvent);
  
 /*

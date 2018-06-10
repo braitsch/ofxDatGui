@@ -784,7 +784,7 @@ void ofxDatGui::anchorGui()
     https://github.com/openframeworks/openFrameworks/pull/4858
 */
     int multiplier = 1;
-    if (ofxDatGuiIsRetina() && ofGetVersionMajor() == 0 && ofGetVersionMinor() == 9 && (ofGetVersionPatch() == 1 || ofGetVersionPatch() == 2)){
+    if (ofxDatGuiIsHighResolution() && ofGetVersionMajor() == 0 && ofGetVersionMinor() == 9 && (ofGetVersionPatch() == 1 || ofGetVersionPatch() == 2)){
         multiplier = 2;
     }
     if (mAnchor == ofxDatGuiAnchor::TOP_LEFT){

@@ -21,9 +21,6 @@
 */
 
 #pragma once
-#include "ofColor.h"
-#include "ofPolyline.h"
-#include "ofAppRunner.h"
 
 class Line : public ofPolyline{
 
@@ -43,14 +40,16 @@ class Line : public ofPolyline{
         int ox;
         int oy;
         ofColor color;
-        ofPoint* head;
+        glm::tvec3<float, glm::precision::packed_highp>* head;
         static int MinLength;
         static int MaxLength;
-        void addVertex(int x, int y)
+
+    	void addVertex(int x, int y)
         {
-            ofPolyline::addVertex(x, y);
+            ofPolyline::addVertex(ofPoint(x, y));
             head = &getVertices()[size()-1];
         }
+
         void tick()
         {
             cl++;

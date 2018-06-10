@@ -10,6 +10,7 @@ void ofApp::setup()
     int x = 150;
     int y = 100;
     ofSetWindowPosition(0, 0);
+    ofSetWindowShape(1450, 800);
 
     f1 = new ofxDatGuiFolder("folder 1", ofColor::fromHex(0xFFD00B));
     f1->addToggle("toggle");

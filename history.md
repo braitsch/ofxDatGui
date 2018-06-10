@@ -1,6 +1,21 @@
 ### ofxDatGui Changelog
 
 --
+**v1.xx** –– WIP
+
+* high resolution display detection now using getPixelScreenCoordScale()
+* [sample project files updated for oF v0.10.0 & Xcode 9.4 (High Sierra)](https://github.com/braitsch/ofxDatGui/issues/144)
+* adding new type: ofxDatGuiScrollViewItem
+* adding new type: ofxDatGuiType::LABEL
+* adding ofxDatGuiToggle->onToggleEvent()
+* adding ofxDatGuiScrollView->setItemSpacing(int spacing)
+* replacing ofxDatGuiScrollView->get() with getItemAtIndex & getItemByName
+* fix for scrollViews not tracking mouse events correctly when repositioned
+* fix for scrollViews not adjusting correctly when an item is deleted
+* fix for [dropdown event handlers not being called](https://github.com/braitsch/ofxDatGui/issues/105)
+* fix for [ofxDatGuiMatrix::dispatchEvent() crash](https://github.com/braitsch/ofxDatGui/issues/104)
+* [folders & dropdowns now have unique icons for open & closed states](https://github.com/braitsch/ofxDatGui/issues/68)
+
 **v1.20** –– 04-07-16
 
 * fonts are now managed by [ofxSmartFont](https://github.com/braitsch/ofxSmartFont)

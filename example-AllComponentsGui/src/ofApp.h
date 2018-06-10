@@ -9,7 +9,7 @@ class ofApp : public ofBaseApp{
         void setup();
         void draw();
         void update();
-    
+	
         ofxDatGui* gui;
         bool mFullscreen;
         void refreshWindow();
@@ -24,7 +24,7 @@ class ofApp : public ofBaseApp{
         void onDropdownEvent(ofxDatGuiDropdownEvent e);
         void onColorPickerEvent(ofxDatGuiColorPickerEvent e);
         void onMatrixEvent(ofxDatGuiMatrixEvent e);
-    
+	
         uint tIndex;
         vector<ofxDatGuiTheme*> themes;
 

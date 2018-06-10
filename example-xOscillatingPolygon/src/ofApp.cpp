@@ -2,6 +2,8 @@
 
 void ofApp::setup()
 {
+    ofSetWindowShape(2100, 1200);
+    
 // setup the gui //
     gui = new ofxDatGui( ofxDatGuiAnchor::TOP_RIGHT );
     gui->addHeader("POLYGON EXAMPLE");
