@@ -51,6 +51,12 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         void setLabelAlignment(ofxDatGuiAlignment align);
         static void setAssetPath(string path);
         static string getAssetPath();
+
+        void setUseCustomMouse(bool use) {useCustomMouse = use;}
+        void setCustomMousePos(int _x, int _y) {customMouseX=_x;customMouseY=_y;}
+        int getCustomMouseX() {return customMouseX;}
+        int getCustomMouseY() {return customMouseY;}
+
     
         int getWidth();
         int getHeight();
@@ -116,6 +122,10 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         bool mThemeChanged;
         bool mAlignmentChanged;
         ofColor mGuiBackground;
+
+        int customMouseX;
+        int customMouseY;
+        bool useCustomMouse;
     
         ofPoint mPosition;
         ofRectangle mGuiBounds;

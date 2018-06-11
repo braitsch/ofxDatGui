@@ -67,6 +67,10 @@ void ofxDatGui::init()
     mWidth = ofxDatGuiComponent::getTheme()->layout.width;
     mRowSpacing = ofxDatGuiComponent::getTheme()->layout.vMargin;
     mGuiBackground = ofxDatGuiComponent::getTheme()->color.guiBackground;
+
+    customMouseX = 0;
+    customMouseY = 0;
+    useCustomMouse = false;
     
 // enable autodraw by default //
     setAutoDraw(true, mGuis.size());
@@ -844,7 +848,13 @@ void ofxDatGui::update()
     
     // check for gui focus change //
     if (ofGetMousePressed() && mActiveGui->mMoving == false){
-        ofPoint mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
+        ofPoint mouse;
+        if(useCustomMouse){
+            mouse = ofPoint(getCustomMouseX(), getCustomMouseY());
+        }else{
+            mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
+        }
+
         for (int i=mGuis.size()-1; i>-1; i--){
         // ignore guis that are invisible //
             if (mGuis[i]->getVisible() && mGuis[i]->hitTest(mouse)){
@@ -875,7 +885,12 @@ void ofxDatGui::update()
                         if (mGuiHeader != nullptr && mGuiHeader->getDraggable() && mGuiHeader->getFocused()){
                     // track that we're moving to force preserve focus //
                             mMoving = true;
-                            ofPoint mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
+                            ofPoint mouse;
+                            if(useCustomMouse){
+                                mouse = ofPoint(getCustomMouseX(), getCustomMouseY());
+                            }else{
+                                mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
+                            }
                             moveGui(mouse - mGuiHeader->getDragOffset());
                         }
                     }   else if (items[i]->getIsExpanded()){

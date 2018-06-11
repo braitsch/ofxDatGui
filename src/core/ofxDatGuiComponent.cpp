@@ -39,6 +39,10 @@ ofxDatGuiComponent::ofxDatGuiComponent(string label)
     mAnchor = ofxDatGuiAnchor::NO_ANCHOR;
     mLabel.text = label;
     mLabel.alignment = ofxDatGuiAlignment::LEFT;
+
+    customMouseX = 0;
+    customMouseY = 0;
+    useCustomMouse = false;
 }
 
 ofxDatGuiComponent::~ofxDatGuiComponent()
@@ -352,7 +356,12 @@ void ofxDatGuiComponent::update(bool acceptEvents)
 {
     if (acceptEvents && mEnabled && mVisible){
         bool mp = ofGetMousePressed();
-        ofPoint mouse = ofPoint(ofGetMouseX() - mMask.x, ofGetMouseY() - mMask.y);
+        ofPoint mouse;
+        if(useCustomMouse){
+            mouse = ofPoint(getCustomMouseX() - mMask.x, getCustomMouseY() - mMask.y);
+        }else{
+            mouse = ofPoint(ofGetMouseX() - mMask.x, ofGetMouseY() - mMask.y);
+        }
         if (hitTest(mouse)){
             if (!mMouseOver){
                 onMouseEnter(mouse);

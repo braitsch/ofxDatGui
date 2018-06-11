@@ -143,8 +143,16 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
                 return true;
             }   else if (mShowPicker && pickerRect.inside(m)){
                 unsigned char p[3];
-                int y = (ofGetMouseY()-ofGetHeight())*-1;
-                glReadPixels(ofGetMouseX(), y, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, &p);
+                int y;
+                ofPoint mouse;
+                if(useCustomMouse){
+                    y = (getCustomMouseY()-ofGetHeight())*-1;
+                    glReadPixels(getCustomMouseX(), y, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, &p);
+                }else{
+                    y = (ofGetMouseY()-ofGetHeight())*-1;
+                    glReadPixels(ofGetMouseX(), y, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, &p);
+                }
+
                 gColor.r = int(p[0]);
                 gColor.g = int(p[1]);
                 gColor.b = int(p[2]);

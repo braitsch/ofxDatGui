@@ -69,6 +69,11 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         void    setOpacity(float opacity);
         bool    getMouseDown();
         ofxDatGuiType getType();
+
+        void setUseCustomMouse(bool use) {useCustomMouse = use;}
+        void setCustomMousePos(int _x, int _y) {customMouseX=_x;customMouseY=_y;}
+        int getCustomMouseX() {return customMouseX;}
+        int getCustomMouseY() {return customMouseY;}
     
         vector<ofxDatGuiComponent*> children;
     
@@ -115,6 +120,10 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         ofxDatGuiType mType;
         ofxDatGuiAnchor mAnchor;
         shared_ptr<ofxSmartFont> mFont;
+
+        int customMouseX;
+        int customMouseY;
+        bool useCustomMouse;
     
         struct{
             float width;
