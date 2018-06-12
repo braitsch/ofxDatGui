@@ -31,7 +31,8 @@ vector<shared_ptr<ofxSmartFont>> ofxSmartFont::mFonts;
 
 void ofxSmartFont::draw(string s, int x, int y)
 {
-    ttf.drawString(s, x, y);
+    ttf.draw(s,size(),x,y);
+    //ttf.drawString(s, x, y);
 }
 
 string ofxSmartFont::name()
@@ -56,17 +57,20 @@ int ofxSmartFont::size()
 
 ofRectangle ofxSmartFont::rect(string s, int x, int y)
 {
-    return ttf.getStringBoundingBox(s, x, y);
+    return ttf.getBBox(s,size(),x,y);
+    //return ttf.getStringBoundingBox(s, x, y);
 }
 
 float ofxSmartFont::width(string s, int x, int y)
 {
-    return ttf.getStringBoundingBox(s, x, y).width;
+    return ttf.getBBox(s,size(),x,y).width;
+    //return ttf.getStringBoundingBox(s, x, y).width;
 }
 
 float ofxSmartFont::height(string s, int x, int y)
 {
-    return ttf.getStringBoundingBox(s, x, y).height;
+    return ttf.getBBox(s,size(),x,y).height;
+    //return ttf.getStringBoundingBox(s, x, y).height;
 }
 
 float ofxSmartFont::getLineHeight()
