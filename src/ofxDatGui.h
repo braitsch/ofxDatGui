@@ -56,6 +56,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         void setCustomMousePos(int _x, int _y) {customMouseX=_x;customMouseY=_y;}
         int getCustomMouseX() {return customMouseX;}
         int getCustomMouseY() {return customMouseY;}
+        void setForceRetina(bool r) { forceRetina = r; }
 
     
         int getWidth();
@@ -126,6 +127,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         int customMouseX;
         int customMouseY;
         bool useCustomMouse;
+        bool forceRetina;
     
         ofPoint mPosition;
         ofRectangle mGuiBounds;

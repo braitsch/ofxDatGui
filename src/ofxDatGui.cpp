@@ -71,6 +71,7 @@ void ofxDatGui::init()
     customMouseX = 0;
     customMouseY = 0;
     useCustomMouse = false;
+    forceRetina = false;
     
 // enable autodraw by default //
     setAutoDraw(true, mGuis.size());
@@ -148,6 +149,26 @@ void ofxDatGui::setWidth(int width, float labelWidth)
 
 void ofxDatGui::setTheme(ofxDatGuiTheme* t, bool applyImmediately)
 {
+    if(forceRetina){
+        t->font.size *=2;
+        t->stripe.width *=2;
+        t->layout.width *=2;
+        t->layout.height *=2;
+        t->layout.padding *=2;
+        t->layout.vMargin *=2;
+        t->layout.iconSize *=2;
+        t->layout.labelWidth *=2;
+        t->layout.labelMargin *=2;
+        t->layout.graph.height *=2;
+        t->layout.pad2d.height *=2;
+        t->layout.pad2d.ballSize *=2;
+        t->layout.pad2d.lineWeight *=2;
+        t->layout.matrix.height *=2;
+        t->layout.matrix.buttonSize *=2;
+        t->layout.matrix.buttonPadding *=2;
+        t->layout.colorPicker.rainbowWidth *=2;
+        t->layout.textInput.highlightPadding *=2;
+    }
     if (applyImmediately){
         for(auto item:items) item->setTheme(t);
     }   else{
