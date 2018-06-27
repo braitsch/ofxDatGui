@@ -74,6 +74,8 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         void setCustomMousePos(int _x, int _y) {customMouseX=_x;customMouseY=_y;}
         int getCustomMouseX() {return customMouseX;}
         int getCustomMouseY() {return customMouseY;}
+
+        void setForceRetina();
     
         vector<ofxDatGuiComponent*> children;
     

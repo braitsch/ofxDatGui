@@ -51,11 +51,11 @@ class ofxDatGuiTheme{
             if (ofxDatGuiIsRetina()){
                 //font.size *=2;
                 //stripe.width *=2;
-                layout.width *=2;
+                //layout.width *=2;
                 //layout.height *=2;
                 //layout.padding *=2;
                 //layout.vMargin *=2;
-                layout.iconSize *=2;
+                //layout.iconSize *=2;
                 //layout.labelWidth *=2;
                 //layout.labelMargin *=2;
                 //layout.graph.height *=2;
@@ -74,6 +74,28 @@ class ofxDatGuiTheme{
             icon.groupClosed->load(icon.groupClosedPath);
             icon.rainbow->load(icon.rainbowPath);
             font.ptr = ofxSmartFont::add(font.file, font.size);
+        }
+
+        void forceRetina()
+        {
+            font.size *=2;
+            stripe.width *=2;
+            layout.width *=2;
+            layout.height *=2;
+            layout.padding *=2;
+            layout.vMargin *=2;
+            layout.iconSize *=2;
+            layout.labelWidth *=2;
+            layout.labelMargin *=2;
+            layout.graph.height *=2;
+            layout.pad2d.height *=2;
+            layout.pad2d.ballSize *=2;
+            layout.pad2d.lineWeight *=2;
+            layout.matrix.height *=2;
+            layout.matrix.buttonSize *=2;
+            layout.matrix.buttonPadding *=2;
+            layout.colorPicker.rainbowWidth *=2;
+            layout.textInput.highlightPadding *=2;
         }
     
     /*

@@ -120,6 +120,17 @@ void ofxDatGuiComponent::setComponentStyle(const ofxDatGuiTheme* theme)
     for (int i=0; i<children.size(); i++) children[i]->setTheme(theme);
 }
 
+void ofxDatGuiComponent::setForceRetina(){
+    mStyle.height *= 2;
+    mStyle.padding *= 2;
+    mStyle.vMargin *= 2;
+    mStyle.stripe.width *= 2;
+    mStyle.border.width *= 2;
+    mIcon.size *= 2;
+    mLabel.margin *= 2;
+    setWidth(theme->layout.width*2, theme->layout.labelWidth*2);
+}
+
 void ofxDatGuiComponent::setWidth(int width, float labelWidth)
 {
     mStyle.width = width;

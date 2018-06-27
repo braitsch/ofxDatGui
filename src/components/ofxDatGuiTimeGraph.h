@@ -41,6 +41,16 @@ class ofxDatGuiTimeGraph : public ofxDatGuiComponent {
             }
         }
 
+        void setHeight(int h)
+        {
+            mStyle.height = h;
+        }
+
+        int getHeight()
+        {
+            return mStyle.height;
+        }
+
     protected:
     
         ofxDatGuiTimeGraph(string label) : ofxDatGuiComponent(label)

@@ -44,6 +44,8 @@ class ofxSmartFont {
         float width(string s, int x=0, int y=0);
         float height(string s, int x=0, int y=0);
         float getLineHeight();
+        void setSize(int size){mSize=size;}
+        void forceRetina(){mSize *= 2;}
     
     /*
         static methods

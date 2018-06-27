@@ -83,6 +83,12 @@ class ofxDatGuiLabel : public ofxDatGuiComponent{
             mLabel.rightAlignedXpos = mLabel.width - mLabel.margin;
             ofxDatGuiComponent::positionLabel();
         }
+
+        void setHeight(float height)
+        {
+            mStyle.height = height;
+            ofxDatGuiComponent::positionLabel();
+        }
     
         void draw()
         {

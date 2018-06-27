@@ -27,6 +27,17 @@
     Stock Themes
 */
 
+class ofxDatGuiThemeRetina : public ofxDatGuiTheme{
+
+    public:
+
+        ofxDatGuiThemeRetina()
+        {
+            forceRetina();
+            init();
+        }
+};
+
 class ofxDatGuiThemeSmoke : public ofxDatGuiTheme{
 
     public:
