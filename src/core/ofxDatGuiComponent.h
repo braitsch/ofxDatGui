@@ -59,6 +59,7 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         void    setBorderVisible(bool visible);
     
         void    setMask(const ofRectangle &mask);
+        ofRectangle    getMask(){ return mMask; }
         void    setAnchor(ofxDatGuiAnchor anchor);
         void    setEnabled(bool visible);
         bool    getEnabled();

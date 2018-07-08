@@ -209,7 +209,9 @@ class ofxDatGuiScrollView : public ofxDatGuiComponent {
 
         void update()
         {
-            for(auto i:children) i->update();
+            for(auto i:children){
+                i->update();
+            }
         }
     
         void draw()

@@ -66,6 +66,8 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         bool getAutoDraw();
         bool getMouseDown();
         ofPoint getPosition();
+
+        bool hitTest(ofPoint pt);
     
         ofxDatGuiHeader* addHeader(string label = "", bool draggable = true);
         ofxDatGuiFooter* addFooter();
@@ -88,6 +90,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofxDatGuiMatrix* addMatrix(string label, int numButtons, bool showLabels = false);
         ofxDatGuiFolder* addFolder(string label, ofColor color = ofColor::white);
         ofxDatGuiFolder* addFolder(ofxDatGuiFolder* folder);
+        ofxDatGuiScrollView* addScrollView(ofxDatGuiScrollView* scrollView);
     
         ofxDatGuiHeader* getHeader();
         ofxDatGuiFooter* getFooter();
@@ -146,7 +149,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         void layoutGui();
         void anchorGui();
         void moveGui(ofPoint pt);
-        bool hitTest(ofPoint pt);
+
         void attachItem(ofxDatGuiComponent* item);
     
         void onDraw(ofEventArgs &e);

@@ -47,6 +47,8 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
         // color pickers are deleted automatically when the group is destroyed //
             for (auto i:children) if (i->getType() != ofxDatGuiType::COLOR_PICKER) delete i;
         }
+
+        void resetLayout() { layout(); }
     
         void setPosition(int x, int y)
         {
@@ -71,6 +73,8 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
             mIsExpanded = false;
             layout();
         }
+
+        bool isExpanded() { return mIsExpanded; }
     
         int getHeight()
         {
@@ -135,6 +139,10 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
                 ofxDatGuiComponent::onMouseRelease(m);
                 mIsExpanded ? collapse() : expand();
             // dispatch an event out to the gui panel to adjust its children //
+                if (buttonEventCallback != nullptr) {
+                    ofxDatGuiButtonEvent e(this);
+                    buttonEventCallback(e);
+                }
                 if (internalEventCallback != nullptr){
                     ofxDatGuiInternalEvent e(ofxDatGuiEventType::DROPDOWN_TOGGLED, mIndex);
                     internalEventCallback(e);
@@ -165,6 +173,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup {
             mStyle.stripe.color = color;
             mType = ofxDatGuiType::FOLDER;
             setTheme(ofxDatGuiComponent::getTheme());
+
         }
     
         void setTheme(const ofxDatGuiTheme* theme)

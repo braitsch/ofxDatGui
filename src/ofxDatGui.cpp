@@ -422,6 +422,11 @@ ofxDatGuiFolder* ofxDatGui::addFolder(ofxDatGuiFolder* folder)
     return folder;
 }
 
+ofxDatGuiScrollView* ofxDatGui::addScrollView(ofxDatGuiScrollView* scrollView){
+    attachItem(scrollView);
+    return scrollView;
+}
+
 void ofxDatGui::attachItem(ofxDatGuiComponent* item)
 {
     if (mGuiFooter != nullptr){
