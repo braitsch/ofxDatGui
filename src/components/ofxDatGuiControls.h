@@ -31,6 +31,7 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
         {
             mDraggable = draggable;
             mCollapsable = false;
+            isCollapsed = false;
             setTheme(ofxDatGuiComponent::getTheme());
         }
     
@@ -51,6 +52,14 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
         void setCollapsable(bool collapsable)
         {
             mCollapsable = collapsable;
+        }
+
+        void setIsCollapsed(bool ic){
+            isCollapsed = ic;
+        }
+
+        bool getIsCollapsed(){
+            return isCollapsed;
         }
     
         bool getDraggable()
@@ -88,6 +97,7 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
                 ofxDatGuiComponent::onMouseRelease(m);
                 ofxDatGuiInternalEvent e(ofxDatGuiEventType::GUI_TOGGLED, mIndex);
                 internalEventCallback(e);
+                isCollapsed = !isCollapsed;
             }else{
                 mDragOffset = m;
                 ofxDatGuiComponent::onFocusLost();
@@ -104,6 +114,7 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
         }
     
     private:
+        bool isCollapsed;
         bool mCollapsable;
         bool mDraggable;
         ofPoint mDragOffset;
