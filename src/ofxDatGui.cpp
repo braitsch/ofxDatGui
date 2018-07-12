@@ -112,6 +112,12 @@ void ofxDatGui::expand()
         mExpanded = true;
         mGuiFooter->setExpanded(mExpanded);
         mGuiFooter->setPosition(mPosition.x, mPosition.y + mHeight - mGuiFooter->getHeight() - mRowSpacing);
+    }else if(mGuiHeader != nullptr){
+        if(mGuiHeader->getCollapsable() && !mGuiHeader->getDraggable()){
+            mExpanded = true;
+            //mGuiHeader->setPosition(mPosition.x, mPosition.y + mHeight - mGuiHeader->getHeight() - mRowSpacing);
+            mGuiHeader->setPosition(mPosition.x, mPosition.y);
+        }
     }
 }
 
@@ -121,6 +127,11 @@ void ofxDatGui::collapse()
         mExpanded = false;
         mGuiFooter->setExpanded(mExpanded);
         mGuiFooter->setPosition(mPosition.x, mPosition.y);
+    }else if(mGuiHeader != nullptr){
+        if(mGuiHeader->getCollapsable() && !mGuiHeader->getDraggable()){
+            mExpanded = false;
+            mGuiHeader->setPosition(mPosition.x, mPosition.y);
+        }
     }
 }
 
@@ -255,6 +266,7 @@ ofxDatGuiHeader* ofxDatGui::addHeader(string label, bool draggable)
     // always ensure header is at the top of the panel //
             items.insert(items.begin(), mGuiHeader);
         }
+        mGuiHeader->onInternalEvent(this, &ofxDatGui::onInternalEventCallback);
         layoutGui();
 	}
     return mGuiHeader;
@@ -824,7 +836,7 @@ void ofxDatGui::layoutGui()
         mHeight += items[i]->getHeight() + mRowSpacing;
     }
     // move the footer back to the top of the gui //
-    if (!mExpanded) mGuiFooter->setPosition(mPosition.x, mPosition.y);
+    if (!mExpanded && mGuiFooter != nullptr) mGuiFooter->setPosition(mPosition.x, mPosition.y);
     mGuiBounds = ofRectangle(mPosition.x, mPosition.y, mWidth, mHeight);
 }
 
@@ -878,8 +890,13 @@ void ofxDatGui::update()
         mMouseDown = false;
     // this gui has focus so let's see if any of its components were interacted with //
         if (mExpanded == false){
-            mGuiFooter->update();
-            mMouseDown = mGuiFooter->getMouseDown();
+            if(mGuiFooter != nullptr){
+                mGuiFooter->update();
+                mMouseDown = mGuiFooter->getMouseDown();
+            }else if(mGuiHeader != nullptr && mGuiHeader->getCollapsable() && !mGuiHeader->getDraggable()){
+                mGuiHeader->update();
+                mMouseDown = mGuiHeader->getMouseDown();
+            }
         }   else{
             bool hitComponent = false;
             for (int i=0; i<items.size(); i++) {
@@ -929,8 +946,13 @@ void ofxDatGui::draw()
         ofFill();
         ofSetColor(mGuiBackground, mAlpha * 255);
         if (mExpanded == false){
-            ofDrawRectangle(mPosition.x, mPosition.y, mWidth, mGuiFooter->getHeight());
-            mGuiFooter->draw();
+            if(mGuiFooter != nullptr){
+                ofDrawRectangle(mPosition.x, mPosition.y, mWidth, mGuiFooter->getHeight());
+                mGuiFooter->draw();
+            }else if(mGuiHeader != nullptr && mGuiHeader->getCollapsable() && !mGuiHeader->getDraggable()){
+                ofDrawRectangle(mPosition.x, mPosition.y, mWidth, mGuiHeader->getHeight());
+                mGuiHeader->draw();
+            }
         }   else{
             ofDrawRectangle(mPosition.x, mPosition.y, mWidth, mHeight - mRowSpacing);
             for (int i=0; i<items.size(); i++) items[i]->draw();

@@ -30,6 +30,7 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
         ofxDatGuiHeader(string label, bool draggable = true) : ofxDatGuiButton(label)
         {
             mDraggable = draggable;
+            mCollapsable = false;
             setTheme(ofxDatGuiComponent::getTheme());
         }
     
@@ -46,10 +47,20 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
         {
             mDraggable = draggable;
         }
+
+        void setCollapsable(bool collapsable)
+        {
+            mCollapsable = collapsable;
+        }
     
         bool getDraggable()
         {
             return mDraggable;
+        }
+
+        bool getCollapsable()
+        {
+            return mCollapsable;
         }
     
         ofPoint getDragOffset()
@@ -73,9 +84,15 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
     
         void onMouseRelease(ofPoint m)
         {
-            mDragOffset = m;
-            ofxDatGuiComponent::onFocusLost();
-            ofxDatGuiComponent::onMouseRelease(m);
+            if(mCollapsable && !mDraggable){
+                ofxDatGuiComponent::onMouseRelease(m);
+                ofxDatGuiInternalEvent e(ofxDatGuiEventType::GUI_TOGGLED, mIndex);
+                internalEventCallback(e);
+            }else{
+                mDragOffset = m;
+                ofxDatGuiComponent::onFocusLost();
+                ofxDatGuiComponent::onMouseRelease(m);
+            }
         }
     
     // allow panel to be dragged around //
@@ -87,6 +104,7 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
         }
     
     private:
+        bool mCollapsable;
         bool mDraggable;
         ofPoint mDragOffset;
 
