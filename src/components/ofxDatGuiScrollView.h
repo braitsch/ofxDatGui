@@ -275,7 +275,7 @@ class ofxDatGuiScrollView : public ofxDatGuiComponent {
                 }
                 if (allowScroll){
                     children.front()->setPosition(0, mY);
-                    for(int i=0; i<children.size(); i++) children[i]->setPosition(0, mY + (btnH * i));
+                    for(int i=0; i<static_cast<int>(children.size()); i++) children[i]->setPosition(0, mY + (btnH * i));
                 }
             }
         }
@@ -285,7 +285,7 @@ class ofxDatGuiScrollView : public ofxDatGuiComponent {
             if (scrollViewEventCallback != nullptr) {
                 //int i = 0;
                 int sol = 0;
-                for(int i = 0; i<children.size(); i++){
+                for(int i = 0; i<static_cast<int>(children.size()); i++){
                     if (children[i] == e.target){
                         sol = i;
                         break;
@@ -309,7 +309,7 @@ class ofxDatGuiScrollView : public ofxDatGuiComponent {
     
         bool isValidIndex(int index)
         {
-            return index >= 0 && index < children.size();
+            return index >= 0 && index < static_cast<int>(children.size());
         }
 
 };

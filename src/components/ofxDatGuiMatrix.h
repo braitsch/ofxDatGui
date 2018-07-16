@@ -250,7 +250,7 @@ class ofxDatGuiMatrix : public ofxDatGuiComponent {
         {
             ofxDatGuiComponent::onFocusLost();
             ofxDatGuiComponent::onMouseRelease(m);
-            for(int i=0; i<btns.size(); i++) btns[i].onMouseRelease(m);
+            for(int i=0; i<static_cast<int>(btns.size()); i++) btns[i].onMouseRelease(m);
         }
     
         void onButtonSelected(ofxDatGuiInternalEvent e)

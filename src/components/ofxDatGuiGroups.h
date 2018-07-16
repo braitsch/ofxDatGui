@@ -99,7 +99,7 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
                         mHeight += mStyle.vMargin;
                         children[i]->draw();
                         mHeight += children[i]->getHeight();
-                        if (i == children.size()-1) break;
+                        if (i == static_cast<int>(children.size())-1) break;
                         ofSetColor(mStyle.guiBackground, mStyle.opacity);
                         ofDrawRectangle(x, y+mHeight, mStyle.width, mStyle.vMargin);
                     }
@@ -127,7 +127,7 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
                     children[i]->setPosition(x, y + mHeight);
                     mHeight += children[i]->getHeight() + mStyle.vMargin;
                 }
-                if (i == children.size()-1) mHeight -= mStyle.vMargin;
+                if (i == static_cast<int>(children.size())-1) mHeight -= mStyle.vMargin;
             }
         }
     
@@ -482,7 +482,7 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
         void select(int cIndex)
         {
         // ensure value is in range //
-            if (cIndex < 0 || cIndex >= children.size()){
+            if (cIndex < 0 || cIndex >= static_cast<int>(children.size())){
                 ofLogError() << "ofxDatGuiDropdown->select("<<cIndex<<") is out of range";
             }   else{
                 setLabel(children[cIndex]->getLabel());
