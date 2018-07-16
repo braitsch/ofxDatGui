@@ -98,7 +98,7 @@ class ofxDatGuiScrollView : public ofxDatGuiComponent {
     
         void move(ofxDatGuiComponent* item, int index)
         {
-            for(int i=0; i<children.size(); i++){
+            for(int i=0; i<static_cast<int>(children.size()); i++){
                 if (children[i] == item) {
                     move(i, index); return;
                 }
@@ -122,7 +122,7 @@ class ofxDatGuiScrollView : public ofxDatGuiComponent {
     
         void remove(ofxDatGuiComponent* item)
         {
-            for(int i=0; i<children.size(); i++){
+            for(int i=0; i<static_cast<int>(children.size()); i++){
                 if (children[i] == item) {
                     delete children[i];
                     children.erase(children.begin()+i);

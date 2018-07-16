@@ -95,7 +95,7 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
                     int mHeight = mStyle.height;
                     ofSetColor(mStyle.guiBackground, mStyle.opacity);
                     ofDrawRectangle(x, y+mHeight, mStyle.width, mStyle.vMargin);
-                    for(int i=0; i<children.size(); i++) {
+                    for(int i=0; i<static_cast<int>(children.size()); i++) {
                         mHeight += mStyle.vMargin;
                         children[i]->draw();
                         mHeight += children[i]->getHeight();
@@ -105,7 +105,7 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
                     }
                     ofSetColor(mIcon.color);
                     mIconOpen->draw(x+mIcon.x, y+mIcon.y, mIcon.size, mIcon.size);
-                    for(int i=0; i<children.size(); i++) children[i]->drawColorPicker();
+                    for(int i=0; i<static_cast<int>(children.size()); i++) children[i]->drawColorPicker();
                 }   else{
                     ofSetColor(mIcon.color);
                     mIconClosed->draw(x+mIcon.x, y+mIcon.y, mIcon.size, mIcon.size);
@@ -119,7 +119,7 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
         void layout()
         {
             mHeight = mStyle.height + mStyle.vMargin;
-            for (int i=0; i<children.size(); i++) {
+            for (int i=0; i<static_cast<int>(children.size()); i++) {
                 if (children[i]->getVisible() == false) continue;
                 if (mIsExpanded == false){
                     children[i]->setPosition(x, y + mHeight);
@@ -196,7 +196,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup {
     
         void drawColorPicker()
         {
-            for(int i=0; i<pickers.size(); i++) pickers[i]->drawColorPicker();
+            for(int i=0; i<static_cast<int>(pickers.size()); i++) pickers[i]->drawColorPicker();
         }
     
         void dispatchButtonEvent(ofxDatGuiButtonEvent e)
@@ -403,7 +403,7 @@ class ofxDatGuiFolder : public ofxDatGuiGroup {
     
         ofxDatGuiComponent* getComponent(ofxDatGuiType type, string label)
         {
-            for (int i=0; i<children.size(); i++) {
+            for (int i=0; i<static_cast<int>(children.size()); i++) {
                 if (children[i]->getType() == type){
                     if (children[i]->is(label)) return children[i];
                 }
@@ -453,7 +453,7 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
         {
             mOption = 0;
             mType = ofxDatGuiType::DROPDOWN;
-            for(int i=0; i<options.size(); i++){
+            for(int i=0; i<static_cast<int>(options.size()); i++){
                 ofxDatGuiDropdownOption* opt = new ofxDatGuiDropdownOption(options[i]);
                 opt->setIndex(children.size());
                 opt->onButtonEvent(this, &ofxDatGuiDropdown::onOptionSelected);
@@ -510,7 +510,7 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
     
         void onOptionSelected(ofxDatGuiButtonEvent e)
         {
-            for(int i=0; i<children.size(); i++) if (e.target == children[i]) mOption = i;
+            for(int i=0; i<static_cast<int>(children.size()); i++) if (e.target == children[i]) mOption = i;
             setLabel(children[mOption]->getLabel());
             collapse();
             if (dropdownEventCallback != nullptr) {

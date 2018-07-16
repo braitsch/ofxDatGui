@@ -350,7 +350,7 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
                     v+='.';
                     p = v.find('.');
                 }
-                while(v.length() - p < (mPrecision + 1)) v+='0';
+                while(static_cast<int>(v.length()) - p < (mPrecision + 1)) v+='0';
             }
             mInput->setText(v);
         }

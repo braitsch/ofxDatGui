@@ -127,9 +127,9 @@ shared_ptr<ofxSmartFont> ofxSmartFont::get(vector<string> keys, int size)
         if (match && f->size()==size) return f;
     }
     std::stringstream ss;
-    for(int i=0; i<keys.size(); i++){
+    for(int i=0; i<static_cast<int>(keys.size()); i++){
         ss << keys[i];
-        if (i<keys.size()-1) ss << ",";
+        if (i<static_cast<int>(keys.size())-1) ss << ",";
     }
     log("nothing found in search for : "+ ss.str() +" @ " +std::to_string(size)+ "pt");
     return nullptr;
