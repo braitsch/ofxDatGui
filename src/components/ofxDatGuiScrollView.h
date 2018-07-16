@@ -283,9 +283,15 @@ class ofxDatGuiScrollView : public ofxDatGuiComponent {
         void onButtonEvent(ofxDatGuiButtonEvent e)
         {
             if (scrollViewEventCallback != nullptr) {
-                int i = 0;
-                for(i; i<children.size(); i++) if (children[i] == e.target) break;
-                ofxDatGuiScrollViewEvent e1(this, e.target, i);
+                //int i = 0;
+                int sol = 0;
+                for(int i = 0; i<children.size(); i++){
+                    if (children[i] == e.target){
+                        sol = i;
+                        break;
+                    }
+                }
+                ofxDatGuiScrollViewEvent e1(this, e.target, sol);
                 scrollViewEventCallback(e1);
             }   else{
                 ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);

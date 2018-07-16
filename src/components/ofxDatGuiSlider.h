@@ -94,6 +94,11 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
             mTruncateValue = truncateValue;
             if (mPrecision > MAX_PRECISION) mPrecision = MAX_PRECISION;
         }
+
+        int getPrecision()
+        {
+            return mPrecision;
+        }
     
         void setMin(float min)
         {
