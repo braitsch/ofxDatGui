@@ -76,11 +76,17 @@ class ofxDatGuiTextInput : public ofxDatGuiComponent {
         {
             return mInput.getTextUpperCase();
         }
+
+        ofxDatGuiTextInputField getInputField() { return mInput; }
     
         void setInputType(ofxDatGuiInputType type)
         {
             mInput.setTextInputFieldType(type);
         }
+
+        void setBackgroundColor(ofColor c) { mInput.setBackgroundColor(c); }
+
+        void setTextInactiveColor(ofColor c) { mInput.setTextInactiveColor(c); }
     
         void draw()
         {

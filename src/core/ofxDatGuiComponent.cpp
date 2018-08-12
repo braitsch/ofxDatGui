@@ -40,8 +40,8 @@ ofxDatGuiComponent::ofxDatGuiComponent(string label)
     mLabel.text = label;
     mLabel.alignment = ofxDatGuiAlignment::LEFT;
 
-    customMouseX = 0;
-    customMouseY = 0;
+    customMouseX = 0.0f;
+    customMouseY = 0.0f;
     useCustomMouse = false;
 }
 

@@ -144,9 +144,9 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
             }   else if (mShowPicker && pickerRect.inside(m)){
                 unsigned char p[3];
                 int y;
-                ofPoint mouse;
+                //ofPoint mouse;
                 if(useCustomMouse){
-                    y = (getCustomMouseY()-ofGetHeight())*-1;
+                    y = (getCustomMouseY() - ofGetHeight())*-1;
                     glReadPixels(getCustomMouseX(), y, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, &p);
                 }else{
                     y = (ofGetMouseY()-ofGetHeight())*-1;
@@ -186,12 +186,13 @@ class ofxDatGuiColorPicker : public ofxDatGuiTextInput {
             mShowPicker = true;
             ofxDatGuiComponent::onFocus();
             ofxDatGuiComponent::onMouseEnter(mouse);
+
         }
     
         void onMouseLeave(ofPoint mouse)
         {
             mShowPicker = false;
-            ofxDatGuiTextInput::onMouseLeave(mouse);
+            ofxDatGuiComponent::onMouseLeave(mouse);
             if (!mInput.hasFocus()) ofxDatGuiComponent::onFocusLost();
         }
     

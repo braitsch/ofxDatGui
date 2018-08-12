@@ -72,9 +72,9 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         ofxDatGuiType getType();
 
         void setUseCustomMouse(bool use) {useCustomMouse = use;}
-        void setCustomMousePos(int _x, int _y) {customMouseX=_x;customMouseY=_y;}
-        int getCustomMouseX() {return customMouseX;}
-        int getCustomMouseY() {return customMouseY;}
+        void setCustomMousePos(float _x, float _y) {customMouseX=_x;customMouseY=_y;}
+        float getCustomMouseX() {return customMouseX;}
+        float getCustomMouseY() {return customMouseY;}
 
         void setForceRetina();
     
@@ -124,8 +124,8 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         ofxDatGuiAnchor mAnchor;
         shared_ptr<ofxSmartFont> mFont;
 
-        int customMouseX;
-        int customMouseY;
+        float customMouseX;
+        float customMouseY;
         bool useCustomMouse;
     
         struct{
