@@ -196,6 +196,11 @@ class ofxDatGuiScrollView : public ofxDatGuiComponent {
         void setItemSpacing(int spacing)
         {
             mSpacing = spacing;
+            positionItems();
+        }
+
+        void callAutoSize(){
+            autoSize();
         }
     
         void setBackgroundColor(ofColor color)
