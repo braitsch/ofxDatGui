@@ -28,7 +28,7 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
 
     public:
     
-        ofxDatGuiSlider(string label, float min, float max, double val) : ofxDatGuiComponent(label)
+        ofxDatGuiSlider(string label, float min, float max, float val) : ofxDatGuiComponent(label)
         {
             mMin = min;
             mMax = max;
@@ -88,10 +88,9 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
             mInput->setPosition(x + mInputX, y + mStyle.padding);
         }
     
-        void setPrecision(int precision, bool truncateValue = true)
+        void setPrecision(int precision)
         {
             mPrecision = precision;
-            mTruncateValue = truncateValue;
             if (mPrecision > MAX_PRECISION) mPrecision = MAX_PRECISION;
         }
     
@@ -115,36 +114,27 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
             }
         }
     
-        void setValue(double value, bool dispatchEvent = true)
+        void setValue(float value, bool dispatchEvent = true)
         {
-            mValue = value;
-            if (mValue > mMax){
-                mValue = mMax;
-            }   else if (mValue < mMin){
-                mValue = mMin;
+            value = round(value, mPrecision);
+            if (value != mValue){
+                mValue = value;
+                if (mValue > mMax){
+                    mValue = mMax;
+                }   else if (mValue < mMin){
+                    mValue = mMin;
+                }
+                calculateScale();
+                if (dispatchEvent) dispatchSliderChangedEvent();
             }
-            if (mTruncateValue) mValue = round(mValue, mPrecision);
-            calculateScale();
-            if (dispatchEvent) dispatchSliderChangedEvent();
         }
     
-        double getValue()
+        float getValue()
         {
             return mValue;
         }
     
-        void printValue()
-        {
-            if (mTruncateValue == false){
-                cout << setprecision(16) << getValue() << endl;
-            }   else{
-                int n = ofToString(mValue).find(".");
-                if (n == -1) n = ofToString(mValue).length();
-                cout << setprecision(mPrecision + n) << mValue << endl;
-            }
-        }
-    
-        void setScale(double scale)
+        void setScale(float scale)
         {
             mScale = scale;
             if (mScale < 0 || mScale > 1){
@@ -154,7 +144,7 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
             mValue = ((mMax-mMin) * mScale) + mMin;
         }
     
-        double getScale()
+        float getScale()
         {
             return mScale;
         }
@@ -266,10 +256,7 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
         // don't dispatch an event if scale hasn't changed //
                 if (s == mScale) return;
                 mScale = s;
-                mValue = ((mMax-mMin) * mScale) + mMin;
-                if (mTruncateValue) mValue = round(mValue, mPrecision);
-                setTextInput();
-                dispatchSliderChangedEvent();
+                setValue(((mMax-mMin) * mScale) + mMin);
             }
         }
     
@@ -315,10 +302,9 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
     
         float   mMin;
         float   mMax;
-        double  mValue;
-        double  mScale;
+        float  	mValue;
+        float  	mScale;
         int     mPrecision;
-        bool    mTruncateValue;
         int     mInputX;
         int     mInputWidth;
         int     mSliderWidth;
@@ -355,7 +341,7 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
             mInput->setText(v);
         }
     
-        double round(double num, int precision)
+        float round(float num, int precision)
         {
             return roundf(num * pow(10, precision)) / pow(10, precision);
         }

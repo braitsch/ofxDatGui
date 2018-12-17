@@ -3,18 +3,27 @@
 --
 **v1.xx** –– WIP
 
-* high resolution display detection now using getPixelScreenCoordScale()
-* [sample project files updated for oF v0.10.0 & Xcode 9.4 (High Sierra)](https://github.com/braitsch/ofxDatGui/issues/144)
-* adding new type: ofxDatGuiScrollViewItem
-* adding new type: ofxDatGuiType::LABEL
-* adding ofxDatGuiToggle->onToggleEvent()
-* adding ofxDatGuiScrollView->setItemSpacing(int spacing)
-* replacing ofxDatGuiScrollView->get() with getItemAtIndex & getItemByName
-* fix for scrollViews not tracking mouse events correctly when repositioned
-* fix for scrollViews not adjusting correctly when an item is deleted
-* fix for [dropdown event handlers not being called](https://github.com/braitsch/ofxDatGui/issues/105)
-* fix for [ofxDatGuiMatrix::dispatchEvent() crash](https://github.com/braitsch/ofxDatGui/issues/104)
-* [folders & dropdowns now have unique icons for open & closed states](https://github.com/braitsch/ofxDatGui/issues/68)
+* General
+	* adding new type: ofxDatGuiType::LABEL
+	* high resolution display detection now uses getPixelScreenCoordScale()
+	* [sample project files updated for oF v0.10.0 & Xcode 9.4 (High Sierra)](https://github.com/braitsch/ofxDatGui/issues/144)
+	* [folders & dropdowns now have unique icons for open & closed states](https://github.com/braitsch/ofxDatGui/issues/68)
+* ofxDatGuiSlider
+	* mValue & mScale are now floats instead of doubles
+	* removing old printValue method & mTruncateValue flag
+	* ensuring that mValue has changed before dispatching event
+* ofxDatGuiScrollView
+	* adding new type: ofxDatGuiScrollViewItem
+	* adding ofxDatGuiScrollView->setItemSpacing(int spacing)
+	* fix for scrollViews not adjusting correctly when an item is deleted
+	* fix for scrollViews not tracking mouse events correctly when repositioned
+	* replacing ofxDatGuiScrollView->get() with getItemAtIndex & getItemByName
+* ofxDatGuiToggle
+	* adding ofxDatGuiToggle->onToggleEvent()
+* ofxDatGuiDropdown
+	* fix for [dropdown event handlers not being called](https://github.com/braitsch/ofxDatGui/issues/105)
+* ofxDatGuiMatrix
+	* fix for [ofxDatGuiMatrix::dispatchEvent() crash](https://github.com/braitsch/ofxDatGui/issues/104)
 
 **v1.20** –– 04-07-16
 
