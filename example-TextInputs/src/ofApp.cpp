@@ -13,6 +13,7 @@ void ofApp::setup()
     
     input = new ofxDatGuiTextInput("TEXT INPUT", "Type Something Here");
     input->onTextInputEvent(this, &ofApp::onTextInputEvent);
+    input->setFocused(true);
     input->setWidth(800, .2);
     input->setPosition(ofGetWidth()/2 - input->getWidth()/2, 240);
     font.load("ofxbraitsch/fonts/Verdana.ttf", 24);

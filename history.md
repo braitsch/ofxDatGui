@@ -1,13 +1,12 @@
 ### ofxDatGui Changelog
 
 --
-**v1.xx** –– WIP
+**v1.30** –– 12-17-18
 
-* General
+* ofxDatGui / All Components
 	* adding new type: ofxDatGuiType::LABEL
-	* high resolution display detection now uses getPixelScreenCoordScale()
-	* [sample project files updated for oF v0.10.0 & Xcode 9.4 (High Sierra)](https://github.com/braitsch/ofxDatGui/issues/144)
-	* [folders & dropdowns now have unique icons for open & closed states](https://github.com/braitsch/ofxDatGui/issues/68)
+	* [sample project files updated for oF v0.10.1 & Xcode 10.1](https://github.com/braitsch/ofxDatGui/issues/144)
+	* [high resolution display detection now uses getPixelScreenCoordScale()](https://github.com/braitsch/ofxDatGui/issues/117)
 * ofxDatGuiSlider
 	* mValue & mScale are now floats instead of doubles
 	* removing old printValue method & mTruncateValue flag
@@ -20,10 +19,14 @@
 	* replacing ofxDatGuiScrollView->get() with getItemAtIndex & getItemByName
 * ofxDatGuiToggle
 	* adding ofxDatGuiToggle->onToggleEvent()
-* ofxDatGuiDropdown
-	* fix for [dropdown event handlers not being called](https://github.com/braitsch/ofxDatGui/issues/105)
+* ofxDatGuiDropdown & ofxDatGuiFolder
+	* [fix for dropdown event handlers not being called](https://github.com/braitsch/ofxDatGui/issues/105)
+	* [folders & dropdowns now have unique icons for open & closed states](https://github.com/braitsch/ofxDatGui/issues/68)
+	* [fix for groups not positioning & resizing correctly when using bottom anchors](https://github.com/braitsch/ofxDatGui/issues/122)
+* ofxDatGuiTextInput
+	* [fix for input cursor not mapping to character width correctly](https://github.com/braitsch/ofxDatGui/issues/27)
 * ofxDatGuiMatrix
-	* fix for [ofxDatGuiMatrix::dispatchEvent() crash](https://github.com/braitsch/ofxDatGui/issues/104)
+	* [fix for ofxDatGuiMatrix::dispatchEvent() crash](https://github.com/braitsch/ofxDatGui/issues/104)
 
 **v1.20** –– 04-07-16
 
