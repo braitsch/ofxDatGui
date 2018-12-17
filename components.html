@@ -215,7 +215,7 @@ void ofApp::onTextInputEvent(ofxDatGuiTextInputEvent e)
 			<img src="./img/ofxdatgui_slider.png?raw=true" alt="ofxDatGui">
 			<p>You can also set the starting value of the slider.<br>
 			If this is not set it will default to halfway between the min and max values.</p>
-			<pre class="prettyprint">ofxDatGuiSlider* mySlider = new ofxDatGuiSlider(string label, float min, float max, double value);</pre>
+			<pre class="prettyprint">ofxDatGuiSlider* mySlider = new ofxDatGuiSlider(string label, float min, float max, float value);</pre>
 			<img src="./img/ofxdatgui_slider.png?raw=true" alt="ofxDatGui">
 
 			<p><strong>Methods</strong></p>
@@ -225,18 +225,16 @@ mySlider->setMin(float min);
 mySlider->setMax(float max);
 
 // value must be within range of min & max //
-mySlider->setValue(double value);
-double mySlider->getValue();
+mySlider->setValue(float value);
+float mySlider->getValue();
 
 // scale must be a value between 0 & 1 //
-mySlider->setScale(double scale);
-double mySlider->getScale();
+mySlider->setScale(float scale);
+float mySlider->getScale();
 
-// set the precision of the slider (# of decimal places) for floating point values 
+// set the precision of the slider (# of decimal places) for floating point values
 mySlider->setPrecision(int precision);
-// to set the precision of just the input field set truncateValue to false //
-mySlider->setPrecision(int precision, bool truncateValue);
-// to round the slider value to an integer simply set the precision to zero // 
+// to round the slider value to an integer set the precision to zero
 mySlider->setPrecision(0);
 </pre>
 
@@ -330,8 +328,9 @@ void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
 <pre class="prettyprint">
 // add an item to the scrollview //
 void myScrollView-&gt;add(string label);
-// get an item by its position (index) in the scrollview //
-ofxDatGuiButton* myScrollView-&gt;get(int index);
+// retrieve an item by its position (index) or name //
+ofxDatGuiScrollViewItem* myScrollView-&gt;getItemAtIndex(int index);
+ofxDatGuiScrollViewItem* myScrollView-&gt;getItemByName(string name);
 // swap the positions of two items //
 void myScrollView-&gt;swap(int index1, int index2);
 // move an item to a different position (index from -> index to) //
