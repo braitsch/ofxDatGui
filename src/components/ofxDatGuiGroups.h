@@ -58,18 +58,21 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
         {
             mIsExpanded = true;
             layout();
+            onGroupToggled();
         }
     
         void toggle()
         {
             mIsExpanded = !mIsExpanded;
             layout();
+            onGroupToggled();
         }
     
         void collapse()
         {
             mIsExpanded = false;
             layout();
+            onGroupToggled();
         }
     
         int getHeight()
@@ -134,13 +137,17 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
                 ofxDatGuiComponent::onFocusLost();
                 ofxDatGuiComponent::onMouseRelease(m);
                 mIsExpanded ? collapse() : expand();
-            // dispatch an event out to the gui panel to adjust its children //
-                if (internalEventCallback != nullptr){
-                    ofxDatGuiInternalEvent e(ofxDatGuiEventType::DROPDOWN_TOGGLED, mIndex);
-                    internalEventCallback(e);
-                }
             }
         }
+    
+    	void onGroupToggled()
+	   	{
+        // dispatch an event out to the gui panel to adjust its children //
+            if (internalEventCallback != nullptr){
+                ofxDatGuiInternalEvent e(ofxDatGuiEventType::GROUP_TOGGLED, mIndex);
+                internalEventCallback(e);
+            }
+    	}
     
         void dispatchInternalEvent(ofxDatGuiInternalEvent e)
         {
@@ -513,7 +520,7 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
         {
             for(int i=0; i<children.size(); i++) if (e.target == children[i]) mOption = i;
             setLabel(children[mOption]->getLabel());
-            collapse();
+           	collapse();
             dispatchEvent();
         }
     
