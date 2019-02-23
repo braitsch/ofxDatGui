@@ -492,6 +492,18 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
             return children.size();
         }
     
+        void setOptions(const vector<string>& options = vector<string>())
+        {
+            mOption = 0;
+            children.clear();
+            for(int i=0; i<options.size(); i++){
+                ofxDatGuiDropdownOption* opt = new ofxDatGuiDropdownOption(options[i]);
+                opt->setIndex(children.size());
+                opt->onButtonEvent(this, &ofxDatGuiDropdown::onOptionSelected);
+                children.push_back(opt);
+            }
+        }
+        
         ofxDatGuiDropdownOption* getChildAt(int index)
         {
             return static_cast<ofxDatGuiDropdownOption*>(children[index]);
