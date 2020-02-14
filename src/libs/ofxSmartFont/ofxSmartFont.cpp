@@ -82,7 +82,7 @@ std::shared_ptr<ofxSmartFont> ofxSmartFont::add(std::string file, int size, std:
 {
     for(auto f:mFonts){
         if (f->file()==file && f->size()==size){
-           // log(f->name() + "@ pt size "+std::to_string(f->size()) + " is already in memory.");
+           // log(f->name() + "@ pt size "+std::to_std::string(f->size()) + " is already in memory.");
             return f;
         }
     }
